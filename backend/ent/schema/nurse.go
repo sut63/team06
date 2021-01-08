@@ -14,9 +14,9 @@ type Nurse struct {
 // Fields of the Nurse.
 func (Nurse) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("name").NotEmpty(),
-		field.String("username").NotEmpty().Unique(),
-		field.String("password").NotEmpty(),
+		field.String("nurseName").NotEmpty(),
+		field.String("nurseUsername").NotEmpty().Unique(),
+		field.String("nursePassword").NotEmpty(),
 	}
 }
 
