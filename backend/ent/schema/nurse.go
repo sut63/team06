@@ -23,7 +23,7 @@ func (Nurse) Fields() []ent.Field {
 // Edges of the Nurse.
 func (Nurse) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("NurseToTriageResult", TriageResult.Type),
+		edge.To("nurseToTriageResult", TriageResult.Type),
 		edge.To("NurseToAppointmentResults", AppointmentResults.Type),
 	}
 }

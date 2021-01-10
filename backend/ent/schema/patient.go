@@ -29,7 +29,7 @@ func (Patient) Edges() []ent.Edge {
 		edge.From("Prefix", Prefix.Type).Ref("PrefixToPatient").Unique(),
 		edge.From("Gender", Gender.Type).Ref("GenderToPatient").Unique(),
 		edge.From("Bloodtype", BloodType.Type).Ref("BloodTypeToPatient").Unique(),
-		edge.To("PatientToTriageResult", TriageResult.Type),
+		edge.To("patientToTriageResult", TriageResult.Type),
 		edge.To("PatientToAppointmentResults", AppointmentResults.Type),
 		edge.To("PatientToMedicalProcedure", MedicalProcedure.Type),
 		edge.To("PatientToRightToTreatment", RightToTreatment.Type),
