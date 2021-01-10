@@ -21,6 +21,6 @@ func (UrgencyLevel) Fields() []ent.Field {
 // Edges of the UrgencyLevel.
 func (UrgencyLevel) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("ergencyLevelToTriageResult", TriageResult.Type),
+		edge.To("urgencyLevelToTriageResult", TriageResult.Type),
 	}
 }
