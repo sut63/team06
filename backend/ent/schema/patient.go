@@ -26,12 +26,12 @@ func (Patient) Fields() []ent.Field {
 // Edges of the Patient.
 func (Patient) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("Prefix", Prefix.Type).Ref("PrefixToPatient"),
-		edge.From("Gender", Gender.Type).Ref("GenderToPatient"),
-		edge.From("Bloodtype", BloodType.Type).Ref("BloodTypeToPatient"),
-		edge.To("PatientToTriageResult", TriageResult.Type),
-		edge.To("PatientToAppointmentResults", AppointmentResults.Type),
-		edge.To("PatientToMedicalProcedure", MedicalProcedure.Type),
-		edge.To("PatientToRightToTreatment", RightToTreatment.Type),
+		edge.From("Prefix", Prefix.Type).Ref("PrefixToPatient").Unique(),
+		edge.From("Gender", Gender.Type).Ref("GenderToPatient").Unique(),
+		edge.From("Bloodtype", BloodType.Type).Ref("BloodTypeToPatient").Unique(),
+		//	edge.To("PatientToTriageResult", TriageResult.Type),
+		//	edge.To("PatientToAppointmentResults", AppointmentResults.Type),
+		//	edge.To("PatientToMedicalProcedure", MedicalProcedure.Type),
+		//	edge.To("PatientToRightToTreatment", RightToTreatment.Type),
 	}
 }
