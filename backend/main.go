@@ -176,6 +176,11 @@ func main() {
 	controllers.NewRightToTreatmentController(v1, client)
 	controllers.NewRightToTreatmentTypeController(v1, client)
 	controllers.NewPatientController(v1, client)
+	controllers.NewMedicalRecordController(v1, client)
+	controllers.NewPrefixController(v1, client)
+	controllers.NewGenderController(v1, client)
+	controllers.NewBloodTypeController(v1, client)
+	controllers.NewPatientController(v1, client)
 
 
 	// Set Department Data
