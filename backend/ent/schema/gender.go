@@ -1,5 +1,5 @@
 
-ackage schema
+package schema
 
 import (
 	"github.com/facebook/ent"
