@@ -90,8 +90,8 @@ func (ctl *RightToTreatmentController) CreateRightToTreatment(c *gin.Context) {
 
 	r, err := ctl.client.RightToTreatment.
 		Create().
-		SetStarttime(s).
-		SetEndtime(e).
+		SetStartTime(s).
+		SetEndTime(e).
 		SetHospital(h).
 		SetPatient(p).
 		SetRightToTreatmentType(t).
