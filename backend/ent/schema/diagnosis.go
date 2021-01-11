@@ -1,6 +1,8 @@
 package schema
 
 import (
+	"time"
+
 	"github.com/facebook/ent"
 	"github.com/facebook/ent/schema/edge"
 	"github.com/facebook/ent/schema/field"
@@ -17,6 +19,7 @@ func (Diagnosis) Fields() []ent.Field {
 
 		field.String("symptom").NotEmpty(),
 		field.String("Opinionresult").NotEmpty(),
+		field.Time("DiagnosisDate").Default(time.Now),
 	}
 }
 
