@@ -1,9 +1,9 @@
 package schema
 
 import (
-	"github.com/facebookincubator/ent"
-	"github.com/facebookincubator/ent/schema/edge"
-	"github.com/facebookincubator/ent/schema/field"
+	"github.com/facebook/ent"
+	"github.com/facebook/ent/schema/edge"
+	"github.com/facebook/ent/schema/field"
 )
 
 // Diagnosis holds the schema definition for the Diagnosis entity.
@@ -28,10 +28,10 @@ func (Diagnosis) Edges() []ent.Edge {
 			Ref("DoctorToDiagnosis").
 			Unique(),
 		edge.From("Patient", Patient.Type).
-			Ref("PatientToRightToTreatment").
+			Ref("PatientToDiagnosis").
 			Unique(),
-		edge.From("TreatmentTypeToDiagnosis", TreatmentType.Type).
-			Ref("type").
+		edge.From("type", TreatmentType.Type).
+			Ref("TreatmentTypeToDiagnosis").
 			Unique(),
 	}
 }
