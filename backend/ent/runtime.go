@@ -56,6 +56,10 @@ func init() {
 	diagnosisDescOpinionresult := diagnosisFields[1].Descriptor()
 	// diagnosis.OpinionresultValidator is a validator for the "Opinionresult" field. It is called by the builders before save.
 	diagnosis.OpinionresultValidator = diagnosisDescOpinionresult.Validators[0].(func(string) error)
+	// diagnosisDescDiagnosisDate is the schema descriptor for diagnosisDate field.
+	diagnosisDescDiagnosisDate := diagnosisFields[2].Descriptor()
+	// diagnosis.DefaultDiagnosisDate holds the default value on creation for the diagnosisDate field.
+	diagnosis.DefaultDiagnosisDate = diagnosisDescDiagnosisDate.Default.(func() time.Time)
 	doctorFields := schema.Doctor{}.Fields()
 	_ = doctorFields
 	// doctorDescDoctorName is the schema descriptor for doctorName field.

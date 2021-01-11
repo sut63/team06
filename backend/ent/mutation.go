@@ -1415,6 +1415,7 @@ type DiagnosisMutation struct {
 	id                  *int
 	symptom             *string
 	_Opinionresult      *string
+	diagnosisDate       *time.Time
 	clearedFields       map[string]struct{}
 	_Doctor_name        *int
 	cleared_Doctor_name bool
@@ -1578,6 +1579,42 @@ func (m *DiagnosisMutation) ResetOpinionresult() {
 	m._Opinionresult = nil
 }
 
+// SetDiagnosisDate sets the "diagnosisDate" field.
+func (m *DiagnosisMutation) SetDiagnosisDate(t time.Time) {
+	m.diagnosisDate = &t
+}
+
+// DiagnosisDate returns the value of the "diagnosisDate" field in the mutation.
+func (m *DiagnosisMutation) DiagnosisDate() (r time.Time, exists bool) {
+	v := m.diagnosisDate
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDiagnosisDate returns the old "diagnosisDate" field's value of the Diagnosis entity.
+// If the Diagnosis object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DiagnosisMutation) OldDiagnosisDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDiagnosisDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDiagnosisDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDiagnosisDate: %w", err)
+	}
+	return oldValue.DiagnosisDate, nil
+}
+
+// ResetDiagnosisDate resets all changes to the "diagnosisDate" field.
+func (m *DiagnosisMutation) ResetDiagnosisDate() {
+	m.diagnosisDate = nil
+}
+
 // SetDoctorNameID sets the "Doctor_name" edge to the Doctor entity by id.
 func (m *DiagnosisMutation) SetDoctorNameID(id int) {
 	m._Doctor_name = &id
@@ -1709,12 +1746,15 @@ func (m *DiagnosisMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *DiagnosisMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 3)
 	if m.symptom != nil {
 		fields = append(fields, diagnosis.FieldSymptom)
 	}
 	if m._Opinionresult != nil {
 		fields = append(fields, diagnosis.FieldOpinionresult)
+	}
+	if m.diagnosisDate != nil {
+		fields = append(fields, diagnosis.FieldDiagnosisDate)
 	}
 	return fields
 }
@@ -1728,6 +1768,8 @@ func (m *DiagnosisMutation) Field(name string) (ent.Value, bool) {
 		return m.Symptom()
 	case diagnosis.FieldOpinionresult:
 		return m.Opinionresult()
+	case diagnosis.FieldDiagnosisDate:
+		return m.DiagnosisDate()
 	}
 	return nil, false
 }
@@ -1741,6 +1783,8 @@ func (m *DiagnosisMutation) OldField(ctx context.Context, name string) (ent.Valu
 		return m.OldSymptom(ctx)
 	case diagnosis.FieldOpinionresult:
 		return m.OldOpinionresult(ctx)
+	case diagnosis.FieldDiagnosisDate:
+		return m.OldDiagnosisDate(ctx)
 	}
 	return nil, fmt.Errorf("unknown Diagnosis field %s", name)
 }
@@ -1763,6 +1807,13 @@ func (m *DiagnosisMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetOpinionresult(v)
+		return nil
+	case diagnosis.FieldDiagnosisDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDiagnosisDate(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Diagnosis field %s", name)
@@ -1818,6 +1869,9 @@ func (m *DiagnosisMutation) ResetField(name string) error {
 		return nil
 	case diagnosis.FieldOpinionresult:
 		m.ResetOpinionresult()
+		return nil
+	case diagnosis.FieldDiagnosisDate:
+		m.ResetDiagnosisDate()
 		return nil
 	}
 	return fmt.Errorf("unknown Diagnosis field %s", name)

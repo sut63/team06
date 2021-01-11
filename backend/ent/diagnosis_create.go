@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/facebook/ent/schema/field"
@@ -31,6 +32,20 @@ func (dc *DiagnosisCreate) SetSymptom(s string) *DiagnosisCreate {
 // SetOpinionresult sets the "Opinionresult" field.
 func (dc *DiagnosisCreate) SetOpinionresult(s string) *DiagnosisCreate {
 	dc.mutation.SetOpinionresult(s)
+	return dc
+}
+
+// SetDiagnosisDate sets the "diagnosisDate" field.
+func (dc *DiagnosisCreate) SetDiagnosisDate(t time.Time) *DiagnosisCreate {
+	dc.mutation.SetDiagnosisDate(t)
+	return dc
+}
+
+// SetNillableDiagnosisDate sets the "diagnosisDate" field if the given value is not nil.
+func (dc *DiagnosisCreate) SetNillableDiagnosisDate(t *time.Time) *DiagnosisCreate {
+	if t != nil {
+		dc.SetDiagnosisDate(*t)
+	}
 	return dc
 }
 
@@ -102,6 +117,7 @@ func (dc *DiagnosisCreate) Save(ctx context.Context) (*Diagnosis, error) {
 		err  error
 		node *Diagnosis
 	)
+	dc.defaults()
 	if len(dc.hooks) == 0 {
 		if err = dc.check(); err != nil {
 			return nil, err
@@ -140,6 +156,14 @@ func (dc *DiagnosisCreate) SaveX(ctx context.Context) *Diagnosis {
 	return v
 }
 
+// defaults sets the default values of the builder before save.
+func (dc *DiagnosisCreate) defaults() {
+	if _, ok := dc.mutation.DiagnosisDate(); !ok {
+		v := diagnosis.DefaultDiagnosisDate()
+		dc.mutation.SetDiagnosisDate(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (dc *DiagnosisCreate) check() error {
 	if _, ok := dc.mutation.Symptom(); !ok {
@@ -157,6 +181,9 @@ func (dc *DiagnosisCreate) check() error {
 		if err := diagnosis.OpinionresultValidator(v); err != nil {
 			return &ValidationError{Name: "Opinionresult", err: fmt.Errorf("ent: validator failed for field \"Opinionresult\": %w", err)}
 		}
+	}
+	if _, ok := dc.mutation.DiagnosisDate(); !ok {
+		return &ValidationError{Name: "diagnosisDate", err: errors.New("ent: missing required field \"diagnosisDate\"")}
 	}
 	return nil
 }
@@ -200,6 +227,14 @@ func (dc *DiagnosisCreate) createSpec() (*Diagnosis, *sqlgraph.CreateSpec) {
 			Column: diagnosis.FieldOpinionresult,
 		})
 		_node.Opinionresult = value
+	}
+	if value, ok := dc.mutation.DiagnosisDate(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: diagnosis.FieldDiagnosisDate,
+		})
+		_node.DiagnosisDate = value
 	}
 	if nodes := dc.mutation.DoctorNameIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -275,6 +310,7 @@ func (dcb *DiagnosisCreateBulk) Save(ctx context.Context) ([]*Diagnosis, error) 
 	for i := range dcb.builders {
 		func(i int, root context.Context) {
 			builder := dcb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*DiagnosisMutation)
 				if !ok {

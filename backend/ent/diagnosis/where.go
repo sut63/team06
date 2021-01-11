@@ -3,6 +3,8 @@
 package diagnosis
 
 import (
+	"time"
+
 	"github.com/facebook/ent/dialect/sql"
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/team06/app/ent/predicate"
@@ -102,6 +104,13 @@ func Symptom(v string) predicate.Diagnosis {
 func Opinionresult(v string) predicate.Diagnosis {
 	return predicate.Diagnosis(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldOpinionresult), v))
+	})
+}
+
+// DiagnosisDate applies equality check predicate on the "diagnosisDate" field. It's identical to DiagnosisDateEQ.
+func DiagnosisDate(v time.Time) predicate.Diagnosis {
+	return predicate.Diagnosis(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldDiagnosisDate), v))
 	})
 }
 
@@ -324,6 +333,82 @@ func OpinionresultEqualFold(v string) predicate.Diagnosis {
 func OpinionresultContainsFold(v string) predicate.Diagnosis {
 	return predicate.Diagnosis(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldOpinionresult), v))
+	})
+}
+
+// DiagnosisDateEQ applies the EQ predicate on the "diagnosisDate" field.
+func DiagnosisDateEQ(v time.Time) predicate.Diagnosis {
+	return predicate.Diagnosis(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldDiagnosisDate), v))
+	})
+}
+
+// DiagnosisDateNEQ applies the NEQ predicate on the "diagnosisDate" field.
+func DiagnosisDateNEQ(v time.Time) predicate.Diagnosis {
+	return predicate.Diagnosis(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldDiagnosisDate), v))
+	})
+}
+
+// DiagnosisDateIn applies the In predicate on the "diagnosisDate" field.
+func DiagnosisDateIn(vs ...time.Time) predicate.Diagnosis {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Diagnosis(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldDiagnosisDate), v...))
+	})
+}
+
+// DiagnosisDateNotIn applies the NotIn predicate on the "diagnosisDate" field.
+func DiagnosisDateNotIn(vs ...time.Time) predicate.Diagnosis {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Diagnosis(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldDiagnosisDate), v...))
+	})
+}
+
+// DiagnosisDateGT applies the GT predicate on the "diagnosisDate" field.
+func DiagnosisDateGT(v time.Time) predicate.Diagnosis {
+	return predicate.Diagnosis(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldDiagnosisDate), v))
+	})
+}
+
+// DiagnosisDateGTE applies the GTE predicate on the "diagnosisDate" field.
+func DiagnosisDateGTE(v time.Time) predicate.Diagnosis {
+	return predicate.Diagnosis(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldDiagnosisDate), v))
+	})
+}
+
+// DiagnosisDateLT applies the LT predicate on the "diagnosisDate" field.
+func DiagnosisDateLT(v time.Time) predicate.Diagnosis {
+	return predicate.Diagnosis(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldDiagnosisDate), v))
+	})
+}
+
+// DiagnosisDateLTE applies the LTE predicate on the "diagnosisDate" field.
+func DiagnosisDateLTE(v time.Time) predicate.Diagnosis {
+	return predicate.Diagnosis(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldDiagnosisDate), v))
 	})
 }
 

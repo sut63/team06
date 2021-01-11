@@ -5,6 +5,7 @@ package ent
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/facebook/ent/dialect/sql"
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
@@ -38,6 +39,20 @@ func (du *DiagnosisUpdate) SetSymptom(s string) *DiagnosisUpdate {
 // SetOpinionresult sets the "Opinionresult" field.
 func (du *DiagnosisUpdate) SetOpinionresult(s string) *DiagnosisUpdate {
 	du.mutation.SetOpinionresult(s)
+	return du
+}
+
+// SetDiagnosisDate sets the "diagnosisDate" field.
+func (du *DiagnosisUpdate) SetDiagnosisDate(t time.Time) *DiagnosisUpdate {
+	du.mutation.SetDiagnosisDate(t)
+	return du
+}
+
+// SetNillableDiagnosisDate sets the "diagnosisDate" field if the given value is not nil.
+func (du *DiagnosisUpdate) SetNillableDiagnosisDate(t *time.Time) *DiagnosisUpdate {
+	if t != nil {
+		du.SetDiagnosisDate(*t)
+	}
 	return du
 }
 
@@ -225,6 +240,13 @@ func (du *DiagnosisUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: diagnosis.FieldOpinionresult,
 		})
 	}
+	if value, ok := du.mutation.DiagnosisDate(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: diagnosis.FieldDiagnosisDate,
+		})
+	}
 	if du.mutation.DoctorNameCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -357,6 +379,20 @@ func (duo *DiagnosisUpdateOne) SetSymptom(s string) *DiagnosisUpdateOne {
 // SetOpinionresult sets the "Opinionresult" field.
 func (duo *DiagnosisUpdateOne) SetOpinionresult(s string) *DiagnosisUpdateOne {
 	duo.mutation.SetOpinionresult(s)
+	return duo
+}
+
+// SetDiagnosisDate sets the "diagnosisDate" field.
+func (duo *DiagnosisUpdateOne) SetDiagnosisDate(t time.Time) *DiagnosisUpdateOne {
+	duo.mutation.SetDiagnosisDate(t)
+	return duo
+}
+
+// SetNillableDiagnosisDate sets the "diagnosisDate" field if the given value is not nil.
+func (duo *DiagnosisUpdateOne) SetNillableDiagnosisDate(t *time.Time) *DiagnosisUpdateOne {
+	if t != nil {
+		duo.SetDiagnosisDate(*t)
+	}
 	return duo
 }
 
@@ -540,6 +576,13 @@ func (duo *DiagnosisUpdateOne) sqlSave(ctx context.Context) (_node *Diagnosis, e
 			Type:   field.TypeString,
 			Value:  value,
 			Column: diagnosis.FieldOpinionresult,
+		})
+	}
+	if value, ok := duo.mutation.DiagnosisDate(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: diagnosis.FieldDiagnosisDate,
 		})
 	}
 	if duo.mutation.DoctorNameCleared() {

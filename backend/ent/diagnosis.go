@@ -5,6 +5,7 @@ package ent
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/facebook/ent/dialect/sql"
 	"github.com/team06/app/ent/diagnosis"
@@ -22,6 +23,8 @@ type Diagnosis struct {
 	Symptom string `json:"symptom,omitempty"`
 	// Opinionresult holds the value of the "Opinionresult" field.
 	Opinionresult string `json:"Opinionresult,omitempty"`
+	// DiagnosisDate holds the value of the "diagnosisDate" field.
+	DiagnosisDate time.Time `json:"diagnosisDate,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the DiagnosisQuery when eager-loading is set.
 	Edges                                      DiagnosisEdges `json:"edges"`
@@ -94,6 +97,8 @@ func (*Diagnosis) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = &sql.NullInt64{}
 		case diagnosis.FieldSymptom, diagnosis.FieldOpinionresult:
 			values[i] = &sql.NullString{}
+		case diagnosis.FieldDiagnosisDate:
+			values[i] = &sql.NullTime{}
 		case diagnosis.ForeignKeys[0]: // doctor_doctor_to_diagnosis
 			values[i] = &sql.NullInt64{}
 		case diagnosis.ForeignKeys[1]: // patient_patient_to_diagnosis
@@ -132,6 +137,12 @@ func (d *Diagnosis) assignValues(columns []string, values []interface{}) error {
 				return fmt.Errorf("unexpected type %T for field Opinionresult", values[i])
 			} else if value.Valid {
 				d.Opinionresult = value.String
+			}
+		case diagnosis.FieldDiagnosisDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field diagnosisDate", values[i])
+			} else if value.Valid {
+				d.DiagnosisDate = value.Time
 			}
 		case diagnosis.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -201,6 +212,8 @@ func (d *Diagnosis) String() string {
 	builder.WriteString(d.Symptom)
 	builder.WriteString(", Opinionresult=")
 	builder.WriteString(d.Opinionresult)
+	builder.WriteString(", diagnosisDate=")
+	builder.WriteString(d.DiagnosisDate.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -2,6 +2,10 @@
 
 package diagnosis
 
+import (
+	"time"
+)
+
 const (
 	// Label holds the string label denoting the diagnosis type in the database.
 	Label = "diagnosis"
@@ -11,6 +15,8 @@ const (
 	FieldSymptom = "symptom"
 	// FieldOpinionresult holds the string denoting the opinionresult field in the database.
 	FieldOpinionresult = "opinionresult"
+	// FieldDiagnosisDate holds the string denoting the diagnosisdate field in the database.
+	FieldDiagnosisDate = "diagnosis_date"
 
 	// EdgeDoctorName holds the string denoting the doctor_name edge name in mutations.
 	EdgeDoctorName = "Doctor_name"
@@ -49,6 +55,7 @@ var Columns = []string{
 	FieldID,
 	FieldSymptom,
 	FieldOpinionresult,
+	FieldDiagnosisDate,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the Diagnosis type.
@@ -78,4 +85,6 @@ var (
 	SymptomValidator func(string) error
 	// OpinionresultValidator is a validator for the "Opinionresult" field. It is called by the builders before save.
 	OpinionresultValidator func(string) error
+	// DefaultDiagnosisDate holds the default value on creation for the "diagnosisDate" field.
+	DefaultDiagnosisDate func() time.Time
 )
