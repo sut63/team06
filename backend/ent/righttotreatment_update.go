@@ -30,9 +30,15 @@ func (rttu *RightToTreatmentUpdate) Where(ps ...predicate.RightToTreatment) *Rig
 	return rttu
 }
 
-// SetAddedtime sets the "Addedtime" field.
-func (rttu *RightToTreatmentUpdate) SetAddedtime(t time.Time) *RightToTreatmentUpdate {
-	rttu.mutation.SetAddedtime(t)
+// SetStartTime sets the "StartTime" field.
+func (rttu *RightToTreatmentUpdate) SetStartTime(t time.Time) *RightToTreatmentUpdate {
+	rttu.mutation.SetStartTime(t)
+	return rttu
+}
+
+// SetEndTime sets the "EndTime" field.
+func (rttu *RightToTreatmentUpdate) SetEndTime(t time.Time) *RightToTreatmentUpdate {
+	rttu.mutation.SetEndTime(t)
 	return rttu
 }
 
@@ -185,11 +191,18 @@ func (rttu *RightToTreatmentUpdate) sqlSave(ctx context.Context) (n int, err err
 			}
 		}
 	}
-	if value, ok := rttu.mutation.Addedtime(); ok {
+	if value, ok := rttu.mutation.StartTime(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
-			Column: righttotreatment.FieldAddedtime,
+			Column: righttotreatment.FieldStartTime,
+		})
+	}
+	if value, ok := rttu.mutation.EndTime(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: righttotreatment.FieldEndTime,
 		})
 	}
 	if rttu.mutation.HospitalCleared() {
@@ -315,9 +328,15 @@ type RightToTreatmentUpdateOne struct {
 	mutation *RightToTreatmentMutation
 }
 
-// SetAddedtime sets the "Addedtime" field.
-func (rttuo *RightToTreatmentUpdateOne) SetAddedtime(t time.Time) *RightToTreatmentUpdateOne {
-	rttuo.mutation.SetAddedtime(t)
+// SetStartTime sets the "StartTime" field.
+func (rttuo *RightToTreatmentUpdateOne) SetStartTime(t time.Time) *RightToTreatmentUpdateOne {
+	rttuo.mutation.SetStartTime(t)
+	return rttuo
+}
+
+// SetEndTime sets the "EndTime" field.
+func (rttuo *RightToTreatmentUpdateOne) SetEndTime(t time.Time) *RightToTreatmentUpdateOne {
+	rttuo.mutation.SetEndTime(t)
 	return rttuo
 }
 
@@ -468,11 +487,18 @@ func (rttuo *RightToTreatmentUpdateOne) sqlSave(ctx context.Context) (_node *Rig
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing RightToTreatment.ID for update")}
 	}
 	_spec.Node.ID.Value = id
-	if value, ok := rttuo.mutation.Addedtime(); ok {
+	if value, ok := rttuo.mutation.StartTime(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
-			Column: righttotreatment.FieldAddedtime,
+			Column: righttotreatment.FieldStartTime,
+		})
+	}
+	if value, ok := rttuo.mutation.EndTime(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: righttotreatment.FieldEndTime,
 		})
 	}
 	if rttuo.mutation.HospitalCleared() {

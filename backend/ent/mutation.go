@@ -6769,7 +6769,8 @@ type RightToTreatmentMutation struct {
 	op                           Op
 	typ                          string
 	id                           *int
-	_Addedtime                   *time.Time
+	_StartTime                   *time.Time
+	_EndTime                     *time.Time
 	clearedFields                map[string]struct{}
 	_Hospital                    *int
 	cleared_Hospital             bool
@@ -6861,40 +6862,76 @@ func (m *RightToTreatmentMutation) ID() (id int, exists bool) {
 	return *m.id, true
 }
 
-// SetAddedtime sets the "Addedtime" field.
-func (m *RightToTreatmentMutation) SetAddedtime(t time.Time) {
-	m._Addedtime = &t
+// SetStartTime sets the "StartTime" field.
+func (m *RightToTreatmentMutation) SetStartTime(t time.Time) {
+	m._StartTime = &t
 }
 
-// Addedtime returns the value of the "Addedtime" field in the mutation.
-func (m *RightToTreatmentMutation) Addedtime() (r time.Time, exists bool) {
-	v := m._Addedtime
+// StartTime returns the value of the "StartTime" field in the mutation.
+func (m *RightToTreatmentMutation) StartTime() (r time.Time, exists bool) {
+	v := m._StartTime
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldAddedtime returns the old "Addedtime" field's value of the RightToTreatment entity.
+// OldStartTime returns the old "StartTime" field's value of the RightToTreatment entity.
 // If the RightToTreatment object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *RightToTreatmentMutation) OldAddedtime(ctx context.Context) (v time.Time, err error) {
+func (m *RightToTreatmentMutation) OldStartTime(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAddedtime is only allowed on UpdateOne operations")
+		return v, fmt.Errorf("OldStartTime is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAddedtime requires an ID field in the mutation")
+		return v, fmt.Errorf("OldStartTime requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAddedtime: %w", err)
+		return v, fmt.Errorf("querying old value for OldStartTime: %w", err)
 	}
-	return oldValue.Addedtime, nil
+	return oldValue.StartTime, nil
 }
 
-// ResetAddedtime resets all changes to the "Addedtime" field.
-func (m *RightToTreatmentMutation) ResetAddedtime() {
-	m._Addedtime = nil
+// ResetStartTime resets all changes to the "StartTime" field.
+func (m *RightToTreatmentMutation) ResetStartTime() {
+	m._StartTime = nil
+}
+
+// SetEndTime sets the "EndTime" field.
+func (m *RightToTreatmentMutation) SetEndTime(t time.Time) {
+	m._EndTime = &t
+}
+
+// EndTime returns the value of the "EndTime" field in the mutation.
+func (m *RightToTreatmentMutation) EndTime() (r time.Time, exists bool) {
+	v := m._EndTime
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEndTime returns the old "EndTime" field's value of the RightToTreatment entity.
+// If the RightToTreatment object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RightToTreatmentMutation) OldEndTime(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldEndTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldEndTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEndTime: %w", err)
+	}
+	return oldValue.EndTime, nil
+}
+
+// ResetEndTime resets all changes to the "EndTime" field.
+func (m *RightToTreatmentMutation) ResetEndTime() {
+	m._EndTime = nil
 }
 
 // SetHospitalID sets the "Hospital" edge to the Hospital entity by id.
@@ -7028,9 +7065,12 @@ func (m *RightToTreatmentMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *RightToTreatmentMutation) Fields() []string {
-	fields := make([]string, 0, 1)
-	if m._Addedtime != nil {
-		fields = append(fields, righttotreatment.FieldAddedtime)
+	fields := make([]string, 0, 2)
+	if m._StartTime != nil {
+		fields = append(fields, righttotreatment.FieldStartTime)
+	}
+	if m._EndTime != nil {
+		fields = append(fields, righttotreatment.FieldEndTime)
 	}
 	return fields
 }
@@ -7040,8 +7080,10 @@ func (m *RightToTreatmentMutation) Fields() []string {
 // schema.
 func (m *RightToTreatmentMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case righttotreatment.FieldAddedtime:
-		return m.Addedtime()
+	case righttotreatment.FieldStartTime:
+		return m.StartTime()
+	case righttotreatment.FieldEndTime:
+		return m.EndTime()
 	}
 	return nil, false
 }
@@ -7051,8 +7093,10 @@ func (m *RightToTreatmentMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *RightToTreatmentMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case righttotreatment.FieldAddedtime:
-		return m.OldAddedtime(ctx)
+	case righttotreatment.FieldStartTime:
+		return m.OldStartTime(ctx)
+	case righttotreatment.FieldEndTime:
+		return m.OldEndTime(ctx)
 	}
 	return nil, fmt.Errorf("unknown RightToTreatment field %s", name)
 }
@@ -7062,12 +7106,19 @@ func (m *RightToTreatmentMutation) OldField(ctx context.Context, name string) (e
 // type.
 func (m *RightToTreatmentMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case righttotreatment.FieldAddedtime:
+	case righttotreatment.FieldStartTime:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetAddedtime(v)
+		m.SetStartTime(v)
+		return nil
+	case righttotreatment.FieldEndTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEndTime(v)
 		return nil
 	}
 	return fmt.Errorf("unknown RightToTreatment field %s", name)
@@ -7118,8 +7169,11 @@ func (m *RightToTreatmentMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *RightToTreatmentMutation) ResetField(name string) error {
 	switch name {
-	case righttotreatment.FieldAddedtime:
-		m.ResetAddedtime()
+	case righttotreatment.FieldStartTime:
+		m.ResetStartTime()
+		return nil
+	case righttotreatment.FieldEndTime:
+		m.ResetEndTime()
 		return nil
 	}
 	return fmt.Errorf("unknown RightToTreatment field %s", name)

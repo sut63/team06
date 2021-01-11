@@ -14,7 +14,8 @@ type RightToTreatment struct {
 // Fields of the RightToTreatment.
 func (RightToTreatment) Fields() []ent.Field {
 	return []ent.Field{
-		field.Time("Addedtime"),
+		field.Time("StartTime"),
+		field.Time("EndTime"),
 	}
 }
 

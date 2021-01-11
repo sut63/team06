@@ -7,8 +7,10 @@ const (
 	Label = "right_to_treatment"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldAddedtime holds the string denoting the addedtime field in the database.
-	FieldAddedtime = "addedtime"
+	// FieldStartTime holds the string denoting the starttime field in the database.
+	FieldStartTime = "start_time"
+	// FieldEndTime holds the string denoting the endtime field in the database.
+	FieldEndTime = "end_time"
 
 	// EdgeHospital holds the string denoting the hospital edge name in mutations.
 	EdgeHospital = "Hospital"
@@ -45,7 +47,8 @@ const (
 // Columns holds all SQL columns for righttotreatment fields.
 var Columns = []string{
 	FieldID,
-	FieldAddedtime,
+	FieldStartTime,
+	FieldEndTime,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the RightToTreatment type.

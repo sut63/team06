@@ -355,12 +355,12 @@ func (rttq *RightToTreatmentQuery) WithPatient(opts ...func(*PatientQuery)) *Rig
 // Example:
 //
 //	var v []struct {
-//		Addedtime time.Time `json:"Addedtime,omitempty"`
+//		StartTime time.Time `json:"StartTime,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.RightToTreatment.Query().
-//		GroupBy(righttotreatment.FieldAddedtime).
+//		GroupBy(righttotreatment.FieldStartTime).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -382,11 +382,11 @@ func (rttq *RightToTreatmentQuery) GroupBy(field string, fields ...string) *Righ
 // Example:
 //
 //	var v []struct {
-//		Addedtime time.Time `json:"Addedtime,omitempty"`
+//		StartTime time.Time `json:"StartTime,omitempty"`
 //	}
 //
 //	client.RightToTreatment.Query().
-//		Select(righttotreatment.FieldAddedtime).
+//		Select(righttotreatment.FieldStartTime).
 //		Scan(ctx, &v)
 //
 func (rttq *RightToTreatmentQuery) Select(field string, fields ...string) *RightToTreatmentSelect {

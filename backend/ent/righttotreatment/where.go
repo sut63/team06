@@ -93,29 +93,36 @@ func IDLTE(id int) predicate.RightToTreatment {
 	})
 }
 
-// Addedtime applies equality check predicate on the "Addedtime" field. It's identical to AddedtimeEQ.
-func Addedtime(v time.Time) predicate.RightToTreatment {
+// StartTime applies equality check predicate on the "StartTime" field. It's identical to StartTimeEQ.
+func StartTime(v time.Time) predicate.RightToTreatment {
 	return predicate.RightToTreatment(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAddedtime), v))
+		s.Where(sql.EQ(s.C(FieldStartTime), v))
 	})
 }
 
-// AddedtimeEQ applies the EQ predicate on the "Addedtime" field.
-func AddedtimeEQ(v time.Time) predicate.RightToTreatment {
+// EndTime applies equality check predicate on the "EndTime" field. It's identical to EndTimeEQ.
+func EndTime(v time.Time) predicate.RightToTreatment {
 	return predicate.RightToTreatment(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAddedtime), v))
+		s.Where(sql.EQ(s.C(FieldEndTime), v))
 	})
 }
 
-// AddedtimeNEQ applies the NEQ predicate on the "Addedtime" field.
-func AddedtimeNEQ(v time.Time) predicate.RightToTreatment {
+// StartTimeEQ applies the EQ predicate on the "StartTime" field.
+func StartTimeEQ(v time.Time) predicate.RightToTreatment {
 	return predicate.RightToTreatment(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldAddedtime), v))
+		s.Where(sql.EQ(s.C(FieldStartTime), v))
 	})
 }
 
-// AddedtimeIn applies the In predicate on the "Addedtime" field.
-func AddedtimeIn(vs ...time.Time) predicate.RightToTreatment {
+// StartTimeNEQ applies the NEQ predicate on the "StartTime" field.
+func StartTimeNEQ(v time.Time) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldStartTime), v))
+	})
+}
+
+// StartTimeIn applies the In predicate on the "StartTime" field.
+func StartTimeIn(vs ...time.Time) predicate.RightToTreatment {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -127,12 +134,12 @@ func AddedtimeIn(vs ...time.Time) predicate.RightToTreatment {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldAddedtime), v...))
+		s.Where(sql.In(s.C(FieldStartTime), v...))
 	})
 }
 
-// AddedtimeNotIn applies the NotIn predicate on the "Addedtime" field.
-func AddedtimeNotIn(vs ...time.Time) predicate.RightToTreatment {
+// StartTimeNotIn applies the NotIn predicate on the "StartTime" field.
+func StartTimeNotIn(vs ...time.Time) predicate.RightToTreatment {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -144,35 +151,111 @@ func AddedtimeNotIn(vs ...time.Time) predicate.RightToTreatment {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldAddedtime), v...))
+		s.Where(sql.NotIn(s.C(FieldStartTime), v...))
 	})
 }
 
-// AddedtimeGT applies the GT predicate on the "Addedtime" field.
-func AddedtimeGT(v time.Time) predicate.RightToTreatment {
+// StartTimeGT applies the GT predicate on the "StartTime" field.
+func StartTimeGT(v time.Time) predicate.RightToTreatment {
 	return predicate.RightToTreatment(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldAddedtime), v))
+		s.Where(sql.GT(s.C(FieldStartTime), v))
 	})
 }
 
-// AddedtimeGTE applies the GTE predicate on the "Addedtime" field.
-func AddedtimeGTE(v time.Time) predicate.RightToTreatment {
+// StartTimeGTE applies the GTE predicate on the "StartTime" field.
+func StartTimeGTE(v time.Time) predicate.RightToTreatment {
 	return predicate.RightToTreatment(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldAddedtime), v))
+		s.Where(sql.GTE(s.C(FieldStartTime), v))
 	})
 }
 
-// AddedtimeLT applies the LT predicate on the "Addedtime" field.
-func AddedtimeLT(v time.Time) predicate.RightToTreatment {
+// StartTimeLT applies the LT predicate on the "StartTime" field.
+func StartTimeLT(v time.Time) predicate.RightToTreatment {
 	return predicate.RightToTreatment(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldAddedtime), v))
+		s.Where(sql.LT(s.C(FieldStartTime), v))
 	})
 }
 
-// AddedtimeLTE applies the LTE predicate on the "Addedtime" field.
-func AddedtimeLTE(v time.Time) predicate.RightToTreatment {
+// StartTimeLTE applies the LTE predicate on the "StartTime" field.
+func StartTimeLTE(v time.Time) predicate.RightToTreatment {
 	return predicate.RightToTreatment(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldAddedtime), v))
+		s.Where(sql.LTE(s.C(FieldStartTime), v))
+	})
+}
+
+// EndTimeEQ applies the EQ predicate on the "EndTime" field.
+func EndTimeEQ(v time.Time) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEndTime), v))
+	})
+}
+
+// EndTimeNEQ applies the NEQ predicate on the "EndTime" field.
+func EndTimeNEQ(v time.Time) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldEndTime), v))
+	})
+}
+
+// EndTimeIn applies the In predicate on the "EndTime" field.
+func EndTimeIn(vs ...time.Time) predicate.RightToTreatment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldEndTime), v...))
+	})
+}
+
+// EndTimeNotIn applies the NotIn predicate on the "EndTime" field.
+func EndTimeNotIn(vs ...time.Time) predicate.RightToTreatment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldEndTime), v...))
+	})
+}
+
+// EndTimeGT applies the GT predicate on the "EndTime" field.
+func EndTimeGT(v time.Time) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldEndTime), v))
+	})
+}
+
+// EndTimeGTE applies the GTE predicate on the "EndTime" field.
+func EndTimeGTE(v time.Time) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldEndTime), v))
+	})
+}
+
+// EndTimeLT applies the LT predicate on the "EndTime" field.
+func EndTimeLT(v time.Time) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldEndTime), v))
+	})
+}
+
+// EndTimeLTE applies the LTE predicate on the "EndTime" field.
+func EndTimeLTE(v time.Time) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldEndTime), v))
 	})
 }
 

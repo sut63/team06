@@ -23,9 +23,15 @@ type RightToTreatmentCreate struct {
 	hooks    []Hook
 }
 
-// SetAddedtime sets the "Addedtime" field.
-func (rttc *RightToTreatmentCreate) SetAddedtime(t time.Time) *RightToTreatmentCreate {
-	rttc.mutation.SetAddedtime(t)
+// SetStartTime sets the "StartTime" field.
+func (rttc *RightToTreatmentCreate) SetStartTime(t time.Time) *RightToTreatmentCreate {
+	rttc.mutation.SetStartTime(t)
+	return rttc
+}
+
+// SetEndTime sets the "EndTime" field.
+func (rttc *RightToTreatmentCreate) SetEndTime(t time.Time) *RightToTreatmentCreate {
+	rttc.mutation.SetEndTime(t)
 	return rttc
 }
 
@@ -137,8 +143,11 @@ func (rttc *RightToTreatmentCreate) SaveX(ctx context.Context) *RightToTreatment
 
 // check runs all checks and user-defined validators on the builder.
 func (rttc *RightToTreatmentCreate) check() error {
-	if _, ok := rttc.mutation.Addedtime(); !ok {
-		return &ValidationError{Name: "Addedtime", err: errors.New("ent: missing required field \"Addedtime\"")}
+	if _, ok := rttc.mutation.StartTime(); !ok {
+		return &ValidationError{Name: "StartTime", err: errors.New("ent: missing required field \"StartTime\"")}
+	}
+	if _, ok := rttc.mutation.EndTime(); !ok {
+		return &ValidationError{Name: "EndTime", err: errors.New("ent: missing required field \"EndTime\"")}
 	}
 	return nil
 }
@@ -167,13 +176,21 @@ func (rttc *RightToTreatmentCreate) createSpec() (*RightToTreatment, *sqlgraph.C
 			},
 		}
 	)
-	if value, ok := rttc.mutation.Addedtime(); ok {
+	if value, ok := rttc.mutation.StartTime(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
-			Column: righttotreatment.FieldAddedtime,
+			Column: righttotreatment.FieldStartTime,
 		})
-		_node.Addedtime = value
+		_node.StartTime = value
+	}
+	if value, ok := rttc.mutation.EndTime(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: righttotreatment.FieldEndTime,
+		})
+		_node.EndTime = value
 	}
 	if nodes := rttc.mutation.HospitalIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
