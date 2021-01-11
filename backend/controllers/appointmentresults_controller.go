@@ -37,8 +37,8 @@ type Appointmentresults struct {
 // @ID create-appointmentresults
 // @Accept   json
 // @Produce  json
-// @Param appointmentresults body ent.Appointmentresults true "Appointmentresults entity"
-// @Success 200 {object} ent.Appointmentresults
+// @Param appointmentresults body ent.AppointmentResults true "Appointmentresults entity"
+// @Success 200 {object} ent.AppointmentResults
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /appointmentresultss [post]
@@ -128,7 +128,7 @@ func (ctl *AppointmentresultsController) CreateAppointmentresults(c *gin.Context
 // @ID get-appointmentresults
 // @Produce  json
 // @Param id path int true "Appointmentresults ID"
-// @Success 200 {object} ent.Appointmentresults
+// @Success 200 {object} ent.AppointmentResults
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -163,7 +163,7 @@ func (ctl *AppointmentresultsController) GetAppointmentresults(c *gin.Context) {
 // @Produce json
 // @Param limit  query int false "Limit"
 // @Param offset query int false "Offset"
-// @Success 200 {array} ent.Appointmentresults
+// @Success 200 {array} ent.AppointmentResults
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /appointmentresultss [get]
@@ -246,8 +246,8 @@ func (ctl *AppointmentresultsController) DeleteAppointmentresults(c *gin.Context
 // @Accept   json
 // @Produce  json
 // @Param id path int true "Appointmentresults ID"
-// @Param appointmentresults body ent.Appointmentresults true "Appointmentresults entity"
-// @Success 200 {object} ent.Appointmentresults
+// @Param appointmentresults body ent.AppointmentResults true "Appointmentresults entity"
+// @Success 200 {object} ent.AppointmentResults
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /appointmentresultss/{id} [put]
