@@ -10,7 +10,7 @@ import (
 	"github.com/team06/app/ent/proceduretype"
 )
 
-// ProceduretypeController defines the struct for the proceduretype controller
+// ProceduretypeController defines the struct for the Proceduretype controller
 type ProceduretypeController struct {
 	client *ent.Client
 	router gin.IRouter
@@ -22,11 +22,11 @@ type ProceduretypeController struct {
 // @ID create-proceduretype
 // @Accept   json
 // @Produce  json
-// @Param pharmacist body ent.proceduretype true "proceduretype entity"
-// @Success 200 {object} ent.proceduretype
+// @Param proceduretype body ent.ProcedureType true "Proceduretype entity"
+// @Success 200 {object} ent.ProcedureType
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /proceduretype [post]
+// @Router /proceduretypes [post]
 func (ctl *ProceduretypeController) CreateProceduretype(c *gin.Context) {
 	obj := ent.ProcedureType{}
 	if err := c.ShouldBind(&obj); err != nil {
@@ -38,7 +38,7 @@ func (ctl *ProceduretypeController) CreateProceduretype(c *gin.Context) {
 
 	procedure, err := ctl.client.ProcedureType.
 		Create().
-		SetProcedureType(obj.ProcedureType).
+		SetProcedureName(obj.ProcedureName).
 		Save(context.Background())
 
 	if err != nil {
@@ -56,12 +56,12 @@ func (ctl *ProceduretypeController) CreateProceduretype(c *gin.Context) {
 // @Description get proceduretype by ID
 // @ID get-proceduretype
 // @Produce  json
-// @Param id path int true "proceduretype ID"
-// @Success 200 {object} ent.Proceduretype
+// @Param id path int true "Proceduretype ID"
+// @Success 200 {object} ent.ProcedureType
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /proceduretype/{id} [get]
+// @Router /proceduretypes/{id} [get]
 func (ctl *ProceduretypeController) GetProceduretype(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -92,10 +92,10 @@ func (ctl *ProceduretypeController) GetProceduretype(c *gin.Context) {
 // @Produce json
 // @Param limit  query int false "Limit"
 // @Param offset query int false "Offset"
-// @Success 200 {array} ent.Proceduretype
+// @Success 200 {array} ent.ProcedureType
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /proceduretype [get]
+// @Router /proceduretypes [get]
 func (ctl *ProceduretypeController) ListProceduretype(c *gin.Context) {
 	limitQuery := c.Query("limit")
 	limit := 10
@@ -136,12 +136,12 @@ func (ctl *ProceduretypeController) ListProceduretype(c *gin.Context) {
 // @Description get proceduretype by ID
 // @ID delete-proceduretype
 // @Produce  json
-// @Param id path int true "proceduretype ID"
+// @Param id path int true "Proceduretype ID"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /proceduretype/{id} [delete]
+// @Router /proceduretypes/{id} [delete]
 func (ctl *ProceduretypeController) DeleteProceduretype(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -170,12 +170,12 @@ func (ctl *ProceduretypeController) DeleteProceduretype(c *gin.Context) {
 // @ID update-proceduretype
 // @Accept   json
 // @Produce  json
-// @Param id path int true "proceduretype ID"
-// @Param pharmacist body ent.Proceduretype true "proceduretype entity"
-// @Success 200 {object} ent.Proceduretype
+// @Param id path int true "Proceduretype ID"
+// @Param proceduretype body ent.ProcedureType true "Proceduretype entity"
+// @Success 200 {object} ent.ProcedureType
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /proceduretype/{id} [put]
+// @Router /proceduretypes/{id} [put]
 func (ctl *ProceduretypeController) UpdateProceduretype(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -196,7 +196,7 @@ func (ctl *ProceduretypeController) UpdateProceduretype(c *gin.Context) {
 	fmt.Println(obj.ID)
 	procedure, err := ctl.client.ProcedureType.
 		UpdateOneID(int(id)).
-		SetProcedureType(obj.ProcedureType).
+		SetProcedureName(obj.ProcedureName).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -222,7 +222,7 @@ func NewProceduretypeController(router gin.IRouter, client *ent.Client) *Procedu
 }
 
 func (ctl *ProceduretypeController) register() {
-	proceduretypes := ctl.router.Group("/proceduretype")
+	proceduretypes := ctl.router.Group("/proceduretypes")
 
 	proceduretypes.GET("", ctl.ListProceduretype)
 

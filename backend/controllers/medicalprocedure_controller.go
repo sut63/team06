@@ -19,7 +19,7 @@ type MedicalprocedureController struct {
 	router gin.IRouter
 }
 
-// Medicalprocedure defines the struct for the dispensemedicine
+// Medicalprocedure defines the struct for the medicalprocedure
 type Medicalprocedure struct {
 	Doctors int
 	Patients int
@@ -34,7 +34,7 @@ type Medicalprocedure struct {
 // @Accept   json
 // @Produce  json
 // @Param medicalprocedure body Medicalprocedure true "Medicalprocedure entity"
-// @Success 200 {object} ent.Medicalprocedure
+// @Success 200 {object} Medicalprocedure
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /medicalprocedure [post]
@@ -108,7 +108,7 @@ func (ctl *MedicalprocedureController) CreateMedicalprocedure(c *gin.Context) {
 // @Produce json
 // @Param limit  query int false "Limit"
 // @Param offset query int false "Offset"
-// @Success 200 {array} ent.Medicalprocedure
+// @Success 200 {array} Medicalprocedure
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /medicalprocedure [get]
