@@ -105,6 +105,9 @@ definitions:
       Opinionresult:
         description: Opinionresult holds the value of the "Opinionresult" field.
         type: string
+      diagnosisDate:
+        description: DiagnosisDate holds the value of the "diagnosisDate" field.
+        type: string
       edges:
         $ref: '#/definitions/ent.DiagnosisEdges'
         description: |-

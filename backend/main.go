@@ -1,66 +1,84 @@
 package main
 
 import (
-    "context"
-    //"fmt"
-    "log"
-    //"time"
+	"context"
+	//"fmt"
+	"log"
+	//"time"
 
-    "github.com/gin-contrib/cors"
-    "github.com/gin-gonic/gin"
-    _ "github.com/mattn/go-sqlite3"
-    swaggerFiles "github.com/swaggo/files"
-    ginSwagger "github.com/swaggo/gin-swagger"
-    "github.com/team06/app/controllers"
-    _ "github.com/team06/app/docs"
-    "github.com/team06/app/ent"
-    //"github.com/team06/app/ent/department"
-    //"github.com/team06/app/ent/nurse"
-    //"github.com/team06/app/ent/patient"
-    //"github.com/team06/app/ent/urgencylevel"
-    //"github.com/team06/app/ent/doctor"
-    //"github.com/team06/app/ent/proceduretype"
-
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	_ "github.com/mattn/go-sqlite3"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/team06/app/controllers"
+	_ "github.com/team06/app/docs"
+	"github.com/team06/app/ent"
+	//"github.com/team06/app/ent/department"
+	//"github.com/team06/app/ent/nurse"
+	//"github.com/team06/app/ent/patient"
+	//"github.com/team06/app/ent/urgencylevel"
+	//"github.com/team06/app/ent/doctor"
+	//"github.com/team06/app/ent/proceduretype"
 )
 
 //Nurses Struct
 type Nurses struct {
-    Nurse []Nurse
+	Nurse []Nurse
 }
 
 //Nurse Struct
 type Nurse struct {
-    NurseName     string
-    NurseUsername string
-    NursePassword     string
+	NurseName     string
+	NurseUsername string
+	NursePassword string
 }
 
 //TriageResults Struct
 type TriageResults struct {
-    TriageResult []TriageResults
+	TriageResult []TriageResults
 }
 
 //ProcedureTypes Struct
 type ProcedureTypes struct {
-    ProcedureType []ProcedureType
+	ProcedureType []ProcedureType
 }
+
 //ProcedureType Struct
 type ProcedureType struct {
-    ProcedureName     string
+	ProcedureName string
 }
+
 //Doctors Struct
 type Doctors struct {
-    Doctor []Doctor
+	Doctor []Doctor
 }
+
 //Doctor Struct
 type Doctor struct {
-    DoctorName     string
-    DoctorUsername string
-    DoctorPassword string
+	DoctorName     string
+	DoctorUsername string
+	DoctorPassword string
 }
+
 //MedicalProcedures Struct
 type MedicalProcedures struct {
-    MedicalProcedure []MedicalProcedures
+	MedicalProcedure []MedicalProcedures
+}
+
+//Rooms Struct
+type Rooms struct {
+	Room []Room
+}
+
+//Room Struct
+type Room struct {
+	RoomName string
+}
+
+//AppointmentResults Struct
+type AppointmentResultss struct {
+	AppointmentResults []AppointmentResultss
 }
 
 // @title SUT SA Example API
@@ -105,105 +123,121 @@ type MedicalProcedures struct {
 // @scope.admin Grants read and write access to administrative information
 
 func main() {
-    router := gin.Default()
-    router.Use(cors.Default())
+	router := gin.Default()
+	router.Use(cors.Default())
 
-    client, err := ent.Open("sqlite3", "file:medicalrecord.db?&cache=shared&_fk=1")
-    if err != nil {
-        log.Fatalf("fail to open sqlite3: %v", err)
-    }
-    defer client.Close()
+	client, err := ent.Open("sqlite3", "file:medicalrecord.db?&cache=shared&_fk=1")
+	if err != nil {
+		log.Fatalf("fail to open sqlite3: %v", err)
+	}
+	defer client.Close()
 
-    if err := client.Schema.Create(context.Background()); err != nil {
-        log.Fatalf("failed creating schema resources: %v", err)
-    }
+	if err := client.Schema.Create(context.Background()); err != nil {
+		log.Fatalf("failed creating schema resources: %v", err)
+	}
 
-    v1 := router.Group("/api/v1")
-    controllers.NewTriageResultController(v1, client)
-    controllers.NewDepartmentController(v1, client)
-    controllers.NewUrgencyLevelController(v1, client)
-    controllers.NewNurseController(v1, client)
-    controllers.NewPatientController(v1, client)
-    controllers.NewDoctorController(v1, client)
-    controllers.NewProceduretypeController(v1, client)
-    controllers.NewMedicalprocedureController(v1, client)
+	v1 := router.Group("/api/v1")
+	controllers.NewTriageResultController(v1, client)
+	controllers.NewDepartmentController(v1, client)
+	controllers.NewUrgencyLevelController(v1, client)
+	controllers.NewNurseController(v1, client)
+	controllers.NewPatientController(v1, client)
+	controllers.NewDoctorController(v1, client)
+	controllers.NewProceduretypeController(v1, client)
+	controllers.NewMedicalprocedureController(v1, client)
+	controllers.NewAppointmentresultsController(v1, client)
+	controllers.NewRoomController(v1, client)
 
-    // Set Department Data
-    departments := []string{"Anesthetics", "Breast Screening", "Cardiology",
-    "Eae, nose and throat(ENT)", "Elderly services department", "Gastroenterology",
-    "General Surgery", "Gynecology", "Hematology", "Neonatal Unit", "Neurology",
-    "Nutrition and dietetics", "Obstetrics and gynecologt units", "Oncology",
-    "Ophthalmology", "Orthopedics", "Physiotherapy", "Renal Unit", "Sexual Health",
-    "Urology"}
-    
-    for _, d := range departments {
-        client.Department.
-            Create().
-            SetDepartmentName(d).
-            Save(context.Background())
-    }
+	// Set Department Data
+	departments := []string{"Anesthetics", "Breast Screening", "Cardiology",
+		"Eae, nose and throat(ENT)", "Elderly services department", "Gastroenterology",
+		"General Surgery", "Gynecology", "Hematology", "Neonatal Unit", "Neurology",
+		"Nutrition and dietetics", "Obstetrics and gynecologt units", "Oncology",
+		"Ophthalmology", "Orthopedics", "Physiotherapy", "Renal Unit", "Sexual Health",
+		"Urology"}
 
-    // Set Nurses Data
-    nurses := Nurses{
-        Nurse: []Nurse{
-            Nurse{"Somsri", "Somsri@nurse", "n1111"},
-            Nurse{"Somwang", "Somwang@nurse", "n2222"},
-        },
-    }
+	for _, d := range departments {
+		client.Department.
+			Create().
+			SetDepartmentName(d).
+			Save(context.Background())
+	}
 
-    for _, n := range nurses.Nurse {
-        client.Nurse.
-            Create().
-            SetNurseName(n.NurseName).
-            SetNurseUsername(n.NurseUsername).
-            SetNursePassword(n.NursePassword).
-            Save(context.Background())
-    }
+	// Set Nurses Data
+	nurses := Nurses{
+		Nurse: []Nurse{
+			Nurse{"Somsri", "Somsri@nurse", "n1111"},
+			Nurse{"Somwang", "Somwang@nurse", "n2222"},
+		},
+	}
 
-    // Set UrgencyLevel Data
-    urgencylevels := []string{"urgency1","urgency2","urgency3"}
-    
-    for _, u := range urgencylevels {
-        client.UrgencyLevel.
-            Create().
-            SetUrgencyName(u).
-            Save(context.Background())
-    }
+	for _, n := range nurses.Nurse {
+		client.Nurse.
+			Create().
+			SetNurseName(n.NurseName).
+			SetNurseUsername(n.NurseUsername).
+			SetNursePassword(n.NursePassword).
+			Save(context.Background())
+	}
 
-    // Set Doctor Data
-    doctors := Doctors{
-        Doctor: []Doctor{
-            Doctor{"Suchat","schat","12345g"},
-            Doctor{"Suwit","wittsu","44355h"},
-        },
-    }
+	// Set UrgencyLevel Data
+	urgencylevels := []string{"urgency1", "urgency2", "urgency3"}
 
-    for _, d := range doctors.Doctor {
-        client.Doctor.
-            Create().
-            SetDoctorName(d.DoctorName).
-            SetDoctorUsername(d.DoctorUsername).
-            SetDoctorPassword(d.DoctorPassword).
-            Save(context.Background())
-    }
+	for _, u := range urgencylevels {
+		client.UrgencyLevel.
+			Create().
+			SetUrgencyName(u).
+			Save(context.Background())
+	}
 
+	// Set Doctor Data
+	doctors := Doctors{
+		Doctor: []Doctor{
+			Doctor{"Suchat", "schat", "12345g"},
+			Doctor{"Suwit", "wittsu", "44355h"},
+		},
+	}
 
-    // Set ProcedureType Data
-    proceduretypes := ProcedureTypes{
-        ProcedureType: []ProcedureType{
-            ProcedureType{"เจาะน้ำเกลือ"},
-            ProcedureType{"ทำแผล"},
-        },
-    }
+	for _, d := range doctors.Doctor {
+		client.Doctor.
+			Create().
+			SetDoctorName(d.DoctorName).
+			SetDoctorUsername(d.DoctorUsername).
+			SetDoctorPassword(d.DoctorPassword).
+			Save(context.Background())
+	}
 
-    for _, pr := range proceduretypes.ProcedureType {
-        client.ProcedureType.
-            Create().
-            SetProcedureName(pr.ProcedureName).
-            Save(context.Background())
-    }
+	// Set ProcedureType Data
+	proceduretypes := ProcedureTypes{
+		ProcedureType: []ProcedureType{
+			ProcedureType{"เจาะน้ำเกลือ"},
+			ProcedureType{"ทำแผล"},
+		},
+	}
 
+	for _, pr := range proceduretypes.ProcedureType {
+		client.ProcedureType.
+			Create().
+			SetProcedureName(pr.ProcedureName).
+			Save(context.Background())
+	}
 
-    router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-    router.Run()
+	// Set Room Data
+	rooms := Rooms{
+		Room: []Room{
+			Room{"ห้องตรวจ1"},
+			Room{"ห้องตรวจ2"},
+			Room{"ห้องตรวจ3"},
+		},
+	}
+
+	for _, r := range rooms.Room {
+		client.Room.
+			Create().
+			SetRoomName(r.RoomName).
+			Save(context.Background())
+	}
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.Run()
 }
