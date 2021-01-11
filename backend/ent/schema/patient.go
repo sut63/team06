@@ -33,6 +33,6 @@ func (Patient) Edges() []ent.Edge {
 		edge.To("PatientToAppointmentResults", AppointmentResults.Type),
 		edge.To("PatientToMedicalProcedure", MedicalProcedure.Type),
 		edge.To("PatientToRightToTreatment", RightToTreatment.Type),
-		edge.To("PatientToDianosis", Diagnosis.Type),
+		edge.To("PatientToDiagnosis", Diagnosis.Type),
 	}
 }

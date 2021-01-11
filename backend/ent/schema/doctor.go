@@ -1,12 +1,12 @@
 package schema
 
 import (
-	"github.com/facebook/ent"
-	"github.com/facebook/ent/schema/edge"
-	"github.com/facebook/ent/schema/field"
+	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/edge"
+	"github.com/facebookincubator/ent/schema/field"
 )
 
-// Doctor holds the schema definition for the Patient entity.
+// Doctor holds the schema definition for the Doctor entity.
 type Doctor struct {
 	ent.Schema
 }
@@ -14,6 +14,7 @@ type Doctor struct {
 // Fields of the Doctor.
 func (Doctor) Fields() []ent.Field {
 	return []ent.Field{
+
 		field.String("doctorName").NotEmpty(),
 		field.String("doctorUsername").NotEmpty().Unique(),
 		field.String("doctorPassword").NotEmpty(),
@@ -23,8 +24,9 @@ func (Doctor) Fields() []ent.Field {
 // Edges of the Doctor.
 func (Doctor) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("DoctorToMedicalProcedure", MedicalProcedure.Type),
-		edge.To("DoctorToAppointmentResults", AppointmentResults.Type),
+
 		edge.To("DoctorToDiagnosis", Diagnosis.Type),
+		edge.To("DoctorToAppointmentResults", AppointmentResults.Type),
+		edge.To("DoctorToMedicalProcedure", MedicalProcedure.Type),
 	}
 }
