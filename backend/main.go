@@ -166,7 +166,6 @@ func main() {
 	controllers.NewDepartmentController(v1, client)
 	controllers.NewUrgencyLevelController(v1, client)
 	controllers.NewNurseController(v1, client)
-	controllers.NewPatientController(v1, client)
 	controllers.NewDoctorController(v1, client)
 	controllers.NewProceduretypeController(v1, client)
 	controllers.NewMedicalprocedureController(v1, client)
@@ -180,7 +179,6 @@ func main() {
 	controllers.NewPrefixController(v1, client)
 	controllers.NewGenderController(v1, client)
 	controllers.NewBloodTypeController(v1, client)
-	controllers.NewPatientController(v1, client)
 	controllers.NewDiagnosisController(v1, client)
 	controllers.NewTreatmenttypeController(v1, client)
 
