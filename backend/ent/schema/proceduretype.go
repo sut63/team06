@@ -14,7 +14,7 @@ type ProcedureType struct {
 // Fields of the ProcedureType.
 func (ProcedureType) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("ProcedureType"),
+		field.String("ProcedureName"),
 	}
 }
 
