@@ -21,6 +21,6 @@ func (ProcedureType) Fields() []ent.Field {
 // Edges of the ProcedureType.
 func (ProcedureType) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("ProcedureToMedicalProcedure", MedicalProcedure.Type).Unique(),
+		edge.To("ProcedureToMedicalProcedure", MedicalProcedure.Type),
 	}
 }
