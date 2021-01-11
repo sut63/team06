@@ -613,6 +613,308 @@ info:
   title: SUT SA Example API
   version: "1.0"
 paths:
+  /Diagnosiss:
+    get:
+      description: list Diagnosis entities
+      operationId: list-Diagnosis
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Diagnosis'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List Diagnosis entities
+    post:
+      consumes:
+      - application/json
+      description: Create Diagnosis
+      operationId: create-Diagnosis
+      parameters:
+      - description: Diagnosis entity
+        in: body
+        name: Diagnosis
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Diagnosis'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Diagnosis'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create Diagnosis
+  /Diagnosiss/{id}:
+    delete:
+      description: get Diagnosis by ID
+      operationId: delete-Diagnosis
+      parameters:
+      - description: Diagnosis ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a Diagnosis entity by ID
+    get:
+      description: get Diagnosis by ID
+      operationId: get-Diagnosis
+      parameters:
+      - description: Diagnosis ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Diagnosis'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a Diagnosis entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update Diagnosis by ID
+      operationId: update-Diagnosis
+      parameters:
+      - description: Diagnosis ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Diagnosis entity
+        in: body
+        name: Diagnosis
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Diagnosis'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Diagnosis'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a Diagnosis entity by ID
+  /TreatmentTypes:
+    get:
+      description: list TreatmentType entities
+      operationId: list-TreatmentType
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.TreatmentType'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List TreatmentType entities
+    post:
+      consumes:
+      - application/json
+      description: Create TreatmentType
+      operationId: create-TreatmentType
+      parameters:
+      - description: TreatmentType entity
+        in: body
+        name: TreatmentType
+        required: true
+        schema:
+          $ref: '#/definitions/ent.TreatmentType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.TreatmentType'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create TreatmentType
+  /TreatmentTypes/{id}:
+    delete:
+      description: get TreatmentType by ID
+      operationId: delete-TreatmentType
+      parameters:
+      - description: TreatmentType ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a TreatmentType entity by ID
+    get:
+      description: get TreatmentType by ID
+      operationId: get-TreatmentType
+      parameters:
+      - description: TreatmentType ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.TreatmentType'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a TreatmentType entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update TreatmentType by ID
+      operationId: update-TreatmentType
+      parameters:
+      - description: TreatmentType ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: TreatmentType entity
+        in: body
+        name: TreatmentType
+        required: true
+        schema:
+          $ref: '#/definitions/ent.TreatmentType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.TreatmentType'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a TreatmentType entity by ID
   /TriageResults:
     post:
       consumes:

@@ -103,7 +103,7 @@ type RightToTreatmentType struct {
 
 //RightToTreatments Struct
 type RightToTreatments struct {
-    RightToTreatment []RightToTreatments
+	RightToTreatment []RightToTreatments
 }
 
 // @title SUT SA Example API
@@ -181,7 +181,8 @@ func main() {
 	controllers.NewGenderController(v1, client)
 	controllers.NewBloodTypeController(v1, client)
 	controllers.NewPatientController(v1, client)
-
+	controllers.NewDiagnosisController(v1, client)
+	controllers.NewTreatmenttypeController(v1, client)
 
 	// Set Department Data
 	departments := []string{"Anesthetics", "Breast Screening", "Cardiology",
@@ -273,40 +274,40 @@ func main() {
 			SetRoomName(r.RoomName).
 			Save(context.Background())
 	}
-// Set Hospital Data
-hospitals := Hospitals{
-    Hospital: []Hospital{
-        Hospital{"Saint Louis Hospital"},
-        Hospital{"Mahaesak Hospital"},
-        Hospital{"Samitivej Hospital in Thonburi"},
-        Hospital{"Charoenkrung Pracharak Hospital"},
-        Hospital{"BNH Hospital"},
-        Hospital{"Suranaree University of Technology Hospital"},
-    },
-}
+	// Set Hospital Data
+	hospitals := Hospitals{
+		Hospital: []Hospital{
+			Hospital{"Saint Louis Hospital"},
+			Hospital{"Mahaesak Hospital"},
+			Hospital{"Samitivej Hospital in Thonburi"},
+			Hospital{"Charoenkrung Pracharak Hospital"},
+			Hospital{"BNH Hospital"},
+			Hospital{"Suranaree University of Technology Hospital"},
+		},
+	}
 
-for _, h := range hospitals.Hospital {
-    client.Hospital.
-        Create().
-        SetHospitalName(h.HospitalName).
-        Save(context.Background())
-}
+	for _, h := range hospitals.Hospital {
+		client.Hospital.
+			Create().
+			SetHospitalName(h.HospitalName).
+			Save(context.Background())
+	}
 
-// Set RightToTreatmentType Data
-righttotreatmenttypes := RightToTreatmentTypes{
-    RightToTreatmentType: []RightToTreatmentType{
-        RightToTreatmentType{"สิทธิสวัสดิการการรักษาพยาบาลของข้าราชการ"},
-        RightToTreatmentType{"สิทธิประกันสังคม"},
-        RightToTreatmentType{"สิทธิประกันสุขภาพถ้วนหน้า"},
-    },
-}
+	// Set RightToTreatmentType Data
+	righttotreatmenttypes := RightToTreatmentTypes{
+		RightToTreatmentType: []RightToTreatmentType{
+			RightToTreatmentType{"สิทธิสวัสดิการการรักษาพยาบาลของข้าราชการ"},
+			RightToTreatmentType{"สิทธิประกันสังคม"},
+			RightToTreatmentType{"สิทธิประกันสุขภาพถ้วนหน้า"},
+		},
+	}
 
-for _, t := range righttotreatmenttypes.RightToTreatmentType {
-    client.RightToTreatmentType.
-        Create().
-        SetTypeName(t.RightToTreatmentTypeName).
-        Save(context.Background())
-}
+	for _, t := range righttotreatmenttypes.RightToTreatmentType {
+		client.RightToTreatmentType.
+			Create().
+			SetTypeName(t.RightToTreatmentTypeName).
+			Save(context.Background())
+	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.Run()
