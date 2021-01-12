@@ -1,31 +1,5 @@
 basePath: /api/v1
 definitions:
-  controllers.Medicalprocedure:
-    properties:
-      addedtime:
-        type: string
-      doctors:
-        type: integer
-      patients:
-        type: integer
-      proceduretypes:
-        type: integer
-    type: object
-  controllers.TriageResult:
-    properties:
-      department:
-        type: integer
-      nurse:
-        type: integer
-      patient:
-        type: integer
-      symptom:
-        type: string
-      triageDate:
-        type: string
-      urgencyLevel:
-        type: integer
-    type: object
   ent.AppointmentResults:
     properties:
       addtimeAppoint:
@@ -1848,7 +1822,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/controllers.Medicalprocedure'
+              $ref: '#/definitions/ent.MedicalProcedure'
             type: array
         "400":
           description: Bad Request
@@ -1870,14 +1844,14 @@ paths:
         name: medicalprocedure
         required: true
         schema:
-          $ref: '#/definitions/controllers.Medicalprocedure'
+          $ref: '#/definitions/ent.MedicalProcedure'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.Medicalprocedure'
+            $ref: '#/definitions/ent.MedicalProcedure'
         "400":
           description: Bad Request
           schema:
@@ -3145,7 +3119,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/controllers.TriageResult'
+              $ref: '#/definitions/ent.TriageResult'
             type: array
         "400":
           description: Bad Request
@@ -3167,14 +3141,14 @@ paths:
         name: TriageResult
         required: true
         schema:
-          $ref: '#/definitions/controllers.TriageResult'
+          $ref: '#/definitions/ent.TriageResult'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.TriageResult'
+            $ref: '#/definitions/ent.TriageResult'
         "400":
           description: Bad Request
           schema:
@@ -3229,7 +3203,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.TriageResult'
+            $ref: '#/definitions/ent.TriageResult'
         "400":
           description: Bad Request
           schema:
@@ -3259,14 +3233,14 @@ paths:
         name: triageresult
         required: true
         schema:
-          $ref: '#/definitions/controllers.TriageResult'
+          $ref: '#/definitions/ent.TriageResult'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.TriageResult'
+            $ref: '#/definitions/ent.TriageResult'
         "400":
           description: Bad Request
           schema:

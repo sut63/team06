@@ -38,8 +38,8 @@ type TriageResult struct {
 // @ID create-TriageResult
 // @Accept   json
 // @Produce  json
-// @Param TriageResult body TriageResult true "TriageResult entity"
-// @Success 200 {object} TriageResult
+// @Param TriageResult body ent.TriageResult true "TriageResult entity"
+// @Success 200 {object} ent.TriageResult
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /triageresults [post]
@@ -131,7 +131,7 @@ func (ctl *TriageResultController) CreateTriageResult(c *gin.Context) {
 // @ID get-triageresult
 // @Produce  json
 // @Param id path int true "TriageResult ID"
-// @Success 200 {object} TriageResult
+// @Success 200 {object} ent.TriageResult
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -168,7 +168,7 @@ func (ctl *TriageResultController) GetTriageResult(c *gin.Context) {
 // @Produce json
 // @Param limit  query int false "Limit"
 // @Param offset query int false "Offset"
-// @Success 200 {array} TriageResult
+// @Success 200 {array} ent.TriageResult
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /triageresults [get]
@@ -192,7 +192,11 @@ func (ctl *TriageResultController) ListTriageResult(c *gin.Context) {
 	}
 
 	triageresults, err := ctl.client.TriageResult.
-		Query().
+		Query(). 
+		WithDepartment(). 
+		WithNurse().
+		WithPatient().
+		WithUrgencyLevel().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())
@@ -244,8 +248,8 @@ func (ctl *TriageResultController) DeleteTriageResult(c *gin.Context) {
 // @Accept   json
 // @Produce  json
 // @Param id path int true "TriageResult ID"
-// @Param triageresult body TriageResult true "TriageResult entity"
-// @Success 200 {object} TriageResult
+// @Param triageresult body ent.TriageResult true "TriageResult entity"
+// @Success 200 {object} ent.TriageResult
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /triageresults/{id} [put]
