@@ -98,7 +98,10 @@ func (ctl *MedicalprocedureController) CreateMedicalprocedure(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, medicalprocedure)
+	c.JSON(200, gin.H{
+		"status": true,
+		"data":   medicalprocedure,
+	})
 }
 
 // ListMedicalprocedure handles request to get a list of medicalprocedure entities
