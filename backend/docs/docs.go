@@ -1869,7 +1869,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/controllers.Medicalprocedure"
+                                "$ref": "#/definitions/ent.MedicalProcedure"
                             }
                         }
                     },
@@ -1904,7 +1904,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.Medicalprocedure"
+                            "$ref": "#/definitions/ent.MedicalProcedure"
                         }
                     }
                 ],
@@ -1912,7 +1912,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.Medicalprocedure"
+                            "$ref": "#/definitions/ent.MedicalProcedure"
                         }
                     },
                     "400": {
@@ -3811,7 +3811,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/controllers.TriageResult"
+                                "$ref": "#/definitions/ent.TriageResult"
                             }
                         }
                     },
@@ -3846,7 +3846,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.TriageResult"
+                            "$ref": "#/definitions/ent.TriageResult"
                         }
                     }
                 ],
@@ -3854,7 +3854,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.TriageResult"
+                            "$ref": "#/definitions/ent.TriageResult"
                         }
                     },
                     "400": {
@@ -3893,7 +3893,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.TriageResult"
+                            "$ref": "#/definitions/ent.TriageResult"
                         }
                     },
                     "400": {
@@ -3940,7 +3940,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.TriageResult"
+                            "$ref": "#/definitions/ent.TriageResult"
                         }
                     }
                 ],
@@ -3948,7 +3948,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.TriageResult"
+                            "$ref": "#/definitions/ent.TriageResult"
                         }
                     },
                     "400": {
@@ -4237,46 +4237,6 @@ var doc = `{
         }
     },
     "definitions": {
-        "controllers.Medicalprocedure": {
-            "type": "object",
-            "properties": {
-                "addedtime": {
-                    "type": "string"
-                },
-                "doctors": {
-                    "type": "integer"
-                },
-                "patients": {
-                    "type": "integer"
-                },
-                "proceduretypes": {
-                    "type": "integer"
-                }
-            }
-        },
-        "controllers.TriageResult": {
-            "type": "object",
-            "properties": {
-                "department": {
-                    "type": "integer"
-                },
-                "nurse": {
-                    "type": "integer"
-                },
-                "patient": {
-                    "type": "integer"
-                },
-                "symptom": {
-                    "type": "string"
-                },
-                "triageDate": {
-                    "type": "string"
-                },
-                "urgencyLevel": {
-                    "type": "integer"
-                }
-            }
-        },
         "ent.AppointmentResults": {
             "type": "object",
             "properties": {
