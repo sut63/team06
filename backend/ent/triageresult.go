@@ -26,82 +26,82 @@ type TriageResult struct {
 	TriageDate time.Time `json:"triageDate,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the TriageResultQuery when eager-loading is set.
-	Edges                                        TriageResultEdges `json:"edges"`
-	department_department_to_triage_result       *int
-	nurse_nurse_to_triage_result                 *int
-	patient_patient_to_triage_result             *int
-	urgency_level_urgency_level_to_triage_result *int
+	Edges                       TriageResultEdges `json:"edges"`
+	department_triage_result    *int
+	nurse_triage_result         *int
+	patient_triage_result       *int
+	urgency_level_triage_result *int
 }
 
 // TriageResultEdges holds the relations/edges for other nodes in the graph.
 type TriageResultEdges struct {
-	// TriageResultToUrgencyLevel holds the value of the triageResultToUrgencyLevel edge.
-	TriageResultToUrgencyLevel *UrgencyLevel
-	// TriageResultToDepartment holds the value of the triageResultToDepartment edge.
-	TriageResultToDepartment *Department
-	// TriageResultToNurse holds the value of the triageResultToNurse edge.
-	TriageResultToNurse *Nurse
-	// TriageResultToPatient holds the value of the triageResultToPatient edge.
-	TriageResultToPatient *Patient
+	// UrgencyLevel holds the value of the urgencyLevel edge.
+	UrgencyLevel *UrgencyLevel
+	// Department holds the value of the department edge.
+	Department *Department
+	// Nurse holds the value of the nurse edge.
+	Nurse *Nurse
+	// Patient holds the value of the patient edge.
+	Patient *Patient
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [4]bool
 }
 
-// TriageResultToUrgencyLevelOrErr returns the TriageResultToUrgencyLevel value or an error if the edge
+// UrgencyLevelOrErr returns the UrgencyLevel value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e TriageResultEdges) TriageResultToUrgencyLevelOrErr() (*UrgencyLevel, error) {
+func (e TriageResultEdges) UrgencyLevelOrErr() (*UrgencyLevel, error) {
 	if e.loadedTypes[0] {
-		if e.TriageResultToUrgencyLevel == nil {
-			// The edge triageResultToUrgencyLevel was loaded in eager-loading,
+		if e.UrgencyLevel == nil {
+			// The edge urgencyLevel was loaded in eager-loading,
 			// but was not found.
 			return nil, &NotFoundError{label: urgencylevel.Label}
 		}
-		return e.TriageResultToUrgencyLevel, nil
+		return e.UrgencyLevel, nil
 	}
-	return nil, &NotLoadedError{edge: "triageResultToUrgencyLevel"}
+	return nil, &NotLoadedError{edge: "urgencyLevel"}
 }
 
-// TriageResultToDepartmentOrErr returns the TriageResultToDepartment value or an error if the edge
+// DepartmentOrErr returns the Department value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e TriageResultEdges) TriageResultToDepartmentOrErr() (*Department, error) {
+func (e TriageResultEdges) DepartmentOrErr() (*Department, error) {
 	if e.loadedTypes[1] {
-		if e.TriageResultToDepartment == nil {
-			// The edge triageResultToDepartment was loaded in eager-loading,
+		if e.Department == nil {
+			// The edge department was loaded in eager-loading,
 			// but was not found.
 			return nil, &NotFoundError{label: department.Label}
 		}
-		return e.TriageResultToDepartment, nil
+		return e.Department, nil
 	}
-	return nil, &NotLoadedError{edge: "triageResultToDepartment"}
+	return nil, &NotLoadedError{edge: "department"}
 }
 
-// TriageResultToNurseOrErr returns the TriageResultToNurse value or an error if the edge
+// NurseOrErr returns the Nurse value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e TriageResultEdges) TriageResultToNurseOrErr() (*Nurse, error) {
+func (e TriageResultEdges) NurseOrErr() (*Nurse, error) {
 	if e.loadedTypes[2] {
-		if e.TriageResultToNurse == nil {
-			// The edge triageResultToNurse was loaded in eager-loading,
+		if e.Nurse == nil {
+			// The edge nurse was loaded in eager-loading,
 			// but was not found.
 			return nil, &NotFoundError{label: nurse.Label}
 		}
-		return e.TriageResultToNurse, nil
+		return e.Nurse, nil
 	}
-	return nil, &NotLoadedError{edge: "triageResultToNurse"}
+	return nil, &NotLoadedError{edge: "nurse"}
 }
 
-// TriageResultToPatientOrErr returns the TriageResultToPatient value or an error if the edge
+// PatientOrErr returns the Patient value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e TriageResultEdges) TriageResultToPatientOrErr() (*Patient, error) {
+func (e TriageResultEdges) PatientOrErr() (*Patient, error) {
 	if e.loadedTypes[3] {
-		if e.TriageResultToPatient == nil {
-			// The edge triageResultToPatient was loaded in eager-loading,
+		if e.Patient == nil {
+			// The edge patient was loaded in eager-loading,
 			// but was not found.
 			return nil, &NotFoundError{label: patient.Label}
 		}
-		return e.TriageResultToPatient, nil
+		return e.Patient, nil
 	}
-	return nil, &NotLoadedError{edge: "triageResultToPatient"}
+	return nil, &NotLoadedError{edge: "patient"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -115,13 +115,13 @@ func (*TriageResult) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = &sql.NullString{}
 		case triageresult.FieldTriageDate:
 			values[i] = &sql.NullTime{}
-		case triageresult.ForeignKeys[0]: // department_department_to_triage_result
+		case triageresult.ForeignKeys[0]: // department_triage_result
 			values[i] = &sql.NullInt64{}
-		case triageresult.ForeignKeys[1]: // nurse_nurse_to_triage_result
+		case triageresult.ForeignKeys[1]: // nurse_triage_result
 			values[i] = &sql.NullInt64{}
-		case triageresult.ForeignKeys[2]: // patient_patient_to_triage_result
+		case triageresult.ForeignKeys[2]: // patient_triage_result
 			values[i] = &sql.NullInt64{}
-		case triageresult.ForeignKeys[3]: // urgency_level_urgency_level_to_triage_result
+		case triageresult.ForeignKeys[3]: // urgency_level_triage_result
 			values[i] = &sql.NullInt64{}
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type TriageResult", columns[i])
@@ -158,55 +158,55 @@ func (tr *TriageResult) assignValues(columns []string, values []interface{}) err
 			}
 		case triageresult.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field department_department_to_triage_result", value)
+				return fmt.Errorf("unexpected type %T for edge-field department_triage_result", value)
 			} else if value.Valid {
-				tr.department_department_to_triage_result = new(int)
-				*tr.department_department_to_triage_result = int(value.Int64)
+				tr.department_triage_result = new(int)
+				*tr.department_triage_result = int(value.Int64)
 			}
 		case triageresult.ForeignKeys[1]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field nurse_nurse_to_triage_result", value)
+				return fmt.Errorf("unexpected type %T for edge-field nurse_triage_result", value)
 			} else if value.Valid {
-				tr.nurse_nurse_to_triage_result = new(int)
-				*tr.nurse_nurse_to_triage_result = int(value.Int64)
+				tr.nurse_triage_result = new(int)
+				*tr.nurse_triage_result = int(value.Int64)
 			}
 		case triageresult.ForeignKeys[2]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field patient_patient_to_triage_result", value)
+				return fmt.Errorf("unexpected type %T for edge-field patient_triage_result", value)
 			} else if value.Valid {
-				tr.patient_patient_to_triage_result = new(int)
-				*tr.patient_patient_to_triage_result = int(value.Int64)
+				tr.patient_triage_result = new(int)
+				*tr.patient_triage_result = int(value.Int64)
 			}
 		case triageresult.ForeignKeys[3]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field urgency_level_urgency_level_to_triage_result", value)
+				return fmt.Errorf("unexpected type %T for edge-field urgency_level_triage_result", value)
 			} else if value.Valid {
-				tr.urgency_level_urgency_level_to_triage_result = new(int)
-				*tr.urgency_level_urgency_level_to_triage_result = int(value.Int64)
+				tr.urgency_level_triage_result = new(int)
+				*tr.urgency_level_triage_result = int(value.Int64)
 			}
 		}
 	}
 	return nil
 }
 
-// QueryTriageResultToUrgencyLevel queries the "triageResultToUrgencyLevel" edge of the TriageResult entity.
-func (tr *TriageResult) QueryTriageResultToUrgencyLevel() *UrgencyLevelQuery {
-	return (&TriageResultClient{config: tr.config}).QueryTriageResultToUrgencyLevel(tr)
+// QueryUrgencyLevel queries the "urgencyLevel" edge of the TriageResult entity.
+func (tr *TriageResult) QueryUrgencyLevel() *UrgencyLevelQuery {
+	return (&TriageResultClient{config: tr.config}).QueryUrgencyLevel(tr)
 }
 
-// QueryTriageResultToDepartment queries the "triageResultToDepartment" edge of the TriageResult entity.
-func (tr *TriageResult) QueryTriageResultToDepartment() *DepartmentQuery {
-	return (&TriageResultClient{config: tr.config}).QueryTriageResultToDepartment(tr)
+// QueryDepartment queries the "department" edge of the TriageResult entity.
+func (tr *TriageResult) QueryDepartment() *DepartmentQuery {
+	return (&TriageResultClient{config: tr.config}).QueryDepartment(tr)
 }
 
-// QueryTriageResultToNurse queries the "triageResultToNurse" edge of the TriageResult entity.
-func (tr *TriageResult) QueryTriageResultToNurse() *NurseQuery {
-	return (&TriageResultClient{config: tr.config}).QueryTriageResultToNurse(tr)
+// QueryNurse queries the "nurse" edge of the TriageResult entity.
+func (tr *TriageResult) QueryNurse() *NurseQuery {
+	return (&TriageResultClient{config: tr.config}).QueryNurse(tr)
 }
 
-// QueryTriageResultToPatient queries the "triageResultToPatient" edge of the TriageResult entity.
-func (tr *TriageResult) QueryTriageResultToPatient() *PatientQuery {
-	return (&TriageResultClient{config: tr.config}).QueryTriageResultToPatient(tr)
+// QueryPatient queries the "patient" edge of the TriageResult entity.
+func (tr *TriageResult) QueryPatient() *PatientQuery {
+	return (&TriageResultClient{config: tr.config}).QueryPatient(tr)
 }
 
 // Update returns a builder for updating this TriageResult.

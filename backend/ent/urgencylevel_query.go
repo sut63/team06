@@ -26,7 +26,7 @@ type UrgencyLevelQuery struct {
 	fields     []string
 	predicates []predicate.UrgencyLevel
 	// eager-loading edges.
-	withUrgencyLevelToTriageResult *TriageResultQuery
+	withTriageResult *TriageResultQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -56,8 +56,8 @@ func (ulq *UrgencyLevelQuery) Order(o ...OrderFunc) *UrgencyLevelQuery {
 	return ulq
 }
 
-// QueryUrgencyLevelToTriageResult chains the current query on the "urgencyLevelToTriageResult" edge.
-func (ulq *UrgencyLevelQuery) QueryUrgencyLevelToTriageResult() *TriageResultQuery {
+// QueryTriageResult chains the current query on the "triageResult" edge.
+func (ulq *UrgencyLevelQuery) QueryTriageResult() *TriageResultQuery {
 	query := &TriageResultQuery{config: ulq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := ulq.prepareQuery(ctx); err != nil {
@@ -70,7 +70,7 @@ func (ulq *UrgencyLevelQuery) QueryUrgencyLevelToTriageResult() *TriageResultQue
 		step := sqlgraph.NewStep(
 			sqlgraph.From(urgencylevel.Table, urgencylevel.FieldID, selector),
 			sqlgraph.To(triageresult.Table, triageresult.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, urgencylevel.UrgencyLevelToTriageResultTable, urgencylevel.UrgencyLevelToTriageResultColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, urgencylevel.TriageResultTable, urgencylevel.TriageResultColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(ulq.driver.Dialect(), step)
 		return fromU, nil
@@ -254,26 +254,26 @@ func (ulq *UrgencyLevelQuery) Clone() *UrgencyLevelQuery {
 		return nil
 	}
 	return &UrgencyLevelQuery{
-		config:                         ulq.config,
-		limit:                          ulq.limit,
-		offset:                         ulq.offset,
-		order:                          append([]OrderFunc{}, ulq.order...),
-		predicates:                     append([]predicate.UrgencyLevel{}, ulq.predicates...),
-		withUrgencyLevelToTriageResult: ulq.withUrgencyLevelToTriageResult.Clone(),
+		config:           ulq.config,
+		limit:            ulq.limit,
+		offset:           ulq.offset,
+		order:            append([]OrderFunc{}, ulq.order...),
+		predicates:       append([]predicate.UrgencyLevel{}, ulq.predicates...),
+		withTriageResult: ulq.withTriageResult.Clone(),
 		// clone intermediate query.
 		sql:  ulq.sql.Clone(),
 		path: ulq.path,
 	}
 }
 
-// WithUrgencyLevelToTriageResult tells the query-builder to eager-load the nodes that are connected to
-// the "urgencyLevelToTriageResult" edge. The optional arguments are used to configure the query builder of the edge.
-func (ulq *UrgencyLevelQuery) WithUrgencyLevelToTriageResult(opts ...func(*TriageResultQuery)) *UrgencyLevelQuery {
+// WithTriageResult tells the query-builder to eager-load the nodes that are connected to
+// the "triageResult" edge. The optional arguments are used to configure the query builder of the edge.
+func (ulq *UrgencyLevelQuery) WithTriageResult(opts ...func(*TriageResultQuery)) *UrgencyLevelQuery {
 	query := &TriageResultQuery{config: ulq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	ulq.withUrgencyLevelToTriageResult = query
+	ulq.withTriageResult = query
 	return ulq
 }
 
@@ -343,7 +343,7 @@ func (ulq *UrgencyLevelQuery) sqlAll(ctx context.Context) ([]*UrgencyLevel, erro
 		nodes       = []*UrgencyLevel{}
 		_spec       = ulq.querySpec()
 		loadedTypes = [1]bool{
-			ulq.withUrgencyLevelToTriageResult != nil,
+			ulq.withTriageResult != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]interface{}, error) {
@@ -366,32 +366,32 @@ func (ulq *UrgencyLevelQuery) sqlAll(ctx context.Context) ([]*UrgencyLevel, erro
 		return nodes, nil
 	}
 
-	if query := ulq.withUrgencyLevelToTriageResult; query != nil {
+	if query := ulq.withTriageResult; query != nil {
 		fks := make([]driver.Value, 0, len(nodes))
 		nodeids := make(map[int]*UrgencyLevel)
 		for i := range nodes {
 			fks = append(fks, nodes[i].ID)
 			nodeids[nodes[i].ID] = nodes[i]
-			nodes[i].Edges.UrgencyLevelToTriageResult = []*TriageResult{}
+			nodes[i].Edges.TriageResult = []*TriageResult{}
 		}
 		query.withFKs = true
 		query.Where(predicate.TriageResult(func(s *sql.Selector) {
-			s.Where(sql.InValues(urgencylevel.UrgencyLevelToTriageResultColumn, fks...))
+			s.Where(sql.InValues(urgencylevel.TriageResultColumn, fks...))
 		}))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
 		}
 		for _, n := range neighbors {
-			fk := n.urgency_level_urgency_level_to_triage_result
+			fk := n.urgency_level_triage_result
 			if fk == nil {
-				return nil, fmt.Errorf(`foreign-key "urgency_level_urgency_level_to_triage_result" is nil for node %v`, n.ID)
+				return nil, fmt.Errorf(`foreign-key "urgency_level_triage_result" is nil for node %v`, n.ID)
 			}
 			node, ok := nodeids[*fk]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "urgency_level_urgency_level_to_triage_result" returned %v for node %v`, *fk, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "urgency_level_triage_result" returned %v for node %v`, *fk, n.ID)
 			}
-			node.Edges.UrgencyLevelToTriageResult = append(node.Edges.UrgencyLevelToTriageResult, n)
+			node.Edges.TriageResult = append(node.Edges.TriageResult, n)
 		}
 	}
 

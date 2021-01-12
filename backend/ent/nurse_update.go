@@ -46,19 +46,19 @@ func (nu *NurseUpdate) SetNursePassword(s string) *NurseUpdate {
 	return nu
 }
 
-// AddNurseToTriageResultIDs adds the "nurseToTriageResult" edge to the TriageResult entity by IDs.
-func (nu *NurseUpdate) AddNurseToTriageResultIDs(ids ...int) *NurseUpdate {
-	nu.mutation.AddNurseToTriageResultIDs(ids...)
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
+func (nu *NurseUpdate) AddTriageResultIDs(ids ...int) *NurseUpdate {
+	nu.mutation.AddTriageResultIDs(ids...)
 	return nu
 }
 
-// AddNurseToTriageResult adds the "nurseToTriageResult" edges to the TriageResult entity.
-func (nu *NurseUpdate) AddNurseToTriageResult(t ...*TriageResult) *NurseUpdate {
+// AddTriageResult adds the "triageResult" edges to the TriageResult entity.
+func (nu *NurseUpdate) AddTriageResult(t ...*TriageResult) *NurseUpdate {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return nu.AddNurseToTriageResultIDs(ids...)
+	return nu.AddTriageResultIDs(ids...)
 }
 
 // AddNurseToAppointmentResultIDs adds the "NurseToAppointmentResults" edge to the AppointmentResults entity by IDs.
@@ -81,25 +81,25 @@ func (nu *NurseUpdate) Mutation() *NurseMutation {
 	return nu.mutation
 }
 
-// ClearNurseToTriageResult clears all "nurseToTriageResult" edges to the TriageResult entity.
-func (nu *NurseUpdate) ClearNurseToTriageResult() *NurseUpdate {
-	nu.mutation.ClearNurseToTriageResult()
+// ClearTriageResult clears all "triageResult" edges to the TriageResult entity.
+func (nu *NurseUpdate) ClearTriageResult() *NurseUpdate {
+	nu.mutation.ClearTriageResult()
 	return nu
 }
 
-// RemoveNurseToTriageResultIDs removes the "nurseToTriageResult" edge to TriageResult entities by IDs.
-func (nu *NurseUpdate) RemoveNurseToTriageResultIDs(ids ...int) *NurseUpdate {
-	nu.mutation.RemoveNurseToTriageResultIDs(ids...)
+// RemoveTriageResultIDs removes the "triageResult" edge to TriageResult entities by IDs.
+func (nu *NurseUpdate) RemoveTriageResultIDs(ids ...int) *NurseUpdate {
+	nu.mutation.RemoveTriageResultIDs(ids...)
 	return nu
 }
 
-// RemoveNurseToTriageResult removes "nurseToTriageResult" edges to TriageResult entities.
-func (nu *NurseUpdate) RemoveNurseToTriageResult(t ...*TriageResult) *NurseUpdate {
+// RemoveTriageResult removes "triageResult" edges to TriageResult entities.
+func (nu *NurseUpdate) RemoveTriageResult(t ...*TriageResult) *NurseUpdate {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return nu.RemoveNurseToTriageResultIDs(ids...)
+	return nu.RemoveTriageResultIDs(ids...)
 }
 
 // ClearNurseToAppointmentResults clears all "NurseToAppointmentResults" edges to the AppointmentResults entity.
@@ -239,12 +239,12 @@ func (nu *NurseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: nurse.FieldNursePassword,
 		})
 	}
-	if nu.mutation.NurseToTriageResultCleared() {
+	if nu.mutation.TriageResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   nurse.NurseToTriageResultTable,
-			Columns: []string{nurse.NurseToTriageResultColumn},
+			Table:   nurse.TriageResultTable,
+			Columns: []string{nurse.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -255,12 +255,12 @@ func (nu *NurseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := nu.mutation.RemovedNurseToTriageResultIDs(); len(nodes) > 0 && !nu.mutation.NurseToTriageResultCleared() {
+	if nodes := nu.mutation.RemovedTriageResultIDs(); len(nodes) > 0 && !nu.mutation.TriageResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   nurse.NurseToTriageResultTable,
-			Columns: []string{nurse.NurseToTriageResultColumn},
+			Table:   nurse.TriageResultTable,
+			Columns: []string{nurse.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -274,12 +274,12 @@ func (nu *NurseUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := nu.mutation.NurseToTriageResultIDs(); len(nodes) > 0 {
+	if nodes := nu.mutation.TriageResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   nurse.NurseToTriageResultTable,
-			Columns: []string{nurse.NurseToTriageResultColumn},
+			Table:   nurse.TriageResultTable,
+			Columns: []string{nurse.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -383,19 +383,19 @@ func (nuo *NurseUpdateOne) SetNursePassword(s string) *NurseUpdateOne {
 	return nuo
 }
 
-// AddNurseToTriageResultIDs adds the "nurseToTriageResult" edge to the TriageResult entity by IDs.
-func (nuo *NurseUpdateOne) AddNurseToTriageResultIDs(ids ...int) *NurseUpdateOne {
-	nuo.mutation.AddNurseToTriageResultIDs(ids...)
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
+func (nuo *NurseUpdateOne) AddTriageResultIDs(ids ...int) *NurseUpdateOne {
+	nuo.mutation.AddTriageResultIDs(ids...)
 	return nuo
 }
 
-// AddNurseToTriageResult adds the "nurseToTriageResult" edges to the TriageResult entity.
-func (nuo *NurseUpdateOne) AddNurseToTriageResult(t ...*TriageResult) *NurseUpdateOne {
+// AddTriageResult adds the "triageResult" edges to the TriageResult entity.
+func (nuo *NurseUpdateOne) AddTriageResult(t ...*TriageResult) *NurseUpdateOne {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return nuo.AddNurseToTriageResultIDs(ids...)
+	return nuo.AddTriageResultIDs(ids...)
 }
 
 // AddNurseToAppointmentResultIDs adds the "NurseToAppointmentResults" edge to the AppointmentResults entity by IDs.
@@ -418,25 +418,25 @@ func (nuo *NurseUpdateOne) Mutation() *NurseMutation {
 	return nuo.mutation
 }
 
-// ClearNurseToTriageResult clears all "nurseToTriageResult" edges to the TriageResult entity.
-func (nuo *NurseUpdateOne) ClearNurseToTriageResult() *NurseUpdateOne {
-	nuo.mutation.ClearNurseToTriageResult()
+// ClearTriageResult clears all "triageResult" edges to the TriageResult entity.
+func (nuo *NurseUpdateOne) ClearTriageResult() *NurseUpdateOne {
+	nuo.mutation.ClearTriageResult()
 	return nuo
 }
 
-// RemoveNurseToTriageResultIDs removes the "nurseToTriageResult" edge to TriageResult entities by IDs.
-func (nuo *NurseUpdateOne) RemoveNurseToTriageResultIDs(ids ...int) *NurseUpdateOne {
-	nuo.mutation.RemoveNurseToTriageResultIDs(ids...)
+// RemoveTriageResultIDs removes the "triageResult" edge to TriageResult entities by IDs.
+func (nuo *NurseUpdateOne) RemoveTriageResultIDs(ids ...int) *NurseUpdateOne {
+	nuo.mutation.RemoveTriageResultIDs(ids...)
 	return nuo
 }
 
-// RemoveNurseToTriageResult removes "nurseToTriageResult" edges to TriageResult entities.
-func (nuo *NurseUpdateOne) RemoveNurseToTriageResult(t ...*TriageResult) *NurseUpdateOne {
+// RemoveTriageResult removes "triageResult" edges to TriageResult entities.
+func (nuo *NurseUpdateOne) RemoveTriageResult(t ...*TriageResult) *NurseUpdateOne {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return nuo.RemoveNurseToTriageResultIDs(ids...)
+	return nuo.RemoveTriageResultIDs(ids...)
 }
 
 // ClearNurseToAppointmentResults clears all "NurseToAppointmentResults" edges to the AppointmentResults entity.
@@ -574,12 +574,12 @@ func (nuo *NurseUpdateOne) sqlSave(ctx context.Context) (_node *Nurse, err error
 			Column: nurse.FieldNursePassword,
 		})
 	}
-	if nuo.mutation.NurseToTriageResultCleared() {
+	if nuo.mutation.TriageResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   nurse.NurseToTriageResultTable,
-			Columns: []string{nurse.NurseToTriageResultColumn},
+			Table:   nurse.TriageResultTable,
+			Columns: []string{nurse.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -590,12 +590,12 @@ func (nuo *NurseUpdateOne) sqlSave(ctx context.Context) (_node *Nurse, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := nuo.mutation.RemovedNurseToTriageResultIDs(); len(nodes) > 0 && !nuo.mutation.NurseToTriageResultCleared() {
+	if nodes := nuo.mutation.RemovedTriageResultIDs(); len(nodes) > 0 && !nuo.mutation.TriageResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   nurse.NurseToTriageResultTable,
-			Columns: []string{nurse.NurseToTriageResultColumn},
+			Table:   nurse.TriageResultTable,
+			Columns: []string{nurse.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -609,12 +609,12 @@ func (nuo *NurseUpdateOne) sqlSave(ctx context.Context) (_node *Nurse, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := nuo.mutation.NurseToTriageResultIDs(); len(nodes) > 0 {
+	if nodes := nuo.mutation.TriageResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   nurse.NurseToTriageResultTable,
-			Columns: []string{nurse.NurseToTriageResultColumn},
+			Table:   nurse.TriageResultTable,
+			Columns: []string{nurse.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

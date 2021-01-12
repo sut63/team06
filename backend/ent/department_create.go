@@ -26,19 +26,19 @@ func (dc *DepartmentCreate) SetDepartmentName(s string) *DepartmentCreate {
 	return dc
 }
 
-// AddDepartmentToTriageResultIDs adds the "departmentToTriageResult" edge to the TriageResult entity by IDs.
-func (dc *DepartmentCreate) AddDepartmentToTriageResultIDs(ids ...int) *DepartmentCreate {
-	dc.mutation.AddDepartmentToTriageResultIDs(ids...)
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
+func (dc *DepartmentCreate) AddTriageResultIDs(ids ...int) *DepartmentCreate {
+	dc.mutation.AddTriageResultIDs(ids...)
 	return dc
 }
 
-// AddDepartmentToTriageResult adds the "departmentToTriageResult" edges to the TriageResult entity.
-func (dc *DepartmentCreate) AddDepartmentToTriageResult(t ...*TriageResult) *DepartmentCreate {
+// AddTriageResult adds the "triageResult" edges to the TriageResult entity.
+func (dc *DepartmentCreate) AddTriageResult(t ...*TriageResult) *DepartmentCreate {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return dc.AddDepartmentToTriageResultIDs(ids...)
+	return dc.AddTriageResultIDs(ids...)
 }
 
 // Mutation returns the DepartmentMutation object of the builder.
@@ -135,12 +135,12 @@ func (dc *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 		})
 		_node.DepartmentName = value
 	}
-	if nodes := dc.mutation.DepartmentToTriageResultIDs(); len(nodes) > 0 {
+	if nodes := dc.mutation.TriageResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   department.DepartmentToTriageResultTable,
-			Columns: []string{department.DepartmentToTriageResultColumn},
+			Table:   department.TriageResultTable,
+			Columns: []string{department.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

@@ -14,20 +14,20 @@ const (
 	// FieldNursePassword holds the string denoting the nursepassword field in the database.
 	FieldNursePassword = "nurse_password"
 
-	// EdgeNurseToTriageResult holds the string denoting the nursetotriageresult edge name in mutations.
-	EdgeNurseToTriageResult = "nurseToTriageResult"
+	// EdgeTriageResult holds the string denoting the triageresult edge name in mutations.
+	EdgeTriageResult = "triageResult"
 	// EdgeNurseToAppointmentResults holds the string denoting the nursetoappointmentresults edge name in mutations.
 	EdgeNurseToAppointmentResults = "NurseToAppointmentResults"
 
 	// Table holds the table name of the nurse in the database.
 	Table = "nurses"
-	// NurseToTriageResultTable is the table the holds the nurseToTriageResult relation/edge.
-	NurseToTriageResultTable = "triage_results"
-	// NurseToTriageResultInverseTable is the table name for the TriageResult entity.
+	// TriageResultTable is the table the holds the triageResult relation/edge.
+	TriageResultTable = "triage_results"
+	// TriageResultInverseTable is the table name for the TriageResult entity.
 	// It exists in this package in order to avoid circular dependency with the "triageresult" package.
-	NurseToTriageResultInverseTable = "triage_results"
-	// NurseToTriageResultColumn is the table column denoting the nurseToTriageResult relation/edge.
-	NurseToTriageResultColumn = "nurse_nurse_to_triage_result"
+	TriageResultInverseTable = "triage_results"
+	// TriageResultColumn is the table column denoting the triageResult relation/edge.
+	TriageResultColumn = "nurse_triage_result"
 	// NurseToAppointmentResultsTable is the table the holds the NurseToAppointmentResults relation/edge.
 	NurseToAppointmentResultsTable = "appointment_results"
 	// NurseToAppointmentResultsInverseTable is the table name for the AppointmentResults entity.

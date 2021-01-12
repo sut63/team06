@@ -16,45 +16,45 @@ const (
 	// FieldTriageDate holds the string denoting the triagedate field in the database.
 	FieldTriageDate = "triage_date"
 
-	// EdgeTriageResultToUrgencyLevel holds the string denoting the triageresulttourgencylevel edge name in mutations.
-	EdgeTriageResultToUrgencyLevel = "triageResultToUrgencyLevel"
-	// EdgeTriageResultToDepartment holds the string denoting the triageresulttodepartment edge name in mutations.
-	EdgeTriageResultToDepartment = "triageResultToDepartment"
-	// EdgeTriageResultToNurse holds the string denoting the triageresulttonurse edge name in mutations.
-	EdgeTriageResultToNurse = "triageResultToNurse"
-	// EdgeTriageResultToPatient holds the string denoting the triageresulttopatient edge name in mutations.
-	EdgeTriageResultToPatient = "triageResultToPatient"
+	// EdgeUrgencyLevel holds the string denoting the urgencylevel edge name in mutations.
+	EdgeUrgencyLevel = "urgencyLevel"
+	// EdgeDepartment holds the string denoting the department edge name in mutations.
+	EdgeDepartment = "department"
+	// EdgeNurse holds the string denoting the nurse edge name in mutations.
+	EdgeNurse = "nurse"
+	// EdgePatient holds the string denoting the patient edge name in mutations.
+	EdgePatient = "patient"
 
 	// Table holds the table name of the triageresult in the database.
 	Table = "triage_results"
-	// TriageResultToUrgencyLevelTable is the table the holds the triageResultToUrgencyLevel relation/edge.
-	TriageResultToUrgencyLevelTable = "triage_results"
-	// TriageResultToUrgencyLevelInverseTable is the table name for the UrgencyLevel entity.
+	// UrgencyLevelTable is the table the holds the urgencyLevel relation/edge.
+	UrgencyLevelTable = "triage_results"
+	// UrgencyLevelInverseTable is the table name for the UrgencyLevel entity.
 	// It exists in this package in order to avoid circular dependency with the "urgencylevel" package.
-	TriageResultToUrgencyLevelInverseTable = "urgency_levels"
-	// TriageResultToUrgencyLevelColumn is the table column denoting the triageResultToUrgencyLevel relation/edge.
-	TriageResultToUrgencyLevelColumn = "urgency_level_urgency_level_to_triage_result"
-	// TriageResultToDepartmentTable is the table the holds the triageResultToDepartment relation/edge.
-	TriageResultToDepartmentTable = "triage_results"
-	// TriageResultToDepartmentInverseTable is the table name for the Department entity.
+	UrgencyLevelInverseTable = "urgency_levels"
+	// UrgencyLevelColumn is the table column denoting the urgencyLevel relation/edge.
+	UrgencyLevelColumn = "urgency_level_triage_result"
+	// DepartmentTable is the table the holds the department relation/edge.
+	DepartmentTable = "triage_results"
+	// DepartmentInverseTable is the table name for the Department entity.
 	// It exists in this package in order to avoid circular dependency with the "department" package.
-	TriageResultToDepartmentInverseTable = "departments"
-	// TriageResultToDepartmentColumn is the table column denoting the triageResultToDepartment relation/edge.
-	TriageResultToDepartmentColumn = "department_department_to_triage_result"
-	// TriageResultToNurseTable is the table the holds the triageResultToNurse relation/edge.
-	TriageResultToNurseTable = "triage_results"
-	// TriageResultToNurseInverseTable is the table name for the Nurse entity.
+	DepartmentInverseTable = "departments"
+	// DepartmentColumn is the table column denoting the department relation/edge.
+	DepartmentColumn = "department_triage_result"
+	// NurseTable is the table the holds the nurse relation/edge.
+	NurseTable = "triage_results"
+	// NurseInverseTable is the table name for the Nurse entity.
 	// It exists in this package in order to avoid circular dependency with the "nurse" package.
-	TriageResultToNurseInverseTable = "nurses"
-	// TriageResultToNurseColumn is the table column denoting the triageResultToNurse relation/edge.
-	TriageResultToNurseColumn = "nurse_nurse_to_triage_result"
-	// TriageResultToPatientTable is the table the holds the triageResultToPatient relation/edge.
-	TriageResultToPatientTable = "triage_results"
-	// TriageResultToPatientInverseTable is the table name for the Patient entity.
+	NurseInverseTable = "nurses"
+	// NurseColumn is the table column denoting the nurse relation/edge.
+	NurseColumn = "nurse_triage_result"
+	// PatientTable is the table the holds the patient relation/edge.
+	PatientTable = "triage_results"
+	// PatientInverseTable is the table name for the Patient entity.
 	// It exists in this package in order to avoid circular dependency with the "patient" package.
-	TriageResultToPatientInverseTable = "patients"
-	// TriageResultToPatientColumn is the table column denoting the triageResultToPatient relation/edge.
-	TriageResultToPatientColumn = "patient_patient_to_triage_result"
+	PatientInverseTable = "patients"
+	// PatientColumn is the table column denoting the patient relation/edge.
+	PatientColumn = "patient_triage_result"
 )
 
 // Columns holds all SQL columns for triageresult fields.
@@ -66,10 +66,10 @@ var Columns = []string{
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the TriageResult type.
 var ForeignKeys = []string{
-	"department_department_to_triage_result",
-	"nurse_nurse_to_triage_result",
-	"patient_patient_to_triage_result",
-	"urgency_level_urgency_level_to_triage_result",
+	"department_triage_result",
+	"nurse_triage_result",
+	"patient_triage_result",
+	"urgency_level_triage_result",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).

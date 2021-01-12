@@ -36,7 +36,7 @@ type PatientQuery struct {
 	withPrefix                      *PrefixQuery
 	withGender                      *GenderQuery
 	withBloodtype                   *BloodTypeQuery
-	withPatientToTriageResult       *TriageResultQuery
+	withTriageResult                *TriageResultQuery
 	withPatientToAppointmentResults *AppointmentResultsQuery
 	withPatientToMedicalProcedure   *MedicalProcedureQuery
 	withPatientToRightToTreatment   *RightToTreatmentQuery
@@ -137,8 +137,8 @@ func (pq *PatientQuery) QueryBloodtype() *BloodTypeQuery {
 	return query
 }
 
-// QueryPatientToTriageResult chains the current query on the "patientToTriageResult" edge.
-func (pq *PatientQuery) QueryPatientToTriageResult() *TriageResultQuery {
+// QueryTriageResult chains the current query on the "triageResult" edge.
+func (pq *PatientQuery) QueryTriageResult() *TriageResultQuery {
 	query := &TriageResultQuery{config: pq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := pq.prepareQuery(ctx); err != nil {
@@ -151,7 +151,7 @@ func (pq *PatientQuery) QueryPatientToTriageResult() *TriageResultQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(patient.Table, patient.FieldID, selector),
 			sqlgraph.To(triageresult.Table, triageresult.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, patient.PatientToTriageResultTable, patient.PatientToTriageResultColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, patient.TriageResultTable, patient.TriageResultColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
 		return fromU, nil
@@ -431,7 +431,7 @@ func (pq *PatientQuery) Clone() *PatientQuery {
 		withPrefix:                      pq.withPrefix.Clone(),
 		withGender:                      pq.withGender.Clone(),
 		withBloodtype:                   pq.withBloodtype.Clone(),
-		withPatientToTriageResult:       pq.withPatientToTriageResult.Clone(),
+		withTriageResult:                pq.withTriageResult.Clone(),
 		withPatientToAppointmentResults: pq.withPatientToAppointmentResults.Clone(),
 		withPatientToMedicalProcedure:   pq.withPatientToMedicalProcedure.Clone(),
 		withPatientToRightToTreatment:   pq.withPatientToRightToTreatment.Clone(),
@@ -475,14 +475,14 @@ func (pq *PatientQuery) WithBloodtype(opts ...func(*BloodTypeQuery)) *PatientQue
 	return pq
 }
 
-// WithPatientToTriageResult tells the query-builder to eager-load the nodes that are connected to
-// the "patientToTriageResult" edge. The optional arguments are used to configure the query builder of the edge.
-func (pq *PatientQuery) WithPatientToTriageResult(opts ...func(*TriageResultQuery)) *PatientQuery {
+// WithTriageResult tells the query-builder to eager-load the nodes that are connected to
+// the "triageResult" edge. The optional arguments are used to configure the query builder of the edge.
+func (pq *PatientQuery) WithTriageResult(opts ...func(*TriageResultQuery)) *PatientQuery {
 	query := &TriageResultQuery{config: pq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	pq.withPatientToTriageResult = query
+	pq.withTriageResult = query
 	return pq
 }
 
@@ -600,7 +600,7 @@ func (pq *PatientQuery) sqlAll(ctx context.Context) ([]*Patient, error) {
 			pq.withPrefix != nil,
 			pq.withGender != nil,
 			pq.withBloodtype != nil,
-			pq.withPatientToTriageResult != nil,
+			pq.withTriageResult != nil,
 			pq.withPatientToAppointmentResults != nil,
 			pq.withPatientToMedicalProcedure != nil,
 			pq.withPatientToRightToTreatment != nil,
@@ -708,32 +708,32 @@ func (pq *PatientQuery) sqlAll(ctx context.Context) ([]*Patient, error) {
 		}
 	}
 
-	if query := pq.withPatientToTriageResult; query != nil {
+	if query := pq.withTriageResult; query != nil {
 		fks := make([]driver.Value, 0, len(nodes))
 		nodeids := make(map[int]*Patient)
 		for i := range nodes {
 			fks = append(fks, nodes[i].ID)
 			nodeids[nodes[i].ID] = nodes[i]
-			nodes[i].Edges.PatientToTriageResult = []*TriageResult{}
+			nodes[i].Edges.TriageResult = []*TriageResult{}
 		}
 		query.withFKs = true
 		query.Where(predicate.TriageResult(func(s *sql.Selector) {
-			s.Where(sql.InValues(patient.PatientToTriageResultColumn, fks...))
+			s.Where(sql.InValues(patient.TriageResultColumn, fks...))
 		}))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
 		}
 		for _, n := range neighbors {
-			fk := n.patient_patient_to_triage_result
+			fk := n.patient_triage_result
 			if fk == nil {
-				return nil, fmt.Errorf(`foreign-key "patient_patient_to_triage_result" is nil for node %v`, n.ID)
+				return nil, fmt.Errorf(`foreign-key "patient_triage_result" is nil for node %v`, n.ID)
 			}
 			node, ok := nodeids[*fk]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "patient_patient_to_triage_result" returned %v for node %v`, *fk, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "patient_triage_result" returned %v for node %v`, *fk, n.ID)
 			}
-			node.Edges.PatientToTriageResult = append(node.Edges.PatientToTriageResult, n)
+			node.Edges.TriageResult = append(node.Edges.TriageResult, n)
 		}
 	}
 

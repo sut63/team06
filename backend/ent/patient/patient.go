@@ -26,8 +26,8 @@ const (
 	EdgeGender = "Gender"
 	// EdgeBloodtype holds the string denoting the bloodtype edge name in mutations.
 	EdgeBloodtype = "Bloodtype"
-	// EdgePatientToTriageResult holds the string denoting the patienttotriageresult edge name in mutations.
-	EdgePatientToTriageResult = "patientToTriageResult"
+	// EdgeTriageResult holds the string denoting the triageresult edge name in mutations.
+	EdgeTriageResult = "triageResult"
 	// EdgePatientToAppointmentResults holds the string denoting the patienttoappointmentresults edge name in mutations.
 	EdgePatientToAppointmentResults = "PatientToAppointmentResults"
 	// EdgePatientToMedicalProcedure holds the string denoting the patienttomedicalprocedure edge name in mutations.
@@ -60,13 +60,13 @@ const (
 	BloodtypeInverseTable = "blood_types"
 	// BloodtypeColumn is the table column denoting the Bloodtype relation/edge.
 	BloodtypeColumn = "blood_type_blood_type_to_patient"
-	// PatientToTriageResultTable is the table the holds the patientToTriageResult relation/edge.
-	PatientToTriageResultTable = "triage_results"
-	// PatientToTriageResultInverseTable is the table name for the TriageResult entity.
+	// TriageResultTable is the table the holds the triageResult relation/edge.
+	TriageResultTable = "triage_results"
+	// TriageResultInverseTable is the table name for the TriageResult entity.
 	// It exists in this package in order to avoid circular dependency with the "triageresult" package.
-	PatientToTriageResultInverseTable = "triage_results"
-	// PatientToTriageResultColumn is the table column denoting the patientToTriageResult relation/edge.
-	PatientToTriageResultColumn = "patient_patient_to_triage_result"
+	TriageResultInverseTable = "triage_results"
+	// TriageResultColumn is the table column denoting the triageResult relation/edge.
+	TriageResultColumn = "patient_triage_result"
 	// PatientToAppointmentResultsTable is the table the holds the PatientToAppointmentResults relation/edge.
 	PatientToAppointmentResultsTable = "appointment_results"
 	// PatientToAppointmentResultsInverseTable is the table name for the AppointmentResults entity.

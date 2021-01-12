@@ -33,19 +33,19 @@ func (du *DepartmentUpdate) SetDepartmentName(s string) *DepartmentUpdate {
 	return du
 }
 
-// AddDepartmentToTriageResultIDs adds the "departmentToTriageResult" edge to the TriageResult entity by IDs.
-func (du *DepartmentUpdate) AddDepartmentToTriageResultIDs(ids ...int) *DepartmentUpdate {
-	du.mutation.AddDepartmentToTriageResultIDs(ids...)
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
+func (du *DepartmentUpdate) AddTriageResultIDs(ids ...int) *DepartmentUpdate {
+	du.mutation.AddTriageResultIDs(ids...)
 	return du
 }
 
-// AddDepartmentToTriageResult adds the "departmentToTriageResult" edges to the TriageResult entity.
-func (du *DepartmentUpdate) AddDepartmentToTriageResult(t ...*TriageResult) *DepartmentUpdate {
+// AddTriageResult adds the "triageResult" edges to the TriageResult entity.
+func (du *DepartmentUpdate) AddTriageResult(t ...*TriageResult) *DepartmentUpdate {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return du.AddDepartmentToTriageResultIDs(ids...)
+	return du.AddTriageResultIDs(ids...)
 }
 
 // Mutation returns the DepartmentMutation object of the builder.
@@ -53,25 +53,25 @@ func (du *DepartmentUpdate) Mutation() *DepartmentMutation {
 	return du.mutation
 }
 
-// ClearDepartmentToTriageResult clears all "departmentToTriageResult" edges to the TriageResult entity.
-func (du *DepartmentUpdate) ClearDepartmentToTriageResult() *DepartmentUpdate {
-	du.mutation.ClearDepartmentToTriageResult()
+// ClearTriageResult clears all "triageResult" edges to the TriageResult entity.
+func (du *DepartmentUpdate) ClearTriageResult() *DepartmentUpdate {
+	du.mutation.ClearTriageResult()
 	return du
 }
 
-// RemoveDepartmentToTriageResultIDs removes the "departmentToTriageResult" edge to TriageResult entities by IDs.
-func (du *DepartmentUpdate) RemoveDepartmentToTriageResultIDs(ids ...int) *DepartmentUpdate {
-	du.mutation.RemoveDepartmentToTriageResultIDs(ids...)
+// RemoveTriageResultIDs removes the "triageResult" edge to TriageResult entities by IDs.
+func (du *DepartmentUpdate) RemoveTriageResultIDs(ids ...int) *DepartmentUpdate {
+	du.mutation.RemoveTriageResultIDs(ids...)
 	return du
 }
 
-// RemoveDepartmentToTriageResult removes "departmentToTriageResult" edges to TriageResult entities.
-func (du *DepartmentUpdate) RemoveDepartmentToTriageResult(t ...*TriageResult) *DepartmentUpdate {
+// RemoveTriageResult removes "triageResult" edges to TriageResult entities.
+func (du *DepartmentUpdate) RemoveTriageResult(t ...*TriageResult) *DepartmentUpdate {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return du.RemoveDepartmentToTriageResultIDs(ids...)
+	return du.RemoveTriageResultIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -166,12 +166,12 @@ func (du *DepartmentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: department.FieldDepartmentName,
 		})
 	}
-	if du.mutation.DepartmentToTriageResultCleared() {
+	if du.mutation.TriageResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   department.DepartmentToTriageResultTable,
-			Columns: []string{department.DepartmentToTriageResultColumn},
+			Table:   department.TriageResultTable,
+			Columns: []string{department.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -182,12 +182,12 @@ func (du *DepartmentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := du.mutation.RemovedDepartmentToTriageResultIDs(); len(nodes) > 0 && !du.mutation.DepartmentToTriageResultCleared() {
+	if nodes := du.mutation.RemovedTriageResultIDs(); len(nodes) > 0 && !du.mutation.TriageResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   department.DepartmentToTriageResultTable,
-			Columns: []string{department.DepartmentToTriageResultColumn},
+			Table:   department.TriageResultTable,
+			Columns: []string{department.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -201,12 +201,12 @@ func (du *DepartmentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := du.mutation.DepartmentToTriageResultIDs(); len(nodes) > 0 {
+	if nodes := du.mutation.TriageResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   department.DepartmentToTriageResultTable,
-			Columns: []string{department.DepartmentToTriageResultColumn},
+			Table:   department.TriageResultTable,
+			Columns: []string{department.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -244,19 +244,19 @@ func (duo *DepartmentUpdateOne) SetDepartmentName(s string) *DepartmentUpdateOne
 	return duo
 }
 
-// AddDepartmentToTriageResultIDs adds the "departmentToTriageResult" edge to the TriageResult entity by IDs.
-func (duo *DepartmentUpdateOne) AddDepartmentToTriageResultIDs(ids ...int) *DepartmentUpdateOne {
-	duo.mutation.AddDepartmentToTriageResultIDs(ids...)
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
+func (duo *DepartmentUpdateOne) AddTriageResultIDs(ids ...int) *DepartmentUpdateOne {
+	duo.mutation.AddTriageResultIDs(ids...)
 	return duo
 }
 
-// AddDepartmentToTriageResult adds the "departmentToTriageResult" edges to the TriageResult entity.
-func (duo *DepartmentUpdateOne) AddDepartmentToTriageResult(t ...*TriageResult) *DepartmentUpdateOne {
+// AddTriageResult adds the "triageResult" edges to the TriageResult entity.
+func (duo *DepartmentUpdateOne) AddTriageResult(t ...*TriageResult) *DepartmentUpdateOne {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return duo.AddDepartmentToTriageResultIDs(ids...)
+	return duo.AddTriageResultIDs(ids...)
 }
 
 // Mutation returns the DepartmentMutation object of the builder.
@@ -264,25 +264,25 @@ func (duo *DepartmentUpdateOne) Mutation() *DepartmentMutation {
 	return duo.mutation
 }
 
-// ClearDepartmentToTriageResult clears all "departmentToTriageResult" edges to the TriageResult entity.
-func (duo *DepartmentUpdateOne) ClearDepartmentToTriageResult() *DepartmentUpdateOne {
-	duo.mutation.ClearDepartmentToTriageResult()
+// ClearTriageResult clears all "triageResult" edges to the TriageResult entity.
+func (duo *DepartmentUpdateOne) ClearTriageResult() *DepartmentUpdateOne {
+	duo.mutation.ClearTriageResult()
 	return duo
 }
 
-// RemoveDepartmentToTriageResultIDs removes the "departmentToTriageResult" edge to TriageResult entities by IDs.
-func (duo *DepartmentUpdateOne) RemoveDepartmentToTriageResultIDs(ids ...int) *DepartmentUpdateOne {
-	duo.mutation.RemoveDepartmentToTriageResultIDs(ids...)
+// RemoveTriageResultIDs removes the "triageResult" edge to TriageResult entities by IDs.
+func (duo *DepartmentUpdateOne) RemoveTriageResultIDs(ids ...int) *DepartmentUpdateOne {
+	duo.mutation.RemoveTriageResultIDs(ids...)
 	return duo
 }
 
-// RemoveDepartmentToTriageResult removes "departmentToTriageResult" edges to TriageResult entities.
-func (duo *DepartmentUpdateOne) RemoveDepartmentToTriageResult(t ...*TriageResult) *DepartmentUpdateOne {
+// RemoveTriageResult removes "triageResult" edges to TriageResult entities.
+func (duo *DepartmentUpdateOne) RemoveTriageResult(t ...*TriageResult) *DepartmentUpdateOne {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return duo.RemoveDepartmentToTriageResultIDs(ids...)
+	return duo.RemoveTriageResultIDs(ids...)
 }
 
 // Save executes the query and returns the updated Department entity.
@@ -375,12 +375,12 @@ func (duo *DepartmentUpdateOne) sqlSave(ctx context.Context) (_node *Department,
 			Column: department.FieldDepartmentName,
 		})
 	}
-	if duo.mutation.DepartmentToTriageResultCleared() {
+	if duo.mutation.TriageResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   department.DepartmentToTriageResultTable,
-			Columns: []string{department.DepartmentToTriageResultColumn},
+			Table:   department.TriageResultTable,
+			Columns: []string{department.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -391,12 +391,12 @@ func (duo *DepartmentUpdateOne) sqlSave(ctx context.Context) (_node *Department,
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := duo.mutation.RemovedDepartmentToTriageResultIDs(); len(nodes) > 0 && !duo.mutation.DepartmentToTriageResultCleared() {
+	if nodes := duo.mutation.RemovedTriageResultIDs(); len(nodes) > 0 && !duo.mutation.TriageResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   department.DepartmentToTriageResultTable,
-			Columns: []string{department.DepartmentToTriageResultColumn},
+			Table:   department.TriageResultTable,
+			Columns: []string{department.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -410,12 +410,12 @@ func (duo *DepartmentUpdateOne) sqlSave(ctx context.Context) (_node *Department,
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := duo.mutation.DepartmentToTriageResultIDs(); len(nodes) > 0 {
+	if nodes := duo.mutation.TriageResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   department.DepartmentToTriageResultTable,
-			Columns: []string{department.DepartmentToTriageResultColumn},
+			Table:   department.TriageResultTable,
+			Columns: []string{department.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

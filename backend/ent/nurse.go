@@ -28,8 +28,8 @@ type Nurse struct {
 
 // NurseEdges holds the relations/edges for other nodes in the graph.
 type NurseEdges struct {
-	// NurseToTriageResult holds the value of the nurseToTriageResult edge.
-	NurseToTriageResult []*TriageResult
+	// TriageResult holds the value of the triageResult edge.
+	TriageResult []*TriageResult
 	// NurseToAppointmentResults holds the value of the NurseToAppointmentResults edge.
 	NurseToAppointmentResults []*AppointmentResults
 	// loadedTypes holds the information for reporting if a
@@ -37,13 +37,13 @@ type NurseEdges struct {
 	loadedTypes [2]bool
 }
 
-// NurseToTriageResultOrErr returns the NurseToTriageResult value or an error if the edge
+// TriageResultOrErr returns the TriageResult value or an error if the edge
 // was not loaded in eager-loading.
-func (e NurseEdges) NurseToTriageResultOrErr() ([]*TriageResult, error) {
+func (e NurseEdges) TriageResultOrErr() ([]*TriageResult, error) {
 	if e.loadedTypes[0] {
-		return e.NurseToTriageResult, nil
+		return e.TriageResult, nil
 	}
-	return nil, &NotLoadedError{edge: "nurseToTriageResult"}
+	return nil, &NotLoadedError{edge: "triageResult"}
 }
 
 // NurseToAppointmentResultsOrErr returns the NurseToAppointmentResults value or an error if the edge
@@ -108,9 +108,9 @@ func (n *Nurse) assignValues(columns []string, values []interface{}) error {
 	return nil
 }
 
-// QueryNurseToTriageResult queries the "nurseToTriageResult" edge of the Nurse entity.
-func (n *Nurse) QueryNurseToTriageResult() *TriageResultQuery {
-	return (&NurseClient{config: n.config}).QueryNurseToTriageResult(n)
+// QueryTriageResult queries the "triageResult" edge of the Nurse entity.
+func (n *Nurse) QueryTriageResult() *TriageResultQuery {
+	return (&NurseClient{config: n.config}).QueryTriageResult(n)
 }
 
 // QueryNurseToAppointmentResults queries the "NurseToAppointmentResults" edge of the Nurse entity.

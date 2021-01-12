@@ -209,25 +209,25 @@ func UrgencyNameContainsFold(v string) predicate.UrgencyLevel {
 	})
 }
 
-// HasUrgencyLevelToTriageResult applies the HasEdge predicate on the "urgencyLevelToTriageResult" edge.
-func HasUrgencyLevelToTriageResult() predicate.UrgencyLevel {
+// HasTriageResult applies the HasEdge predicate on the "triageResult" edge.
+func HasTriageResult() predicate.UrgencyLevel {
 	return predicate.UrgencyLevel(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(UrgencyLevelToTriageResultTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, UrgencyLevelToTriageResultTable, UrgencyLevelToTriageResultColumn),
+			sqlgraph.To(TriageResultTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, TriageResultTable, TriageResultColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasUrgencyLevelToTriageResultWith applies the HasEdge predicate on the "urgencyLevelToTriageResult" edge with a given conditions (other predicates).
-func HasUrgencyLevelToTriageResultWith(preds ...predicate.TriageResult) predicate.UrgencyLevel {
+// HasTriageResultWith applies the HasEdge predicate on the "triageResult" edge with a given conditions (other predicates).
+func HasTriageResultWith(preds ...predicate.TriageResult) predicate.UrgencyLevel {
 	return predicate.UrgencyLevel(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(UrgencyLevelToTriageResultInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, UrgencyLevelToTriageResultTable, UrgencyLevelToTriageResultColumn),
+			sqlgraph.To(TriageResultInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, TriageResultTable, TriageResultColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

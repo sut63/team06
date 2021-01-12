@@ -5,33 +5,32 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-	"github.com/team06/app/ent"
+
 	"github.com/gin-gonic/gin"
+	"github.com/team06/app/ent"
 
-	"github.com/team06/app/ent/triageresult"
 	"github.com/team06/app/ent/department"
-	"github.com/team06/app/ent/urgencylevel"
-	"github.com/team06/app/ent/patient"
 	"github.com/team06/app/ent/nurse"
- )
+	"github.com/team06/app/ent/patient"
+	"github.com/team06/app/ent/triageresult"
+	"github.com/team06/app/ent/urgencylevel"
+)
 
-
- // TriageResultController defines the struct for the deoartment controller
- type TriageResultController struct {
+// TriageResultController defines the struct for the deoartment controller
+type TriageResultController struct {
 	client *ent.Client
 	router gin.IRouter
- }
+}
 
 // TriageResult defines the struct for the TriageResult controller
 type TriageResult struct {
-	Symptom    string
-	TriageDate string
-	Patient    int
-	Nurse int
-	Department int
+	Symptom      string
+	TriageDate   string
+	Patient      int
+	Nurse        int
+	Department   int
 	UrgencyLevel int
 }
-
 
 // CreateTriageResult handles POST requests for adding TriageResult entities
 // @Summary Create TriageResult
@@ -39,11 +38,11 @@ type TriageResult struct {
 // @ID create-TriageResult
 // @Accept   json
 // @Produce  json
-// @Param TriageResult body ent.TriageResult true "TriageResult entity"
-// @Success 200 {object} ent.TriageResult
+// @Param TriageResult body TriageResult true "TriageResult entity"
+// @Success 200 {object} TriageResult
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /TriageResults [post]
+// @Router /triageresults [post]
 func (ctl *TriageResultController) CreateTriageResult(c *gin.Context) {
 	obj := TriageResult{}
 	if err := c.ShouldBind(&obj); err != nil {
@@ -107,10 +106,10 @@ func (ctl *TriageResultController) CreateTriageResult(c *gin.Context) {
 		Create().
 		SetSymptom(obj.Symptom).
 		SetTriageDate(triagedate).
-		SetTriageResultToDepartment(department).
-		SetTriageResultToNurse(nurse).
-		SetTriageResultToPatient(patient).
-		SetTriageResultToUrgencyLevel(urgencylevel).
+		SetDepartment(department).
+		SetNurse(nurse).
+		SetPatient(patient).
+		SetUrgencyLevel(urgencylevel).
 		Save(context.Background())
 
 	if err != nil {
@@ -124,8 +123,7 @@ func (ctl *TriageResultController) CreateTriageResult(c *gin.Context) {
 		"status": true,
 		"data":   triageresults,
 	})
- }
-
+}
 
 // GetTriageResult handles GET requests to retrieve a triageresult entity
 // @Summary Get a triageresult entity by ID
@@ -133,7 +131,7 @@ func (ctl *TriageResultController) CreateTriageResult(c *gin.Context) {
 // @ID get-triageresult
 // @Produce  json
 // @Param id path int true "TriageResult ID"
-// @Success 200 {object} ent.TriageResult
+// @Success 200 {object} TriageResult
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -147,22 +145,21 @@ func (ctl *TriageResultController) GetTriageResult(c *gin.Context) {
 		})
 		return
 	}
- 
+
 	triageresults, err := ctl.client.TriageResult.
 		Query().
 		Where(triageresult.IDEQ(int(id))).
 		Only(context.Background())
 
-	if err != nil { 
+	if err != nil {
 		c.JSON(404, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
- 
-	c.JSON(200, triageresults)
- }
 
+	c.JSON(200, triageresults)
+}
 
 // ListTriageResult handles request to get a list of triageresult entities
 // @Summary List triageresult entities
@@ -171,7 +168,7 @@ func (ctl *TriageResultController) GetTriageResult(c *gin.Context) {
 // @Produce json
 // @Param limit  query int false "Limit"
 // @Param offset query int false "Offset"
-// @Success 200 {array} ent.TriageResult
+// @Success 200 {array} TriageResult
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /triageresults [get]
@@ -180,29 +177,32 @@ func (ctl *TriageResultController) ListTriageResult(c *gin.Context) {
 	limit := 10
 	if limitQuery != "" {
 		limit64, err := strconv.ParseInt(limitQuery, 10, 64)
-		if err == nil {limit = int(limit64)}
+		if err == nil {
+			limit = int(limit64)
+		}
 	}
- 
+
 	offsetQuery := c.Query("offset")
 	offset := 0
 	if offsetQuery != "" {
 		offset64, err := strconv.ParseInt(offsetQuery, 10, 64)
-		if err == nil {offset = int(offset64)}
+		if err == nil {
+			offset = int(offset64)
+		}
 	}
- 
+
 	triageresults, err := ctl.client.TriageResult.
 		Query().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())
-			if err != nil {
-		c.JSON(400, gin.H{"error": err.Error(),})
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
- 
-	c.JSON(200, triageresults)
- }
 
+	c.JSON(200, triageresults)
+}
 
 // DeleteTriageResult handles DELETE requests to delete a triageresult entity
 // @Summary Delete a triageresult entity by ID
@@ -223,7 +223,7 @@ func (ctl *TriageResultController) DeleteTriageResult(c *gin.Context) {
 		})
 		return
 	}
- 
+
 	err = ctl.client.TriageResult.
 		DeleteOneID(int(id)).
 		Exec(context.Background())
@@ -233,10 +233,9 @@ func (ctl *TriageResultController) DeleteTriageResult(c *gin.Context) {
 		})
 		return
 	}
- 
-	c.JSON(200, gin.H{"result": fmt.Sprintf("ok deleted %v", id)})
- }
 
+	c.JSON(200, gin.H{"result": fmt.Sprintf("ok deleted %v", id)})
+}
 
 // UpdateTriageResult handles PUT requests to update a triageresult entity
 // @Summary Update a triageresult entity by ID
@@ -245,8 +244,8 @@ func (ctl *TriageResultController) DeleteTriageResult(c *gin.Context) {
 // @Accept   json
 // @Produce  json
 // @Param id path int true "TriageResult ID"
-// @Param triageresult body ent.TriageResult true "TriageResult entity"
-// @Success 200 {object} ent.TriageResult
+// @Param triageresult body TriageResult true "TriageResult entity"
+// @Success 200 {object} TriageResult
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /triageresults/{id} [put]
@@ -258,7 +257,7 @@ func (ctl *TriageResultController) UpdateTriageResult(c *gin.Context) {
 		})
 		return
 	}
- 
+
 	obj := ent.TriageResult{}
 	if err := c.ShouldBind(&obj); err != nil {
 		c.JSON(400, gin.H{
@@ -267,20 +266,18 @@ func (ctl *TriageResultController) UpdateTriageResult(c *gin.Context) {
 		return
 	}
 
-	obj.ID = int(id) 
+	obj.ID = int(id)
 	triageresults, err := ctl.client.TriageResult.
 		UpdateOne(&obj).
 		Save(context.Background())
 
-	if err != nil { 
-		c.JSON(400, gin.H{"error": "update failed",})
+	if err != nil {
+		c.JSON(400, gin.H{"error": "update failed"})
 		return
 	}
- 
+
 	c.JSON(200, triageresults)
- }
-
-
+}
 
 // NewTriageResultController creates and registers handles for the triageresult controller
 func NewTriageResultController(router gin.IRouter, client *ent.Client) *TriageResultController {
@@ -291,16 +288,16 @@ func NewTriageResultController(router gin.IRouter, client *ent.Client) *TriageRe
 
 	triageresultcontroller.register()
 	return triageresultcontroller
- }
- 
-// InitTriageResultController registers routes to the main engine 
+}
+
+// InitTriageResultController registers routes to the main engine
 func (ctl *TriageResultController) register() {
 	triageresults := ctl.router.Group("/triageresults")
 	triageresults.GET("", ctl.ListTriageResult)
- 
+
 	// CRUD
 	triageresults.POST("", ctl.CreateTriageResult)
 	triageresults.GET(":id", ctl.GetTriageResult)
 	triageresults.PUT(":id", ctl.UpdateTriageResult)
 	triageresults.DELETE(":id", ctl.DeleteTriageResult)
- }
+}

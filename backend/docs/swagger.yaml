@@ -11,6 +11,21 @@ definitions:
       proceduretypes:
         type: integer
     type: object
+  controllers.TriageResult:
+    properties:
+      department:
+        type: integer
+      nurse:
+        type: integer
+      patient:
+        type: integer
+      symptom:
+        type: string
+      triageDate:
+        type: string
+      urgencyLevel:
+        type: integer
+    type: object
   ent.AppointmentResults:
     properties:
       addtimeAppoint:
@@ -93,9 +108,8 @@ definitions:
     type: object
   ent.DepartmentEdges:
     properties:
-      departmentToTriageResult:
-        description: DepartmentToTriageResult holds the value of the departmentToTriageResult
-          edge.
+      triageResult:
+        description: TriageResult holds the value of the triageResult edge.
         items:
           $ref: '#/definitions/ent.TriageResult'
         type: array
@@ -297,9 +311,8 @@ definitions:
         items:
           $ref: '#/definitions/ent.AppointmentResults'
         type: array
-      nurseToTriageResult:
-        description: NurseToTriageResult holds the value of the nurseToTriageResult
-          edge.
+      triageResult:
+        description: TriageResult holds the value of the triageResult edge.
         items:
           $ref: '#/definitions/ent.TriageResult'
         type: array
@@ -368,16 +381,15 @@ definitions:
         items:
           $ref: '#/definitions/ent.RightToTreatment'
         type: array
-      patientToTriageResult:
-        description: PatientToTriageResult holds the value of the patientToTriageResult
-          edge.
-        items:
-          $ref: '#/definitions/ent.TriageResult'
-        type: array
       prefix:
         $ref: '#/definitions/ent.Prefix'
         description: Prefix holds the value of the Prefix edge.
         type: object
+      triageResult:
+        description: TriageResult holds the value of the triageResult edge.
+        items:
+          $ref: '#/definitions/ent.TriageResult'
+        type: array
     type: object
   ent.Prefix:
     properties:
@@ -551,25 +563,21 @@ definitions:
     type: object
   ent.TriageResultEdges:
     properties:
-      triageResultToDepartment:
+      department:
         $ref: '#/definitions/ent.Department'
-        description: TriageResultToDepartment holds the value of the triageResultToDepartment
-          edge.
+        description: Department holds the value of the department edge.
         type: object
-      triageResultToNurse:
+      nurse:
         $ref: '#/definitions/ent.Nurse'
-        description: TriageResultToNurse holds the value of the triageResultToNurse
-          edge.
+        description: Nurse holds the value of the nurse edge.
         type: object
-      triageResultToPatient:
+      patient:
         $ref: '#/definitions/ent.Patient'
-        description: TriageResultToPatient holds the value of the triageResultToPatient
-          edge.
+        description: Patient holds the value of the patient edge.
         type: object
-      triageResultToUrgencyLevel:
+      urgencyLevel:
         $ref: '#/definitions/ent.UrgencyLevel'
-        description: TriageResultToUrgencyLevel holds the value of the triageResultToUrgencyLevel
-          edge.
+        description: UrgencyLevel holds the value of the urgencyLevel edge.
         type: object
     type: object
   ent.UrgencyLevel:
@@ -589,9 +597,8 @@ definitions:
     type: object
   ent.UrgencyLevelEdges:
     properties:
-      urgencyLevelToTriageResult:
-        description: UrgencyLevelToTriageResult holds the value of the urgencyLevelToTriageResult
-          edge.
+      triageResult:
+        description: TriageResult holds the value of the triageResult edge.
         items:
           $ref: '#/definitions/ent.TriageResult'
         type: array
@@ -915,35 +922,6 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a TreatmentType entity by ID
-  /TriageResults:
-    post:
-      consumes:
-      - application/json
-      description: Create TriageResult
-      operationId: create-TriageResult
-      parameters:
-      - description: TriageResult entity
-        in: body
-        name: TriageResult
-        required: true
-        schema:
-          $ref: '#/definitions/ent.TriageResult'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ent.TriageResult'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Create TriageResult
   /appointmentresultss:
     get:
       description: list appointmentresults entities
@@ -3167,7 +3145,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/ent.TriageResult'
+              $ref: '#/definitions/controllers.TriageResult'
             type: array
         "400":
           description: Bad Request
@@ -3178,6 +3156,34 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: List triageresult entities
+    post:
+      consumes:
+      - application/json
+      description: Create TriageResult
+      operationId: create-TriageResult
+      parameters:
+      - description: TriageResult entity
+        in: body
+        name: TriageResult
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.TriageResult'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.TriageResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create TriageResult
   /triageresults/{id}:
     delete:
       description: get triageresult by ID
@@ -3223,7 +3229,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.TriageResult'
+            $ref: '#/definitions/controllers.TriageResult'
         "400":
           description: Bad Request
           schema:
@@ -3253,14 +3259,14 @@ paths:
         name: triageresult
         required: true
         schema:
-          $ref: '#/definitions/ent.TriageResult'
+          $ref: '#/definitions/controllers.TriageResult'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.TriageResult'
+            $ref: '#/definitions/controllers.TriageResult'
         "400":
           description: Bad Request
           schema:

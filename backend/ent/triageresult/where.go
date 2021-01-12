@@ -294,25 +294,25 @@ func TriageDateLTE(v time.Time) predicate.TriageResult {
 	})
 }
 
-// HasTriageResultToUrgencyLevel applies the HasEdge predicate on the "triageResultToUrgencyLevel" edge.
-func HasTriageResultToUrgencyLevel() predicate.TriageResult {
+// HasUrgencyLevel applies the HasEdge predicate on the "urgencyLevel" edge.
+func HasUrgencyLevel() predicate.TriageResult {
 	return predicate.TriageResult(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(TriageResultToUrgencyLevelTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, TriageResultToUrgencyLevelTable, TriageResultToUrgencyLevelColumn),
+			sqlgraph.To(UrgencyLevelTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, UrgencyLevelTable, UrgencyLevelColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasTriageResultToUrgencyLevelWith applies the HasEdge predicate on the "triageResultToUrgencyLevel" edge with a given conditions (other predicates).
-func HasTriageResultToUrgencyLevelWith(preds ...predicate.UrgencyLevel) predicate.TriageResult {
+// HasUrgencyLevelWith applies the HasEdge predicate on the "urgencyLevel" edge with a given conditions (other predicates).
+func HasUrgencyLevelWith(preds ...predicate.UrgencyLevel) predicate.TriageResult {
 	return predicate.TriageResult(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(TriageResultToUrgencyLevelInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, TriageResultToUrgencyLevelTable, TriageResultToUrgencyLevelColumn),
+			sqlgraph.To(UrgencyLevelInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, UrgencyLevelTable, UrgencyLevelColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
@@ -322,25 +322,25 @@ func HasTriageResultToUrgencyLevelWith(preds ...predicate.UrgencyLevel) predicat
 	})
 }
 
-// HasTriageResultToDepartment applies the HasEdge predicate on the "triageResultToDepartment" edge.
-func HasTriageResultToDepartment() predicate.TriageResult {
+// HasDepartment applies the HasEdge predicate on the "department" edge.
+func HasDepartment() predicate.TriageResult {
 	return predicate.TriageResult(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(TriageResultToDepartmentTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, TriageResultToDepartmentTable, TriageResultToDepartmentColumn),
+			sqlgraph.To(DepartmentTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, DepartmentTable, DepartmentColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasTriageResultToDepartmentWith applies the HasEdge predicate on the "triageResultToDepartment" edge with a given conditions (other predicates).
-func HasTriageResultToDepartmentWith(preds ...predicate.Department) predicate.TriageResult {
+// HasDepartmentWith applies the HasEdge predicate on the "department" edge with a given conditions (other predicates).
+func HasDepartmentWith(preds ...predicate.Department) predicate.TriageResult {
 	return predicate.TriageResult(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(TriageResultToDepartmentInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, TriageResultToDepartmentTable, TriageResultToDepartmentColumn),
+			sqlgraph.To(DepartmentInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, DepartmentTable, DepartmentColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
@@ -350,25 +350,25 @@ func HasTriageResultToDepartmentWith(preds ...predicate.Department) predicate.Tr
 	})
 }
 
-// HasTriageResultToNurse applies the HasEdge predicate on the "triageResultToNurse" edge.
-func HasTriageResultToNurse() predicate.TriageResult {
+// HasNurse applies the HasEdge predicate on the "nurse" edge.
+func HasNurse() predicate.TriageResult {
 	return predicate.TriageResult(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(TriageResultToNurseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, TriageResultToNurseTable, TriageResultToNurseColumn),
+			sqlgraph.To(NurseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, NurseTable, NurseColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasTriageResultToNurseWith applies the HasEdge predicate on the "triageResultToNurse" edge with a given conditions (other predicates).
-func HasTriageResultToNurseWith(preds ...predicate.Nurse) predicate.TriageResult {
+// HasNurseWith applies the HasEdge predicate on the "nurse" edge with a given conditions (other predicates).
+func HasNurseWith(preds ...predicate.Nurse) predicate.TriageResult {
 	return predicate.TriageResult(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(TriageResultToNurseInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, TriageResultToNurseTable, TriageResultToNurseColumn),
+			sqlgraph.To(NurseInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, NurseTable, NurseColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
@@ -378,25 +378,25 @@ func HasTriageResultToNurseWith(preds ...predicate.Nurse) predicate.TriageResult
 	})
 }
 
-// HasTriageResultToPatient applies the HasEdge predicate on the "triageResultToPatient" edge.
-func HasTriageResultToPatient() predicate.TriageResult {
+// HasPatient applies the HasEdge predicate on the "patient" edge.
+func HasPatient() predicate.TriageResult {
 	return predicate.TriageResult(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(TriageResultToPatientTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, TriageResultToPatientTable, TriageResultToPatientColumn),
+			sqlgraph.To(PatientTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, PatientTable, PatientColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasTriageResultToPatientWith applies the HasEdge predicate on the "triageResultToPatient" edge with a given conditions (other predicates).
-func HasTriageResultToPatientWith(preds ...predicate.Patient) predicate.TriageResult {
+// HasPatientWith applies the HasEdge predicate on the "patient" edge with a given conditions (other predicates).
+func HasPatientWith(preds ...predicate.Patient) predicate.TriageResult {
 	return predicate.TriageResult(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(TriageResultToPatientInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, TriageResultToPatientTable, TriageResultToPatientColumn),
+			sqlgraph.To(PatientInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, PatientTable, PatientColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

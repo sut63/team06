@@ -780,25 +780,25 @@ func HasBloodtypeWith(preds ...predicate.BloodType) predicate.Patient {
 	})
 }
 
-// HasPatientToTriageResult applies the HasEdge predicate on the "patientToTriageResult" edge.
-func HasPatientToTriageResult() predicate.Patient {
+// HasTriageResult applies the HasEdge predicate on the "triageResult" edge.
+func HasTriageResult() predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(PatientToTriageResultTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, PatientToTriageResultTable, PatientToTriageResultColumn),
+			sqlgraph.To(TriageResultTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, TriageResultTable, TriageResultColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasPatientToTriageResultWith applies the HasEdge predicate on the "patientToTriageResult" edge with a given conditions (other predicates).
-func HasPatientToTriageResultWith(preds ...predicate.TriageResult) predicate.Patient {
+// HasTriageResultWith applies the HasEdge predicate on the "triageResult" edge with a given conditions (other predicates).
+func HasTriageResultWith(preds ...predicate.TriageResult) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(PatientToTriageResultInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, PatientToTriageResultTable, PatientToTriageResultColumn),
+			sqlgraph.To(TriageResultInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, TriageResultTable, TriageResultColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

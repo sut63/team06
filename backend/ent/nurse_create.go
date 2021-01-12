@@ -39,19 +39,19 @@ func (nc *NurseCreate) SetNursePassword(s string) *NurseCreate {
 	return nc
 }
 
-// AddNurseToTriageResultIDs adds the "nurseToTriageResult" edge to the TriageResult entity by IDs.
-func (nc *NurseCreate) AddNurseToTriageResultIDs(ids ...int) *NurseCreate {
-	nc.mutation.AddNurseToTriageResultIDs(ids...)
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
+func (nc *NurseCreate) AddTriageResultIDs(ids ...int) *NurseCreate {
+	nc.mutation.AddTriageResultIDs(ids...)
 	return nc
 }
 
-// AddNurseToTriageResult adds the "nurseToTriageResult" edges to the TriageResult entity.
-func (nc *NurseCreate) AddNurseToTriageResult(t ...*TriageResult) *NurseCreate {
+// AddTriageResult adds the "triageResult" edges to the TriageResult entity.
+func (nc *NurseCreate) AddTriageResult(t ...*TriageResult) *NurseCreate {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return nc.AddNurseToTriageResultIDs(ids...)
+	return nc.AddTriageResultIDs(ids...)
 }
 
 // AddNurseToAppointmentResultIDs adds the "NurseToAppointmentResults" edge to the AppointmentResults entity by IDs.
@@ -195,12 +195,12 @@ func (nc *NurseCreate) createSpec() (*Nurse, *sqlgraph.CreateSpec) {
 		})
 		_node.NursePassword = value
 	}
-	if nodes := nc.mutation.NurseToTriageResultIDs(); len(nodes) > 0 {
+	if nodes := nc.mutation.TriageResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   nurse.NurseToTriageResultTable,
-			Columns: []string{nurse.NurseToTriageResultColumn},
+			Table:   nurse.TriageResultTable,
+			Columns: []string{nurse.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

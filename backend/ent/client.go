@@ -582,15 +582,15 @@ func (c *DepartmentClient) GetX(ctx context.Context, id int) *Department {
 	return obj
 }
 
-// QueryDepartmentToTriageResult queries the departmentToTriageResult edge of a Department.
-func (c *DepartmentClient) QueryDepartmentToTriageResult(d *Department) *TriageResultQuery {
+// QueryTriageResult queries the triageResult edge of a Department.
+func (c *DepartmentClient) QueryTriageResult(d *Department) *TriageResultQuery {
 	query := &TriageResultQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := d.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(department.Table, department.FieldID, id),
 			sqlgraph.To(triageresult.Table, triageresult.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, department.DepartmentToTriageResultTable, department.DepartmentToTriageResultColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, department.TriageResultTable, department.TriageResultColumn),
 		)
 		fromV = sqlgraph.Neighbors(d.driver.Dialect(), step)
 		return fromV, nil
@@ -1390,15 +1390,15 @@ func (c *NurseClient) GetX(ctx context.Context, id int) *Nurse {
 	return obj
 }
 
-// QueryNurseToTriageResult queries the nurseToTriageResult edge of a Nurse.
-func (c *NurseClient) QueryNurseToTriageResult(n *Nurse) *TriageResultQuery {
+// QueryTriageResult queries the triageResult edge of a Nurse.
+func (c *NurseClient) QueryTriageResult(n *Nurse) *TriageResultQuery {
 	query := &TriageResultQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := n.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(nurse.Table, nurse.FieldID, id),
 			sqlgraph.To(triageresult.Table, triageresult.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, nurse.NurseToTriageResultTable, nurse.NurseToTriageResultColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, nurse.TriageResultTable, nurse.TriageResultColumn),
 		)
 		fromV = sqlgraph.Neighbors(n.driver.Dialect(), step)
 		return fromV, nil
@@ -1558,15 +1558,15 @@ func (c *PatientClient) QueryBloodtype(pa *Patient) *BloodTypeQuery {
 	return query
 }
 
-// QueryPatientToTriageResult queries the patientToTriageResult edge of a Patient.
-func (c *PatientClient) QueryPatientToTriageResult(pa *Patient) *TriageResultQuery {
+// QueryTriageResult queries the triageResult edge of a Patient.
+func (c *PatientClient) QueryTriageResult(pa *Patient) *TriageResultQuery {
 	query := &TriageResultQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := pa.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(patient.Table, patient.FieldID, id),
 			sqlgraph.To(triageresult.Table, triageresult.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, patient.PatientToTriageResultTable, patient.PatientToTriageResultColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, patient.TriageResultTable, patient.TriageResultColumn),
 		)
 		fromV = sqlgraph.Neighbors(pa.driver.Dialect(), step)
 		return fromV, nil
@@ -2382,15 +2382,15 @@ func (c *TriageResultClient) GetX(ctx context.Context, id int) *TriageResult {
 	return obj
 }
 
-// QueryTriageResultToUrgencyLevel queries the triageResultToUrgencyLevel edge of a TriageResult.
-func (c *TriageResultClient) QueryTriageResultToUrgencyLevel(tr *TriageResult) *UrgencyLevelQuery {
+// QueryUrgencyLevel queries the urgencyLevel edge of a TriageResult.
+func (c *TriageResultClient) QueryUrgencyLevel(tr *TriageResult) *UrgencyLevelQuery {
 	query := &UrgencyLevelQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := tr.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(triageresult.Table, triageresult.FieldID, id),
 			sqlgraph.To(urgencylevel.Table, urgencylevel.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.TriageResultToUrgencyLevelTable, triageresult.TriageResultToUrgencyLevelColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.UrgencyLevelTable, triageresult.UrgencyLevelColumn),
 		)
 		fromV = sqlgraph.Neighbors(tr.driver.Dialect(), step)
 		return fromV, nil
@@ -2398,15 +2398,15 @@ func (c *TriageResultClient) QueryTriageResultToUrgencyLevel(tr *TriageResult) *
 	return query
 }
 
-// QueryTriageResultToDepartment queries the triageResultToDepartment edge of a TriageResult.
-func (c *TriageResultClient) QueryTriageResultToDepartment(tr *TriageResult) *DepartmentQuery {
+// QueryDepartment queries the department edge of a TriageResult.
+func (c *TriageResultClient) QueryDepartment(tr *TriageResult) *DepartmentQuery {
 	query := &DepartmentQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := tr.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(triageresult.Table, triageresult.FieldID, id),
 			sqlgraph.To(department.Table, department.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.TriageResultToDepartmentTable, triageresult.TriageResultToDepartmentColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.DepartmentTable, triageresult.DepartmentColumn),
 		)
 		fromV = sqlgraph.Neighbors(tr.driver.Dialect(), step)
 		return fromV, nil
@@ -2414,15 +2414,15 @@ func (c *TriageResultClient) QueryTriageResultToDepartment(tr *TriageResult) *De
 	return query
 }
 
-// QueryTriageResultToNurse queries the triageResultToNurse edge of a TriageResult.
-func (c *TriageResultClient) QueryTriageResultToNurse(tr *TriageResult) *NurseQuery {
+// QueryNurse queries the nurse edge of a TriageResult.
+func (c *TriageResultClient) QueryNurse(tr *TriageResult) *NurseQuery {
 	query := &NurseQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := tr.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(triageresult.Table, triageresult.FieldID, id),
 			sqlgraph.To(nurse.Table, nurse.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.TriageResultToNurseTable, triageresult.TriageResultToNurseColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.NurseTable, triageresult.NurseColumn),
 		)
 		fromV = sqlgraph.Neighbors(tr.driver.Dialect(), step)
 		return fromV, nil
@@ -2430,15 +2430,15 @@ func (c *TriageResultClient) QueryTriageResultToNurse(tr *TriageResult) *NurseQu
 	return query
 }
 
-// QueryTriageResultToPatient queries the triageResultToPatient edge of a TriageResult.
-func (c *TriageResultClient) QueryTriageResultToPatient(tr *TriageResult) *PatientQuery {
+// QueryPatient queries the patient edge of a TriageResult.
+func (c *TriageResultClient) QueryPatient(tr *TriageResult) *PatientQuery {
 	query := &PatientQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := tr.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(triageresult.Table, triageresult.FieldID, id),
 			sqlgraph.To(patient.Table, patient.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.TriageResultToPatientTable, triageresult.TriageResultToPatientColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.PatientTable, triageresult.PatientColumn),
 		)
 		fromV = sqlgraph.Neighbors(tr.driver.Dialect(), step)
 		return fromV, nil
@@ -2534,15 +2534,15 @@ func (c *UrgencyLevelClient) GetX(ctx context.Context, id int) *UrgencyLevel {
 	return obj
 }
 
-// QueryUrgencyLevelToTriageResult queries the urgencyLevelToTriageResult edge of a UrgencyLevel.
-func (c *UrgencyLevelClient) QueryUrgencyLevelToTriageResult(ul *UrgencyLevel) *TriageResultQuery {
+// QueryTriageResult queries the triageResult edge of a UrgencyLevel.
+func (c *UrgencyLevelClient) QueryTriageResult(ul *UrgencyLevel) *TriageResultQuery {
 	query := &TriageResultQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := ul.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(urgencylevel.Table, urgencylevel.FieldID, id),
 			sqlgraph.To(triageresult.Table, triageresult.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, urgencylevel.UrgencyLevelToTriageResultTable, urgencylevel.UrgencyLevelToTriageResultColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, urgencylevel.TriageResultTable, urgencylevel.TriageResultColumn),
 		)
 		fromV = sqlgraph.Neighbors(ul.driver.Dialect(), step)
 		return fromV, nil
