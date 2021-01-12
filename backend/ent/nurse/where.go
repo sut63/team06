@@ -445,25 +445,25 @@ func NursePasswordContainsFold(v string) predicate.Nurse {
 	})
 }
 
-// HasNurseToTriageResult applies the HasEdge predicate on the "nurseToTriageResult" edge.
-func HasNurseToTriageResult() predicate.Nurse {
+// HasTriageResult applies the HasEdge predicate on the "triageResult" edge.
+func HasTriageResult() predicate.Nurse {
 	return predicate.Nurse(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(NurseToTriageResultTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, NurseToTriageResultTable, NurseToTriageResultColumn),
+			sqlgraph.To(TriageResultTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, TriageResultTable, TriageResultColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasNurseToTriageResultWith applies the HasEdge predicate on the "nurseToTriageResult" edge with a given conditions (other predicates).
-func HasNurseToTriageResultWith(preds ...predicate.TriageResult) predicate.Nurse {
+// HasTriageResultWith applies the HasEdge predicate on the "triageResult" edge with a given conditions (other predicates).
+func HasTriageResultWith(preds ...predicate.TriageResult) predicate.Nurse {
 	return predicate.Nurse(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(NurseToTriageResultInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, NurseToTriageResultTable, NurseToTriageResultColumn),
+			sqlgraph.To(TriageResultInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, TriageResultTable, TriageResultColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

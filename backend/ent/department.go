@@ -24,20 +24,20 @@ type Department struct {
 
 // DepartmentEdges holds the relations/edges for other nodes in the graph.
 type DepartmentEdges struct {
-	// DepartmentToTriageResult holds the value of the departmentToTriageResult edge.
-	DepartmentToTriageResult []*TriageResult
+	// TriageResult holds the value of the triageResult edge.
+	TriageResult []*TriageResult
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 }
 
-// DepartmentToTriageResultOrErr returns the DepartmentToTriageResult value or an error if the edge
+// TriageResultOrErr returns the TriageResult value or an error if the edge
 // was not loaded in eager-loading.
-func (e DepartmentEdges) DepartmentToTriageResultOrErr() ([]*TriageResult, error) {
+func (e DepartmentEdges) TriageResultOrErr() ([]*TriageResult, error) {
 	if e.loadedTypes[0] {
-		return e.DepartmentToTriageResult, nil
+		return e.TriageResult, nil
 	}
-	return nil, &NotLoadedError{edge: "departmentToTriageResult"}
+	return nil, &NotLoadedError{edge: "triageResult"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -81,9 +81,9 @@ func (d *Department) assignValues(columns []string, values []interface{}) error 
 	return nil
 }
 
-// QueryDepartmentToTriageResult queries the "departmentToTriageResult" edge of the Department entity.
-func (d *Department) QueryDepartmentToTriageResult() *TriageResultQuery {
-	return (&DepartmentClient{config: d.config}).QueryDepartmentToTriageResult(d)
+// QueryTriageResult queries the "triageResult" edge of the Department entity.
+func (d *Department) QueryTriageResult() *TriageResultQuery {
+	return (&DepartmentClient{config: d.config}).QueryTriageResult(d)
 }
 
 // Update returns a builder for updating this Department.

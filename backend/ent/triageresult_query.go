@@ -28,11 +28,11 @@ type TriageResultQuery struct {
 	fields     []string
 	predicates []predicate.TriageResult
 	// eager-loading edges.
-	withTriageResultToUrgencyLevel *UrgencyLevelQuery
-	withTriageResultToDepartment   *DepartmentQuery
-	withTriageResultToNurse        *NurseQuery
-	withTriageResultToPatient      *PatientQuery
-	withFKs                        bool
+	withUrgencyLevel *UrgencyLevelQuery
+	withDepartment   *DepartmentQuery
+	withNurse        *NurseQuery
+	withPatient      *PatientQuery
+	withFKs          bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -62,8 +62,8 @@ func (trq *TriageResultQuery) Order(o ...OrderFunc) *TriageResultQuery {
 	return trq
 }
 
-// QueryTriageResultToUrgencyLevel chains the current query on the "triageResultToUrgencyLevel" edge.
-func (trq *TriageResultQuery) QueryTriageResultToUrgencyLevel() *UrgencyLevelQuery {
+// QueryUrgencyLevel chains the current query on the "urgencyLevel" edge.
+func (trq *TriageResultQuery) QueryUrgencyLevel() *UrgencyLevelQuery {
 	query := &UrgencyLevelQuery{config: trq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := trq.prepareQuery(ctx); err != nil {
@@ -76,7 +76,7 @@ func (trq *TriageResultQuery) QueryTriageResultToUrgencyLevel() *UrgencyLevelQue
 		step := sqlgraph.NewStep(
 			sqlgraph.From(triageresult.Table, triageresult.FieldID, selector),
 			sqlgraph.To(urgencylevel.Table, urgencylevel.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.TriageResultToUrgencyLevelTable, triageresult.TriageResultToUrgencyLevelColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.UrgencyLevelTable, triageresult.UrgencyLevelColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(trq.driver.Dialect(), step)
 		return fromU, nil
@@ -84,8 +84,8 @@ func (trq *TriageResultQuery) QueryTriageResultToUrgencyLevel() *UrgencyLevelQue
 	return query
 }
 
-// QueryTriageResultToDepartment chains the current query on the "triageResultToDepartment" edge.
-func (trq *TriageResultQuery) QueryTriageResultToDepartment() *DepartmentQuery {
+// QueryDepartment chains the current query on the "department" edge.
+func (trq *TriageResultQuery) QueryDepartment() *DepartmentQuery {
 	query := &DepartmentQuery{config: trq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := trq.prepareQuery(ctx); err != nil {
@@ -98,7 +98,7 @@ func (trq *TriageResultQuery) QueryTriageResultToDepartment() *DepartmentQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(triageresult.Table, triageresult.FieldID, selector),
 			sqlgraph.To(department.Table, department.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.TriageResultToDepartmentTable, triageresult.TriageResultToDepartmentColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.DepartmentTable, triageresult.DepartmentColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(trq.driver.Dialect(), step)
 		return fromU, nil
@@ -106,8 +106,8 @@ func (trq *TriageResultQuery) QueryTriageResultToDepartment() *DepartmentQuery {
 	return query
 }
 
-// QueryTriageResultToNurse chains the current query on the "triageResultToNurse" edge.
-func (trq *TriageResultQuery) QueryTriageResultToNurse() *NurseQuery {
+// QueryNurse chains the current query on the "nurse" edge.
+func (trq *TriageResultQuery) QueryNurse() *NurseQuery {
 	query := &NurseQuery{config: trq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := trq.prepareQuery(ctx); err != nil {
@@ -120,7 +120,7 @@ func (trq *TriageResultQuery) QueryTriageResultToNurse() *NurseQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(triageresult.Table, triageresult.FieldID, selector),
 			sqlgraph.To(nurse.Table, nurse.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.TriageResultToNurseTable, triageresult.TriageResultToNurseColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.NurseTable, triageresult.NurseColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(trq.driver.Dialect(), step)
 		return fromU, nil
@@ -128,8 +128,8 @@ func (trq *TriageResultQuery) QueryTriageResultToNurse() *NurseQuery {
 	return query
 }
 
-// QueryTriageResultToPatient chains the current query on the "triageResultToPatient" edge.
-func (trq *TriageResultQuery) QueryTriageResultToPatient() *PatientQuery {
+// QueryPatient chains the current query on the "patient" edge.
+func (trq *TriageResultQuery) QueryPatient() *PatientQuery {
 	query := &PatientQuery{config: trq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := trq.prepareQuery(ctx); err != nil {
@@ -142,7 +142,7 @@ func (trq *TriageResultQuery) QueryTriageResultToPatient() *PatientQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(triageresult.Table, triageresult.FieldID, selector),
 			sqlgraph.To(patient.Table, patient.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.TriageResultToPatientTable, triageresult.TriageResultToPatientColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, triageresult.PatientTable, triageresult.PatientColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(trq.driver.Dialect(), step)
 		return fromU, nil
@@ -326,62 +326,62 @@ func (trq *TriageResultQuery) Clone() *TriageResultQuery {
 		return nil
 	}
 	return &TriageResultQuery{
-		config:                         trq.config,
-		limit:                          trq.limit,
-		offset:                         trq.offset,
-		order:                          append([]OrderFunc{}, trq.order...),
-		predicates:                     append([]predicate.TriageResult{}, trq.predicates...),
-		withTriageResultToUrgencyLevel: trq.withTriageResultToUrgencyLevel.Clone(),
-		withTriageResultToDepartment:   trq.withTriageResultToDepartment.Clone(),
-		withTriageResultToNurse:        trq.withTriageResultToNurse.Clone(),
-		withTriageResultToPatient:      trq.withTriageResultToPatient.Clone(),
+		config:           trq.config,
+		limit:            trq.limit,
+		offset:           trq.offset,
+		order:            append([]OrderFunc{}, trq.order...),
+		predicates:       append([]predicate.TriageResult{}, trq.predicates...),
+		withUrgencyLevel: trq.withUrgencyLevel.Clone(),
+		withDepartment:   trq.withDepartment.Clone(),
+		withNurse:        trq.withNurse.Clone(),
+		withPatient:      trq.withPatient.Clone(),
 		// clone intermediate query.
 		sql:  trq.sql.Clone(),
 		path: trq.path,
 	}
 }
 
-// WithTriageResultToUrgencyLevel tells the query-builder to eager-load the nodes that are connected to
-// the "triageResultToUrgencyLevel" edge. The optional arguments are used to configure the query builder of the edge.
-func (trq *TriageResultQuery) WithTriageResultToUrgencyLevel(opts ...func(*UrgencyLevelQuery)) *TriageResultQuery {
+// WithUrgencyLevel tells the query-builder to eager-load the nodes that are connected to
+// the "urgencyLevel" edge. The optional arguments are used to configure the query builder of the edge.
+func (trq *TriageResultQuery) WithUrgencyLevel(opts ...func(*UrgencyLevelQuery)) *TriageResultQuery {
 	query := &UrgencyLevelQuery{config: trq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	trq.withTriageResultToUrgencyLevel = query
+	trq.withUrgencyLevel = query
 	return trq
 }
 
-// WithTriageResultToDepartment tells the query-builder to eager-load the nodes that are connected to
-// the "triageResultToDepartment" edge. The optional arguments are used to configure the query builder of the edge.
-func (trq *TriageResultQuery) WithTriageResultToDepartment(opts ...func(*DepartmentQuery)) *TriageResultQuery {
+// WithDepartment tells the query-builder to eager-load the nodes that are connected to
+// the "department" edge. The optional arguments are used to configure the query builder of the edge.
+func (trq *TriageResultQuery) WithDepartment(opts ...func(*DepartmentQuery)) *TriageResultQuery {
 	query := &DepartmentQuery{config: trq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	trq.withTriageResultToDepartment = query
+	trq.withDepartment = query
 	return trq
 }
 
-// WithTriageResultToNurse tells the query-builder to eager-load the nodes that are connected to
-// the "triageResultToNurse" edge. The optional arguments are used to configure the query builder of the edge.
-func (trq *TriageResultQuery) WithTriageResultToNurse(opts ...func(*NurseQuery)) *TriageResultQuery {
+// WithNurse tells the query-builder to eager-load the nodes that are connected to
+// the "nurse" edge. The optional arguments are used to configure the query builder of the edge.
+func (trq *TriageResultQuery) WithNurse(opts ...func(*NurseQuery)) *TriageResultQuery {
 	query := &NurseQuery{config: trq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	trq.withTriageResultToNurse = query
+	trq.withNurse = query
 	return trq
 }
 
-// WithTriageResultToPatient tells the query-builder to eager-load the nodes that are connected to
-// the "triageResultToPatient" edge. The optional arguments are used to configure the query builder of the edge.
-func (trq *TriageResultQuery) WithTriageResultToPatient(opts ...func(*PatientQuery)) *TriageResultQuery {
+// WithPatient tells the query-builder to eager-load the nodes that are connected to
+// the "patient" edge. The optional arguments are used to configure the query builder of the edge.
+func (trq *TriageResultQuery) WithPatient(opts ...func(*PatientQuery)) *TriageResultQuery {
 	query := &PatientQuery{config: trq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	trq.withTriageResultToPatient = query
+	trq.withPatient = query
 	return trq
 }
 
@@ -452,13 +452,13 @@ func (trq *TriageResultQuery) sqlAll(ctx context.Context) ([]*TriageResult, erro
 		withFKs     = trq.withFKs
 		_spec       = trq.querySpec()
 		loadedTypes = [4]bool{
-			trq.withTriageResultToUrgencyLevel != nil,
-			trq.withTriageResultToDepartment != nil,
-			trq.withTriageResultToNurse != nil,
-			trq.withTriageResultToPatient != nil,
+			trq.withUrgencyLevel != nil,
+			trq.withDepartment != nil,
+			trq.withNurse != nil,
+			trq.withPatient != nil,
 		}
 	)
-	if trq.withTriageResultToUrgencyLevel != nil || trq.withTriageResultToDepartment != nil || trq.withTriageResultToNurse != nil || trq.withTriageResultToPatient != nil {
+	if trq.withUrgencyLevel != nil || trq.withDepartment != nil || trq.withNurse != nil || trq.withPatient != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -484,11 +484,11 @@ func (trq *TriageResultQuery) sqlAll(ctx context.Context) ([]*TriageResult, erro
 		return nodes, nil
 	}
 
-	if query := trq.withTriageResultToUrgencyLevel; query != nil {
+	if query := trq.withUrgencyLevel; query != nil {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*TriageResult)
 		for i := range nodes {
-			if fk := nodes[i].urgency_level_urgency_level_to_triage_result; fk != nil {
+			if fk := nodes[i].urgency_level_triage_result; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
@@ -501,19 +501,19 @@ func (trq *TriageResultQuery) sqlAll(ctx context.Context) ([]*TriageResult, erro
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "urgency_level_urgency_level_to_triage_result" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "urgency_level_triage_result" returned %v`, n.ID)
 			}
 			for i := range nodes {
-				nodes[i].Edges.TriageResultToUrgencyLevel = n
+				nodes[i].Edges.UrgencyLevel = n
 			}
 		}
 	}
 
-	if query := trq.withTriageResultToDepartment; query != nil {
+	if query := trq.withDepartment; query != nil {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*TriageResult)
 		for i := range nodes {
-			if fk := nodes[i].department_department_to_triage_result; fk != nil {
+			if fk := nodes[i].department_triage_result; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
@@ -526,19 +526,19 @@ func (trq *TriageResultQuery) sqlAll(ctx context.Context) ([]*TriageResult, erro
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "department_department_to_triage_result" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "department_triage_result" returned %v`, n.ID)
 			}
 			for i := range nodes {
-				nodes[i].Edges.TriageResultToDepartment = n
+				nodes[i].Edges.Department = n
 			}
 		}
 	}
 
-	if query := trq.withTriageResultToNurse; query != nil {
+	if query := trq.withNurse; query != nil {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*TriageResult)
 		for i := range nodes {
-			if fk := nodes[i].nurse_nurse_to_triage_result; fk != nil {
+			if fk := nodes[i].nurse_triage_result; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
@@ -551,19 +551,19 @@ func (trq *TriageResultQuery) sqlAll(ctx context.Context) ([]*TriageResult, erro
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "nurse_nurse_to_triage_result" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "nurse_triage_result" returned %v`, n.ID)
 			}
 			for i := range nodes {
-				nodes[i].Edges.TriageResultToNurse = n
+				nodes[i].Edges.Nurse = n
 			}
 		}
 	}
 
-	if query := trq.withTriageResultToPatient; query != nil {
+	if query := trq.withPatient; query != nil {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*TriageResult)
 		for i := range nodes {
-			if fk := nodes[i].patient_patient_to_triage_result; fk != nil {
+			if fk := nodes[i].patient_triage_result; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
@@ -576,10 +576,10 @@ func (trq *TriageResultQuery) sqlAll(ctx context.Context) ([]*TriageResult, erro
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "patient_patient_to_triage_result" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "patient_triage_result" returned %v`, n.ID)
 			}
 			for i := range nodes {
-				nodes[i].Edges.TriageResultToPatient = n
+				nodes[i].Edges.Patient = n
 			}
 		}
 	}

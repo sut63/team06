@@ -24,20 +24,20 @@ type UrgencyLevel struct {
 
 // UrgencyLevelEdges holds the relations/edges for other nodes in the graph.
 type UrgencyLevelEdges struct {
-	// UrgencyLevelToTriageResult holds the value of the urgencyLevelToTriageResult edge.
-	UrgencyLevelToTriageResult []*TriageResult
+	// TriageResult holds the value of the triageResult edge.
+	TriageResult []*TriageResult
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 }
 
-// UrgencyLevelToTriageResultOrErr returns the UrgencyLevelToTriageResult value or an error if the edge
+// TriageResultOrErr returns the TriageResult value or an error if the edge
 // was not loaded in eager-loading.
-func (e UrgencyLevelEdges) UrgencyLevelToTriageResultOrErr() ([]*TriageResult, error) {
+func (e UrgencyLevelEdges) TriageResultOrErr() ([]*TriageResult, error) {
 	if e.loadedTypes[0] {
-		return e.UrgencyLevelToTriageResult, nil
+		return e.TriageResult, nil
 	}
-	return nil, &NotLoadedError{edge: "urgencyLevelToTriageResult"}
+	return nil, &NotLoadedError{edge: "triageResult"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -81,9 +81,9 @@ func (ul *UrgencyLevel) assignValues(columns []string, values []interface{}) err
 	return nil
 }
 
-// QueryUrgencyLevelToTriageResult queries the "urgencyLevelToTriageResult" edge of the UrgencyLevel entity.
-func (ul *UrgencyLevel) QueryUrgencyLevelToTriageResult() *TriageResultQuery {
-	return (&UrgencyLevelClient{config: ul.config}).QueryUrgencyLevelToTriageResult(ul)
+// QueryTriageResult queries the "triageResult" edge of the UrgencyLevel entity.
+func (ul *UrgencyLevel) QueryTriageResult() *TriageResultQuery {
+	return (&UrgencyLevelClient{config: ul.config}).QueryTriageResult(ul)
 }
 
 // Update returns a builder for updating this UrgencyLevel.
