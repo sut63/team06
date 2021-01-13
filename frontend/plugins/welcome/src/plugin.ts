@@ -7,6 +7,8 @@ import Result from './components/Result';
 import MedicalProcedure from './components/Medicalprocedure';
 import Medicalresults from './components/Medicalresults';
 import Table from './components/Table';
+import righttotreatment from './components/Create';
+import Righttable from './components/Righttable';
 
 
 export const plugin = createPlugin({
@@ -20,5 +22,7 @@ export const plugin = createPlugin({
     router.registerRoute('/medicalprocedure', MedicalProcedure);
     router.registerRoute('/medicalresults', Medicalresults);
     router.registerRoute('/table', Table);
+    router.registerRoute('/Create', righttotreatment);
+    router.registerRoute('/Righttable', Righttable);
   },
 });
