@@ -839,8 +839,8 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create Patient
-     * Create Patient
+     * Create patient
+     * Create patient
      */
     async createPatientRaw(requestParameters: CreatePatientRequest): Promise<runtime.ApiResponse<EntPatient>> {
         if (requestParameters.patient === null || requestParameters.patient === undefined) {
@@ -865,8 +865,8 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create Patient
-     * Create Patient
+     * Create patient
+     * Create patient
      */
     async createPatient(requestParameters: CreatePatientRequest): Promise<EntPatient> {
         const response = await this.createPatientRaw(requestParameters);

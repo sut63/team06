@@ -27,11 +27,11 @@ import {
  */
 export interface EntPrefixEdges {
     /**
-     * Patient holds the value of the patient edge.
+     * PrefixToPatient holds the value of the PrefixToPatient edge.
      * @type {Array<EntPatient>}
      * @memberof EntPrefixEdges
      */
-    patient?: Array<EntPatient>;
+    prefixToPatient?: Array<EntPatient>;
 }
 
 export function EntPrefixEdgesFromJSON(json: any): EntPrefixEdges {
@@ -44,7 +44,7 @@ export function EntPrefixEdgesFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'patient': !exists(json, 'patient') ? undefined : ((json['patient'] as Array<any>).map(EntPatientFromJSON)),
+        'prefixToPatient': !exists(json, 'prefixToPatient') ? undefined : ((json['prefixToPatient'] as Array<any>).map(EntPatientFromJSON)),
     };
 }
 
@@ -57,7 +57,7 @@ export function EntPrefixEdgesToJSON(value?: EntPrefixEdges | null): any {
     }
     return {
         
-        'patient': value.patient === undefined ? undefined : ((value.patient as Array<any>).map(EntPatientToJSON)),
+        'prefixToPatient': value.prefixToPatient === undefined ? undefined : ((value.prefixToPatient as Array<any>).map(EntPatientToJSON)),
     };
 }
 

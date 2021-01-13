@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	//"fmt"
 	"log"
+	//"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -12,49 +14,13 @@ import (
 	"github.com/team06/app/controllers"
 	_ "github.com/team06/app/docs"
 	"github.com/team06/app/ent"
+	//"github.com/team06/app/ent/department"
+	//"github.com/team06/app/ent/nurse"
+	//"github.com/team06/app/ent/patient"
+	//"github.com/team06/app/ent/urgencylevel"
+	//"github.com/team06/app/ent/doctor"
+	//"github.com/team06/app/ent/proceduretype"
 )
-
-//MedicalRecords Struct
-type MedicalRecords struct {
-	MedicalRecord []MedicalRecord
-}
-
-//MedicalRecord Struct
-type MedicalRecord struct {
-	Email    string
-	Password string
-	Name     string
-}
-
-//Prefixs Struct
-type Prefixs struct {
-	Prefix []Prefix
-}
-
-//Prefix Struct
-type Prefix struct {
-	PrefixValue string
-}
-
-//Genders Struct
-type Genders struct {
-	Gender []Gender
-}
-
-//Gender Struct
-type Gender struct {
-	GenderValue string
-}
-
-//BloodTypes Struct
-type BloodTypes struct {
-	BloodType []BloodType
-}
-
-//BloodType Struct
-type BloodType struct {
-	BloodValue string
-}
 
 //Nurses Struct
 type Nurses struct {
@@ -215,73 +181,6 @@ func main() {
 	controllers.NewBloodTypeController(v1, client)
 	controllers.NewDiagnosisController(v1, client)
 	controllers.NewTreatmenttypeController(v1, client)
-
-	// Set MedicalRecords Data
-	medicalrecords := MedicalRecords{
-		MedicalRecord: []MedicalRecord{
-			MedicalRecord{"wuttisak@gmail.com", "wut3984", "Wuttisak Kuchita"},
-			MedicalRecord{"aun@gmail.com", "aun123", "Kufu Maru"},
-		},
-	}
-
-	for _, m := range medicalrecords.MedicalRecord {
-		client.MedicalRecord.
-			Create().
-			SetEmail(m.Email).
-			SetPassword(m.Password).
-			SetName(m.Name).
-			Save(context.Background())
-	}
-
-	// Set Prefixs Data
-	prefixs := Prefixs{
-		Prefix: []Prefix{
-			Prefix{"ด.ช."},
-			Prefix{"ด.ญ."},
-			Prefix{"นาย"},
-			Prefix{"นาง"},
-			Prefix{"นางสาว"},
-		},
-	}
-
-	for _, pf := range prefixs.Prefix {
-		client.Prefix.
-			Create().
-			SetPrefixValue(pf.PrefixValue).
-			Save(context.Background())
-	}
-
-	// Set Genders Data
-	genders := Genders{
-		Gender: []Gender{
-			Gender{"ชาย"},
-			Gender{"หญิง"},
-		},
-	}
-
-	for _, g := range genders.Gender {
-		client.Gender.
-			Create().
-			SetGenderValue(g.GenderValue).
-			Save(context.Background())
-	}
-
-	// Set BloodTypes Data
-	bloodtypes := BloodTypes{
-		BloodType: []BloodType{
-			BloodType{"A"},
-			BloodType{"B"},
-			BloodType{"AB"},
-			BloodType{"O"},
-		},
-	}
-
-	for _, b := range bloodtypes.BloodType {
-		client.BloodType.
-			Create().
-			SetBloodValue(b.BloodValue).
-			Save(context.Background())
-	}
 
 	// Set Department Data
 	departments := []string{"Anesthetics", "Breast Screening", "Cardiology",

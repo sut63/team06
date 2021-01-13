@@ -1,18 +1,5 @@
 basePath: /api/v1
 definitions:
-  controllers.RightToTreatment:
-    properties:
-      endtime:
-        type: string
-      hospital:
-        type: integer
-      patient:
-        type: integer
-      rightToTreatmentType:
-        type: integer
-      starttime:
-        type: string
-    type: object
   ent.AppointmentResults:
     properties:
       addtimeAppoint:
@@ -56,8 +43,8 @@ definitions:
     type: object
   ent.BloodType:
     properties:
-      bloodValue:
-        description: BloodValue holds the value of the "bloodValue" field.
+      blood:
+        description: Blood holds the value of the "blood" field.
         type: string
       edges:
         $ref: '#/definitions/ent.BloodTypeEdges'
@@ -71,8 +58,9 @@ definitions:
     type: object
   ent.BloodTypeEdges:
     properties:
-      patient:
-        description: Patient holds the value of the patient edge.
+      bloodTypeToPatient:
+        description: BloodTypeToPatient holds the value of the BloodTypeToPatient
+          edge.
         items:
           $ref: '#/definitions/ent.Patient'
         type: array
@@ -185,8 +173,8 @@ definitions:
           Edges holds the relations/edges for other nodes in the graph.
           The values are being populated by the GenderQuery when eager-loading is set.
         type: object
-      genderValue:
-        description: GenderValue holds the value of the "genderValue" field.
+      gender:
+        description: Gender holds the value of the "gender" field.
         type: string
       id:
         description: ID of the ent.
@@ -194,8 +182,8 @@ definitions:
     type: object
   ent.GenderEdges:
     properties:
-      patient:
-        description: Patient holds the value of the patient edge.
+      genderToPatient:
+        description: GenderToPatient holds the value of the GenderToPatient edge.
         items:
           $ref: '#/definitions/ent.Patient'
         type: array
@@ -305,8 +293,8 @@ definitions:
     type: object
   ent.Patient:
     properties:
-      addedDate:
-        description: AddedDate holds the value of the "addedDate" field.
+      added_time:
+        description: AddedTime holds the value of the "added_time" field.
         type: string
       age:
         description: Age holds the value of the "age" field.
@@ -337,11 +325,11 @@ definitions:
     properties:
       bloodtype:
         $ref: '#/definitions/ent.BloodType'
-        description: Bloodtype holds the value of the bloodtype edge.
+        description: Bloodtype holds the value of the Bloodtype edge.
         type: object
       gender:
         $ref: '#/definitions/ent.Gender'
-        description: Gender holds the value of the gender edge.
+        description: Gender holds the value of the Gender edge.
         type: object
       patientToAppointmentResults:
         description: PatientToAppointmentResults holds the value of the PatientToAppointmentResults
@@ -369,7 +357,7 @@ definitions:
         type: array
       prefix:
         $ref: '#/definitions/ent.Prefix'
-        description: Prefix holds the value of the prefix edge.
+        description: Prefix holds the value of the Prefix edge.
         type: object
       triageResult:
         description: TriageResult holds the value of the triageResult edge.
@@ -388,14 +376,14 @@ definitions:
       id:
         description: ID of the ent.
         type: integer
-      prefixValue:
-        description: PrefixValue holds the value of the "prefixValue" field.
+      prefix:
+        description: Prefix holds the value of the "prefix" field.
         type: string
     type: object
   ent.PrefixEdges:
     properties:
-      patient:
-        description: Patient holds the value of the patient edge.
+      prefixToPatient:
+        description: PrefixToPatient holds the value of the PrefixToPatient edge.
         items:
           $ref: '#/definitions/ent.Patient'
         type: array
@@ -942,12 +930,12 @@ paths:
     post:
       consumes:
       - application/json
-      description: Create AppointmentResults
-      operationId: create-AppointmentResults
+      description: Create appointmentresults
+      operationId: create-appointmentresults
       parameters:
-      - description: AppointmentResults entity
+      - description: Appointmentresults entity
         in: body
-        name: AppointmentResults
+        name: appointmentresults
         required: true
         schema:
           $ref: '#/definitions/ent.AppointmentResults'
@@ -966,13 +954,13 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Create AppointmentResults
+      summary: Create appointmentresults
   /appointmentresultss/{id}:
     delete:
       description: get appointmentresults by ID
       operationId: delete-appointmentresults
       parameters:
-      - description: AppointmentResults ID
+      - description: Appointmentresults ID
         in: path
         name: id
         required: true
@@ -1001,7 +989,7 @@ paths:
       description: get appointmentresults by ID
       operationId: get-appointmentresults
       parameters:
-      - description: AppointmentResults ID
+      - description: Appointmentresults ID
         in: path
         name: id
         required: true
@@ -1032,12 +1020,12 @@ paths:
       description: update appointmentresults by ID
       operationId: update-appointmentresults
       parameters:
-      - description: AppointmentResults ID
+      - description: Appointmentresults ID
         in: path
         name: id
         required: true
         type: integer
-      - description: AppointmentResults entity
+      - description: Appointmentresults entity
         in: body
         name: appointmentresults
         required: true
@@ -2239,12 +2227,12 @@ paths:
     post:
       consumes:
       - application/json
-      description: Create Patient
-      operationId: create-Patient
+      description: Create patient
+      operationId: create-patient
       parameters:
       - description: Patient entity
         in: body
-        name: Patient
+        name: patient
         required: true
         schema:
           $ref: '#/definitions/ent.Patient'
@@ -2263,7 +2251,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Create Patient
+      summary: Create patient
   /patients/{id}:
     delete:
       description: get patient by ID
@@ -2678,7 +2666,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/controllers.RightToTreatment'
+              $ref: '#/definitions/ent.RightToTreatment'
             type: array
         "400":
           description: Bad Request
@@ -2700,14 +2688,14 @@ paths:
         name: righttotreatment
         required: true
         schema:
-          $ref: '#/definitions/controllers.RightToTreatment'
+          $ref: '#/definitions/ent.RightToTreatment'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.RightToTreatment'
+            $ref: '#/definitions/ent.RightToTreatment'
         "400":
           description: Bad Request
           schema:
@@ -2762,7 +2750,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.RightToTreatment'
+            $ref: '#/definitions/ent.RightToTreatment'
         "400":
           description: Bad Request
           schema:
@@ -2792,14 +2780,14 @@ paths:
         name: righttotreatment
         required: true
         schema:
-          $ref: '#/definitions/controllers.RightToTreatment'
+          $ref: '#/definitions/ent.RightToTreatment'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.RightToTreatment'
+            $ref: '#/definitions/ent.RightToTreatment'
         "400":
           description: Bad Request
           schema:

@@ -128,10 +128,10 @@ func DrugAllergy(v string) predicate.Patient {
 	})
 }
 
-// AddedDate applies equality check predicate on the "addedDate" field. It's identical to AddedDateEQ.
-func AddedDate(v time.Time) predicate.Patient {
+// AddedTime applies equality check predicate on the "added_time" field. It's identical to AddedTimeEQ.
+func AddedTime(v time.Time) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAddedDate), v))
+		s.Where(sql.EQ(s.C(FieldAddedTime), v))
 	})
 }
 
@@ -620,22 +620,22 @@ func DrugAllergyContainsFold(v string) predicate.Patient {
 	})
 }
 
-// AddedDateEQ applies the EQ predicate on the "addedDate" field.
-func AddedDateEQ(v time.Time) predicate.Patient {
+// AddedTimeEQ applies the EQ predicate on the "added_time" field.
+func AddedTimeEQ(v time.Time) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAddedDate), v))
+		s.Where(sql.EQ(s.C(FieldAddedTime), v))
 	})
 }
 
-// AddedDateNEQ applies the NEQ predicate on the "addedDate" field.
-func AddedDateNEQ(v time.Time) predicate.Patient {
+// AddedTimeNEQ applies the NEQ predicate on the "added_time" field.
+func AddedTimeNEQ(v time.Time) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldAddedDate), v))
+		s.Where(sql.NEQ(s.C(FieldAddedTime), v))
 	})
 }
 
-// AddedDateIn applies the In predicate on the "addedDate" field.
-func AddedDateIn(vs ...time.Time) predicate.Patient {
+// AddedTimeIn applies the In predicate on the "added_time" field.
+func AddedTimeIn(vs ...time.Time) predicate.Patient {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -647,12 +647,12 @@ func AddedDateIn(vs ...time.Time) predicate.Patient {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldAddedDate), v...))
+		s.Where(sql.In(s.C(FieldAddedTime), v...))
 	})
 }
 
-// AddedDateNotIn applies the NotIn predicate on the "addedDate" field.
-func AddedDateNotIn(vs ...time.Time) predicate.Patient {
+// AddedTimeNotIn applies the NotIn predicate on the "added_time" field.
+func AddedTimeNotIn(vs ...time.Time) predicate.Patient {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -664,39 +664,39 @@ func AddedDateNotIn(vs ...time.Time) predicate.Patient {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldAddedDate), v...))
+		s.Where(sql.NotIn(s.C(FieldAddedTime), v...))
 	})
 }
 
-// AddedDateGT applies the GT predicate on the "addedDate" field.
-func AddedDateGT(v time.Time) predicate.Patient {
+// AddedTimeGT applies the GT predicate on the "added_time" field.
+func AddedTimeGT(v time.Time) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldAddedDate), v))
+		s.Where(sql.GT(s.C(FieldAddedTime), v))
 	})
 }
 
-// AddedDateGTE applies the GTE predicate on the "addedDate" field.
-func AddedDateGTE(v time.Time) predicate.Patient {
+// AddedTimeGTE applies the GTE predicate on the "added_time" field.
+func AddedTimeGTE(v time.Time) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldAddedDate), v))
+		s.Where(sql.GTE(s.C(FieldAddedTime), v))
 	})
 }
 
-// AddedDateLT applies the LT predicate on the "addedDate" field.
-func AddedDateLT(v time.Time) predicate.Patient {
+// AddedTimeLT applies the LT predicate on the "added_time" field.
+func AddedTimeLT(v time.Time) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldAddedDate), v))
+		s.Where(sql.LT(s.C(FieldAddedTime), v))
 	})
 }
 
-// AddedDateLTE applies the LTE predicate on the "addedDate" field.
-func AddedDateLTE(v time.Time) predicate.Patient {
+// AddedTimeLTE applies the LTE predicate on the "added_time" field.
+func AddedTimeLTE(v time.Time) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldAddedDate), v))
+		s.Where(sql.LTE(s.C(FieldAddedTime), v))
 	})
 }
 
-// HasPrefix applies the HasEdge predicate on the "prefix" edge.
+// HasPrefix applies the HasEdge predicate on the "Prefix" edge.
 func HasPrefix() predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
@@ -708,7 +708,7 @@ func HasPrefix() predicate.Patient {
 	})
 }
 
-// HasPrefixWith applies the HasEdge predicate on the "prefix" edge with a given conditions (other predicates).
+// HasPrefixWith applies the HasEdge predicate on the "Prefix" edge with a given conditions (other predicates).
 func HasPrefixWith(preds ...predicate.Prefix) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
@@ -724,7 +724,7 @@ func HasPrefixWith(preds ...predicate.Prefix) predicate.Patient {
 	})
 }
 
-// HasGender applies the HasEdge predicate on the "gender" edge.
+// HasGender applies the HasEdge predicate on the "Gender" edge.
 func HasGender() predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
@@ -736,7 +736,7 @@ func HasGender() predicate.Patient {
 	})
 }
 
-// HasGenderWith applies the HasEdge predicate on the "gender" edge with a given conditions (other predicates).
+// HasGenderWith applies the HasEdge predicate on the "Gender" edge with a given conditions (other predicates).
 func HasGenderWith(preds ...predicate.Gender) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
@@ -752,7 +752,7 @@ func HasGenderWith(preds ...predicate.Gender) predicate.Patient {
 	})
 }
 
-// HasBloodtype applies the HasEdge predicate on the "bloodtype" edge.
+// HasBloodtype applies the HasEdge predicate on the "Bloodtype" edge.
 func HasBloodtype() predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
@@ -764,7 +764,7 @@ func HasBloodtype() predicate.Patient {
 	})
 }
 
-// HasBloodtypeWith applies the HasEdge predicate on the "bloodtype" edge with a given conditions (other predicates).
+// HasBloodtypeWith applies the HasEdge predicate on the "Bloodtype" edge with a given conditions (other predicates).
 func HasBloodtypeWith(preds ...predicate.BloodType) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(

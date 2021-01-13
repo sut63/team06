@@ -652,17 +652,17 @@ func (m *AppointmentResultsMutation) ResetEdge(name string) error {
 // BloodTypeMutation represents an operation that mutates the BloodType nodes in the graph.
 type BloodTypeMutation struct {
 	config
-	op             Op
-	typ            string
-	id             *int
-	bloodValue     *string
-	clearedFields  map[string]struct{}
-	patient        map[int]struct{}
-	removedpatient map[int]struct{}
-	clearedpatient bool
-	done           bool
-	oldValue       func(context.Context) (*BloodType, error)
-	predicates     []predicate.BloodType
+	op                         Op
+	typ                        string
+	id                         *int
+	blood                      *string
+	clearedFields              map[string]struct{}
+	_BloodTypeToPatient        map[int]struct{}
+	removed_BloodTypeToPatient map[int]struct{}
+	cleared_BloodTypeToPatient bool
+	done                       bool
+	oldValue                   func(context.Context) (*BloodType, error)
+	predicates                 []predicate.BloodType
 }
 
 var _ ent.Mutation = (*BloodTypeMutation)(nil)
@@ -744,93 +744,93 @@ func (m *BloodTypeMutation) ID() (id int, exists bool) {
 	return *m.id, true
 }
 
-// SetBloodValue sets the "bloodValue" field.
-func (m *BloodTypeMutation) SetBloodValue(s string) {
-	m.bloodValue = &s
+// SetBlood sets the "blood" field.
+func (m *BloodTypeMutation) SetBlood(s string) {
+	m.blood = &s
 }
 
-// BloodValue returns the value of the "bloodValue" field in the mutation.
-func (m *BloodTypeMutation) BloodValue() (r string, exists bool) {
-	v := m.bloodValue
+// Blood returns the value of the "blood" field in the mutation.
+func (m *BloodTypeMutation) Blood() (r string, exists bool) {
+	v := m.blood
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldBloodValue returns the old "bloodValue" field's value of the BloodType entity.
+// OldBlood returns the old "blood" field's value of the BloodType entity.
 // If the BloodType object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BloodTypeMutation) OldBloodValue(ctx context.Context) (v string, err error) {
+func (m *BloodTypeMutation) OldBlood(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldBloodValue is only allowed on UpdateOne operations")
+		return v, fmt.Errorf("OldBlood is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldBloodValue requires an ID field in the mutation")
+		return v, fmt.Errorf("OldBlood requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldBloodValue: %w", err)
+		return v, fmt.Errorf("querying old value for OldBlood: %w", err)
 	}
-	return oldValue.BloodValue, nil
+	return oldValue.Blood, nil
 }
 
-// ResetBloodValue resets all changes to the "bloodValue" field.
-func (m *BloodTypeMutation) ResetBloodValue() {
-	m.bloodValue = nil
+// ResetBlood resets all changes to the "blood" field.
+func (m *BloodTypeMutation) ResetBlood() {
+	m.blood = nil
 }
 
-// AddPatientIDs adds the "patient" edge to the Patient entity by ids.
-func (m *BloodTypeMutation) AddPatientIDs(ids ...int) {
-	if m.patient == nil {
-		m.patient = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.patient[ids[i]] = struct{}{}
-	}
-}
-
-// ClearPatient clears the "patient" edge to the Patient entity.
-func (m *BloodTypeMutation) ClearPatient() {
-	m.clearedpatient = true
-}
-
-// PatientCleared returns if the "patient" edge to the Patient entity was cleared.
-func (m *BloodTypeMutation) PatientCleared() bool {
-	return m.clearedpatient
-}
-
-// RemovePatientIDs removes the "patient" edge to the Patient entity by IDs.
-func (m *BloodTypeMutation) RemovePatientIDs(ids ...int) {
-	if m.removedpatient == nil {
-		m.removedpatient = make(map[int]struct{})
+// AddBloodTypeToPatientIDs adds the "BloodTypeToPatient" edge to the Patient entity by ids.
+func (m *BloodTypeMutation) AddBloodTypeToPatientIDs(ids ...int) {
+	if m._BloodTypeToPatient == nil {
+		m._BloodTypeToPatient = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.removedpatient[ids[i]] = struct{}{}
+		m._BloodTypeToPatient[ids[i]] = struct{}{}
 	}
 }
 
-// RemovedPatient returns the removed IDs of the "patient" edge to the Patient entity.
-func (m *BloodTypeMutation) RemovedPatientIDs() (ids []int) {
-	for id := range m.removedpatient {
+// ClearBloodTypeToPatient clears the "BloodTypeToPatient" edge to the Patient entity.
+func (m *BloodTypeMutation) ClearBloodTypeToPatient() {
+	m.cleared_BloodTypeToPatient = true
+}
+
+// BloodTypeToPatientCleared returns if the "BloodTypeToPatient" edge to the Patient entity was cleared.
+func (m *BloodTypeMutation) BloodTypeToPatientCleared() bool {
+	return m.cleared_BloodTypeToPatient
+}
+
+// RemoveBloodTypeToPatientIDs removes the "BloodTypeToPatient" edge to the Patient entity by IDs.
+func (m *BloodTypeMutation) RemoveBloodTypeToPatientIDs(ids ...int) {
+	if m.removed_BloodTypeToPatient == nil {
+		m.removed_BloodTypeToPatient = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removed_BloodTypeToPatient[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedBloodTypeToPatient returns the removed IDs of the "BloodTypeToPatient" edge to the Patient entity.
+func (m *BloodTypeMutation) RemovedBloodTypeToPatientIDs() (ids []int) {
+	for id := range m.removed_BloodTypeToPatient {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// PatientIDs returns the "patient" edge IDs in the mutation.
-func (m *BloodTypeMutation) PatientIDs() (ids []int) {
-	for id := range m.patient {
+// BloodTypeToPatientIDs returns the "BloodTypeToPatient" edge IDs in the mutation.
+func (m *BloodTypeMutation) BloodTypeToPatientIDs() (ids []int) {
+	for id := range m._BloodTypeToPatient {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// ResetPatient resets all changes to the "patient" edge.
-func (m *BloodTypeMutation) ResetPatient() {
-	m.patient = nil
-	m.clearedpatient = false
-	m.removedpatient = nil
+// ResetBloodTypeToPatient resets all changes to the "BloodTypeToPatient" edge.
+func (m *BloodTypeMutation) ResetBloodTypeToPatient() {
+	m._BloodTypeToPatient = nil
+	m.cleared_BloodTypeToPatient = false
+	m.removed_BloodTypeToPatient = nil
 }
 
 // Op returns the operation name.
@@ -848,8 +848,8 @@ func (m *BloodTypeMutation) Type() string {
 // AddedFields().
 func (m *BloodTypeMutation) Fields() []string {
 	fields := make([]string, 0, 1)
-	if m.bloodValue != nil {
-		fields = append(fields, bloodtype.FieldBloodValue)
+	if m.blood != nil {
+		fields = append(fields, bloodtype.FieldBlood)
 	}
 	return fields
 }
@@ -859,8 +859,8 @@ func (m *BloodTypeMutation) Fields() []string {
 // schema.
 func (m *BloodTypeMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case bloodtype.FieldBloodValue:
-		return m.BloodValue()
+	case bloodtype.FieldBlood:
+		return m.Blood()
 	}
 	return nil, false
 }
@@ -870,8 +870,8 @@ func (m *BloodTypeMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *BloodTypeMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case bloodtype.FieldBloodValue:
-		return m.OldBloodValue(ctx)
+	case bloodtype.FieldBlood:
+		return m.OldBlood(ctx)
 	}
 	return nil, fmt.Errorf("unknown BloodType field %s", name)
 }
@@ -881,12 +881,12 @@ func (m *BloodTypeMutation) OldField(ctx context.Context, name string) (ent.Valu
 // type.
 func (m *BloodTypeMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case bloodtype.FieldBloodValue:
+	case bloodtype.FieldBlood:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetBloodValue(v)
+		m.SetBlood(v)
 		return nil
 	}
 	return fmt.Errorf("unknown BloodType field %s", name)
@@ -937,8 +937,8 @@ func (m *BloodTypeMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *BloodTypeMutation) ResetField(name string) error {
 	switch name {
-	case bloodtype.FieldBloodValue:
-		m.ResetBloodValue()
+	case bloodtype.FieldBlood:
+		m.ResetBlood()
 		return nil
 	}
 	return fmt.Errorf("unknown BloodType field %s", name)
@@ -947,8 +947,8 @@ func (m *BloodTypeMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *BloodTypeMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.patient != nil {
-		edges = append(edges, bloodtype.EdgePatient)
+	if m._BloodTypeToPatient != nil {
+		edges = append(edges, bloodtype.EdgeBloodTypeToPatient)
 	}
 	return edges
 }
@@ -957,9 +957,9 @@ func (m *BloodTypeMutation) AddedEdges() []string {
 // name in this mutation.
 func (m *BloodTypeMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case bloodtype.EdgePatient:
-		ids := make([]ent.Value, 0, len(m.patient))
-		for id := range m.patient {
+	case bloodtype.EdgeBloodTypeToPatient:
+		ids := make([]ent.Value, 0, len(m._BloodTypeToPatient))
+		for id := range m._BloodTypeToPatient {
 			ids = append(ids, id)
 		}
 		return ids
@@ -970,8 +970,8 @@ func (m *BloodTypeMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *BloodTypeMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.removedpatient != nil {
-		edges = append(edges, bloodtype.EdgePatient)
+	if m.removed_BloodTypeToPatient != nil {
+		edges = append(edges, bloodtype.EdgeBloodTypeToPatient)
 	}
 	return edges
 }
@@ -980,9 +980,9 @@ func (m *BloodTypeMutation) RemovedEdges() []string {
 // the given name in this mutation.
 func (m *BloodTypeMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case bloodtype.EdgePatient:
-		ids := make([]ent.Value, 0, len(m.removedpatient))
-		for id := range m.removedpatient {
+	case bloodtype.EdgeBloodTypeToPatient:
+		ids := make([]ent.Value, 0, len(m.removed_BloodTypeToPatient))
+		for id := range m.removed_BloodTypeToPatient {
 			ids = append(ids, id)
 		}
 		return ids
@@ -993,8 +993,8 @@ func (m *BloodTypeMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *BloodTypeMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.clearedpatient {
-		edges = append(edges, bloodtype.EdgePatient)
+	if m.cleared_BloodTypeToPatient {
+		edges = append(edges, bloodtype.EdgeBloodTypeToPatient)
 	}
 	return edges
 }
@@ -1003,8 +1003,8 @@ func (m *BloodTypeMutation) ClearedEdges() []string {
 // was cleared in this mutation.
 func (m *BloodTypeMutation) EdgeCleared(name string) bool {
 	switch name {
-	case bloodtype.EdgePatient:
-		return m.clearedpatient
+	case bloodtype.EdgeBloodTypeToPatient:
+		return m.cleared_BloodTypeToPatient
 	}
 	return false
 }
@@ -1021,8 +1021,8 @@ func (m *BloodTypeMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *BloodTypeMutation) ResetEdge(name string) error {
 	switch name {
-	case bloodtype.EdgePatient:
-		m.ResetPatient()
+	case bloodtype.EdgeBloodTypeToPatient:
+		m.ResetBloodTypeToPatient()
 		return nil
 	}
 	return fmt.Errorf("unknown BloodType edge %s", name)
@@ -2643,17 +2643,17 @@ func (m *DoctorMutation) ResetEdge(name string) error {
 // GenderMutation represents an operation that mutates the Gender nodes in the graph.
 type GenderMutation struct {
 	config
-	op             Op
-	typ            string
-	id             *int
-	genderValue    *string
-	clearedFields  map[string]struct{}
-	patient        map[int]struct{}
-	removedpatient map[int]struct{}
-	clearedpatient bool
-	done           bool
-	oldValue       func(context.Context) (*Gender, error)
-	predicates     []predicate.Gender
+	op                      Op
+	typ                     string
+	id                      *int
+	gender                  *string
+	clearedFields           map[string]struct{}
+	_GenderToPatient        map[int]struct{}
+	removed_GenderToPatient map[int]struct{}
+	cleared_GenderToPatient bool
+	done                    bool
+	oldValue                func(context.Context) (*Gender, error)
+	predicates              []predicate.Gender
 }
 
 var _ ent.Mutation = (*GenderMutation)(nil)
@@ -2735,93 +2735,93 @@ func (m *GenderMutation) ID() (id int, exists bool) {
 	return *m.id, true
 }
 
-// SetGenderValue sets the "genderValue" field.
-func (m *GenderMutation) SetGenderValue(s string) {
-	m.genderValue = &s
+// SetGender sets the "gender" field.
+func (m *GenderMutation) SetGender(s string) {
+	m.gender = &s
 }
 
-// GenderValue returns the value of the "genderValue" field in the mutation.
-func (m *GenderMutation) GenderValue() (r string, exists bool) {
-	v := m.genderValue
+// Gender returns the value of the "gender" field in the mutation.
+func (m *GenderMutation) Gender() (r string, exists bool) {
+	v := m.gender
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldGenderValue returns the old "genderValue" field's value of the Gender entity.
+// OldGender returns the old "gender" field's value of the Gender entity.
 // If the Gender object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *GenderMutation) OldGenderValue(ctx context.Context) (v string, err error) {
+func (m *GenderMutation) OldGender(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldGenderValue is only allowed on UpdateOne operations")
+		return v, fmt.Errorf("OldGender is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldGenderValue requires an ID field in the mutation")
+		return v, fmt.Errorf("OldGender requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldGenderValue: %w", err)
+		return v, fmt.Errorf("querying old value for OldGender: %w", err)
 	}
-	return oldValue.GenderValue, nil
+	return oldValue.Gender, nil
 }
 
-// ResetGenderValue resets all changes to the "genderValue" field.
-func (m *GenderMutation) ResetGenderValue() {
-	m.genderValue = nil
+// ResetGender resets all changes to the "gender" field.
+func (m *GenderMutation) ResetGender() {
+	m.gender = nil
 }
 
-// AddPatientIDs adds the "patient" edge to the Patient entity by ids.
-func (m *GenderMutation) AddPatientIDs(ids ...int) {
-	if m.patient == nil {
-		m.patient = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.patient[ids[i]] = struct{}{}
-	}
-}
-
-// ClearPatient clears the "patient" edge to the Patient entity.
-func (m *GenderMutation) ClearPatient() {
-	m.clearedpatient = true
-}
-
-// PatientCleared returns if the "patient" edge to the Patient entity was cleared.
-func (m *GenderMutation) PatientCleared() bool {
-	return m.clearedpatient
-}
-
-// RemovePatientIDs removes the "patient" edge to the Patient entity by IDs.
-func (m *GenderMutation) RemovePatientIDs(ids ...int) {
-	if m.removedpatient == nil {
-		m.removedpatient = make(map[int]struct{})
+// AddGenderToPatientIDs adds the "GenderToPatient" edge to the Patient entity by ids.
+func (m *GenderMutation) AddGenderToPatientIDs(ids ...int) {
+	if m._GenderToPatient == nil {
+		m._GenderToPatient = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.removedpatient[ids[i]] = struct{}{}
+		m._GenderToPatient[ids[i]] = struct{}{}
 	}
 }
 
-// RemovedPatient returns the removed IDs of the "patient" edge to the Patient entity.
-func (m *GenderMutation) RemovedPatientIDs() (ids []int) {
-	for id := range m.removedpatient {
+// ClearGenderToPatient clears the "GenderToPatient" edge to the Patient entity.
+func (m *GenderMutation) ClearGenderToPatient() {
+	m.cleared_GenderToPatient = true
+}
+
+// GenderToPatientCleared returns if the "GenderToPatient" edge to the Patient entity was cleared.
+func (m *GenderMutation) GenderToPatientCleared() bool {
+	return m.cleared_GenderToPatient
+}
+
+// RemoveGenderToPatientIDs removes the "GenderToPatient" edge to the Patient entity by IDs.
+func (m *GenderMutation) RemoveGenderToPatientIDs(ids ...int) {
+	if m.removed_GenderToPatient == nil {
+		m.removed_GenderToPatient = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removed_GenderToPatient[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedGenderToPatient returns the removed IDs of the "GenderToPatient" edge to the Patient entity.
+func (m *GenderMutation) RemovedGenderToPatientIDs() (ids []int) {
+	for id := range m.removed_GenderToPatient {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// PatientIDs returns the "patient" edge IDs in the mutation.
-func (m *GenderMutation) PatientIDs() (ids []int) {
-	for id := range m.patient {
+// GenderToPatientIDs returns the "GenderToPatient" edge IDs in the mutation.
+func (m *GenderMutation) GenderToPatientIDs() (ids []int) {
+	for id := range m._GenderToPatient {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// ResetPatient resets all changes to the "patient" edge.
-func (m *GenderMutation) ResetPatient() {
-	m.patient = nil
-	m.clearedpatient = false
-	m.removedpatient = nil
+// ResetGenderToPatient resets all changes to the "GenderToPatient" edge.
+func (m *GenderMutation) ResetGenderToPatient() {
+	m._GenderToPatient = nil
+	m.cleared_GenderToPatient = false
+	m.removed_GenderToPatient = nil
 }
 
 // Op returns the operation name.
@@ -2839,8 +2839,8 @@ func (m *GenderMutation) Type() string {
 // AddedFields().
 func (m *GenderMutation) Fields() []string {
 	fields := make([]string, 0, 1)
-	if m.genderValue != nil {
-		fields = append(fields, gender.FieldGenderValue)
+	if m.gender != nil {
+		fields = append(fields, gender.FieldGender)
 	}
 	return fields
 }
@@ -2850,8 +2850,8 @@ func (m *GenderMutation) Fields() []string {
 // schema.
 func (m *GenderMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case gender.FieldGenderValue:
-		return m.GenderValue()
+	case gender.FieldGender:
+		return m.Gender()
 	}
 	return nil, false
 }
@@ -2861,8 +2861,8 @@ func (m *GenderMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *GenderMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case gender.FieldGenderValue:
-		return m.OldGenderValue(ctx)
+	case gender.FieldGender:
+		return m.OldGender(ctx)
 	}
 	return nil, fmt.Errorf("unknown Gender field %s", name)
 }
@@ -2872,12 +2872,12 @@ func (m *GenderMutation) OldField(ctx context.Context, name string) (ent.Value, 
 // type.
 func (m *GenderMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case gender.FieldGenderValue:
+	case gender.FieldGender:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetGenderValue(v)
+		m.SetGender(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Gender field %s", name)
@@ -2928,8 +2928,8 @@ func (m *GenderMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *GenderMutation) ResetField(name string) error {
 	switch name {
-	case gender.FieldGenderValue:
-		m.ResetGenderValue()
+	case gender.FieldGender:
+		m.ResetGender()
 		return nil
 	}
 	return fmt.Errorf("unknown Gender field %s", name)
@@ -2938,8 +2938,8 @@ func (m *GenderMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *GenderMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.patient != nil {
-		edges = append(edges, gender.EdgePatient)
+	if m._GenderToPatient != nil {
+		edges = append(edges, gender.EdgeGenderToPatient)
 	}
 	return edges
 }
@@ -2948,9 +2948,9 @@ func (m *GenderMutation) AddedEdges() []string {
 // name in this mutation.
 func (m *GenderMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case gender.EdgePatient:
-		ids := make([]ent.Value, 0, len(m.patient))
-		for id := range m.patient {
+	case gender.EdgeGenderToPatient:
+		ids := make([]ent.Value, 0, len(m._GenderToPatient))
+		for id := range m._GenderToPatient {
 			ids = append(ids, id)
 		}
 		return ids
@@ -2961,8 +2961,8 @@ func (m *GenderMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *GenderMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.removedpatient != nil {
-		edges = append(edges, gender.EdgePatient)
+	if m.removed_GenderToPatient != nil {
+		edges = append(edges, gender.EdgeGenderToPatient)
 	}
 	return edges
 }
@@ -2971,9 +2971,9 @@ func (m *GenderMutation) RemovedEdges() []string {
 // the given name in this mutation.
 func (m *GenderMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case gender.EdgePatient:
-		ids := make([]ent.Value, 0, len(m.removedpatient))
-		for id := range m.removedpatient {
+	case gender.EdgeGenderToPatient:
+		ids := make([]ent.Value, 0, len(m.removed_GenderToPatient))
+		for id := range m.removed_GenderToPatient {
 			ids = append(ids, id)
 		}
 		return ids
@@ -2984,8 +2984,8 @@ func (m *GenderMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *GenderMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.clearedpatient {
-		edges = append(edges, gender.EdgePatient)
+	if m.cleared_GenderToPatient {
+		edges = append(edges, gender.EdgeGenderToPatient)
 	}
 	return edges
 }
@@ -2994,8 +2994,8 @@ func (m *GenderMutation) ClearedEdges() []string {
 // was cleared in this mutation.
 func (m *GenderMutation) EdgeCleared(name string) bool {
 	switch name {
-	case gender.EdgePatient:
-		return m.clearedpatient
+	case gender.EdgeGenderToPatient:
+		return m.cleared_GenderToPatient
 	}
 	return false
 }
@@ -3012,8 +3012,8 @@ func (m *GenderMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *GenderMutation) ResetEdge(name string) error {
 	switch name {
-	case gender.EdgePatient:
-		m.ResetPatient()
+	case gender.EdgeGenderToPatient:
+		m.ResetGenderToPatient()
 		return nil
 	}
 	return fmt.Errorf("unknown Gender edge %s", name)
@@ -4849,14 +4849,14 @@ type PatientMutation struct {
 	addage                              *int
 	hospitalNumber                      *string
 	drugAllergy                         *string
-	addedDate                           *time.Time
+	added_time                          *time.Time
 	clearedFields                       map[string]struct{}
-	prefix                              *int
-	clearedprefix                       bool
-	gender                              *int
-	clearedgender                       bool
-	bloodtype                           *int
-	clearedbloodtype                    bool
+	_Prefix                             *int
+	cleared_Prefix                      bool
+	_Gender                             *int
+	cleared_Gender                      bool
+	_Bloodtype                          *int
+	cleared_Bloodtype                   bool
 	triageResult                        map[int]struct{}
 	removedtriageResult                 map[int]struct{}
 	clearedtriageResult                 bool
@@ -5176,157 +5176,157 @@ func (m *PatientMutation) ResetDrugAllergy() {
 	m.drugAllergy = nil
 }
 
-// SetAddedDate sets the "addedDate" field.
-func (m *PatientMutation) SetAddedDate(t time.Time) {
-	m.addedDate = &t
+// SetAddedTime sets the "added_time" field.
+func (m *PatientMutation) SetAddedTime(t time.Time) {
+	m.added_time = &t
 }
 
-// AddedDate returns the value of the "addedDate" field in the mutation.
-func (m *PatientMutation) AddedDate() (r time.Time, exists bool) {
-	v := m.addedDate
+// AddedTime returns the value of the "added_time" field in the mutation.
+func (m *PatientMutation) AddedTime() (r time.Time, exists bool) {
+	v := m.added_time
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldAddedDate returns the old "addedDate" field's value of the Patient entity.
+// OldAddedTime returns the old "added_time" field's value of the Patient entity.
 // If the Patient object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *PatientMutation) OldAddedDate(ctx context.Context) (v time.Time, err error) {
+func (m *PatientMutation) OldAddedTime(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAddedDate is only allowed on UpdateOne operations")
+		return v, fmt.Errorf("OldAddedTime is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAddedDate requires an ID field in the mutation")
+		return v, fmt.Errorf("OldAddedTime requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAddedDate: %w", err)
+		return v, fmt.Errorf("querying old value for OldAddedTime: %w", err)
 	}
-	return oldValue.AddedDate, nil
+	return oldValue.AddedTime, nil
 }
 
-// ResetAddedDate resets all changes to the "addedDate" field.
-func (m *PatientMutation) ResetAddedDate() {
-	m.addedDate = nil
+// ResetAddedTime resets all changes to the "added_time" field.
+func (m *PatientMutation) ResetAddedTime() {
+	m.added_time = nil
 }
 
-// SetPrefixID sets the "prefix" edge to the Prefix entity by id.
+// SetPrefixID sets the "Prefix" edge to the Prefix entity by id.
 func (m *PatientMutation) SetPrefixID(id int) {
-	m.prefix = &id
+	m._Prefix = &id
 }
 
-// ClearPrefix clears the "prefix" edge to the Prefix entity.
+// ClearPrefix clears the "Prefix" edge to the Prefix entity.
 func (m *PatientMutation) ClearPrefix() {
-	m.clearedprefix = true
+	m.cleared_Prefix = true
 }
 
-// PrefixCleared returns if the "prefix" edge to the Prefix entity was cleared.
+// PrefixCleared returns if the "Prefix" edge to the Prefix entity was cleared.
 func (m *PatientMutation) PrefixCleared() bool {
-	return m.clearedprefix
+	return m.cleared_Prefix
 }
 
-// PrefixID returns the "prefix" edge ID in the mutation.
+// PrefixID returns the "Prefix" edge ID in the mutation.
 func (m *PatientMutation) PrefixID() (id int, exists bool) {
-	if m.prefix != nil {
-		return *m.prefix, true
+	if m._Prefix != nil {
+		return *m._Prefix, true
 	}
 	return
 }
 
-// PrefixIDs returns the "prefix" edge IDs in the mutation.
+// PrefixIDs returns the "Prefix" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
 // PrefixID instead. It exists only for internal usage by the builders.
 func (m *PatientMutation) PrefixIDs() (ids []int) {
-	if id := m.prefix; id != nil {
+	if id := m._Prefix; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetPrefix resets all changes to the "prefix" edge.
+// ResetPrefix resets all changes to the "Prefix" edge.
 func (m *PatientMutation) ResetPrefix() {
-	m.prefix = nil
-	m.clearedprefix = false
+	m._Prefix = nil
+	m.cleared_Prefix = false
 }
 
-// SetGenderID sets the "gender" edge to the Gender entity by id.
+// SetGenderID sets the "Gender" edge to the Gender entity by id.
 func (m *PatientMutation) SetGenderID(id int) {
-	m.gender = &id
+	m._Gender = &id
 }
 
-// ClearGender clears the "gender" edge to the Gender entity.
+// ClearGender clears the "Gender" edge to the Gender entity.
 func (m *PatientMutation) ClearGender() {
-	m.clearedgender = true
+	m.cleared_Gender = true
 }
 
-// GenderCleared returns if the "gender" edge to the Gender entity was cleared.
+// GenderCleared returns if the "Gender" edge to the Gender entity was cleared.
 func (m *PatientMutation) GenderCleared() bool {
-	return m.clearedgender
+	return m.cleared_Gender
 }
 
-// GenderID returns the "gender" edge ID in the mutation.
+// GenderID returns the "Gender" edge ID in the mutation.
 func (m *PatientMutation) GenderID() (id int, exists bool) {
-	if m.gender != nil {
-		return *m.gender, true
+	if m._Gender != nil {
+		return *m._Gender, true
 	}
 	return
 }
 
-// GenderIDs returns the "gender" edge IDs in the mutation.
+// GenderIDs returns the "Gender" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
 // GenderID instead. It exists only for internal usage by the builders.
 func (m *PatientMutation) GenderIDs() (ids []int) {
-	if id := m.gender; id != nil {
+	if id := m._Gender; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetGender resets all changes to the "gender" edge.
+// ResetGender resets all changes to the "Gender" edge.
 func (m *PatientMutation) ResetGender() {
-	m.gender = nil
-	m.clearedgender = false
+	m._Gender = nil
+	m.cleared_Gender = false
 }
 
-// SetBloodtypeID sets the "bloodtype" edge to the BloodType entity by id.
+// SetBloodtypeID sets the "Bloodtype" edge to the BloodType entity by id.
 func (m *PatientMutation) SetBloodtypeID(id int) {
-	m.bloodtype = &id
+	m._Bloodtype = &id
 }
 
-// ClearBloodtype clears the "bloodtype" edge to the BloodType entity.
+// ClearBloodtype clears the "Bloodtype" edge to the BloodType entity.
 func (m *PatientMutation) ClearBloodtype() {
-	m.clearedbloodtype = true
+	m.cleared_Bloodtype = true
 }
 
-// BloodtypeCleared returns if the "bloodtype" edge to the BloodType entity was cleared.
+// BloodtypeCleared returns if the "Bloodtype" edge to the BloodType entity was cleared.
 func (m *PatientMutation) BloodtypeCleared() bool {
-	return m.clearedbloodtype
+	return m.cleared_Bloodtype
 }
 
-// BloodtypeID returns the "bloodtype" edge ID in the mutation.
+// BloodtypeID returns the "Bloodtype" edge ID in the mutation.
 func (m *PatientMutation) BloodtypeID() (id int, exists bool) {
-	if m.bloodtype != nil {
-		return *m.bloodtype, true
+	if m._Bloodtype != nil {
+		return *m._Bloodtype, true
 	}
 	return
 }
 
-// BloodtypeIDs returns the "bloodtype" edge IDs in the mutation.
+// BloodtypeIDs returns the "Bloodtype" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
 // BloodtypeID instead. It exists only for internal usage by the builders.
 func (m *PatientMutation) BloodtypeIDs() (ids []int) {
-	if id := m.bloodtype; id != nil {
+	if id := m._Bloodtype; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetBloodtype resets all changes to the "bloodtype" edge.
+// ResetBloodtype resets all changes to the "Bloodtype" edge.
 func (m *PatientMutation) ResetBloodtype() {
-	m.bloodtype = nil
-	m.clearedbloodtype = false
+	m._Bloodtype = nil
+	m.cleared_Bloodtype = false
 }
 
 // AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by ids.
@@ -5624,8 +5624,8 @@ func (m *PatientMutation) Fields() []string {
 	if m.drugAllergy != nil {
 		fields = append(fields, patient.FieldDrugAllergy)
 	}
-	if m.addedDate != nil {
-		fields = append(fields, patient.FieldAddedDate)
+	if m.added_time != nil {
+		fields = append(fields, patient.FieldAddedTime)
 	}
 	return fields
 }
@@ -5645,8 +5645,8 @@ func (m *PatientMutation) Field(name string) (ent.Value, bool) {
 		return m.HospitalNumber()
 	case patient.FieldDrugAllergy:
 		return m.DrugAllergy()
-	case patient.FieldAddedDate:
-		return m.AddedDate()
+	case patient.FieldAddedTime:
+		return m.AddedTime()
 	}
 	return nil, false
 }
@@ -5666,8 +5666,8 @@ func (m *PatientMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldHospitalNumber(ctx)
 	case patient.FieldDrugAllergy:
 		return m.OldDrugAllergy(ctx)
-	case patient.FieldAddedDate:
-		return m.OldAddedDate(ctx)
+	case patient.FieldAddedTime:
+		return m.OldAddedTime(ctx)
 	}
 	return nil, fmt.Errorf("unknown Patient field %s", name)
 }
@@ -5712,12 +5712,12 @@ func (m *PatientMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetDrugAllergy(v)
 		return nil
-	case patient.FieldAddedDate:
+	case patient.FieldAddedTime:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetAddedDate(v)
+		m.SetAddedTime(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Patient field %s", name)
@@ -5810,8 +5810,8 @@ func (m *PatientMutation) ResetField(name string) error {
 	case patient.FieldDrugAllergy:
 		m.ResetDrugAllergy()
 		return nil
-	case patient.FieldAddedDate:
-		m.ResetAddedDate()
+	case patient.FieldAddedTime:
+		m.ResetAddedTime()
 		return nil
 	}
 	return fmt.Errorf("unknown Patient field %s", name)
@@ -5820,13 +5820,13 @@ func (m *PatientMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *PatientMutation) AddedEdges() []string {
 	edges := make([]string, 0, 8)
-	if m.prefix != nil {
+	if m._Prefix != nil {
 		edges = append(edges, patient.EdgePrefix)
 	}
-	if m.gender != nil {
+	if m._Gender != nil {
 		edges = append(edges, patient.EdgeGender)
 	}
-	if m.bloodtype != nil {
+	if m._Bloodtype != nil {
 		edges = append(edges, patient.EdgeBloodtype)
 	}
 	if m.triageResult != nil {
@@ -5852,15 +5852,15 @@ func (m *PatientMutation) AddedEdges() []string {
 func (m *PatientMutation) AddedIDs(name string) []ent.Value {
 	switch name {
 	case patient.EdgePrefix:
-		if id := m.prefix; id != nil {
+		if id := m._Prefix; id != nil {
 			return []ent.Value{*id}
 		}
 	case patient.EdgeGender:
-		if id := m.gender; id != nil {
+		if id := m._Gender; id != nil {
 			return []ent.Value{*id}
 		}
 	case patient.EdgeBloodtype:
-		if id := m.bloodtype; id != nil {
+		if id := m._Bloodtype; id != nil {
 			return []ent.Value{*id}
 		}
 	case patient.EdgeTriageResult:
@@ -5959,13 +5959,13 @@ func (m *PatientMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *PatientMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 8)
-	if m.clearedprefix {
+	if m.cleared_Prefix {
 		edges = append(edges, patient.EdgePrefix)
 	}
-	if m.clearedgender {
+	if m.cleared_Gender {
 		edges = append(edges, patient.EdgeGender)
 	}
-	if m.clearedbloodtype {
+	if m.cleared_Bloodtype {
 		edges = append(edges, patient.EdgeBloodtype)
 	}
 	if m.clearedtriageResult {
@@ -5991,11 +5991,11 @@ func (m *PatientMutation) ClearedEdges() []string {
 func (m *PatientMutation) EdgeCleared(name string) bool {
 	switch name {
 	case patient.EdgePrefix:
-		return m.clearedprefix
+		return m.cleared_Prefix
 	case patient.EdgeGender:
-		return m.clearedgender
+		return m.cleared_Gender
 	case patient.EdgeBloodtype:
-		return m.clearedbloodtype
+		return m.cleared_Bloodtype
 	case patient.EdgeTriageResult:
 		return m.clearedtriageResult
 	case patient.EdgePatientToAppointmentResults:
@@ -6062,17 +6062,17 @@ func (m *PatientMutation) ResetEdge(name string) error {
 // PrefixMutation represents an operation that mutates the Prefix nodes in the graph.
 type PrefixMutation struct {
 	config
-	op             Op
-	typ            string
-	id             *int
-	prefixValue    *string
-	clearedFields  map[string]struct{}
-	patient        map[int]struct{}
-	removedpatient map[int]struct{}
-	clearedpatient bool
-	done           bool
-	oldValue       func(context.Context) (*Prefix, error)
-	predicates     []predicate.Prefix
+	op                      Op
+	typ                     string
+	id                      *int
+	prefix                  *string
+	clearedFields           map[string]struct{}
+	_PrefixToPatient        map[int]struct{}
+	removed_PrefixToPatient map[int]struct{}
+	cleared_PrefixToPatient bool
+	done                    bool
+	oldValue                func(context.Context) (*Prefix, error)
+	predicates              []predicate.Prefix
 }
 
 var _ ent.Mutation = (*PrefixMutation)(nil)
@@ -6154,93 +6154,93 @@ func (m *PrefixMutation) ID() (id int, exists bool) {
 	return *m.id, true
 }
 
-// SetPrefixValue sets the "prefixValue" field.
-func (m *PrefixMutation) SetPrefixValue(s string) {
-	m.prefixValue = &s
+// SetPrefix sets the "prefix" field.
+func (m *PrefixMutation) SetPrefix(s string) {
+	m.prefix = &s
 }
 
-// PrefixValue returns the value of the "prefixValue" field in the mutation.
-func (m *PrefixMutation) PrefixValue() (r string, exists bool) {
-	v := m.prefixValue
+// Prefix returns the value of the "prefix" field in the mutation.
+func (m *PrefixMutation) Prefix() (r string, exists bool) {
+	v := m.prefix
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldPrefixValue returns the old "prefixValue" field's value of the Prefix entity.
+// OldPrefix returns the old "prefix" field's value of the Prefix entity.
 // If the Prefix object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *PrefixMutation) OldPrefixValue(ctx context.Context) (v string, err error) {
+func (m *PrefixMutation) OldPrefix(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldPrefixValue is only allowed on UpdateOne operations")
+		return v, fmt.Errorf("OldPrefix is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldPrefixValue requires an ID field in the mutation")
+		return v, fmt.Errorf("OldPrefix requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPrefixValue: %w", err)
+		return v, fmt.Errorf("querying old value for OldPrefix: %w", err)
 	}
-	return oldValue.PrefixValue, nil
+	return oldValue.Prefix, nil
 }
 
-// ResetPrefixValue resets all changes to the "prefixValue" field.
-func (m *PrefixMutation) ResetPrefixValue() {
-	m.prefixValue = nil
+// ResetPrefix resets all changes to the "prefix" field.
+func (m *PrefixMutation) ResetPrefix() {
+	m.prefix = nil
 }
 
-// AddPatientIDs adds the "patient" edge to the Patient entity by ids.
-func (m *PrefixMutation) AddPatientIDs(ids ...int) {
-	if m.patient == nil {
-		m.patient = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.patient[ids[i]] = struct{}{}
-	}
-}
-
-// ClearPatient clears the "patient" edge to the Patient entity.
-func (m *PrefixMutation) ClearPatient() {
-	m.clearedpatient = true
-}
-
-// PatientCleared returns if the "patient" edge to the Patient entity was cleared.
-func (m *PrefixMutation) PatientCleared() bool {
-	return m.clearedpatient
-}
-
-// RemovePatientIDs removes the "patient" edge to the Patient entity by IDs.
-func (m *PrefixMutation) RemovePatientIDs(ids ...int) {
-	if m.removedpatient == nil {
-		m.removedpatient = make(map[int]struct{})
+// AddPrefixToPatientIDs adds the "PrefixToPatient" edge to the Patient entity by ids.
+func (m *PrefixMutation) AddPrefixToPatientIDs(ids ...int) {
+	if m._PrefixToPatient == nil {
+		m._PrefixToPatient = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.removedpatient[ids[i]] = struct{}{}
+		m._PrefixToPatient[ids[i]] = struct{}{}
 	}
 }
 
-// RemovedPatient returns the removed IDs of the "patient" edge to the Patient entity.
-func (m *PrefixMutation) RemovedPatientIDs() (ids []int) {
-	for id := range m.removedpatient {
+// ClearPrefixToPatient clears the "PrefixToPatient" edge to the Patient entity.
+func (m *PrefixMutation) ClearPrefixToPatient() {
+	m.cleared_PrefixToPatient = true
+}
+
+// PrefixToPatientCleared returns if the "PrefixToPatient" edge to the Patient entity was cleared.
+func (m *PrefixMutation) PrefixToPatientCleared() bool {
+	return m.cleared_PrefixToPatient
+}
+
+// RemovePrefixToPatientIDs removes the "PrefixToPatient" edge to the Patient entity by IDs.
+func (m *PrefixMutation) RemovePrefixToPatientIDs(ids ...int) {
+	if m.removed_PrefixToPatient == nil {
+		m.removed_PrefixToPatient = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removed_PrefixToPatient[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedPrefixToPatient returns the removed IDs of the "PrefixToPatient" edge to the Patient entity.
+func (m *PrefixMutation) RemovedPrefixToPatientIDs() (ids []int) {
+	for id := range m.removed_PrefixToPatient {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// PatientIDs returns the "patient" edge IDs in the mutation.
-func (m *PrefixMutation) PatientIDs() (ids []int) {
-	for id := range m.patient {
+// PrefixToPatientIDs returns the "PrefixToPatient" edge IDs in the mutation.
+func (m *PrefixMutation) PrefixToPatientIDs() (ids []int) {
+	for id := range m._PrefixToPatient {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// ResetPatient resets all changes to the "patient" edge.
-func (m *PrefixMutation) ResetPatient() {
-	m.patient = nil
-	m.clearedpatient = false
-	m.removedpatient = nil
+// ResetPrefixToPatient resets all changes to the "PrefixToPatient" edge.
+func (m *PrefixMutation) ResetPrefixToPatient() {
+	m._PrefixToPatient = nil
+	m.cleared_PrefixToPatient = false
+	m.removed_PrefixToPatient = nil
 }
 
 // Op returns the operation name.
@@ -6258,8 +6258,8 @@ func (m *PrefixMutation) Type() string {
 // AddedFields().
 func (m *PrefixMutation) Fields() []string {
 	fields := make([]string, 0, 1)
-	if m.prefixValue != nil {
-		fields = append(fields, prefix.FieldPrefixValue)
+	if m.prefix != nil {
+		fields = append(fields, prefix.FieldPrefix)
 	}
 	return fields
 }
@@ -6269,8 +6269,8 @@ func (m *PrefixMutation) Fields() []string {
 // schema.
 func (m *PrefixMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case prefix.FieldPrefixValue:
-		return m.PrefixValue()
+	case prefix.FieldPrefix:
+		return m.Prefix()
 	}
 	return nil, false
 }
@@ -6280,8 +6280,8 @@ func (m *PrefixMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *PrefixMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case prefix.FieldPrefixValue:
-		return m.OldPrefixValue(ctx)
+	case prefix.FieldPrefix:
+		return m.OldPrefix(ctx)
 	}
 	return nil, fmt.Errorf("unknown Prefix field %s", name)
 }
@@ -6291,12 +6291,12 @@ func (m *PrefixMutation) OldField(ctx context.Context, name string) (ent.Value, 
 // type.
 func (m *PrefixMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case prefix.FieldPrefixValue:
+	case prefix.FieldPrefix:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetPrefixValue(v)
+		m.SetPrefix(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Prefix field %s", name)
@@ -6347,8 +6347,8 @@ func (m *PrefixMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *PrefixMutation) ResetField(name string) error {
 	switch name {
-	case prefix.FieldPrefixValue:
-		m.ResetPrefixValue()
+	case prefix.FieldPrefix:
+		m.ResetPrefix()
 		return nil
 	}
 	return fmt.Errorf("unknown Prefix field %s", name)
@@ -6357,8 +6357,8 @@ func (m *PrefixMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *PrefixMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.patient != nil {
-		edges = append(edges, prefix.EdgePatient)
+	if m._PrefixToPatient != nil {
+		edges = append(edges, prefix.EdgePrefixToPatient)
 	}
 	return edges
 }
@@ -6367,9 +6367,9 @@ func (m *PrefixMutation) AddedEdges() []string {
 // name in this mutation.
 func (m *PrefixMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case prefix.EdgePatient:
-		ids := make([]ent.Value, 0, len(m.patient))
-		for id := range m.patient {
+	case prefix.EdgePrefixToPatient:
+		ids := make([]ent.Value, 0, len(m._PrefixToPatient))
+		for id := range m._PrefixToPatient {
 			ids = append(ids, id)
 		}
 		return ids
@@ -6380,8 +6380,8 @@ func (m *PrefixMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *PrefixMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.removedpatient != nil {
-		edges = append(edges, prefix.EdgePatient)
+	if m.removed_PrefixToPatient != nil {
+		edges = append(edges, prefix.EdgePrefixToPatient)
 	}
 	return edges
 }
@@ -6390,9 +6390,9 @@ func (m *PrefixMutation) RemovedEdges() []string {
 // the given name in this mutation.
 func (m *PrefixMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case prefix.EdgePatient:
-		ids := make([]ent.Value, 0, len(m.removedpatient))
-		for id := range m.removedpatient {
+	case prefix.EdgePrefixToPatient:
+		ids := make([]ent.Value, 0, len(m.removed_PrefixToPatient))
+		for id := range m.removed_PrefixToPatient {
 			ids = append(ids, id)
 		}
 		return ids
@@ -6403,8 +6403,8 @@ func (m *PrefixMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *PrefixMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.clearedpatient {
-		edges = append(edges, prefix.EdgePatient)
+	if m.cleared_PrefixToPatient {
+		edges = append(edges, prefix.EdgePrefixToPatient)
 	}
 	return edges
 }
@@ -6413,8 +6413,8 @@ func (m *PrefixMutation) ClearedEdges() []string {
 // was cleared in this mutation.
 func (m *PrefixMutation) EdgeCleared(name string) bool {
 	switch name {
-	case prefix.EdgePatient:
-		return m.clearedpatient
+	case prefix.EdgePrefixToPatient:
+		return m.cleared_PrefixToPatient
 	}
 	return false
 }
@@ -6431,8 +6431,8 @@ func (m *PrefixMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *PrefixMutation) ResetEdge(name string) error {
 	switch name {
-	case prefix.EdgePatient:
-		m.ResetPatient()
+	case prefix.EdgePrefixToPatient:
+		m.ResetPrefixToPatient()
 		return nil
 	}
 	return fmt.Errorf("unknown Prefix edge %s", name)
