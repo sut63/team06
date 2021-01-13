@@ -1031,17 +1031,17 @@ func (m *BloodTypeMutation) ResetEdge(name string) error {
 // DepartmentMutation represents an operation that mutates the Department nodes in the graph.
 type DepartmentMutation struct {
 	config
-	op                              Op
-	typ                             string
-	id                              *int
-	departmentName                  *string
-	clearedFields                   map[string]struct{}
-	departmentToTriageResult        map[int]struct{}
-	removeddepartmentToTriageResult map[int]struct{}
-	cleareddepartmentToTriageResult bool
-	done                            bool
-	oldValue                        func(context.Context) (*Department, error)
-	predicates                      []predicate.Department
+	op                  Op
+	typ                 string
+	id                  *int
+	departmentName      *string
+	clearedFields       map[string]struct{}
+	triageResult        map[int]struct{}
+	removedtriageResult map[int]struct{}
+	clearedtriageResult bool
+	done                bool
+	oldValue            func(context.Context) (*Department, error)
+	predicates          []predicate.Department
 }
 
 var _ ent.Mutation = (*DepartmentMutation)(nil)
@@ -1159,57 +1159,57 @@ func (m *DepartmentMutation) ResetDepartmentName() {
 	m.departmentName = nil
 }
 
-// AddDepartmentToTriageResultIDs adds the "departmentToTriageResult" edge to the TriageResult entity by ids.
-func (m *DepartmentMutation) AddDepartmentToTriageResultIDs(ids ...int) {
-	if m.departmentToTriageResult == nil {
-		m.departmentToTriageResult = make(map[int]struct{})
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by ids.
+func (m *DepartmentMutation) AddTriageResultIDs(ids ...int) {
+	if m.triageResult == nil {
+		m.triageResult = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.departmentToTriageResult[ids[i]] = struct{}{}
+		m.triageResult[ids[i]] = struct{}{}
 	}
 }
 
-// ClearDepartmentToTriageResult clears the "departmentToTriageResult" edge to the TriageResult entity.
-func (m *DepartmentMutation) ClearDepartmentToTriageResult() {
-	m.cleareddepartmentToTriageResult = true
+// ClearTriageResult clears the "triageResult" edge to the TriageResult entity.
+func (m *DepartmentMutation) ClearTriageResult() {
+	m.clearedtriageResult = true
 }
 
-// DepartmentToTriageResultCleared returns if the "departmentToTriageResult" edge to the TriageResult entity was cleared.
-func (m *DepartmentMutation) DepartmentToTriageResultCleared() bool {
-	return m.cleareddepartmentToTriageResult
+// TriageResultCleared returns if the "triageResult" edge to the TriageResult entity was cleared.
+func (m *DepartmentMutation) TriageResultCleared() bool {
+	return m.clearedtriageResult
 }
 
-// RemoveDepartmentToTriageResultIDs removes the "departmentToTriageResult" edge to the TriageResult entity by IDs.
-func (m *DepartmentMutation) RemoveDepartmentToTriageResultIDs(ids ...int) {
-	if m.removeddepartmentToTriageResult == nil {
-		m.removeddepartmentToTriageResult = make(map[int]struct{})
+// RemoveTriageResultIDs removes the "triageResult" edge to the TriageResult entity by IDs.
+func (m *DepartmentMutation) RemoveTriageResultIDs(ids ...int) {
+	if m.removedtriageResult == nil {
+		m.removedtriageResult = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.removeddepartmentToTriageResult[ids[i]] = struct{}{}
+		m.removedtriageResult[ids[i]] = struct{}{}
 	}
 }
 
-// RemovedDepartmentToTriageResult returns the removed IDs of the "departmentToTriageResult" edge to the TriageResult entity.
-func (m *DepartmentMutation) RemovedDepartmentToTriageResultIDs() (ids []int) {
-	for id := range m.removeddepartmentToTriageResult {
+// RemovedTriageResult returns the removed IDs of the "triageResult" edge to the TriageResult entity.
+func (m *DepartmentMutation) RemovedTriageResultIDs() (ids []int) {
+	for id := range m.removedtriageResult {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// DepartmentToTriageResultIDs returns the "departmentToTriageResult" edge IDs in the mutation.
-func (m *DepartmentMutation) DepartmentToTriageResultIDs() (ids []int) {
-	for id := range m.departmentToTriageResult {
+// TriageResultIDs returns the "triageResult" edge IDs in the mutation.
+func (m *DepartmentMutation) TriageResultIDs() (ids []int) {
+	for id := range m.triageResult {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// ResetDepartmentToTriageResult resets all changes to the "departmentToTriageResult" edge.
-func (m *DepartmentMutation) ResetDepartmentToTriageResult() {
-	m.departmentToTriageResult = nil
-	m.cleareddepartmentToTriageResult = false
-	m.removeddepartmentToTriageResult = nil
+// ResetTriageResult resets all changes to the "triageResult" edge.
+func (m *DepartmentMutation) ResetTriageResult() {
+	m.triageResult = nil
+	m.clearedtriageResult = false
+	m.removedtriageResult = nil
 }
 
 // Op returns the operation name.
@@ -1326,8 +1326,8 @@ func (m *DepartmentMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *DepartmentMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.departmentToTriageResult != nil {
-		edges = append(edges, department.EdgeDepartmentToTriageResult)
+	if m.triageResult != nil {
+		edges = append(edges, department.EdgeTriageResult)
 	}
 	return edges
 }
@@ -1336,9 +1336,9 @@ func (m *DepartmentMutation) AddedEdges() []string {
 // name in this mutation.
 func (m *DepartmentMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case department.EdgeDepartmentToTriageResult:
-		ids := make([]ent.Value, 0, len(m.departmentToTriageResult))
-		for id := range m.departmentToTriageResult {
+	case department.EdgeTriageResult:
+		ids := make([]ent.Value, 0, len(m.triageResult))
+		for id := range m.triageResult {
 			ids = append(ids, id)
 		}
 		return ids
@@ -1349,8 +1349,8 @@ func (m *DepartmentMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *DepartmentMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.removeddepartmentToTriageResult != nil {
-		edges = append(edges, department.EdgeDepartmentToTriageResult)
+	if m.removedtriageResult != nil {
+		edges = append(edges, department.EdgeTriageResult)
 	}
 	return edges
 }
@@ -1359,9 +1359,9 @@ func (m *DepartmentMutation) RemovedEdges() []string {
 // the given name in this mutation.
 func (m *DepartmentMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case department.EdgeDepartmentToTriageResult:
-		ids := make([]ent.Value, 0, len(m.removeddepartmentToTriageResult))
-		for id := range m.removeddepartmentToTriageResult {
+	case department.EdgeTriageResult:
+		ids := make([]ent.Value, 0, len(m.removedtriageResult))
+		for id := range m.removedtriageResult {
 			ids = append(ids, id)
 		}
 		return ids
@@ -1372,8 +1372,8 @@ func (m *DepartmentMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *DepartmentMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.cleareddepartmentToTriageResult {
-		edges = append(edges, department.EdgeDepartmentToTriageResult)
+	if m.clearedtriageResult {
+		edges = append(edges, department.EdgeTriageResult)
 	}
 	return edges
 }
@@ -1382,8 +1382,8 @@ func (m *DepartmentMutation) ClearedEdges() []string {
 // was cleared in this mutation.
 func (m *DepartmentMutation) EdgeCleared(name string) bool {
 	switch name {
-	case department.EdgeDepartmentToTriageResult:
-		return m.cleareddepartmentToTriageResult
+	case department.EdgeTriageResult:
+		return m.clearedtriageResult
 	}
 	return false
 }
@@ -1400,8 +1400,8 @@ func (m *DepartmentMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *DepartmentMutation) ResetEdge(name string) error {
 	switch name {
-	case department.EdgeDepartmentToTriageResult:
-		m.ResetDepartmentToTriageResult()
+	case department.EdgeTriageResult:
+		m.ResetTriageResult()
 		return nil
 	}
 	return fmt.Errorf("unknown Department edge %s", name)
@@ -4277,9 +4277,9 @@ type NurseMutation struct {
 	nurseUsername                     *string
 	nursePassword                     *string
 	clearedFields                     map[string]struct{}
-	nurseToTriageResult               map[int]struct{}
-	removednurseToTriageResult        map[int]struct{}
-	clearednurseToTriageResult        bool
+	triageResult                      map[int]struct{}
+	removedtriageResult               map[int]struct{}
+	clearedtriageResult               bool
 	_NurseToAppointmentResults        map[int]struct{}
 	removed_NurseToAppointmentResults map[int]struct{}
 	cleared_NurseToAppointmentResults bool
@@ -4475,57 +4475,57 @@ func (m *NurseMutation) ResetNursePassword() {
 	m.nursePassword = nil
 }
 
-// AddNurseToTriageResultIDs adds the "nurseToTriageResult" edge to the TriageResult entity by ids.
-func (m *NurseMutation) AddNurseToTriageResultIDs(ids ...int) {
-	if m.nurseToTriageResult == nil {
-		m.nurseToTriageResult = make(map[int]struct{})
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by ids.
+func (m *NurseMutation) AddTriageResultIDs(ids ...int) {
+	if m.triageResult == nil {
+		m.triageResult = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.nurseToTriageResult[ids[i]] = struct{}{}
+		m.triageResult[ids[i]] = struct{}{}
 	}
 }
 
-// ClearNurseToTriageResult clears the "nurseToTriageResult" edge to the TriageResult entity.
-func (m *NurseMutation) ClearNurseToTriageResult() {
-	m.clearednurseToTriageResult = true
+// ClearTriageResult clears the "triageResult" edge to the TriageResult entity.
+func (m *NurseMutation) ClearTriageResult() {
+	m.clearedtriageResult = true
 }
 
-// NurseToTriageResultCleared returns if the "nurseToTriageResult" edge to the TriageResult entity was cleared.
-func (m *NurseMutation) NurseToTriageResultCleared() bool {
-	return m.clearednurseToTriageResult
+// TriageResultCleared returns if the "triageResult" edge to the TriageResult entity was cleared.
+func (m *NurseMutation) TriageResultCleared() bool {
+	return m.clearedtriageResult
 }
 
-// RemoveNurseToTriageResultIDs removes the "nurseToTriageResult" edge to the TriageResult entity by IDs.
-func (m *NurseMutation) RemoveNurseToTriageResultIDs(ids ...int) {
-	if m.removednurseToTriageResult == nil {
-		m.removednurseToTriageResult = make(map[int]struct{})
+// RemoveTriageResultIDs removes the "triageResult" edge to the TriageResult entity by IDs.
+func (m *NurseMutation) RemoveTriageResultIDs(ids ...int) {
+	if m.removedtriageResult == nil {
+		m.removedtriageResult = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.removednurseToTriageResult[ids[i]] = struct{}{}
+		m.removedtriageResult[ids[i]] = struct{}{}
 	}
 }
 
-// RemovedNurseToTriageResult returns the removed IDs of the "nurseToTriageResult" edge to the TriageResult entity.
-func (m *NurseMutation) RemovedNurseToTriageResultIDs() (ids []int) {
-	for id := range m.removednurseToTriageResult {
+// RemovedTriageResult returns the removed IDs of the "triageResult" edge to the TriageResult entity.
+func (m *NurseMutation) RemovedTriageResultIDs() (ids []int) {
+	for id := range m.removedtriageResult {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// NurseToTriageResultIDs returns the "nurseToTriageResult" edge IDs in the mutation.
-func (m *NurseMutation) NurseToTriageResultIDs() (ids []int) {
-	for id := range m.nurseToTriageResult {
+// TriageResultIDs returns the "triageResult" edge IDs in the mutation.
+func (m *NurseMutation) TriageResultIDs() (ids []int) {
+	for id := range m.triageResult {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// ResetNurseToTriageResult resets all changes to the "nurseToTriageResult" edge.
-func (m *NurseMutation) ResetNurseToTriageResult() {
-	m.nurseToTriageResult = nil
-	m.clearednurseToTriageResult = false
-	m.removednurseToTriageResult = nil
+// ResetTriageResult resets all changes to the "triageResult" edge.
+func (m *NurseMutation) ResetTriageResult() {
+	m.triageResult = nil
+	m.clearedtriageResult = false
+	m.removedtriageResult = nil
 }
 
 // AddNurseToAppointmentResultIDs adds the "NurseToAppointmentResults" edge to the AppointmentResults entity by ids.
@@ -4729,8 +4729,8 @@ func (m *NurseMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *NurseMutation) AddedEdges() []string {
 	edges := make([]string, 0, 2)
-	if m.nurseToTriageResult != nil {
-		edges = append(edges, nurse.EdgeNurseToTriageResult)
+	if m.triageResult != nil {
+		edges = append(edges, nurse.EdgeTriageResult)
 	}
 	if m._NurseToAppointmentResults != nil {
 		edges = append(edges, nurse.EdgeNurseToAppointmentResults)
@@ -4742,9 +4742,9 @@ func (m *NurseMutation) AddedEdges() []string {
 // name in this mutation.
 func (m *NurseMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case nurse.EdgeNurseToTriageResult:
-		ids := make([]ent.Value, 0, len(m.nurseToTriageResult))
-		for id := range m.nurseToTriageResult {
+	case nurse.EdgeTriageResult:
+		ids := make([]ent.Value, 0, len(m.triageResult))
+		for id := range m.triageResult {
 			ids = append(ids, id)
 		}
 		return ids
@@ -4761,8 +4761,8 @@ func (m *NurseMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *NurseMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 2)
-	if m.removednurseToTriageResult != nil {
-		edges = append(edges, nurse.EdgeNurseToTriageResult)
+	if m.removedtriageResult != nil {
+		edges = append(edges, nurse.EdgeTriageResult)
 	}
 	if m.removed_NurseToAppointmentResults != nil {
 		edges = append(edges, nurse.EdgeNurseToAppointmentResults)
@@ -4774,9 +4774,9 @@ func (m *NurseMutation) RemovedEdges() []string {
 // the given name in this mutation.
 func (m *NurseMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case nurse.EdgeNurseToTriageResult:
-		ids := make([]ent.Value, 0, len(m.removednurseToTriageResult))
-		for id := range m.removednurseToTriageResult {
+	case nurse.EdgeTriageResult:
+		ids := make([]ent.Value, 0, len(m.removedtriageResult))
+		for id := range m.removedtriageResult {
 			ids = append(ids, id)
 		}
 		return ids
@@ -4793,8 +4793,8 @@ func (m *NurseMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *NurseMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 2)
-	if m.clearednurseToTriageResult {
-		edges = append(edges, nurse.EdgeNurseToTriageResult)
+	if m.clearedtriageResult {
+		edges = append(edges, nurse.EdgeTriageResult)
 	}
 	if m.cleared_NurseToAppointmentResults {
 		edges = append(edges, nurse.EdgeNurseToAppointmentResults)
@@ -4806,8 +4806,8 @@ func (m *NurseMutation) ClearedEdges() []string {
 // was cleared in this mutation.
 func (m *NurseMutation) EdgeCleared(name string) bool {
 	switch name {
-	case nurse.EdgeNurseToTriageResult:
-		return m.clearednurseToTriageResult
+	case nurse.EdgeTriageResult:
+		return m.clearedtriageResult
 	case nurse.EdgeNurseToAppointmentResults:
 		return m.cleared_NurseToAppointmentResults
 	}
@@ -4826,8 +4826,8 @@ func (m *NurseMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *NurseMutation) ResetEdge(name string) error {
 	switch name {
-	case nurse.EdgeNurseToTriageResult:
-		m.ResetNurseToTriageResult()
+	case nurse.EdgeTriageResult:
+		m.ResetTriageResult()
 		return nil
 	case nurse.EdgeNurseToAppointmentResults:
 		m.ResetNurseToAppointmentResults()
@@ -4857,9 +4857,9 @@ type PatientMutation struct {
 	cleared_Gender                      bool
 	_Bloodtype                          *int
 	cleared_Bloodtype                   bool
-	patientToTriageResult               map[int]struct{}
-	removedpatientToTriageResult        map[int]struct{}
-	clearedpatientToTriageResult        bool
+	triageResult                        map[int]struct{}
+	removedtriageResult                 map[int]struct{}
+	clearedtriageResult                 bool
 	_PatientToAppointmentResults        map[int]struct{}
 	removed_PatientToAppointmentResults map[int]struct{}
 	cleared_PatientToAppointmentResults bool
@@ -5329,57 +5329,57 @@ func (m *PatientMutation) ResetBloodtype() {
 	m.cleared_Bloodtype = false
 }
 
-// AddPatientToTriageResultIDs adds the "patientToTriageResult" edge to the TriageResult entity by ids.
-func (m *PatientMutation) AddPatientToTriageResultIDs(ids ...int) {
-	if m.patientToTriageResult == nil {
-		m.patientToTriageResult = make(map[int]struct{})
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by ids.
+func (m *PatientMutation) AddTriageResultIDs(ids ...int) {
+	if m.triageResult == nil {
+		m.triageResult = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.patientToTriageResult[ids[i]] = struct{}{}
+		m.triageResult[ids[i]] = struct{}{}
 	}
 }
 
-// ClearPatientToTriageResult clears the "patientToTriageResult" edge to the TriageResult entity.
-func (m *PatientMutation) ClearPatientToTriageResult() {
-	m.clearedpatientToTriageResult = true
+// ClearTriageResult clears the "triageResult" edge to the TriageResult entity.
+func (m *PatientMutation) ClearTriageResult() {
+	m.clearedtriageResult = true
 }
 
-// PatientToTriageResultCleared returns if the "patientToTriageResult" edge to the TriageResult entity was cleared.
-func (m *PatientMutation) PatientToTriageResultCleared() bool {
-	return m.clearedpatientToTriageResult
+// TriageResultCleared returns if the "triageResult" edge to the TriageResult entity was cleared.
+func (m *PatientMutation) TriageResultCleared() bool {
+	return m.clearedtriageResult
 }
 
-// RemovePatientToTriageResultIDs removes the "patientToTriageResult" edge to the TriageResult entity by IDs.
-func (m *PatientMutation) RemovePatientToTriageResultIDs(ids ...int) {
-	if m.removedpatientToTriageResult == nil {
-		m.removedpatientToTriageResult = make(map[int]struct{})
+// RemoveTriageResultIDs removes the "triageResult" edge to the TriageResult entity by IDs.
+func (m *PatientMutation) RemoveTriageResultIDs(ids ...int) {
+	if m.removedtriageResult == nil {
+		m.removedtriageResult = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.removedpatientToTriageResult[ids[i]] = struct{}{}
+		m.removedtriageResult[ids[i]] = struct{}{}
 	}
 }
 
-// RemovedPatientToTriageResult returns the removed IDs of the "patientToTriageResult" edge to the TriageResult entity.
-func (m *PatientMutation) RemovedPatientToTriageResultIDs() (ids []int) {
-	for id := range m.removedpatientToTriageResult {
+// RemovedTriageResult returns the removed IDs of the "triageResult" edge to the TriageResult entity.
+func (m *PatientMutation) RemovedTriageResultIDs() (ids []int) {
+	for id := range m.removedtriageResult {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// PatientToTriageResultIDs returns the "patientToTriageResult" edge IDs in the mutation.
-func (m *PatientMutation) PatientToTriageResultIDs() (ids []int) {
-	for id := range m.patientToTriageResult {
+// TriageResultIDs returns the "triageResult" edge IDs in the mutation.
+func (m *PatientMutation) TriageResultIDs() (ids []int) {
+	for id := range m.triageResult {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// ResetPatientToTriageResult resets all changes to the "patientToTriageResult" edge.
-func (m *PatientMutation) ResetPatientToTriageResult() {
-	m.patientToTriageResult = nil
-	m.clearedpatientToTriageResult = false
-	m.removedpatientToTriageResult = nil
+// ResetTriageResult resets all changes to the "triageResult" edge.
+func (m *PatientMutation) ResetTriageResult() {
+	m.triageResult = nil
+	m.clearedtriageResult = false
+	m.removedtriageResult = nil
 }
 
 // AddPatientToAppointmentResultIDs adds the "PatientToAppointmentResults" edge to the AppointmentResults entity by ids.
@@ -5829,8 +5829,8 @@ func (m *PatientMutation) AddedEdges() []string {
 	if m._Bloodtype != nil {
 		edges = append(edges, patient.EdgeBloodtype)
 	}
-	if m.patientToTriageResult != nil {
-		edges = append(edges, patient.EdgePatientToTriageResult)
+	if m.triageResult != nil {
+		edges = append(edges, patient.EdgeTriageResult)
 	}
 	if m._PatientToAppointmentResults != nil {
 		edges = append(edges, patient.EdgePatientToAppointmentResults)
@@ -5863,9 +5863,9 @@ func (m *PatientMutation) AddedIDs(name string) []ent.Value {
 		if id := m._Bloodtype; id != nil {
 			return []ent.Value{*id}
 		}
-	case patient.EdgePatientToTriageResult:
-		ids := make([]ent.Value, 0, len(m.patientToTriageResult))
-		for id := range m.patientToTriageResult {
+	case patient.EdgeTriageResult:
+		ids := make([]ent.Value, 0, len(m.triageResult))
+		for id := range m.triageResult {
 			ids = append(ids, id)
 		}
 		return ids
@@ -5900,8 +5900,8 @@ func (m *PatientMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *PatientMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 8)
-	if m.removedpatientToTriageResult != nil {
-		edges = append(edges, patient.EdgePatientToTriageResult)
+	if m.removedtriageResult != nil {
+		edges = append(edges, patient.EdgeTriageResult)
 	}
 	if m.removed_PatientToAppointmentResults != nil {
 		edges = append(edges, patient.EdgePatientToAppointmentResults)
@@ -5922,9 +5922,9 @@ func (m *PatientMutation) RemovedEdges() []string {
 // the given name in this mutation.
 func (m *PatientMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case patient.EdgePatientToTriageResult:
-		ids := make([]ent.Value, 0, len(m.removedpatientToTriageResult))
-		for id := range m.removedpatientToTriageResult {
+	case patient.EdgeTriageResult:
+		ids := make([]ent.Value, 0, len(m.removedtriageResult))
+		for id := range m.removedtriageResult {
 			ids = append(ids, id)
 		}
 		return ids
@@ -5968,8 +5968,8 @@ func (m *PatientMutation) ClearedEdges() []string {
 	if m.cleared_Bloodtype {
 		edges = append(edges, patient.EdgeBloodtype)
 	}
-	if m.clearedpatientToTriageResult {
-		edges = append(edges, patient.EdgePatientToTriageResult)
+	if m.clearedtriageResult {
+		edges = append(edges, patient.EdgeTriageResult)
 	}
 	if m.cleared_PatientToAppointmentResults {
 		edges = append(edges, patient.EdgePatientToAppointmentResults)
@@ -5996,8 +5996,8 @@ func (m *PatientMutation) EdgeCleared(name string) bool {
 		return m.cleared_Gender
 	case patient.EdgeBloodtype:
 		return m.cleared_Bloodtype
-	case patient.EdgePatientToTriageResult:
-		return m.clearedpatientToTriageResult
+	case patient.EdgeTriageResult:
+		return m.clearedtriageResult
 	case patient.EdgePatientToAppointmentResults:
 		return m.cleared_PatientToAppointmentResults
 	case patient.EdgePatientToMedicalProcedure:
@@ -6040,8 +6040,8 @@ func (m *PatientMutation) ResetEdge(name string) error {
 	case patient.EdgeBloodtype:
 		m.ResetBloodtype()
 		return nil
-	case patient.EdgePatientToTriageResult:
-		m.ResetPatientToTriageResult()
+	case patient.EdgeTriageResult:
+		m.ResetTriageResult()
 		return nil
 	case patient.EdgePatientToAppointmentResults:
 		m.ResetPatientToAppointmentResults()
@@ -8485,23 +8485,23 @@ func (m *TreatmentTypeMutation) ResetEdge(name string) error {
 // TriageResultMutation represents an operation that mutates the TriageResult nodes in the graph.
 type TriageResultMutation struct {
 	config
-	op                                Op
-	typ                               string
-	id                                *int
-	symptom                           *string
-	triageDate                        *time.Time
-	clearedFields                     map[string]struct{}
-	triageResultToUrgencyLevel        *int
-	clearedtriageResultToUrgencyLevel bool
-	triageResultToDepartment          *int
-	clearedtriageResultToDepartment   bool
-	triageResultToNurse               *int
-	clearedtriageResultToNurse        bool
-	triageResultToPatient             *int
-	clearedtriageResultToPatient      bool
-	done                              bool
-	oldValue                          func(context.Context) (*TriageResult, error)
-	predicates                        []predicate.TriageResult
+	op                  Op
+	typ                 string
+	id                  *int
+	symptom             *string
+	triageDate          *time.Time
+	clearedFields       map[string]struct{}
+	urgencyLevel        *int
+	clearedurgencyLevel bool
+	department          *int
+	cleareddepartment   bool
+	nurse               *int
+	clearednurse        bool
+	patient             *int
+	clearedpatient      bool
+	done                bool
+	oldValue            func(context.Context) (*TriageResult, error)
+	predicates          []predicate.TriageResult
 }
 
 var _ ent.Mutation = (*TriageResultMutation)(nil)
@@ -8655,160 +8655,160 @@ func (m *TriageResultMutation) ResetTriageDate() {
 	m.triageDate = nil
 }
 
-// SetTriageResultToUrgencyLevelID sets the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity by id.
-func (m *TriageResultMutation) SetTriageResultToUrgencyLevelID(id int) {
-	m.triageResultToUrgencyLevel = &id
+// SetUrgencyLevelID sets the "urgencyLevel" edge to the UrgencyLevel entity by id.
+func (m *TriageResultMutation) SetUrgencyLevelID(id int) {
+	m.urgencyLevel = &id
 }
 
-// ClearTriageResultToUrgencyLevel clears the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity.
-func (m *TriageResultMutation) ClearTriageResultToUrgencyLevel() {
-	m.clearedtriageResultToUrgencyLevel = true
+// ClearUrgencyLevel clears the "urgencyLevel" edge to the UrgencyLevel entity.
+func (m *TriageResultMutation) ClearUrgencyLevel() {
+	m.clearedurgencyLevel = true
 }
 
-// TriageResultToUrgencyLevelCleared returns if the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity was cleared.
-func (m *TriageResultMutation) TriageResultToUrgencyLevelCleared() bool {
-	return m.clearedtriageResultToUrgencyLevel
+// UrgencyLevelCleared returns if the "urgencyLevel" edge to the UrgencyLevel entity was cleared.
+func (m *TriageResultMutation) UrgencyLevelCleared() bool {
+	return m.clearedurgencyLevel
 }
 
-// TriageResultToUrgencyLevelID returns the "triageResultToUrgencyLevel" edge ID in the mutation.
-func (m *TriageResultMutation) TriageResultToUrgencyLevelID() (id int, exists bool) {
-	if m.triageResultToUrgencyLevel != nil {
-		return *m.triageResultToUrgencyLevel, true
+// UrgencyLevelID returns the "urgencyLevel" edge ID in the mutation.
+func (m *TriageResultMutation) UrgencyLevelID() (id int, exists bool) {
+	if m.urgencyLevel != nil {
+		return *m.urgencyLevel, true
 	}
 	return
 }
 
-// TriageResultToUrgencyLevelIDs returns the "triageResultToUrgencyLevel" edge IDs in the mutation.
+// UrgencyLevelIDs returns the "urgencyLevel" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// TriageResultToUrgencyLevelID instead. It exists only for internal usage by the builders.
-func (m *TriageResultMutation) TriageResultToUrgencyLevelIDs() (ids []int) {
-	if id := m.triageResultToUrgencyLevel; id != nil {
+// UrgencyLevelID instead. It exists only for internal usage by the builders.
+func (m *TriageResultMutation) UrgencyLevelIDs() (ids []int) {
+	if id := m.urgencyLevel; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetTriageResultToUrgencyLevel resets all changes to the "triageResultToUrgencyLevel" edge.
-func (m *TriageResultMutation) ResetTriageResultToUrgencyLevel() {
-	m.triageResultToUrgencyLevel = nil
-	m.clearedtriageResultToUrgencyLevel = false
+// ResetUrgencyLevel resets all changes to the "urgencyLevel" edge.
+func (m *TriageResultMutation) ResetUrgencyLevel() {
+	m.urgencyLevel = nil
+	m.clearedurgencyLevel = false
 }
 
-// SetTriageResultToDepartmentID sets the "triageResultToDepartment" edge to the Department entity by id.
-func (m *TriageResultMutation) SetTriageResultToDepartmentID(id int) {
-	m.triageResultToDepartment = &id
+// SetDepartmentID sets the "department" edge to the Department entity by id.
+func (m *TriageResultMutation) SetDepartmentID(id int) {
+	m.department = &id
 }
 
-// ClearTriageResultToDepartment clears the "triageResultToDepartment" edge to the Department entity.
-func (m *TriageResultMutation) ClearTriageResultToDepartment() {
-	m.clearedtriageResultToDepartment = true
+// ClearDepartment clears the "department" edge to the Department entity.
+func (m *TriageResultMutation) ClearDepartment() {
+	m.cleareddepartment = true
 }
 
-// TriageResultToDepartmentCleared returns if the "triageResultToDepartment" edge to the Department entity was cleared.
-func (m *TriageResultMutation) TriageResultToDepartmentCleared() bool {
-	return m.clearedtriageResultToDepartment
+// DepartmentCleared returns if the "department" edge to the Department entity was cleared.
+func (m *TriageResultMutation) DepartmentCleared() bool {
+	return m.cleareddepartment
 }
 
-// TriageResultToDepartmentID returns the "triageResultToDepartment" edge ID in the mutation.
-func (m *TriageResultMutation) TriageResultToDepartmentID() (id int, exists bool) {
-	if m.triageResultToDepartment != nil {
-		return *m.triageResultToDepartment, true
+// DepartmentID returns the "department" edge ID in the mutation.
+func (m *TriageResultMutation) DepartmentID() (id int, exists bool) {
+	if m.department != nil {
+		return *m.department, true
 	}
 	return
 }
 
-// TriageResultToDepartmentIDs returns the "triageResultToDepartment" edge IDs in the mutation.
+// DepartmentIDs returns the "department" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// TriageResultToDepartmentID instead. It exists only for internal usage by the builders.
-func (m *TriageResultMutation) TriageResultToDepartmentIDs() (ids []int) {
-	if id := m.triageResultToDepartment; id != nil {
+// DepartmentID instead. It exists only for internal usage by the builders.
+func (m *TriageResultMutation) DepartmentIDs() (ids []int) {
+	if id := m.department; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetTriageResultToDepartment resets all changes to the "triageResultToDepartment" edge.
-func (m *TriageResultMutation) ResetTriageResultToDepartment() {
-	m.triageResultToDepartment = nil
-	m.clearedtriageResultToDepartment = false
+// ResetDepartment resets all changes to the "department" edge.
+func (m *TriageResultMutation) ResetDepartment() {
+	m.department = nil
+	m.cleareddepartment = false
 }
 
-// SetTriageResultToNurseID sets the "triageResultToNurse" edge to the Nurse entity by id.
-func (m *TriageResultMutation) SetTriageResultToNurseID(id int) {
-	m.triageResultToNurse = &id
+// SetNurseID sets the "nurse" edge to the Nurse entity by id.
+func (m *TriageResultMutation) SetNurseID(id int) {
+	m.nurse = &id
 }
 
-// ClearTriageResultToNurse clears the "triageResultToNurse" edge to the Nurse entity.
-func (m *TriageResultMutation) ClearTriageResultToNurse() {
-	m.clearedtriageResultToNurse = true
+// ClearNurse clears the "nurse" edge to the Nurse entity.
+func (m *TriageResultMutation) ClearNurse() {
+	m.clearednurse = true
 }
 
-// TriageResultToNurseCleared returns if the "triageResultToNurse" edge to the Nurse entity was cleared.
-func (m *TriageResultMutation) TriageResultToNurseCleared() bool {
-	return m.clearedtriageResultToNurse
+// NurseCleared returns if the "nurse" edge to the Nurse entity was cleared.
+func (m *TriageResultMutation) NurseCleared() bool {
+	return m.clearednurse
 }
 
-// TriageResultToNurseID returns the "triageResultToNurse" edge ID in the mutation.
-func (m *TriageResultMutation) TriageResultToNurseID() (id int, exists bool) {
-	if m.triageResultToNurse != nil {
-		return *m.triageResultToNurse, true
+// NurseID returns the "nurse" edge ID in the mutation.
+func (m *TriageResultMutation) NurseID() (id int, exists bool) {
+	if m.nurse != nil {
+		return *m.nurse, true
 	}
 	return
 }
 
-// TriageResultToNurseIDs returns the "triageResultToNurse" edge IDs in the mutation.
+// NurseIDs returns the "nurse" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// TriageResultToNurseID instead. It exists only for internal usage by the builders.
-func (m *TriageResultMutation) TriageResultToNurseIDs() (ids []int) {
-	if id := m.triageResultToNurse; id != nil {
+// NurseID instead. It exists only for internal usage by the builders.
+func (m *TriageResultMutation) NurseIDs() (ids []int) {
+	if id := m.nurse; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetTriageResultToNurse resets all changes to the "triageResultToNurse" edge.
-func (m *TriageResultMutation) ResetTriageResultToNurse() {
-	m.triageResultToNurse = nil
-	m.clearedtriageResultToNurse = false
+// ResetNurse resets all changes to the "nurse" edge.
+func (m *TriageResultMutation) ResetNurse() {
+	m.nurse = nil
+	m.clearednurse = false
 }
 
-// SetTriageResultToPatientID sets the "triageResultToPatient" edge to the Patient entity by id.
-func (m *TriageResultMutation) SetTriageResultToPatientID(id int) {
-	m.triageResultToPatient = &id
+// SetPatientID sets the "patient" edge to the Patient entity by id.
+func (m *TriageResultMutation) SetPatientID(id int) {
+	m.patient = &id
 }
 
-// ClearTriageResultToPatient clears the "triageResultToPatient" edge to the Patient entity.
-func (m *TriageResultMutation) ClearTriageResultToPatient() {
-	m.clearedtriageResultToPatient = true
+// ClearPatient clears the "patient" edge to the Patient entity.
+func (m *TriageResultMutation) ClearPatient() {
+	m.clearedpatient = true
 }
 
-// TriageResultToPatientCleared returns if the "triageResultToPatient" edge to the Patient entity was cleared.
-func (m *TriageResultMutation) TriageResultToPatientCleared() bool {
-	return m.clearedtriageResultToPatient
+// PatientCleared returns if the "patient" edge to the Patient entity was cleared.
+func (m *TriageResultMutation) PatientCleared() bool {
+	return m.clearedpatient
 }
 
-// TriageResultToPatientID returns the "triageResultToPatient" edge ID in the mutation.
-func (m *TriageResultMutation) TriageResultToPatientID() (id int, exists bool) {
-	if m.triageResultToPatient != nil {
-		return *m.triageResultToPatient, true
+// PatientID returns the "patient" edge ID in the mutation.
+func (m *TriageResultMutation) PatientID() (id int, exists bool) {
+	if m.patient != nil {
+		return *m.patient, true
 	}
 	return
 }
 
-// TriageResultToPatientIDs returns the "triageResultToPatient" edge IDs in the mutation.
+// PatientIDs returns the "patient" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// TriageResultToPatientID instead. It exists only for internal usage by the builders.
-func (m *TriageResultMutation) TriageResultToPatientIDs() (ids []int) {
-	if id := m.triageResultToPatient; id != nil {
+// PatientID instead. It exists only for internal usage by the builders.
+func (m *TriageResultMutation) PatientIDs() (ids []int) {
+	if id := m.patient; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetTriageResultToPatient resets all changes to the "triageResultToPatient" edge.
-func (m *TriageResultMutation) ResetTriageResultToPatient() {
-	m.triageResultToPatient = nil
-	m.clearedtriageResultToPatient = false
+// ResetPatient resets all changes to the "patient" edge.
+func (m *TriageResultMutation) ResetPatient() {
+	m.patient = nil
+	m.clearedpatient = false
 }
 
 // Op returns the operation name.
@@ -8942,17 +8942,17 @@ func (m *TriageResultMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *TriageResultMutation) AddedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.triageResultToUrgencyLevel != nil {
-		edges = append(edges, triageresult.EdgeTriageResultToUrgencyLevel)
+	if m.urgencyLevel != nil {
+		edges = append(edges, triageresult.EdgeUrgencyLevel)
 	}
-	if m.triageResultToDepartment != nil {
-		edges = append(edges, triageresult.EdgeTriageResultToDepartment)
+	if m.department != nil {
+		edges = append(edges, triageresult.EdgeDepartment)
 	}
-	if m.triageResultToNurse != nil {
-		edges = append(edges, triageresult.EdgeTriageResultToNurse)
+	if m.nurse != nil {
+		edges = append(edges, triageresult.EdgeNurse)
 	}
-	if m.triageResultToPatient != nil {
-		edges = append(edges, triageresult.EdgeTriageResultToPatient)
+	if m.patient != nil {
+		edges = append(edges, triageresult.EdgePatient)
 	}
 	return edges
 }
@@ -8961,20 +8961,20 @@ func (m *TriageResultMutation) AddedEdges() []string {
 // name in this mutation.
 func (m *TriageResultMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case triageresult.EdgeTriageResultToUrgencyLevel:
-		if id := m.triageResultToUrgencyLevel; id != nil {
+	case triageresult.EdgeUrgencyLevel:
+		if id := m.urgencyLevel; id != nil {
 			return []ent.Value{*id}
 		}
-	case triageresult.EdgeTriageResultToDepartment:
-		if id := m.triageResultToDepartment; id != nil {
+	case triageresult.EdgeDepartment:
+		if id := m.department; id != nil {
 			return []ent.Value{*id}
 		}
-	case triageresult.EdgeTriageResultToNurse:
-		if id := m.triageResultToNurse; id != nil {
+	case triageresult.EdgeNurse:
+		if id := m.nurse; id != nil {
 			return []ent.Value{*id}
 		}
-	case triageresult.EdgeTriageResultToPatient:
-		if id := m.triageResultToPatient; id != nil {
+	case triageresult.EdgePatient:
+		if id := m.patient; id != nil {
 			return []ent.Value{*id}
 		}
 	}
@@ -8998,17 +8998,17 @@ func (m *TriageResultMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *TriageResultMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.clearedtriageResultToUrgencyLevel {
-		edges = append(edges, triageresult.EdgeTriageResultToUrgencyLevel)
+	if m.clearedurgencyLevel {
+		edges = append(edges, triageresult.EdgeUrgencyLevel)
 	}
-	if m.clearedtriageResultToDepartment {
-		edges = append(edges, triageresult.EdgeTriageResultToDepartment)
+	if m.cleareddepartment {
+		edges = append(edges, triageresult.EdgeDepartment)
 	}
-	if m.clearedtriageResultToNurse {
-		edges = append(edges, triageresult.EdgeTriageResultToNurse)
+	if m.clearednurse {
+		edges = append(edges, triageresult.EdgeNurse)
 	}
-	if m.clearedtriageResultToPatient {
-		edges = append(edges, triageresult.EdgeTriageResultToPatient)
+	if m.clearedpatient {
+		edges = append(edges, triageresult.EdgePatient)
 	}
 	return edges
 }
@@ -9017,14 +9017,14 @@ func (m *TriageResultMutation) ClearedEdges() []string {
 // was cleared in this mutation.
 func (m *TriageResultMutation) EdgeCleared(name string) bool {
 	switch name {
-	case triageresult.EdgeTriageResultToUrgencyLevel:
-		return m.clearedtriageResultToUrgencyLevel
-	case triageresult.EdgeTriageResultToDepartment:
-		return m.clearedtriageResultToDepartment
-	case triageresult.EdgeTriageResultToNurse:
-		return m.clearedtriageResultToNurse
-	case triageresult.EdgeTriageResultToPatient:
-		return m.clearedtriageResultToPatient
+	case triageresult.EdgeUrgencyLevel:
+		return m.clearedurgencyLevel
+	case triageresult.EdgeDepartment:
+		return m.cleareddepartment
+	case triageresult.EdgeNurse:
+		return m.clearednurse
+	case triageresult.EdgePatient:
+		return m.clearedpatient
 	}
 	return false
 }
@@ -9033,17 +9033,17 @@ func (m *TriageResultMutation) EdgeCleared(name string) bool {
 // if that edge is not defined in the schema.
 func (m *TriageResultMutation) ClearEdge(name string) error {
 	switch name {
-	case triageresult.EdgeTriageResultToUrgencyLevel:
-		m.ClearTriageResultToUrgencyLevel()
+	case triageresult.EdgeUrgencyLevel:
+		m.ClearUrgencyLevel()
 		return nil
-	case triageresult.EdgeTriageResultToDepartment:
-		m.ClearTriageResultToDepartment()
+	case triageresult.EdgeDepartment:
+		m.ClearDepartment()
 		return nil
-	case triageresult.EdgeTriageResultToNurse:
-		m.ClearTriageResultToNurse()
+	case triageresult.EdgeNurse:
+		m.ClearNurse()
 		return nil
-	case triageresult.EdgeTriageResultToPatient:
-		m.ClearTriageResultToPatient()
+	case triageresult.EdgePatient:
+		m.ClearPatient()
 		return nil
 	}
 	return fmt.Errorf("unknown TriageResult unique edge %s", name)
@@ -9053,17 +9053,17 @@ func (m *TriageResultMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *TriageResultMutation) ResetEdge(name string) error {
 	switch name {
-	case triageresult.EdgeTriageResultToUrgencyLevel:
-		m.ResetTriageResultToUrgencyLevel()
+	case triageresult.EdgeUrgencyLevel:
+		m.ResetUrgencyLevel()
 		return nil
-	case triageresult.EdgeTriageResultToDepartment:
-		m.ResetTriageResultToDepartment()
+	case triageresult.EdgeDepartment:
+		m.ResetDepartment()
 		return nil
-	case triageresult.EdgeTriageResultToNurse:
-		m.ResetTriageResultToNurse()
+	case triageresult.EdgeNurse:
+		m.ResetNurse()
 		return nil
-	case triageresult.EdgeTriageResultToPatient:
-		m.ResetTriageResultToPatient()
+	case triageresult.EdgePatient:
+		m.ResetPatient()
 		return nil
 	}
 	return fmt.Errorf("unknown TriageResult edge %s", name)
@@ -9072,17 +9072,17 @@ func (m *TriageResultMutation) ResetEdge(name string) error {
 // UrgencyLevelMutation represents an operation that mutates the UrgencyLevel nodes in the graph.
 type UrgencyLevelMutation struct {
 	config
-	op                                Op
-	typ                               string
-	id                                *int
-	urgencyName                       *string
-	clearedFields                     map[string]struct{}
-	urgencyLevelToTriageResult        map[int]struct{}
-	removedurgencyLevelToTriageResult map[int]struct{}
-	clearedurgencyLevelToTriageResult bool
-	done                              bool
-	oldValue                          func(context.Context) (*UrgencyLevel, error)
-	predicates                        []predicate.UrgencyLevel
+	op                  Op
+	typ                 string
+	id                  *int
+	urgencyName         *string
+	clearedFields       map[string]struct{}
+	triageResult        map[int]struct{}
+	removedtriageResult map[int]struct{}
+	clearedtriageResult bool
+	done                bool
+	oldValue            func(context.Context) (*UrgencyLevel, error)
+	predicates          []predicate.UrgencyLevel
 }
 
 var _ ent.Mutation = (*UrgencyLevelMutation)(nil)
@@ -9200,57 +9200,57 @@ func (m *UrgencyLevelMutation) ResetUrgencyName() {
 	m.urgencyName = nil
 }
 
-// AddUrgencyLevelToTriageResultIDs adds the "urgencyLevelToTriageResult" edge to the TriageResult entity by ids.
-func (m *UrgencyLevelMutation) AddUrgencyLevelToTriageResultIDs(ids ...int) {
-	if m.urgencyLevelToTriageResult == nil {
-		m.urgencyLevelToTriageResult = make(map[int]struct{})
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by ids.
+func (m *UrgencyLevelMutation) AddTriageResultIDs(ids ...int) {
+	if m.triageResult == nil {
+		m.triageResult = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.urgencyLevelToTriageResult[ids[i]] = struct{}{}
+		m.triageResult[ids[i]] = struct{}{}
 	}
 }
 
-// ClearUrgencyLevelToTriageResult clears the "urgencyLevelToTriageResult" edge to the TriageResult entity.
-func (m *UrgencyLevelMutation) ClearUrgencyLevelToTriageResult() {
-	m.clearedurgencyLevelToTriageResult = true
+// ClearTriageResult clears the "triageResult" edge to the TriageResult entity.
+func (m *UrgencyLevelMutation) ClearTriageResult() {
+	m.clearedtriageResult = true
 }
 
-// UrgencyLevelToTriageResultCleared returns if the "urgencyLevelToTriageResult" edge to the TriageResult entity was cleared.
-func (m *UrgencyLevelMutation) UrgencyLevelToTriageResultCleared() bool {
-	return m.clearedurgencyLevelToTriageResult
+// TriageResultCleared returns if the "triageResult" edge to the TriageResult entity was cleared.
+func (m *UrgencyLevelMutation) TriageResultCleared() bool {
+	return m.clearedtriageResult
 }
 
-// RemoveUrgencyLevelToTriageResultIDs removes the "urgencyLevelToTriageResult" edge to the TriageResult entity by IDs.
-func (m *UrgencyLevelMutation) RemoveUrgencyLevelToTriageResultIDs(ids ...int) {
-	if m.removedurgencyLevelToTriageResult == nil {
-		m.removedurgencyLevelToTriageResult = make(map[int]struct{})
+// RemoveTriageResultIDs removes the "triageResult" edge to the TriageResult entity by IDs.
+func (m *UrgencyLevelMutation) RemoveTriageResultIDs(ids ...int) {
+	if m.removedtriageResult == nil {
+		m.removedtriageResult = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.removedurgencyLevelToTriageResult[ids[i]] = struct{}{}
+		m.removedtriageResult[ids[i]] = struct{}{}
 	}
 }
 
-// RemovedUrgencyLevelToTriageResult returns the removed IDs of the "urgencyLevelToTriageResult" edge to the TriageResult entity.
-func (m *UrgencyLevelMutation) RemovedUrgencyLevelToTriageResultIDs() (ids []int) {
-	for id := range m.removedurgencyLevelToTriageResult {
+// RemovedTriageResult returns the removed IDs of the "triageResult" edge to the TriageResult entity.
+func (m *UrgencyLevelMutation) RemovedTriageResultIDs() (ids []int) {
+	for id := range m.removedtriageResult {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// UrgencyLevelToTriageResultIDs returns the "urgencyLevelToTriageResult" edge IDs in the mutation.
-func (m *UrgencyLevelMutation) UrgencyLevelToTriageResultIDs() (ids []int) {
-	for id := range m.urgencyLevelToTriageResult {
+// TriageResultIDs returns the "triageResult" edge IDs in the mutation.
+func (m *UrgencyLevelMutation) TriageResultIDs() (ids []int) {
+	for id := range m.triageResult {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// ResetUrgencyLevelToTriageResult resets all changes to the "urgencyLevelToTriageResult" edge.
-func (m *UrgencyLevelMutation) ResetUrgencyLevelToTriageResult() {
-	m.urgencyLevelToTriageResult = nil
-	m.clearedurgencyLevelToTriageResult = false
-	m.removedurgencyLevelToTriageResult = nil
+// ResetTriageResult resets all changes to the "triageResult" edge.
+func (m *UrgencyLevelMutation) ResetTriageResult() {
+	m.triageResult = nil
+	m.clearedtriageResult = false
+	m.removedtriageResult = nil
 }
 
 // Op returns the operation name.
@@ -9367,8 +9367,8 @@ func (m *UrgencyLevelMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *UrgencyLevelMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.urgencyLevelToTriageResult != nil {
-		edges = append(edges, urgencylevel.EdgeUrgencyLevelToTriageResult)
+	if m.triageResult != nil {
+		edges = append(edges, urgencylevel.EdgeTriageResult)
 	}
 	return edges
 }
@@ -9377,9 +9377,9 @@ func (m *UrgencyLevelMutation) AddedEdges() []string {
 // name in this mutation.
 func (m *UrgencyLevelMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case urgencylevel.EdgeUrgencyLevelToTriageResult:
-		ids := make([]ent.Value, 0, len(m.urgencyLevelToTriageResult))
-		for id := range m.urgencyLevelToTriageResult {
+	case urgencylevel.EdgeTriageResult:
+		ids := make([]ent.Value, 0, len(m.triageResult))
+		for id := range m.triageResult {
 			ids = append(ids, id)
 		}
 		return ids
@@ -9390,8 +9390,8 @@ func (m *UrgencyLevelMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *UrgencyLevelMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.removedurgencyLevelToTriageResult != nil {
-		edges = append(edges, urgencylevel.EdgeUrgencyLevelToTriageResult)
+	if m.removedtriageResult != nil {
+		edges = append(edges, urgencylevel.EdgeTriageResult)
 	}
 	return edges
 }
@@ -9400,9 +9400,9 @@ func (m *UrgencyLevelMutation) RemovedEdges() []string {
 // the given name in this mutation.
 func (m *UrgencyLevelMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case urgencylevel.EdgeUrgencyLevelToTriageResult:
-		ids := make([]ent.Value, 0, len(m.removedurgencyLevelToTriageResult))
-		for id := range m.removedurgencyLevelToTriageResult {
+	case urgencylevel.EdgeTriageResult:
+		ids := make([]ent.Value, 0, len(m.removedtriageResult))
+		for id := range m.removedtriageResult {
 			ids = append(ids, id)
 		}
 		return ids
@@ -9413,8 +9413,8 @@ func (m *UrgencyLevelMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *UrgencyLevelMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.clearedurgencyLevelToTriageResult {
-		edges = append(edges, urgencylevel.EdgeUrgencyLevelToTriageResult)
+	if m.clearedtriageResult {
+		edges = append(edges, urgencylevel.EdgeTriageResult)
 	}
 	return edges
 }
@@ -9423,8 +9423,8 @@ func (m *UrgencyLevelMutation) ClearedEdges() []string {
 // was cleared in this mutation.
 func (m *UrgencyLevelMutation) EdgeCleared(name string) bool {
 	switch name {
-	case urgencylevel.EdgeUrgencyLevelToTriageResult:
-		return m.clearedurgencyLevelToTriageResult
+	case urgencylevel.EdgeTriageResult:
+		return m.clearedtriageResult
 	}
 	return false
 }
@@ -9441,8 +9441,8 @@ func (m *UrgencyLevelMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *UrgencyLevelMutation) ResetEdge(name string) error {
 	switch name {
-	case urgencylevel.EdgeUrgencyLevelToTriageResult:
-		m.ResetUrgencyLevelToTriageResult()
+	case urgencylevel.EdgeTriageResult:
+		m.ResetTriageResult()
 		return nil
 	}
 	return fmt.Errorf("unknown UrgencyLevel edge %s", name)

@@ -26,19 +26,19 @@ func (ulc *UrgencyLevelCreate) SetUrgencyName(s string) *UrgencyLevelCreate {
 	return ulc
 }
 
-// AddUrgencyLevelToTriageResultIDs adds the "urgencyLevelToTriageResult" edge to the TriageResult entity by IDs.
-func (ulc *UrgencyLevelCreate) AddUrgencyLevelToTriageResultIDs(ids ...int) *UrgencyLevelCreate {
-	ulc.mutation.AddUrgencyLevelToTriageResultIDs(ids...)
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
+func (ulc *UrgencyLevelCreate) AddTriageResultIDs(ids ...int) *UrgencyLevelCreate {
+	ulc.mutation.AddTriageResultIDs(ids...)
 	return ulc
 }
 
-// AddUrgencyLevelToTriageResult adds the "urgencyLevelToTriageResult" edges to the TriageResult entity.
-func (ulc *UrgencyLevelCreate) AddUrgencyLevelToTriageResult(t ...*TriageResult) *UrgencyLevelCreate {
+// AddTriageResult adds the "triageResult" edges to the TriageResult entity.
+func (ulc *UrgencyLevelCreate) AddTriageResult(t ...*TriageResult) *UrgencyLevelCreate {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return ulc.AddUrgencyLevelToTriageResultIDs(ids...)
+	return ulc.AddTriageResultIDs(ids...)
 }
 
 // Mutation returns the UrgencyLevelMutation object of the builder.
@@ -135,12 +135,12 @@ func (ulc *UrgencyLevelCreate) createSpec() (*UrgencyLevel, *sqlgraph.CreateSpec
 		})
 		_node.UrgencyName = value
 	}
-	if nodes := ulc.mutation.UrgencyLevelToTriageResultIDs(); len(nodes) > 0 {
+	if nodes := ulc.mutation.TriageResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   urgencylevel.UrgencyLevelToTriageResultTable,
-			Columns: []string{urgencylevel.UrgencyLevelToTriageResultColumn},
+			Table:   urgencylevel.TriageResultTable,
+			Columns: []string{urgencylevel.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

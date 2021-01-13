@@ -44,80 +44,80 @@ func (trc *TriageResultCreate) SetNillableTriageDate(t *time.Time) *TriageResult
 	return trc
 }
 
-// SetTriageResultToUrgencyLevelID sets the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity by ID.
-func (trc *TriageResultCreate) SetTriageResultToUrgencyLevelID(id int) *TriageResultCreate {
-	trc.mutation.SetTriageResultToUrgencyLevelID(id)
+// SetUrgencyLevelID sets the "urgencyLevel" edge to the UrgencyLevel entity by ID.
+func (trc *TriageResultCreate) SetUrgencyLevelID(id int) *TriageResultCreate {
+	trc.mutation.SetUrgencyLevelID(id)
 	return trc
 }
 
-// SetNillableTriageResultToUrgencyLevelID sets the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity by ID if the given value is not nil.
-func (trc *TriageResultCreate) SetNillableTriageResultToUrgencyLevelID(id *int) *TriageResultCreate {
+// SetNillableUrgencyLevelID sets the "urgencyLevel" edge to the UrgencyLevel entity by ID if the given value is not nil.
+func (trc *TriageResultCreate) SetNillableUrgencyLevelID(id *int) *TriageResultCreate {
 	if id != nil {
-		trc = trc.SetTriageResultToUrgencyLevelID(*id)
+		trc = trc.SetUrgencyLevelID(*id)
 	}
 	return trc
 }
 
-// SetTriageResultToUrgencyLevel sets the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity.
-func (trc *TriageResultCreate) SetTriageResultToUrgencyLevel(u *UrgencyLevel) *TriageResultCreate {
-	return trc.SetTriageResultToUrgencyLevelID(u.ID)
+// SetUrgencyLevel sets the "urgencyLevel" edge to the UrgencyLevel entity.
+func (trc *TriageResultCreate) SetUrgencyLevel(u *UrgencyLevel) *TriageResultCreate {
+	return trc.SetUrgencyLevelID(u.ID)
 }
 
-// SetTriageResultToDepartmentID sets the "triageResultToDepartment" edge to the Department entity by ID.
-func (trc *TriageResultCreate) SetTriageResultToDepartmentID(id int) *TriageResultCreate {
-	trc.mutation.SetTriageResultToDepartmentID(id)
+// SetDepartmentID sets the "department" edge to the Department entity by ID.
+func (trc *TriageResultCreate) SetDepartmentID(id int) *TriageResultCreate {
+	trc.mutation.SetDepartmentID(id)
 	return trc
 }
 
-// SetNillableTriageResultToDepartmentID sets the "triageResultToDepartment" edge to the Department entity by ID if the given value is not nil.
-func (trc *TriageResultCreate) SetNillableTriageResultToDepartmentID(id *int) *TriageResultCreate {
+// SetNillableDepartmentID sets the "department" edge to the Department entity by ID if the given value is not nil.
+func (trc *TriageResultCreate) SetNillableDepartmentID(id *int) *TriageResultCreate {
 	if id != nil {
-		trc = trc.SetTriageResultToDepartmentID(*id)
+		trc = trc.SetDepartmentID(*id)
 	}
 	return trc
 }
 
-// SetTriageResultToDepartment sets the "triageResultToDepartment" edge to the Department entity.
-func (trc *TriageResultCreate) SetTriageResultToDepartment(d *Department) *TriageResultCreate {
-	return trc.SetTriageResultToDepartmentID(d.ID)
+// SetDepartment sets the "department" edge to the Department entity.
+func (trc *TriageResultCreate) SetDepartment(d *Department) *TriageResultCreate {
+	return trc.SetDepartmentID(d.ID)
 }
 
-// SetTriageResultToNurseID sets the "triageResultToNurse" edge to the Nurse entity by ID.
-func (trc *TriageResultCreate) SetTriageResultToNurseID(id int) *TriageResultCreate {
-	trc.mutation.SetTriageResultToNurseID(id)
+// SetNurseID sets the "nurse" edge to the Nurse entity by ID.
+func (trc *TriageResultCreate) SetNurseID(id int) *TriageResultCreate {
+	trc.mutation.SetNurseID(id)
 	return trc
 }
 
-// SetNillableTriageResultToNurseID sets the "triageResultToNurse" edge to the Nurse entity by ID if the given value is not nil.
-func (trc *TriageResultCreate) SetNillableTriageResultToNurseID(id *int) *TriageResultCreate {
+// SetNillableNurseID sets the "nurse" edge to the Nurse entity by ID if the given value is not nil.
+func (trc *TriageResultCreate) SetNillableNurseID(id *int) *TriageResultCreate {
 	if id != nil {
-		trc = trc.SetTriageResultToNurseID(*id)
+		trc = trc.SetNurseID(*id)
 	}
 	return trc
 }
 
-// SetTriageResultToNurse sets the "triageResultToNurse" edge to the Nurse entity.
-func (trc *TriageResultCreate) SetTriageResultToNurse(n *Nurse) *TriageResultCreate {
-	return trc.SetTriageResultToNurseID(n.ID)
+// SetNurse sets the "nurse" edge to the Nurse entity.
+func (trc *TriageResultCreate) SetNurse(n *Nurse) *TriageResultCreate {
+	return trc.SetNurseID(n.ID)
 }
 
-// SetTriageResultToPatientID sets the "triageResultToPatient" edge to the Patient entity by ID.
-func (trc *TriageResultCreate) SetTriageResultToPatientID(id int) *TriageResultCreate {
-	trc.mutation.SetTriageResultToPatientID(id)
+// SetPatientID sets the "patient" edge to the Patient entity by ID.
+func (trc *TriageResultCreate) SetPatientID(id int) *TriageResultCreate {
+	trc.mutation.SetPatientID(id)
 	return trc
 }
 
-// SetNillableTriageResultToPatientID sets the "triageResultToPatient" edge to the Patient entity by ID if the given value is not nil.
-func (trc *TriageResultCreate) SetNillableTriageResultToPatientID(id *int) *TriageResultCreate {
+// SetNillablePatientID sets the "patient" edge to the Patient entity by ID if the given value is not nil.
+func (trc *TriageResultCreate) SetNillablePatientID(id *int) *TriageResultCreate {
 	if id != nil {
-		trc = trc.SetTriageResultToPatientID(*id)
+		trc = trc.SetPatientID(*id)
 	}
 	return trc
 }
 
-// SetTriageResultToPatient sets the "triageResultToPatient" edge to the Patient entity.
-func (trc *TriageResultCreate) SetTriageResultToPatient(p *Patient) *TriageResultCreate {
-	return trc.SetTriageResultToPatientID(p.ID)
+// SetPatient sets the "patient" edge to the Patient entity.
+func (trc *TriageResultCreate) SetPatient(p *Patient) *TriageResultCreate {
+	return trc.SetPatientID(p.ID)
 }
 
 // Mutation returns the TriageResultMutation object of the builder.
@@ -234,12 +234,12 @@ func (trc *TriageResultCreate) createSpec() (*TriageResult, *sqlgraph.CreateSpec
 		})
 		_node.TriageDate = value
 	}
-	if nodes := trc.mutation.TriageResultToUrgencyLevelIDs(); len(nodes) > 0 {
+	if nodes := trc.mutation.UrgencyLevelIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToUrgencyLevelTable,
-			Columns: []string{triageresult.TriageResultToUrgencyLevelColumn},
+			Table:   triageresult.UrgencyLevelTable,
+			Columns: []string{triageresult.UrgencyLevelColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -253,12 +253,12 @@ func (trc *TriageResultCreate) createSpec() (*TriageResult, *sqlgraph.CreateSpec
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := trc.mutation.TriageResultToDepartmentIDs(); len(nodes) > 0 {
+	if nodes := trc.mutation.DepartmentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToDepartmentTable,
-			Columns: []string{triageresult.TriageResultToDepartmentColumn},
+			Table:   triageresult.DepartmentTable,
+			Columns: []string{triageresult.DepartmentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -272,12 +272,12 @@ func (trc *TriageResultCreate) createSpec() (*TriageResult, *sqlgraph.CreateSpec
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := trc.mutation.TriageResultToNurseIDs(); len(nodes) > 0 {
+	if nodes := trc.mutation.NurseIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToNurseTable,
-			Columns: []string{triageresult.TriageResultToNurseColumn},
+			Table:   triageresult.NurseTable,
+			Columns: []string{triageresult.NurseColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -291,12 +291,12 @@ func (trc *TriageResultCreate) createSpec() (*TriageResult, *sqlgraph.CreateSpec
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := trc.mutation.TriageResultToPatientIDs(); len(nodes) > 0 {
+	if nodes := trc.mutation.PatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToPatientTable,
-			Columns: []string{triageresult.TriageResultToPatientColumn},
+			Table:   triageresult.PatientTable,
+			Columns: []string{triageresult.PatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

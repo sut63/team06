@@ -21,6 +21,6 @@ func (Department) Fields() []ent.Field {
 // Edges of the Department.
 func (Department) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("departmentToTriageResult", TriageResult.Type),
+		edge.To("triageResult", TriageResult.Type),
 	}
 }

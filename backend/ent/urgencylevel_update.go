@@ -33,19 +33,19 @@ func (ulu *UrgencyLevelUpdate) SetUrgencyName(s string) *UrgencyLevelUpdate {
 	return ulu
 }
 
-// AddUrgencyLevelToTriageResultIDs adds the "urgencyLevelToTriageResult" edge to the TriageResult entity by IDs.
-func (ulu *UrgencyLevelUpdate) AddUrgencyLevelToTriageResultIDs(ids ...int) *UrgencyLevelUpdate {
-	ulu.mutation.AddUrgencyLevelToTriageResultIDs(ids...)
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
+func (ulu *UrgencyLevelUpdate) AddTriageResultIDs(ids ...int) *UrgencyLevelUpdate {
+	ulu.mutation.AddTriageResultIDs(ids...)
 	return ulu
 }
 
-// AddUrgencyLevelToTriageResult adds the "urgencyLevelToTriageResult" edges to the TriageResult entity.
-func (ulu *UrgencyLevelUpdate) AddUrgencyLevelToTriageResult(t ...*TriageResult) *UrgencyLevelUpdate {
+// AddTriageResult adds the "triageResult" edges to the TriageResult entity.
+func (ulu *UrgencyLevelUpdate) AddTriageResult(t ...*TriageResult) *UrgencyLevelUpdate {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return ulu.AddUrgencyLevelToTriageResultIDs(ids...)
+	return ulu.AddTriageResultIDs(ids...)
 }
 
 // Mutation returns the UrgencyLevelMutation object of the builder.
@@ -53,25 +53,25 @@ func (ulu *UrgencyLevelUpdate) Mutation() *UrgencyLevelMutation {
 	return ulu.mutation
 }
 
-// ClearUrgencyLevelToTriageResult clears all "urgencyLevelToTriageResult" edges to the TriageResult entity.
-func (ulu *UrgencyLevelUpdate) ClearUrgencyLevelToTriageResult() *UrgencyLevelUpdate {
-	ulu.mutation.ClearUrgencyLevelToTriageResult()
+// ClearTriageResult clears all "triageResult" edges to the TriageResult entity.
+func (ulu *UrgencyLevelUpdate) ClearTriageResult() *UrgencyLevelUpdate {
+	ulu.mutation.ClearTriageResult()
 	return ulu
 }
 
-// RemoveUrgencyLevelToTriageResultIDs removes the "urgencyLevelToTriageResult" edge to TriageResult entities by IDs.
-func (ulu *UrgencyLevelUpdate) RemoveUrgencyLevelToTriageResultIDs(ids ...int) *UrgencyLevelUpdate {
-	ulu.mutation.RemoveUrgencyLevelToTriageResultIDs(ids...)
+// RemoveTriageResultIDs removes the "triageResult" edge to TriageResult entities by IDs.
+func (ulu *UrgencyLevelUpdate) RemoveTriageResultIDs(ids ...int) *UrgencyLevelUpdate {
+	ulu.mutation.RemoveTriageResultIDs(ids...)
 	return ulu
 }
 
-// RemoveUrgencyLevelToTriageResult removes "urgencyLevelToTriageResult" edges to TriageResult entities.
-func (ulu *UrgencyLevelUpdate) RemoveUrgencyLevelToTriageResult(t ...*TriageResult) *UrgencyLevelUpdate {
+// RemoveTriageResult removes "triageResult" edges to TriageResult entities.
+func (ulu *UrgencyLevelUpdate) RemoveTriageResult(t ...*TriageResult) *UrgencyLevelUpdate {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return ulu.RemoveUrgencyLevelToTriageResultIDs(ids...)
+	return ulu.RemoveTriageResultIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -166,12 +166,12 @@ func (ulu *UrgencyLevelUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: urgencylevel.FieldUrgencyName,
 		})
 	}
-	if ulu.mutation.UrgencyLevelToTriageResultCleared() {
+	if ulu.mutation.TriageResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   urgencylevel.UrgencyLevelToTriageResultTable,
-			Columns: []string{urgencylevel.UrgencyLevelToTriageResultColumn},
+			Table:   urgencylevel.TriageResultTable,
+			Columns: []string{urgencylevel.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -182,12 +182,12 @@ func (ulu *UrgencyLevelUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ulu.mutation.RemovedUrgencyLevelToTriageResultIDs(); len(nodes) > 0 && !ulu.mutation.UrgencyLevelToTriageResultCleared() {
+	if nodes := ulu.mutation.RemovedTriageResultIDs(); len(nodes) > 0 && !ulu.mutation.TriageResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   urgencylevel.UrgencyLevelToTriageResultTable,
-			Columns: []string{urgencylevel.UrgencyLevelToTriageResultColumn},
+			Table:   urgencylevel.TriageResultTable,
+			Columns: []string{urgencylevel.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -201,12 +201,12 @@ func (ulu *UrgencyLevelUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ulu.mutation.UrgencyLevelToTriageResultIDs(); len(nodes) > 0 {
+	if nodes := ulu.mutation.TriageResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   urgencylevel.UrgencyLevelToTriageResultTable,
-			Columns: []string{urgencylevel.UrgencyLevelToTriageResultColumn},
+			Table:   urgencylevel.TriageResultTable,
+			Columns: []string{urgencylevel.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -244,19 +244,19 @@ func (uluo *UrgencyLevelUpdateOne) SetUrgencyName(s string) *UrgencyLevelUpdateO
 	return uluo
 }
 
-// AddUrgencyLevelToTriageResultIDs adds the "urgencyLevelToTriageResult" edge to the TriageResult entity by IDs.
-func (uluo *UrgencyLevelUpdateOne) AddUrgencyLevelToTriageResultIDs(ids ...int) *UrgencyLevelUpdateOne {
-	uluo.mutation.AddUrgencyLevelToTriageResultIDs(ids...)
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
+func (uluo *UrgencyLevelUpdateOne) AddTriageResultIDs(ids ...int) *UrgencyLevelUpdateOne {
+	uluo.mutation.AddTriageResultIDs(ids...)
 	return uluo
 }
 
-// AddUrgencyLevelToTriageResult adds the "urgencyLevelToTriageResult" edges to the TriageResult entity.
-func (uluo *UrgencyLevelUpdateOne) AddUrgencyLevelToTriageResult(t ...*TriageResult) *UrgencyLevelUpdateOne {
+// AddTriageResult adds the "triageResult" edges to the TriageResult entity.
+func (uluo *UrgencyLevelUpdateOne) AddTriageResult(t ...*TriageResult) *UrgencyLevelUpdateOne {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return uluo.AddUrgencyLevelToTriageResultIDs(ids...)
+	return uluo.AddTriageResultIDs(ids...)
 }
 
 // Mutation returns the UrgencyLevelMutation object of the builder.
@@ -264,25 +264,25 @@ func (uluo *UrgencyLevelUpdateOne) Mutation() *UrgencyLevelMutation {
 	return uluo.mutation
 }
 
-// ClearUrgencyLevelToTriageResult clears all "urgencyLevelToTriageResult" edges to the TriageResult entity.
-func (uluo *UrgencyLevelUpdateOne) ClearUrgencyLevelToTriageResult() *UrgencyLevelUpdateOne {
-	uluo.mutation.ClearUrgencyLevelToTriageResult()
+// ClearTriageResult clears all "triageResult" edges to the TriageResult entity.
+func (uluo *UrgencyLevelUpdateOne) ClearTriageResult() *UrgencyLevelUpdateOne {
+	uluo.mutation.ClearTriageResult()
 	return uluo
 }
 
-// RemoveUrgencyLevelToTriageResultIDs removes the "urgencyLevelToTriageResult" edge to TriageResult entities by IDs.
-func (uluo *UrgencyLevelUpdateOne) RemoveUrgencyLevelToTriageResultIDs(ids ...int) *UrgencyLevelUpdateOne {
-	uluo.mutation.RemoveUrgencyLevelToTriageResultIDs(ids...)
+// RemoveTriageResultIDs removes the "triageResult" edge to TriageResult entities by IDs.
+func (uluo *UrgencyLevelUpdateOne) RemoveTriageResultIDs(ids ...int) *UrgencyLevelUpdateOne {
+	uluo.mutation.RemoveTriageResultIDs(ids...)
 	return uluo
 }
 
-// RemoveUrgencyLevelToTriageResult removes "urgencyLevelToTriageResult" edges to TriageResult entities.
-func (uluo *UrgencyLevelUpdateOne) RemoveUrgencyLevelToTriageResult(t ...*TriageResult) *UrgencyLevelUpdateOne {
+// RemoveTriageResult removes "triageResult" edges to TriageResult entities.
+func (uluo *UrgencyLevelUpdateOne) RemoveTriageResult(t ...*TriageResult) *UrgencyLevelUpdateOne {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return uluo.RemoveUrgencyLevelToTriageResultIDs(ids...)
+	return uluo.RemoveTriageResultIDs(ids...)
 }
 
 // Save executes the query and returns the updated UrgencyLevel entity.
@@ -375,12 +375,12 @@ func (uluo *UrgencyLevelUpdateOne) sqlSave(ctx context.Context) (_node *UrgencyL
 			Column: urgencylevel.FieldUrgencyName,
 		})
 	}
-	if uluo.mutation.UrgencyLevelToTriageResultCleared() {
+	if uluo.mutation.TriageResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   urgencylevel.UrgencyLevelToTriageResultTable,
-			Columns: []string{urgencylevel.UrgencyLevelToTriageResultColumn},
+			Table:   urgencylevel.TriageResultTable,
+			Columns: []string{urgencylevel.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -391,12 +391,12 @@ func (uluo *UrgencyLevelUpdateOne) sqlSave(ctx context.Context) (_node *UrgencyL
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := uluo.mutation.RemovedUrgencyLevelToTriageResultIDs(); len(nodes) > 0 && !uluo.mutation.UrgencyLevelToTriageResultCleared() {
+	if nodes := uluo.mutation.RemovedTriageResultIDs(); len(nodes) > 0 && !uluo.mutation.TriageResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   urgencylevel.UrgencyLevelToTriageResultTable,
-			Columns: []string{urgencylevel.UrgencyLevelToTriageResultColumn},
+			Table:   urgencylevel.TriageResultTable,
+			Columns: []string{urgencylevel.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -410,12 +410,12 @@ func (uluo *UrgencyLevelUpdateOne) sqlSave(ctx context.Context) (_node *UrgencyL
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := uluo.mutation.UrgencyLevelToTriageResultIDs(); len(nodes) > 0 {
+	if nodes := uluo.mutation.TriageResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   urgencylevel.UrgencyLevelToTriageResultTable,
-			Columns: []string{urgencylevel.UrgencyLevelToTriageResultColumn},
+			Table:   urgencylevel.TriageResultTable,
+			Columns: []string{urgencylevel.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

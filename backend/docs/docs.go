@@ -485,50 +485,6 @@ var doc = `{
                 }
             }
         },
-        "/TriageResults": {
-            "post": {
-                "description": "Create TriageResult",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Create TriageResult",
-                "operationId": "create-TriageResult",
-                "parameters": [
-                    {
-                        "description": "TriageResult entity",
-                        "name": "TriageResult",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ent.TriageResult"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.TriageResult"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
         "/appointmentresultss": {
             "get": {
                 "description": "list appointmentresults entities",
@@ -1913,7 +1869,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/controllers.Medicalprocedure"
+                                "$ref": "#/definitions/ent.MedicalProcedure"
                             }
                         }
                     },
@@ -1948,7 +1904,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.Medicalprocedure"
+                            "$ref": "#/definitions/ent.MedicalProcedure"
                         }
                     }
                 ],
@@ -1956,7 +1912,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.Medicalprocedure"
+                            "$ref": "#/definitions/ent.MedicalProcedure"
                         }
                     },
                     "400": {
@@ -3872,6 +3828,48 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Create TriageResult",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create TriageResult",
+                "operationId": "create-TriageResult",
+                "parameters": [
+                    {
+                        "description": "TriageResult entity",
+                        "name": "TriageResult",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.TriageResult"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.TriageResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
             }
         },
         "/triageresults/{id}": {
@@ -4239,23 +4237,6 @@ var doc = `{
         }
     },
     "definitions": {
-        "controllers.Medicalprocedure": {
-            "type": "object",
-            "properties": {
-                "addedtime": {
-                    "type": "string"
-                },
-                "doctors": {
-                    "type": "integer"
-                },
-                "patients": {
-                    "type": "integer"
-                },
-                "proceduretypes": {
-                    "type": "integer"
-                }
-            }
-        },
         "ent.AppointmentResults": {
             "type": "object",
             "properties": {
@@ -4354,8 +4335,8 @@ var doc = `{
         "ent.DepartmentEdges": {
             "type": "object",
             "properties": {
-                "departmentToTriageResult": {
-                    "description": "DepartmentToTriageResult holds the value of the departmentToTriageResult edge.",
+                "triageResult": {
+                    "description": "TriageResult holds the value of the triageResult edge.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ent.TriageResult"
@@ -4616,8 +4597,8 @@ var doc = `{
                         "$ref": "#/definitions/ent.AppointmentResults"
                     }
                 },
-                "nurseToTriageResult": {
-                    "description": "NurseToTriageResult holds the value of the nurseToTriageResult edge.",
+                "triageResult": {
+                    "description": "TriageResult holds the value of the triageResult edge.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ent.TriageResult"
@@ -4704,17 +4685,17 @@ var doc = `{
                         "$ref": "#/definitions/ent.RightToTreatment"
                     }
                 },
-                "patientToTriageResult": {
-                    "description": "PatientToTriageResult holds the value of the patientToTriageResult edge.",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ent.TriageResult"
-                    }
-                },
                 "prefix": {
                     "description": "Prefix holds the value of the Prefix edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Prefix"
+                },
+                "triageResult": {
+                    "description": "TriageResult holds the value of the triageResult edge.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.TriageResult"
+                    }
                 }
             }
         },
@@ -4935,23 +4916,23 @@ var doc = `{
         "ent.TriageResultEdges": {
             "type": "object",
             "properties": {
-                "triageResultToDepartment": {
-                    "description": "TriageResultToDepartment holds the value of the triageResultToDepartment edge.",
+                "department": {
+                    "description": "Department holds the value of the department edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Department"
                 },
-                "triageResultToNurse": {
-                    "description": "TriageResultToNurse holds the value of the triageResultToNurse edge.",
+                "nurse": {
+                    "description": "Nurse holds the value of the nurse edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Nurse"
                 },
-                "triageResultToPatient": {
-                    "description": "TriageResultToPatient holds the value of the triageResultToPatient edge.",
+                "patient": {
+                    "description": "Patient holds the value of the patient edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Patient"
                 },
-                "triageResultToUrgencyLevel": {
-                    "description": "TriageResultToUrgencyLevel holds the value of the triageResultToUrgencyLevel edge.",
+                "urgencyLevel": {
+                    "description": "UrgencyLevel holds the value of the urgencyLevel edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.UrgencyLevel"
                 }
@@ -4978,8 +4959,8 @@ var doc = `{
         "ent.UrgencyLevelEdges": {
             "type": "object",
             "properties": {
-                "urgencyLevelToTriageResult": {
-                    "description": "UrgencyLevelToTriageResult holds the value of the urgencyLevelToTriageResult edge.",
+                "triageResult": {
+                    "description": "TriageResult holds the value of the triageResult edge.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ent.TriageResult"

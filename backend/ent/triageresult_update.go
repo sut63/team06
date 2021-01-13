@@ -51,80 +51,80 @@ func (tru *TriageResultUpdate) SetNillableTriageDate(t *time.Time) *TriageResult
 	return tru
 }
 
-// SetTriageResultToUrgencyLevelID sets the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity by ID.
-func (tru *TriageResultUpdate) SetTriageResultToUrgencyLevelID(id int) *TriageResultUpdate {
-	tru.mutation.SetTriageResultToUrgencyLevelID(id)
+// SetUrgencyLevelID sets the "urgencyLevel" edge to the UrgencyLevel entity by ID.
+func (tru *TriageResultUpdate) SetUrgencyLevelID(id int) *TriageResultUpdate {
+	tru.mutation.SetUrgencyLevelID(id)
 	return tru
 }
 
-// SetNillableTriageResultToUrgencyLevelID sets the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity by ID if the given value is not nil.
-func (tru *TriageResultUpdate) SetNillableTriageResultToUrgencyLevelID(id *int) *TriageResultUpdate {
+// SetNillableUrgencyLevelID sets the "urgencyLevel" edge to the UrgencyLevel entity by ID if the given value is not nil.
+func (tru *TriageResultUpdate) SetNillableUrgencyLevelID(id *int) *TriageResultUpdate {
 	if id != nil {
-		tru = tru.SetTriageResultToUrgencyLevelID(*id)
+		tru = tru.SetUrgencyLevelID(*id)
 	}
 	return tru
 }
 
-// SetTriageResultToUrgencyLevel sets the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity.
-func (tru *TriageResultUpdate) SetTriageResultToUrgencyLevel(u *UrgencyLevel) *TriageResultUpdate {
-	return tru.SetTriageResultToUrgencyLevelID(u.ID)
+// SetUrgencyLevel sets the "urgencyLevel" edge to the UrgencyLevel entity.
+func (tru *TriageResultUpdate) SetUrgencyLevel(u *UrgencyLevel) *TriageResultUpdate {
+	return tru.SetUrgencyLevelID(u.ID)
 }
 
-// SetTriageResultToDepartmentID sets the "triageResultToDepartment" edge to the Department entity by ID.
-func (tru *TriageResultUpdate) SetTriageResultToDepartmentID(id int) *TriageResultUpdate {
-	tru.mutation.SetTriageResultToDepartmentID(id)
+// SetDepartmentID sets the "department" edge to the Department entity by ID.
+func (tru *TriageResultUpdate) SetDepartmentID(id int) *TriageResultUpdate {
+	tru.mutation.SetDepartmentID(id)
 	return tru
 }
 
-// SetNillableTriageResultToDepartmentID sets the "triageResultToDepartment" edge to the Department entity by ID if the given value is not nil.
-func (tru *TriageResultUpdate) SetNillableTriageResultToDepartmentID(id *int) *TriageResultUpdate {
+// SetNillableDepartmentID sets the "department" edge to the Department entity by ID if the given value is not nil.
+func (tru *TriageResultUpdate) SetNillableDepartmentID(id *int) *TriageResultUpdate {
 	if id != nil {
-		tru = tru.SetTriageResultToDepartmentID(*id)
+		tru = tru.SetDepartmentID(*id)
 	}
 	return tru
 }
 
-// SetTriageResultToDepartment sets the "triageResultToDepartment" edge to the Department entity.
-func (tru *TriageResultUpdate) SetTriageResultToDepartment(d *Department) *TriageResultUpdate {
-	return tru.SetTriageResultToDepartmentID(d.ID)
+// SetDepartment sets the "department" edge to the Department entity.
+func (tru *TriageResultUpdate) SetDepartment(d *Department) *TriageResultUpdate {
+	return tru.SetDepartmentID(d.ID)
 }
 
-// SetTriageResultToNurseID sets the "triageResultToNurse" edge to the Nurse entity by ID.
-func (tru *TriageResultUpdate) SetTriageResultToNurseID(id int) *TriageResultUpdate {
-	tru.mutation.SetTriageResultToNurseID(id)
+// SetNurseID sets the "nurse" edge to the Nurse entity by ID.
+func (tru *TriageResultUpdate) SetNurseID(id int) *TriageResultUpdate {
+	tru.mutation.SetNurseID(id)
 	return tru
 }
 
-// SetNillableTriageResultToNurseID sets the "triageResultToNurse" edge to the Nurse entity by ID if the given value is not nil.
-func (tru *TriageResultUpdate) SetNillableTriageResultToNurseID(id *int) *TriageResultUpdate {
+// SetNillableNurseID sets the "nurse" edge to the Nurse entity by ID if the given value is not nil.
+func (tru *TriageResultUpdate) SetNillableNurseID(id *int) *TriageResultUpdate {
 	if id != nil {
-		tru = tru.SetTriageResultToNurseID(*id)
+		tru = tru.SetNurseID(*id)
 	}
 	return tru
 }
 
-// SetTriageResultToNurse sets the "triageResultToNurse" edge to the Nurse entity.
-func (tru *TriageResultUpdate) SetTriageResultToNurse(n *Nurse) *TriageResultUpdate {
-	return tru.SetTriageResultToNurseID(n.ID)
+// SetNurse sets the "nurse" edge to the Nurse entity.
+func (tru *TriageResultUpdate) SetNurse(n *Nurse) *TriageResultUpdate {
+	return tru.SetNurseID(n.ID)
 }
 
-// SetTriageResultToPatientID sets the "triageResultToPatient" edge to the Patient entity by ID.
-func (tru *TriageResultUpdate) SetTriageResultToPatientID(id int) *TriageResultUpdate {
-	tru.mutation.SetTriageResultToPatientID(id)
+// SetPatientID sets the "patient" edge to the Patient entity by ID.
+func (tru *TriageResultUpdate) SetPatientID(id int) *TriageResultUpdate {
+	tru.mutation.SetPatientID(id)
 	return tru
 }
 
-// SetNillableTriageResultToPatientID sets the "triageResultToPatient" edge to the Patient entity by ID if the given value is not nil.
-func (tru *TriageResultUpdate) SetNillableTriageResultToPatientID(id *int) *TriageResultUpdate {
+// SetNillablePatientID sets the "patient" edge to the Patient entity by ID if the given value is not nil.
+func (tru *TriageResultUpdate) SetNillablePatientID(id *int) *TriageResultUpdate {
 	if id != nil {
-		tru = tru.SetTriageResultToPatientID(*id)
+		tru = tru.SetPatientID(*id)
 	}
 	return tru
 }
 
-// SetTriageResultToPatient sets the "triageResultToPatient" edge to the Patient entity.
-func (tru *TriageResultUpdate) SetTriageResultToPatient(p *Patient) *TriageResultUpdate {
-	return tru.SetTriageResultToPatientID(p.ID)
+// SetPatient sets the "patient" edge to the Patient entity.
+func (tru *TriageResultUpdate) SetPatient(p *Patient) *TriageResultUpdate {
+	return tru.SetPatientID(p.ID)
 }
 
 // Mutation returns the TriageResultMutation object of the builder.
@@ -132,27 +132,27 @@ func (tru *TriageResultUpdate) Mutation() *TriageResultMutation {
 	return tru.mutation
 }
 
-// ClearTriageResultToUrgencyLevel clears the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity.
-func (tru *TriageResultUpdate) ClearTriageResultToUrgencyLevel() *TriageResultUpdate {
-	tru.mutation.ClearTriageResultToUrgencyLevel()
+// ClearUrgencyLevel clears the "urgencyLevel" edge to the UrgencyLevel entity.
+func (tru *TriageResultUpdate) ClearUrgencyLevel() *TriageResultUpdate {
+	tru.mutation.ClearUrgencyLevel()
 	return tru
 }
 
-// ClearTriageResultToDepartment clears the "triageResultToDepartment" edge to the Department entity.
-func (tru *TriageResultUpdate) ClearTriageResultToDepartment() *TriageResultUpdate {
-	tru.mutation.ClearTriageResultToDepartment()
+// ClearDepartment clears the "department" edge to the Department entity.
+func (tru *TriageResultUpdate) ClearDepartment() *TriageResultUpdate {
+	tru.mutation.ClearDepartment()
 	return tru
 }
 
-// ClearTriageResultToNurse clears the "triageResultToNurse" edge to the Nurse entity.
-func (tru *TriageResultUpdate) ClearTriageResultToNurse() *TriageResultUpdate {
-	tru.mutation.ClearTriageResultToNurse()
+// ClearNurse clears the "nurse" edge to the Nurse entity.
+func (tru *TriageResultUpdate) ClearNurse() *TriageResultUpdate {
+	tru.mutation.ClearNurse()
 	return tru
 }
 
-// ClearTriageResultToPatient clears the "triageResultToPatient" edge to the Patient entity.
-func (tru *TriageResultUpdate) ClearTriageResultToPatient() *TriageResultUpdate {
-	tru.mutation.ClearTriageResultToPatient()
+// ClearPatient clears the "patient" edge to the Patient entity.
+func (tru *TriageResultUpdate) ClearPatient() *TriageResultUpdate {
+	tru.mutation.ClearPatient()
 	return tru
 }
 
@@ -255,12 +255,12 @@ func (tru *TriageResultUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: triageresult.FieldTriageDate,
 		})
 	}
-	if tru.mutation.TriageResultToUrgencyLevelCleared() {
+	if tru.mutation.UrgencyLevelCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToUrgencyLevelTable,
-			Columns: []string{triageresult.TriageResultToUrgencyLevelColumn},
+			Table:   triageresult.UrgencyLevelTable,
+			Columns: []string{triageresult.UrgencyLevelColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -271,12 +271,12 @@ func (tru *TriageResultUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := tru.mutation.TriageResultToUrgencyLevelIDs(); len(nodes) > 0 {
+	if nodes := tru.mutation.UrgencyLevelIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToUrgencyLevelTable,
-			Columns: []string{triageresult.TriageResultToUrgencyLevelColumn},
+			Table:   triageresult.UrgencyLevelTable,
+			Columns: []string{triageresult.UrgencyLevelColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -290,12 +290,12 @@ func (tru *TriageResultUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if tru.mutation.TriageResultToDepartmentCleared() {
+	if tru.mutation.DepartmentCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToDepartmentTable,
-			Columns: []string{triageresult.TriageResultToDepartmentColumn},
+			Table:   triageresult.DepartmentTable,
+			Columns: []string{triageresult.DepartmentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -306,12 +306,12 @@ func (tru *TriageResultUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := tru.mutation.TriageResultToDepartmentIDs(); len(nodes) > 0 {
+	if nodes := tru.mutation.DepartmentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToDepartmentTable,
-			Columns: []string{triageresult.TriageResultToDepartmentColumn},
+			Table:   triageresult.DepartmentTable,
+			Columns: []string{triageresult.DepartmentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -325,12 +325,12 @@ func (tru *TriageResultUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if tru.mutation.TriageResultToNurseCleared() {
+	if tru.mutation.NurseCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToNurseTable,
-			Columns: []string{triageresult.TriageResultToNurseColumn},
+			Table:   triageresult.NurseTable,
+			Columns: []string{triageresult.NurseColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -341,12 +341,12 @@ func (tru *TriageResultUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := tru.mutation.TriageResultToNurseIDs(); len(nodes) > 0 {
+	if nodes := tru.mutation.NurseIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToNurseTable,
-			Columns: []string{triageresult.TriageResultToNurseColumn},
+			Table:   triageresult.NurseTable,
+			Columns: []string{triageresult.NurseColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -360,12 +360,12 @@ func (tru *TriageResultUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if tru.mutation.TriageResultToPatientCleared() {
+	if tru.mutation.PatientCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToPatientTable,
-			Columns: []string{triageresult.TriageResultToPatientColumn},
+			Table:   triageresult.PatientTable,
+			Columns: []string{triageresult.PatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -376,12 +376,12 @@ func (tru *TriageResultUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := tru.mutation.TriageResultToPatientIDs(); len(nodes) > 0 {
+	if nodes := tru.mutation.PatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToPatientTable,
-			Columns: []string{triageresult.TriageResultToPatientColumn},
+			Table:   triageresult.PatientTable,
+			Columns: []string{triageresult.PatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -433,80 +433,80 @@ func (truo *TriageResultUpdateOne) SetNillableTriageDate(t *time.Time) *TriageRe
 	return truo
 }
 
-// SetTriageResultToUrgencyLevelID sets the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity by ID.
-func (truo *TriageResultUpdateOne) SetTriageResultToUrgencyLevelID(id int) *TriageResultUpdateOne {
-	truo.mutation.SetTriageResultToUrgencyLevelID(id)
+// SetUrgencyLevelID sets the "urgencyLevel" edge to the UrgencyLevel entity by ID.
+func (truo *TriageResultUpdateOne) SetUrgencyLevelID(id int) *TriageResultUpdateOne {
+	truo.mutation.SetUrgencyLevelID(id)
 	return truo
 }
 
-// SetNillableTriageResultToUrgencyLevelID sets the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity by ID if the given value is not nil.
-func (truo *TriageResultUpdateOne) SetNillableTriageResultToUrgencyLevelID(id *int) *TriageResultUpdateOne {
+// SetNillableUrgencyLevelID sets the "urgencyLevel" edge to the UrgencyLevel entity by ID if the given value is not nil.
+func (truo *TriageResultUpdateOne) SetNillableUrgencyLevelID(id *int) *TriageResultUpdateOne {
 	if id != nil {
-		truo = truo.SetTriageResultToUrgencyLevelID(*id)
+		truo = truo.SetUrgencyLevelID(*id)
 	}
 	return truo
 }
 
-// SetTriageResultToUrgencyLevel sets the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity.
-func (truo *TriageResultUpdateOne) SetTriageResultToUrgencyLevel(u *UrgencyLevel) *TriageResultUpdateOne {
-	return truo.SetTriageResultToUrgencyLevelID(u.ID)
+// SetUrgencyLevel sets the "urgencyLevel" edge to the UrgencyLevel entity.
+func (truo *TriageResultUpdateOne) SetUrgencyLevel(u *UrgencyLevel) *TriageResultUpdateOne {
+	return truo.SetUrgencyLevelID(u.ID)
 }
 
-// SetTriageResultToDepartmentID sets the "triageResultToDepartment" edge to the Department entity by ID.
-func (truo *TriageResultUpdateOne) SetTriageResultToDepartmentID(id int) *TriageResultUpdateOne {
-	truo.mutation.SetTriageResultToDepartmentID(id)
+// SetDepartmentID sets the "department" edge to the Department entity by ID.
+func (truo *TriageResultUpdateOne) SetDepartmentID(id int) *TriageResultUpdateOne {
+	truo.mutation.SetDepartmentID(id)
 	return truo
 }
 
-// SetNillableTriageResultToDepartmentID sets the "triageResultToDepartment" edge to the Department entity by ID if the given value is not nil.
-func (truo *TriageResultUpdateOne) SetNillableTriageResultToDepartmentID(id *int) *TriageResultUpdateOne {
+// SetNillableDepartmentID sets the "department" edge to the Department entity by ID if the given value is not nil.
+func (truo *TriageResultUpdateOne) SetNillableDepartmentID(id *int) *TriageResultUpdateOne {
 	if id != nil {
-		truo = truo.SetTriageResultToDepartmentID(*id)
+		truo = truo.SetDepartmentID(*id)
 	}
 	return truo
 }
 
-// SetTriageResultToDepartment sets the "triageResultToDepartment" edge to the Department entity.
-func (truo *TriageResultUpdateOne) SetTriageResultToDepartment(d *Department) *TriageResultUpdateOne {
-	return truo.SetTriageResultToDepartmentID(d.ID)
+// SetDepartment sets the "department" edge to the Department entity.
+func (truo *TriageResultUpdateOne) SetDepartment(d *Department) *TriageResultUpdateOne {
+	return truo.SetDepartmentID(d.ID)
 }
 
-// SetTriageResultToNurseID sets the "triageResultToNurse" edge to the Nurse entity by ID.
-func (truo *TriageResultUpdateOne) SetTriageResultToNurseID(id int) *TriageResultUpdateOne {
-	truo.mutation.SetTriageResultToNurseID(id)
+// SetNurseID sets the "nurse" edge to the Nurse entity by ID.
+func (truo *TriageResultUpdateOne) SetNurseID(id int) *TriageResultUpdateOne {
+	truo.mutation.SetNurseID(id)
 	return truo
 }
 
-// SetNillableTriageResultToNurseID sets the "triageResultToNurse" edge to the Nurse entity by ID if the given value is not nil.
-func (truo *TriageResultUpdateOne) SetNillableTriageResultToNurseID(id *int) *TriageResultUpdateOne {
+// SetNillableNurseID sets the "nurse" edge to the Nurse entity by ID if the given value is not nil.
+func (truo *TriageResultUpdateOne) SetNillableNurseID(id *int) *TriageResultUpdateOne {
 	if id != nil {
-		truo = truo.SetTriageResultToNurseID(*id)
+		truo = truo.SetNurseID(*id)
 	}
 	return truo
 }
 
-// SetTriageResultToNurse sets the "triageResultToNurse" edge to the Nurse entity.
-func (truo *TriageResultUpdateOne) SetTriageResultToNurse(n *Nurse) *TriageResultUpdateOne {
-	return truo.SetTriageResultToNurseID(n.ID)
+// SetNurse sets the "nurse" edge to the Nurse entity.
+func (truo *TriageResultUpdateOne) SetNurse(n *Nurse) *TriageResultUpdateOne {
+	return truo.SetNurseID(n.ID)
 }
 
-// SetTriageResultToPatientID sets the "triageResultToPatient" edge to the Patient entity by ID.
-func (truo *TriageResultUpdateOne) SetTriageResultToPatientID(id int) *TriageResultUpdateOne {
-	truo.mutation.SetTriageResultToPatientID(id)
+// SetPatientID sets the "patient" edge to the Patient entity by ID.
+func (truo *TriageResultUpdateOne) SetPatientID(id int) *TriageResultUpdateOne {
+	truo.mutation.SetPatientID(id)
 	return truo
 }
 
-// SetNillableTriageResultToPatientID sets the "triageResultToPatient" edge to the Patient entity by ID if the given value is not nil.
-func (truo *TriageResultUpdateOne) SetNillableTriageResultToPatientID(id *int) *TriageResultUpdateOne {
+// SetNillablePatientID sets the "patient" edge to the Patient entity by ID if the given value is not nil.
+func (truo *TriageResultUpdateOne) SetNillablePatientID(id *int) *TriageResultUpdateOne {
 	if id != nil {
-		truo = truo.SetTriageResultToPatientID(*id)
+		truo = truo.SetPatientID(*id)
 	}
 	return truo
 }
 
-// SetTriageResultToPatient sets the "triageResultToPatient" edge to the Patient entity.
-func (truo *TriageResultUpdateOne) SetTriageResultToPatient(p *Patient) *TriageResultUpdateOne {
-	return truo.SetTriageResultToPatientID(p.ID)
+// SetPatient sets the "patient" edge to the Patient entity.
+func (truo *TriageResultUpdateOne) SetPatient(p *Patient) *TriageResultUpdateOne {
+	return truo.SetPatientID(p.ID)
 }
 
 // Mutation returns the TriageResultMutation object of the builder.
@@ -514,27 +514,27 @@ func (truo *TriageResultUpdateOne) Mutation() *TriageResultMutation {
 	return truo.mutation
 }
 
-// ClearTriageResultToUrgencyLevel clears the "triageResultToUrgencyLevel" edge to the UrgencyLevel entity.
-func (truo *TriageResultUpdateOne) ClearTriageResultToUrgencyLevel() *TriageResultUpdateOne {
-	truo.mutation.ClearTriageResultToUrgencyLevel()
+// ClearUrgencyLevel clears the "urgencyLevel" edge to the UrgencyLevel entity.
+func (truo *TriageResultUpdateOne) ClearUrgencyLevel() *TriageResultUpdateOne {
+	truo.mutation.ClearUrgencyLevel()
 	return truo
 }
 
-// ClearTriageResultToDepartment clears the "triageResultToDepartment" edge to the Department entity.
-func (truo *TriageResultUpdateOne) ClearTriageResultToDepartment() *TriageResultUpdateOne {
-	truo.mutation.ClearTriageResultToDepartment()
+// ClearDepartment clears the "department" edge to the Department entity.
+func (truo *TriageResultUpdateOne) ClearDepartment() *TriageResultUpdateOne {
+	truo.mutation.ClearDepartment()
 	return truo
 }
 
-// ClearTriageResultToNurse clears the "triageResultToNurse" edge to the Nurse entity.
-func (truo *TriageResultUpdateOne) ClearTriageResultToNurse() *TriageResultUpdateOne {
-	truo.mutation.ClearTriageResultToNurse()
+// ClearNurse clears the "nurse" edge to the Nurse entity.
+func (truo *TriageResultUpdateOne) ClearNurse() *TriageResultUpdateOne {
+	truo.mutation.ClearNurse()
 	return truo
 }
 
-// ClearTriageResultToPatient clears the "triageResultToPatient" edge to the Patient entity.
-func (truo *TriageResultUpdateOne) ClearTriageResultToPatient() *TriageResultUpdateOne {
-	truo.mutation.ClearTriageResultToPatient()
+// ClearPatient clears the "patient" edge to the Patient entity.
+func (truo *TriageResultUpdateOne) ClearPatient() *TriageResultUpdateOne {
+	truo.mutation.ClearPatient()
 	return truo
 }
 
@@ -635,12 +635,12 @@ func (truo *TriageResultUpdateOne) sqlSave(ctx context.Context) (_node *TriageRe
 			Column: triageresult.FieldTriageDate,
 		})
 	}
-	if truo.mutation.TriageResultToUrgencyLevelCleared() {
+	if truo.mutation.UrgencyLevelCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToUrgencyLevelTable,
-			Columns: []string{triageresult.TriageResultToUrgencyLevelColumn},
+			Table:   triageresult.UrgencyLevelTable,
+			Columns: []string{triageresult.UrgencyLevelColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -651,12 +651,12 @@ func (truo *TriageResultUpdateOne) sqlSave(ctx context.Context) (_node *TriageRe
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := truo.mutation.TriageResultToUrgencyLevelIDs(); len(nodes) > 0 {
+	if nodes := truo.mutation.UrgencyLevelIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToUrgencyLevelTable,
-			Columns: []string{triageresult.TriageResultToUrgencyLevelColumn},
+			Table:   triageresult.UrgencyLevelTable,
+			Columns: []string{triageresult.UrgencyLevelColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -670,12 +670,12 @@ func (truo *TriageResultUpdateOne) sqlSave(ctx context.Context) (_node *TriageRe
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if truo.mutation.TriageResultToDepartmentCleared() {
+	if truo.mutation.DepartmentCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToDepartmentTable,
-			Columns: []string{triageresult.TriageResultToDepartmentColumn},
+			Table:   triageresult.DepartmentTable,
+			Columns: []string{triageresult.DepartmentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -686,12 +686,12 @@ func (truo *TriageResultUpdateOne) sqlSave(ctx context.Context) (_node *TriageRe
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := truo.mutation.TriageResultToDepartmentIDs(); len(nodes) > 0 {
+	if nodes := truo.mutation.DepartmentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToDepartmentTable,
-			Columns: []string{triageresult.TriageResultToDepartmentColumn},
+			Table:   triageresult.DepartmentTable,
+			Columns: []string{triageresult.DepartmentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -705,12 +705,12 @@ func (truo *TriageResultUpdateOne) sqlSave(ctx context.Context) (_node *TriageRe
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if truo.mutation.TriageResultToNurseCleared() {
+	if truo.mutation.NurseCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToNurseTable,
-			Columns: []string{triageresult.TriageResultToNurseColumn},
+			Table:   triageresult.NurseTable,
+			Columns: []string{triageresult.NurseColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -721,12 +721,12 @@ func (truo *TriageResultUpdateOne) sqlSave(ctx context.Context) (_node *TriageRe
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := truo.mutation.TriageResultToNurseIDs(); len(nodes) > 0 {
+	if nodes := truo.mutation.NurseIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToNurseTable,
-			Columns: []string{triageresult.TriageResultToNurseColumn},
+			Table:   triageresult.NurseTable,
+			Columns: []string{triageresult.NurseColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -740,12 +740,12 @@ func (truo *TriageResultUpdateOne) sqlSave(ctx context.Context) (_node *TriageRe
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if truo.mutation.TriageResultToPatientCleared() {
+	if truo.mutation.PatientCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToPatientTable,
-			Columns: []string{triageresult.TriageResultToPatientColumn},
+			Table:   triageresult.PatientTable,
+			Columns: []string{triageresult.PatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -756,12 +756,12 @@ func (truo *TriageResultUpdateOne) sqlSave(ctx context.Context) (_node *TriageRe
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := truo.mutation.TriageResultToPatientIDs(); len(nodes) > 0 {
+	if nodes := truo.mutation.PatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   triageresult.TriageResultToPatientTable,
-			Columns: []string{triageresult.TriageResultToPatientColumn},
+			Table:   triageresult.PatientTable,
+			Columns: []string{triageresult.PatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

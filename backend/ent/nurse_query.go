@@ -27,7 +27,7 @@ type NurseQuery struct {
 	fields     []string
 	predicates []predicate.Nurse
 	// eager-loading edges.
-	withNurseToTriageResult       *TriageResultQuery
+	withTriageResult              *TriageResultQuery
 	withNurseToAppointmentResults *AppointmentResultsQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
@@ -58,8 +58,8 @@ func (nq *NurseQuery) Order(o ...OrderFunc) *NurseQuery {
 	return nq
 }
 
-// QueryNurseToTriageResult chains the current query on the "nurseToTriageResult" edge.
-func (nq *NurseQuery) QueryNurseToTriageResult() *TriageResultQuery {
+// QueryTriageResult chains the current query on the "triageResult" edge.
+func (nq *NurseQuery) QueryTriageResult() *TriageResultQuery {
 	query := &TriageResultQuery{config: nq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := nq.prepareQuery(ctx); err != nil {
@@ -72,7 +72,7 @@ func (nq *NurseQuery) QueryNurseToTriageResult() *TriageResultQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(nurse.Table, nurse.FieldID, selector),
 			sqlgraph.To(triageresult.Table, triageresult.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, nurse.NurseToTriageResultTable, nurse.NurseToTriageResultColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, nurse.TriageResultTable, nurse.TriageResultColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(nq.driver.Dialect(), step)
 		return fromU, nil
@@ -283,7 +283,7 @@ func (nq *NurseQuery) Clone() *NurseQuery {
 		offset:                        nq.offset,
 		order:                         append([]OrderFunc{}, nq.order...),
 		predicates:                    append([]predicate.Nurse{}, nq.predicates...),
-		withNurseToTriageResult:       nq.withNurseToTriageResult.Clone(),
+		withTriageResult:              nq.withTriageResult.Clone(),
 		withNurseToAppointmentResults: nq.withNurseToAppointmentResults.Clone(),
 		// clone intermediate query.
 		sql:  nq.sql.Clone(),
@@ -291,14 +291,14 @@ func (nq *NurseQuery) Clone() *NurseQuery {
 	}
 }
 
-// WithNurseToTriageResult tells the query-builder to eager-load the nodes that are connected to
-// the "nurseToTriageResult" edge. The optional arguments are used to configure the query builder of the edge.
-func (nq *NurseQuery) WithNurseToTriageResult(opts ...func(*TriageResultQuery)) *NurseQuery {
+// WithTriageResult tells the query-builder to eager-load the nodes that are connected to
+// the "triageResult" edge. The optional arguments are used to configure the query builder of the edge.
+func (nq *NurseQuery) WithTriageResult(opts ...func(*TriageResultQuery)) *NurseQuery {
 	query := &TriageResultQuery{config: nq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	nq.withNurseToTriageResult = query
+	nq.withTriageResult = query
 	return nq
 }
 
@@ -379,7 +379,7 @@ func (nq *NurseQuery) sqlAll(ctx context.Context) ([]*Nurse, error) {
 		nodes       = []*Nurse{}
 		_spec       = nq.querySpec()
 		loadedTypes = [2]bool{
-			nq.withNurseToTriageResult != nil,
+			nq.withTriageResult != nil,
 			nq.withNurseToAppointmentResults != nil,
 		}
 	)
@@ -403,32 +403,32 @@ func (nq *NurseQuery) sqlAll(ctx context.Context) ([]*Nurse, error) {
 		return nodes, nil
 	}
 
-	if query := nq.withNurseToTriageResult; query != nil {
+	if query := nq.withTriageResult; query != nil {
 		fks := make([]driver.Value, 0, len(nodes))
 		nodeids := make(map[int]*Nurse)
 		for i := range nodes {
 			fks = append(fks, nodes[i].ID)
 			nodeids[nodes[i].ID] = nodes[i]
-			nodes[i].Edges.NurseToTriageResult = []*TriageResult{}
+			nodes[i].Edges.TriageResult = []*TriageResult{}
 		}
 		query.withFKs = true
 		query.Where(predicate.TriageResult(func(s *sql.Selector) {
-			s.Where(sql.InValues(nurse.NurseToTriageResultColumn, fks...))
+			s.Where(sql.InValues(nurse.TriageResultColumn, fks...))
 		}))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
 		}
 		for _, n := range neighbors {
-			fk := n.nurse_nurse_to_triage_result
+			fk := n.nurse_triage_result
 			if fk == nil {
-				return nil, fmt.Errorf(`foreign-key "nurse_nurse_to_triage_result" is nil for node %v`, n.ID)
+				return nil, fmt.Errorf(`foreign-key "nurse_triage_result" is nil for node %v`, n.ID)
 			}
 			node, ok := nodeids[*fk]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "nurse_nurse_to_triage_result" returned %v for node %v`, *fk, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "nurse_triage_result" returned %v for node %v`, *fk, n.ID)
 			}
-			node.Edges.NurseToTriageResult = append(node.Edges.NurseToTriageResult, n)
+			node.Edges.TriageResult = append(node.Edges.TriageResult, n)
 		}
 	}
 

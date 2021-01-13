@@ -121,19 +121,19 @@ func (pc *PatientCreate) SetBloodtype(b *BloodType) *PatientCreate {
 	return pc.SetBloodtypeID(b.ID)
 }
 
-// AddPatientToTriageResultIDs adds the "patientToTriageResult" edge to the TriageResult entity by IDs.
-func (pc *PatientCreate) AddPatientToTriageResultIDs(ids ...int) *PatientCreate {
-	pc.mutation.AddPatientToTriageResultIDs(ids...)
+// AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
+func (pc *PatientCreate) AddTriageResultIDs(ids ...int) *PatientCreate {
+	pc.mutation.AddTriageResultIDs(ids...)
 	return pc
 }
 
-// AddPatientToTriageResult adds the "patientToTriageResult" edges to the TriageResult entity.
-func (pc *PatientCreate) AddPatientToTriageResult(t ...*TriageResult) *PatientCreate {
+// AddTriageResult adds the "triageResult" edges to the TriageResult entity.
+func (pc *PatientCreate) AddTriageResult(t ...*TriageResult) *PatientCreate {
 	ids := make([]int, len(t))
 	for i := range t {
 		ids[i] = t[i].ID
 	}
-	return pc.AddPatientToTriageResultIDs(ids...)
+	return pc.AddTriageResultIDs(ids...)
 }
 
 // AddPatientToAppointmentResultIDs adds the "PatientToAppointmentResults" edge to the AppointmentResults entity by IDs.
@@ -422,12 +422,12 @@ func (pc *PatientCreate) createSpec() (*Patient, *sqlgraph.CreateSpec) {
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := pc.mutation.PatientToTriageResultIDs(); len(nodes) > 0 {
+	if nodes := pc.mutation.TriageResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   patient.PatientToTriageResultTable,
-			Columns: []string{patient.PatientToTriageResultColumn},
+			Table:   patient.TriageResultTable,
+			Columns: []string{patient.TriageResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

@@ -365,10 +365,10 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "symptom", Type: field.TypeString},
 		{Name: "triage_date", Type: field.TypeTime},
-		{Name: "department_department_to_triage_result", Type: field.TypeInt, Nullable: true},
-		{Name: "nurse_nurse_to_triage_result", Type: field.TypeInt, Nullable: true},
-		{Name: "patient_patient_to_triage_result", Type: field.TypeInt, Nullable: true},
-		{Name: "urgency_level_urgency_level_to_triage_result", Type: field.TypeInt, Nullable: true},
+		{Name: "department_triage_result", Type: field.TypeInt, Nullable: true},
+		{Name: "nurse_triage_result", Type: field.TypeInt, Nullable: true},
+		{Name: "patient_triage_result", Type: field.TypeInt, Nullable: true},
+		{Name: "urgency_level_triage_result", Type: field.TypeInt, Nullable: true},
 	}
 	// TriageResultsTable holds the schema information for the "triage_results" table.
 	TriageResultsTable = &schema.Table{
@@ -377,28 +377,28 @@ var (
 		PrimaryKey: []*schema.Column{TriageResultsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:  "triage_results_departments_departmentToTriageResult",
+				Symbol:  "triage_results_departments_triageResult",
 				Columns: []*schema.Column{TriageResultsColumns[3]},
 
 				RefColumns: []*schema.Column{DepartmentsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:  "triage_results_nurses_nurseToTriageResult",
+				Symbol:  "triage_results_nurses_triageResult",
 				Columns: []*schema.Column{TriageResultsColumns[4]},
 
 				RefColumns: []*schema.Column{NursesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:  "triage_results_patients_patientToTriageResult",
+				Symbol:  "triage_results_patients_triageResult",
 				Columns: []*schema.Column{TriageResultsColumns[5]},
 
 				RefColumns: []*schema.Column{PatientsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:  "triage_results_urgency_levels_urgencyLevelToTriageResult",
+				Symbol:  "triage_results_urgency_levels_triageResult",
 				Columns: []*schema.Column{TriageResultsColumns[6]},
 
 				RefColumns: []*schema.Column{UrgencyLevelsColumns[0]},

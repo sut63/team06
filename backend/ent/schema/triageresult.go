@@ -24,9 +24,9 @@ func (TriageResult) Fields() []ent.Field {
 // Edges of the TriageResult.
 func (TriageResult) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("triageResultToUrgencyLevel", UrgencyLevel.Type).Ref("urgencyLevelToTriageResult").Unique(),
-		edge.From("triageResultToDepartment", Department.Type).Ref("departmentToTriageResult").Unique(),
-		edge.From("triageResultToNurse", Nurse.Type).Ref("nurseToTriageResult").Unique(),
-		edge.From("triageResultToPatient", Patient.Type).Ref("patientToTriageResult").Unique(),
+		edge.From("urgencyLevel", UrgencyLevel.Type).Ref("triageResult").Unique(),
+		edge.From("department", Department.Type).Ref("triageResult").Unique(),
+		edge.From("nurse", Nurse.Type).Ref("triageResult").Unique(),
+		edge.From("patient", Patient.Type).Ref("triageResult").Unique(),
 	}
 }

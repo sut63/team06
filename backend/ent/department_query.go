@@ -26,7 +26,7 @@ type DepartmentQuery struct {
 	fields     []string
 	predicates []predicate.Department
 	// eager-loading edges.
-	withDepartmentToTriageResult *TriageResultQuery
+	withTriageResult *TriageResultQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -56,8 +56,8 @@ func (dq *DepartmentQuery) Order(o ...OrderFunc) *DepartmentQuery {
 	return dq
 }
 
-// QueryDepartmentToTriageResult chains the current query on the "departmentToTriageResult" edge.
-func (dq *DepartmentQuery) QueryDepartmentToTriageResult() *TriageResultQuery {
+// QueryTriageResult chains the current query on the "triageResult" edge.
+func (dq *DepartmentQuery) QueryTriageResult() *TriageResultQuery {
 	query := &TriageResultQuery{config: dq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := dq.prepareQuery(ctx); err != nil {
@@ -70,7 +70,7 @@ func (dq *DepartmentQuery) QueryDepartmentToTriageResult() *TriageResultQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(department.Table, department.FieldID, selector),
 			sqlgraph.To(triageresult.Table, triageresult.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, department.DepartmentToTriageResultTable, department.DepartmentToTriageResultColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, department.TriageResultTable, department.TriageResultColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(dq.driver.Dialect(), step)
 		return fromU, nil
@@ -254,26 +254,26 @@ func (dq *DepartmentQuery) Clone() *DepartmentQuery {
 		return nil
 	}
 	return &DepartmentQuery{
-		config:                       dq.config,
-		limit:                        dq.limit,
-		offset:                       dq.offset,
-		order:                        append([]OrderFunc{}, dq.order...),
-		predicates:                   append([]predicate.Department{}, dq.predicates...),
-		withDepartmentToTriageResult: dq.withDepartmentToTriageResult.Clone(),
+		config:           dq.config,
+		limit:            dq.limit,
+		offset:           dq.offset,
+		order:            append([]OrderFunc{}, dq.order...),
+		predicates:       append([]predicate.Department{}, dq.predicates...),
+		withTriageResult: dq.withTriageResult.Clone(),
 		// clone intermediate query.
 		sql:  dq.sql.Clone(),
 		path: dq.path,
 	}
 }
 
-// WithDepartmentToTriageResult tells the query-builder to eager-load the nodes that are connected to
-// the "departmentToTriageResult" edge. The optional arguments are used to configure the query builder of the edge.
-func (dq *DepartmentQuery) WithDepartmentToTriageResult(opts ...func(*TriageResultQuery)) *DepartmentQuery {
+// WithTriageResult tells the query-builder to eager-load the nodes that are connected to
+// the "triageResult" edge. The optional arguments are used to configure the query builder of the edge.
+func (dq *DepartmentQuery) WithTriageResult(opts ...func(*TriageResultQuery)) *DepartmentQuery {
 	query := &TriageResultQuery{config: dq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	dq.withDepartmentToTriageResult = query
+	dq.withTriageResult = query
 	return dq
 }
 
@@ -343,7 +343,7 @@ func (dq *DepartmentQuery) sqlAll(ctx context.Context) ([]*Department, error) {
 		nodes       = []*Department{}
 		_spec       = dq.querySpec()
 		loadedTypes = [1]bool{
-			dq.withDepartmentToTriageResult != nil,
+			dq.withTriageResult != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]interface{}, error) {
@@ -366,32 +366,32 @@ func (dq *DepartmentQuery) sqlAll(ctx context.Context) ([]*Department, error) {
 		return nodes, nil
 	}
 
-	if query := dq.withDepartmentToTriageResult; query != nil {
+	if query := dq.withTriageResult; query != nil {
 		fks := make([]driver.Value, 0, len(nodes))
 		nodeids := make(map[int]*Department)
 		for i := range nodes {
 			fks = append(fks, nodes[i].ID)
 			nodeids[nodes[i].ID] = nodes[i]
-			nodes[i].Edges.DepartmentToTriageResult = []*TriageResult{}
+			nodes[i].Edges.TriageResult = []*TriageResult{}
 		}
 		query.withFKs = true
 		query.Where(predicate.TriageResult(func(s *sql.Selector) {
-			s.Where(sql.InValues(department.DepartmentToTriageResultColumn, fks...))
+			s.Where(sql.InValues(department.TriageResultColumn, fks...))
 		}))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
 		}
 		for _, n := range neighbors {
-			fk := n.department_department_to_triage_result
+			fk := n.department_triage_result
 			if fk == nil {
-				return nil, fmt.Errorf(`foreign-key "department_department_to_triage_result" is nil for node %v`, n.ID)
+				return nil, fmt.Errorf(`foreign-key "department_triage_result" is nil for node %v`, n.ID)
 			}
 			node, ok := nodeids[*fk]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "department_department_to_triage_result" returned %v for node %v`, *fk, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "department_triage_result" returned %v for node %v`, *fk, n.ID)
 			}
-			node.Edges.DepartmentToTriageResult = append(node.Edges.DepartmentToTriageResult, n)
+			node.Edges.TriageResult = append(node.Edges.TriageResult, n)
 		}
 	}
 

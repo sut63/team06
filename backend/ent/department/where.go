@@ -209,25 +209,25 @@ func DepartmentNameContainsFold(v string) predicate.Department {
 	})
 }
 
-// HasDepartmentToTriageResult applies the HasEdge predicate on the "departmentToTriageResult" edge.
-func HasDepartmentToTriageResult() predicate.Department {
+// HasTriageResult applies the HasEdge predicate on the "triageResult" edge.
+func HasTriageResult() predicate.Department {
 	return predicate.Department(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(DepartmentToTriageResultTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, DepartmentToTriageResultTable, DepartmentToTriageResultColumn),
+			sqlgraph.To(TriageResultTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, TriageResultTable, TriageResultColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasDepartmentToTriageResultWith applies the HasEdge predicate on the "departmentToTriageResult" edge with a given conditions (other predicates).
-func HasDepartmentToTriageResultWith(preds ...predicate.TriageResult) predicate.Department {
+// HasTriageResultWith applies the HasEdge predicate on the "triageResult" edge with a given conditions (other predicates).
+func HasTriageResultWith(preds ...predicate.TriageResult) predicate.Department {
 	return predicate.Department(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(DepartmentToTriageResultInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, DepartmentToTriageResultTable, DepartmentToTriageResultColumn),
+			sqlgraph.To(TriageResultInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, TriageResultTable, TriageResultColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

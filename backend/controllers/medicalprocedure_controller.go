@@ -33,8 +33,8 @@ type Medicalprocedure struct {
 // @ID create-medicalprocedure
 // @Accept   json
 // @Produce  json
-// @Param medicalprocedure body Medicalprocedure true "Medicalprocedure entity"
-// @Success 200 {object} Medicalprocedure
+// @Param medicalprocedure body ent.MedicalProcedure true "Medicalprocedure entity"
+// @Success 200 {object} ent.MedicalProcedure
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /medicalprocedure [post]
@@ -98,7 +98,10 @@ func (ctl *MedicalprocedureController) CreateMedicalprocedure(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, medicalprocedure)
+	c.JSON(200, gin.H{
+		"status": true,
+		"data":   medicalprocedure,
+	})
 }
 
 // ListMedicalprocedure handles request to get a list of medicalprocedure entities
@@ -108,7 +111,7 @@ func (ctl *MedicalprocedureController) CreateMedicalprocedure(c *gin.Context) {
 // @Produce json
 // @Param limit  query int false "Limit"
 // @Param offset query int false "Offset"
-// @Success 200 {array} Medicalprocedure
+// @Success 200 {array} ent.MedicalProcedure
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /medicalprocedure [get]
@@ -199,4 +202,5 @@ func (ctl *MedicalprocedureController) register() {
 	// CRUD
 	medicalprocedures.POST("", ctl.CreateMedicalprocedure)
 	medicalprocedures.DELETE(":id", ctl.DeleteMedicalprocedure)
+
 }

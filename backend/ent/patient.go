@@ -47,8 +47,8 @@ type PatientEdges struct {
 	Gender *Gender
 	// Bloodtype holds the value of the Bloodtype edge.
 	Bloodtype *BloodType
-	// PatientToTriageResult holds the value of the patientToTriageResult edge.
-	PatientToTriageResult []*TriageResult
+	// TriageResult holds the value of the triageResult edge.
+	TriageResult []*TriageResult
 	// PatientToAppointmentResults holds the value of the PatientToAppointmentResults edge.
 	PatientToAppointmentResults []*AppointmentResults
 	// PatientToMedicalProcedure holds the value of the PatientToMedicalProcedure edge.
@@ -104,13 +104,13 @@ func (e PatientEdges) BloodtypeOrErr() (*BloodType, error) {
 	return nil, &NotLoadedError{edge: "Bloodtype"}
 }
 
-// PatientToTriageResultOrErr returns the PatientToTriageResult value or an error if the edge
+// TriageResultOrErr returns the TriageResult value or an error if the edge
 // was not loaded in eager-loading.
-func (e PatientEdges) PatientToTriageResultOrErr() ([]*TriageResult, error) {
+func (e PatientEdges) TriageResultOrErr() ([]*TriageResult, error) {
 	if e.loadedTypes[3] {
-		return e.PatientToTriageResult, nil
+		return e.TriageResult, nil
 	}
-	return nil, &NotLoadedError{edge: "patientToTriageResult"}
+	return nil, &NotLoadedError{edge: "triageResult"}
 }
 
 // PatientToAppointmentResultsOrErr returns the PatientToAppointmentResults value or an error if the edge
@@ -264,9 +264,9 @@ func (pa *Patient) QueryBloodtype() *BloodTypeQuery {
 	return (&PatientClient{config: pa.config}).QueryBloodtype(pa)
 }
 
-// QueryPatientToTriageResult queries the "patientToTriageResult" edge of the Patient entity.
-func (pa *Patient) QueryPatientToTriageResult() *TriageResultQuery {
-	return (&PatientClient{config: pa.config}).QueryPatientToTriageResult(pa)
+// QueryTriageResult queries the "triageResult" edge of the Patient entity.
+func (pa *Patient) QueryTriageResult() *TriageResultQuery {
+	return (&PatientClient{config: pa.config}).QueryTriageResult(pa)
 }
 
 // QueryPatientToAppointmentResults queries the "PatientToAppointmentResults" edge of the Patient entity.

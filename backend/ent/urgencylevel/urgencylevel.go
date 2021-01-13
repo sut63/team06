@@ -10,18 +10,18 @@ const (
 	// FieldUrgencyName holds the string denoting the urgencyname field in the database.
 	FieldUrgencyName = "urgency_name"
 
-	// EdgeUrgencyLevelToTriageResult holds the string denoting the urgencyleveltotriageresult edge name in mutations.
-	EdgeUrgencyLevelToTriageResult = "urgencyLevelToTriageResult"
+	// EdgeTriageResult holds the string denoting the triageresult edge name in mutations.
+	EdgeTriageResult = "triageResult"
 
 	// Table holds the table name of the urgencylevel in the database.
 	Table = "urgency_levels"
-	// UrgencyLevelToTriageResultTable is the table the holds the urgencyLevelToTriageResult relation/edge.
-	UrgencyLevelToTriageResultTable = "triage_results"
-	// UrgencyLevelToTriageResultInverseTable is the table name for the TriageResult entity.
+	// TriageResultTable is the table the holds the triageResult relation/edge.
+	TriageResultTable = "triage_results"
+	// TriageResultInverseTable is the table name for the TriageResult entity.
 	// It exists in this package in order to avoid circular dependency with the "triageresult" package.
-	UrgencyLevelToTriageResultInverseTable = "triage_results"
-	// UrgencyLevelToTriageResultColumn is the table column denoting the urgencyLevelToTriageResult relation/edge.
-	UrgencyLevelToTriageResultColumn = "urgency_level_urgency_level_to_triage_result"
+	TriageResultInverseTable = "triage_results"
+	// TriageResultColumn is the table column denoting the triageResult relation/edge.
+	TriageResultColumn = "urgency_level_triage_result"
 )
 
 // Columns holds all SQL columns for urgencylevel fields.

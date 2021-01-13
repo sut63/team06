@@ -10,18 +10,18 @@ const (
 	// FieldDepartmentName holds the string denoting the departmentname field in the database.
 	FieldDepartmentName = "department_name"
 
-	// EdgeDepartmentToTriageResult holds the string denoting the departmenttotriageresult edge name in mutations.
-	EdgeDepartmentToTriageResult = "departmentToTriageResult"
+	// EdgeTriageResult holds the string denoting the triageresult edge name in mutations.
+	EdgeTriageResult = "triageResult"
 
 	// Table holds the table name of the department in the database.
 	Table = "departments"
-	// DepartmentToTriageResultTable is the table the holds the departmentToTriageResult relation/edge.
-	DepartmentToTriageResultTable = "triage_results"
-	// DepartmentToTriageResultInverseTable is the table name for the TriageResult entity.
+	// TriageResultTable is the table the holds the triageResult relation/edge.
+	TriageResultTable = "triage_results"
+	// TriageResultInverseTable is the table name for the TriageResult entity.
 	// It exists in this package in order to avoid circular dependency with the "triageresult" package.
-	DepartmentToTriageResultInverseTable = "triage_results"
-	// DepartmentToTriageResultColumn is the table column denoting the departmentToTriageResult relation/edge.
-	DepartmentToTriageResultColumn = "department_department_to_triage_result"
+	TriageResultInverseTable = "triage_results"
+	// TriageResultColumn is the table column denoting the triageResult relation/edge.
+	TriageResultColumn = "department_triage_result"
 )
 
 // Columns holds all SQL columns for department fields.
