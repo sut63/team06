@@ -14,7 +14,7 @@ type Room struct {
 // Fields of the Room.
 func (Room) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("roomName").NotEmpty(),
+		field.String("roomName").NotEmpty().Unique(),
 	}
 }
 
