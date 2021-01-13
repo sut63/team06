@@ -39,11 +39,11 @@ export interface EntPrefix {
      */
     id?: number;
     /**
-     * Prefix holds the value of the "prefix" field.
+     * PrefixValue holds the value of the "prefixValue" field.
      * @type {string}
      * @memberof EntPrefix
      */
-    prefix?: string;
+    prefixValue?: string;
 }
 
 export function EntPrefixFromJSON(json: any): EntPrefix {
@@ -58,7 +58,7 @@ export function EntPrefixFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         
         'edges': !exists(json, 'edges') ? undefined : EntPrefixEdgesFromJSON(json['edges']),
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'prefix': !exists(json, 'prefix') ? undefined : json['prefix'],
+        'prefixValue': !exists(json, 'prefixValue') ? undefined : json['prefixValue'],
     };
 }
 
@@ -73,7 +73,7 @@ export function EntPrefixToJSON(value?: EntPrefix | null): any {
         
         'edges': EntPrefixEdgesToJSON(value.edges),
         'id': value.id,
-        'prefix': value.prefix,
+        'prefixValue': value.prefixValue,
     };
 }
 

@@ -114,13 +114,13 @@ export function EntPatientEdgesFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'bloodtype': !exists(json, 'bloodtype') ? undefined : EntBloodTypeFromJSON(json['bloodtype']),
-        'gender': !exists(json, 'gender') ? undefined : EntGenderFromJSON(json['gender']),
+        'bloodtype': !exists(json, 'Bloodtype') ? undefined : EntBloodTypeFromJSON(json['Bloodtype']),
+        'gender': !exists(json, 'Gender') ? undefined : EntGenderFromJSON(json['Gender']),
         'patientToAppointmentResults': !exists(json, 'patientToAppointmentResults') ? undefined : ((json['patientToAppointmentResults'] as Array<any>).map(EntAppointmentResultsFromJSON)),
         'patientToDiagnosis': !exists(json, 'patientToDiagnosis') ? undefined : ((json['patientToDiagnosis'] as Array<any>).map(EntDiagnosisFromJSON)),
         'patientToMedicalProcedure': !exists(json, 'patientToMedicalProcedure') ? undefined : ((json['patientToMedicalProcedure'] as Array<any>).map(EntMedicalProcedureFromJSON)),
         'patientToRightToTreatment': !exists(json, 'patientToRightToTreatment') ? undefined : ((json['patientToRightToTreatment'] as Array<any>).map(EntRightToTreatmentFromJSON)),
-        'prefix': !exists(json, 'prefix') ? undefined : EntPrefixFromJSON(json['prefix']),
+        'prefix': !exists(json, 'Prefix') ? undefined : EntPrefixFromJSON(json['Prefix']),
         'triageResult': !exists(json, 'triageResult') ? undefined : ((json['triageResult'] as Array<any>).map(EntTriageResultFromJSON)),
     };
 }

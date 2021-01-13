@@ -37,9 +37,9 @@ func (ctl *PrefixController) CreatePrefix(c *gin.Context) {
 		return
 	}
 
-	pf, err := ctl.client.Prefix.
+	prefixs, err := ctl.client.Prefix.
 		Create().
-		SetPrefix(obj.Prefix).
+		SetPrefixValue(obj.PrefixValue).
 		Save(context.Background())
 
 	if err != nil {
@@ -49,7 +49,7 @@ func (ctl *PrefixController) CreatePrefix(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, pf)
+	c.JSON(200, prefixs)
 }
 
 // GetPrefix handles GET requests to retrieve a prefix entity
@@ -71,7 +71,7 @@ func (ctl *PrefixController) GetPrefix(c *gin.Context) {
 		})
 		return
 	}
-	pf, err := ctl.client.Prefix.
+	prefixs, err := ctl.client.Prefix.
 		Query().
 		Where(prefix.IDEQ(int(id))).
 		Only(context.Background())
@@ -83,7 +83,7 @@ func (ctl *PrefixController) GetPrefix(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, pf)
+	c.JSON(200, prefixs)
 }
 
 // ListPrefix handles request to get a list of prefix entities
@@ -194,10 +194,8 @@ func (ctl *PrefixController) UpdatePrefix(c *gin.Context) {
 		return
 	}
 	obj.ID = int(id)
-	fmt.Println(obj.ID)
-	pf, err := ctl.client.Prefix.
-		UpdateOneID(int(id)).
-		SetPrefix(obj.Prefix).
+	prefixs, err := ctl.client.Prefix.
+		UpdateOne(&obj).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -206,22 +204,23 @@ func (ctl *PrefixController) UpdatePrefix(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, pf)
+	c.JSON(200, prefixs)
 }
 
 // NewPrefixController creates and registers handles for the prefix controller
 func NewPrefixController(router gin.IRouter, client *ent.Client) *PrefixController {
-	pfc := &PrefixController{
+	prefixcontroller := &PrefixController{
 		client: client,
 		router: router,
 	}
 
-	pfc.register()
+	prefixcontroller.register()
 
-	return pfc
+	return prefixcontroller
 
 }
 
+// InitPrefixController registers routes to the main engine
 func (ctl *PrefixController) register() {
 	prefixs := ctl.router.Group("/prefixs")
 

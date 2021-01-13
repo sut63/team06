@@ -14,13 +14,13 @@ type Prefix struct {
 // Fields of the Prefix.
 func (Prefix) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("prefix").NotEmpty(),
+		field.String("prefixValue").NotEmpty().Unique(),
 	}
 }
 
 // Edges of the Prefix.
 func (Prefix) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("PrefixToPatient", Patient.Type),
+		edge.To("patient", Patient.Type),
 	}
 }

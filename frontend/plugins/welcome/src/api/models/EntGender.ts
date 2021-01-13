@@ -33,11 +33,11 @@ export interface EntGender {
      */
     edges?: EntGenderEdges;
     /**
-     * Gender holds the value of the "gender" field.
+     * GenderValue holds the value of the "genderValue" field.
      * @type {string}
      * @memberof EntGender
      */
-    gender?: string;
+    genderValue?: string;
     /**
      * ID of the ent.
      * @type {number}
@@ -57,7 +57,7 @@ export function EntGenderFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     return {
         
         'edges': !exists(json, 'edges') ? undefined : EntGenderEdgesFromJSON(json['edges']),
-        'gender': !exists(json, 'gender') ? undefined : json['gender'],
+        'genderValue': !exists(json, 'genderValue') ? undefined : json['genderValue'],
         'id': !exists(json, 'id') ? undefined : json['id'],
     };
 }
@@ -72,7 +72,7 @@ export function EntGenderToJSON(value?: EntGender | null): any {
     return {
         
         'edges': EntGenderEdgesToJSON(value.edges),
-        'gender': value.gender,
+        'genderValue': value.genderValue,
         'id': value.id,
     };
 }

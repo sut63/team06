@@ -91,29 +91,29 @@ func IDLTE(id int) predicate.BloodType {
 	})
 }
 
-// Blood applies equality check predicate on the "blood" field. It's identical to BloodEQ.
-func Blood(v string) predicate.BloodType {
+// BloodValue applies equality check predicate on the "bloodValue" field. It's identical to BloodValueEQ.
+func BloodValue(v string) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldBlood), v))
+		s.Where(sql.EQ(s.C(FieldBloodValue), v))
 	})
 }
 
-// BloodEQ applies the EQ predicate on the "blood" field.
-func BloodEQ(v string) predicate.BloodType {
+// BloodValueEQ applies the EQ predicate on the "bloodValue" field.
+func BloodValueEQ(v string) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldBlood), v))
+		s.Where(sql.EQ(s.C(FieldBloodValue), v))
 	})
 }
 
-// BloodNEQ applies the NEQ predicate on the "blood" field.
-func BloodNEQ(v string) predicate.BloodType {
+// BloodValueNEQ applies the NEQ predicate on the "bloodValue" field.
+func BloodValueNEQ(v string) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldBlood), v))
+		s.Where(sql.NEQ(s.C(FieldBloodValue), v))
 	})
 }
 
-// BloodIn applies the In predicate on the "blood" field.
-func BloodIn(vs ...string) predicate.BloodType {
+// BloodValueIn applies the In predicate on the "bloodValue" field.
+func BloodValueIn(vs ...string) predicate.BloodType {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -125,12 +125,12 @@ func BloodIn(vs ...string) predicate.BloodType {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldBlood), v...))
+		s.Where(sql.In(s.C(FieldBloodValue), v...))
 	})
 }
 
-// BloodNotIn applies the NotIn predicate on the "blood" field.
-func BloodNotIn(vs ...string) predicate.BloodType {
+// BloodValueNotIn applies the NotIn predicate on the "bloodValue" field.
+func BloodValueNotIn(vs ...string) predicate.BloodType {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -142,92 +142,92 @@ func BloodNotIn(vs ...string) predicate.BloodType {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldBlood), v...))
+		s.Where(sql.NotIn(s.C(FieldBloodValue), v...))
 	})
 }
 
-// BloodGT applies the GT predicate on the "blood" field.
-func BloodGT(v string) predicate.BloodType {
+// BloodValueGT applies the GT predicate on the "bloodValue" field.
+func BloodValueGT(v string) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldBlood), v))
+		s.Where(sql.GT(s.C(FieldBloodValue), v))
 	})
 }
 
-// BloodGTE applies the GTE predicate on the "blood" field.
-func BloodGTE(v string) predicate.BloodType {
+// BloodValueGTE applies the GTE predicate on the "bloodValue" field.
+func BloodValueGTE(v string) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldBlood), v))
+		s.Where(sql.GTE(s.C(FieldBloodValue), v))
 	})
 }
 
-// BloodLT applies the LT predicate on the "blood" field.
-func BloodLT(v string) predicate.BloodType {
+// BloodValueLT applies the LT predicate on the "bloodValue" field.
+func BloodValueLT(v string) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldBlood), v))
+		s.Where(sql.LT(s.C(FieldBloodValue), v))
 	})
 }
 
-// BloodLTE applies the LTE predicate on the "blood" field.
-func BloodLTE(v string) predicate.BloodType {
+// BloodValueLTE applies the LTE predicate on the "bloodValue" field.
+func BloodValueLTE(v string) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldBlood), v))
+		s.Where(sql.LTE(s.C(FieldBloodValue), v))
 	})
 }
 
-// BloodContains applies the Contains predicate on the "blood" field.
-func BloodContains(v string) predicate.BloodType {
+// BloodValueContains applies the Contains predicate on the "bloodValue" field.
+func BloodValueContains(v string) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldBlood), v))
+		s.Where(sql.Contains(s.C(FieldBloodValue), v))
 	})
 }
 
-// BloodHasPrefix applies the HasPrefix predicate on the "blood" field.
-func BloodHasPrefix(v string) predicate.BloodType {
+// BloodValueHasPrefix applies the HasPrefix predicate on the "bloodValue" field.
+func BloodValueHasPrefix(v string) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldBlood), v))
+		s.Where(sql.HasPrefix(s.C(FieldBloodValue), v))
 	})
 }
 
-// BloodHasSuffix applies the HasSuffix predicate on the "blood" field.
-func BloodHasSuffix(v string) predicate.BloodType {
+// BloodValueHasSuffix applies the HasSuffix predicate on the "bloodValue" field.
+func BloodValueHasSuffix(v string) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldBlood), v))
+		s.Where(sql.HasSuffix(s.C(FieldBloodValue), v))
 	})
 }
 
-// BloodEqualFold applies the EqualFold predicate on the "blood" field.
-func BloodEqualFold(v string) predicate.BloodType {
+// BloodValueEqualFold applies the EqualFold predicate on the "bloodValue" field.
+func BloodValueEqualFold(v string) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldBlood), v))
+		s.Where(sql.EqualFold(s.C(FieldBloodValue), v))
 	})
 }
 
-// BloodContainsFold applies the ContainsFold predicate on the "blood" field.
-func BloodContainsFold(v string) predicate.BloodType {
+// BloodValueContainsFold applies the ContainsFold predicate on the "bloodValue" field.
+func BloodValueContainsFold(v string) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldBlood), v))
+		s.Where(sql.ContainsFold(s.C(FieldBloodValue), v))
 	})
 }
 
-// HasBloodTypeToPatient applies the HasEdge predicate on the "BloodTypeToPatient" edge.
-func HasBloodTypeToPatient() predicate.BloodType {
+// HasPatient applies the HasEdge predicate on the "patient" edge.
+func HasPatient() predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(BloodTypeToPatientTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, BloodTypeToPatientTable, BloodTypeToPatientColumn),
+			sqlgraph.To(PatientTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PatientTable, PatientColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasBloodTypeToPatientWith applies the HasEdge predicate on the "BloodTypeToPatient" edge with a given conditions (other predicates).
-func HasBloodTypeToPatientWith(preds ...predicate.Patient) predicate.BloodType {
+// HasPatientWith applies the HasEdge predicate on the "patient" edge with a given conditions (other predicates).
+func HasPatientWith(preds ...predicate.Patient) predicate.BloodType {
 	return predicate.BloodType(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(BloodTypeToPatientInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, BloodTypeToPatientTable, BloodTypeToPatientColumn),
+			sqlgraph.To(PatientInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PatientTable, PatientColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
