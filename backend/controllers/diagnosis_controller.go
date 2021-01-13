@@ -26,9 +26,8 @@ type Diagnosis struct {
 	Opinionresult string
 	diagnosisDate string
 	TreatmentType int
-
-	Patient int
-	Doctor  int
+	Patient       int
+	Doctor        int
 }
 
 // CreateDiagnosis handles POST requests for adding Diagnosis entities
