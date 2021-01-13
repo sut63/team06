@@ -15,14 +15,14 @@ import (
 	"github.com/team06/app/ent/room"
 )
 
-// AppointmentresultsController defines the struct for the appointmentresults controller
-type AppointmentresultsController struct {
+// AppointmentResultsController defines the struct for the AppointmentResults controller
+type AppointmentResultsController struct {
 	client *ent.Client
 	router gin.IRouter
 }
 
-// Appointmentresults defines the struct for the appointmentresults controller
-type Appointmentresults struct {
+// AppointmentResults defines the struct for the AppointmentResults controller
+type AppointmentResults struct {
 	Patient        int
 	Nurse          int
 	Doctor         int
@@ -31,22 +31,22 @@ type Appointmentresults struct {
 	AddtimeSave    string
 }
 
-// CreateAppointmentresults handles POST requests for adding appointmentresults entities
-// @Summary Create appointmentresults
-// @Description Create appointmentresults
-// @ID create-appointmentresults
+// CreateAppointmentResults handles POST requests for adding AppointmentResults entities
+// @Summary Create AppointmentResults
+// @Description Create AppointmentResults
+// @ID create-AppointmentResults
 // @Accept   json
 // @Produce  json
-// @Param appointmentresults body ent.AppointmentResults true "Appointmentresults entity"
+// @Param AppointmentResults body ent.AppointmentResults true "AppointmentResults entity"
 // @Success 200 {object} ent.AppointmentResults
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /appointmentresultss [post]
-func (ctl *AppointmentresultsController) CreateAppointmentresults(c *gin.Context) {
-	obj := Appointmentresults{}
+func (ctl *AppointmentResultsController) CreateAppointmentResults(c *gin.Context) {
+	obj := AppointmentResults{}
 	if err := c.ShouldBind(&obj); err != nil {
 		c.JSON(400, gin.H{
-			"error": "appointmentresults binding failed",
+			"error": "AppointmentResults binding failed",
 		})
 		return
 	}
@@ -119,21 +119,24 @@ func (ctl *AppointmentresultsController) CreateAppointmentresults(c *gin.Context
 		return
 	}
 
-	c.JSON(200, a)
+	c.JSON(200, gin.H{
+		"status": true,
+		"data":   a,
+	})
 }
 
-// GetAppointmentresults handles GET requests to retrieve a appointmentresults entity
+// GetAppointmentResults handles GET requests to retrieve a appointmentresults entity
 // @Summary Get a appointmentresults entity by ID
 // @Description get appointmentresults by ID
 // @ID get-appointmentresults
 // @Produce  json
-// @Param id path int true "Appointmentresults ID"
+// @Param id path int true "AppointmentResults ID"
 // @Success 200 {object} ent.AppointmentResults
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /appointmentresultss/{id} [get]
-func (ctl *AppointmentresultsController) GetAppointmentresults(c *gin.Context) {
+func (ctl *AppointmentResultsController) GetAppointmentResults(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -156,7 +159,7 @@ func (ctl *AppointmentresultsController) GetAppointmentresults(c *gin.Context) {
 	c.JSON(200, a)
 }
 
-// ListAppointmentresults handles request to get a list of appointmentresults entities
+// ListAppointmentResults handles request to get a list of appointmentresults entities
 // @Summary List appointmentresults entities
 // @Description list appointmentresults entities
 // @ID list-appointmentresults
@@ -167,7 +170,7 @@ func (ctl *AppointmentresultsController) GetAppointmentresults(c *gin.Context) {
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /appointmentresultss [get]
-func (ctl *AppointmentresultsController) ListAppointmentresults(c *gin.Context) {
+func (ctl *AppointmentResultsController) ListAppointmentResults(c *gin.Context) {
 	limitQuery := c.Query("limit")
 	limit := 10
 	if limitQuery != "" {
@@ -206,18 +209,18 @@ func (ctl *AppointmentresultsController) ListAppointmentresults(c *gin.Context) 
 	c.JSON(200, appointmentresultss)
 }
 
-// DeleteAppointmentresults handles DELETE requests to delete a appointmentresults entity
+// DeleteAppointmentResults handles DELETE requests to delete a appointmentresults entity
 // @Summary Delete a appointmentresults entity by ID
 // @Description get appointmentresults by ID
 // @ID delete-appointmentresults
 // @Produce  json
-// @Param id path int true "Appointmentresults ID"
+// @Param id path int true "AppointmentResults ID"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /appointmentresultss/{id} [delete]
-func (ctl *AppointmentresultsController) DeleteAppointmentresults(c *gin.Context) {
+func (ctl *AppointmentResultsController) DeleteAppointmentResults(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -239,19 +242,19 @@ func (ctl *AppointmentresultsController) DeleteAppointmentresults(c *gin.Context
 	c.JSON(200, gin.H{"result": fmt.Sprintf("ok deleted %v", id)})
 }
 
-// UpdateAppointmentresults handles PUT requests to update a appointmentresults entity
+// UpdateAppointmentResults handles PUT requests to update a appointmentresults entity
 // @Summary Update a appointmentresults entity by ID
 // @Description update appointmentresults by ID
 // @ID update-appointmentresults
 // @Accept   json
 // @Produce  json
-// @Param id path int true "Appointmentresults ID"
-// @Param appointmentresults body ent.AppointmentResults true "Appointmentresults entity"
+// @Param id path int true "AppointmentResults ID"
+// @Param appointmentresults body ent.AppointmentResults true "AppointmentResults entity"
 // @Success 200 {object} ent.AppointmentResults
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /appointmentresultss/{id} [put]
-func (ctl *AppointmentresultsController) UpdateAppointmentresults(c *gin.Context) {
+func (ctl *AppointmentResultsController) UpdateAppointmentResults(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -263,7 +266,7 @@ func (ctl *AppointmentresultsController) UpdateAppointmentresults(c *gin.Context
 	obj := ent.AppointmentResults{}
 	if err := c.ShouldBind(&obj); err != nil {
 		c.JSON(400, gin.H{
-			"error": "Appointmentresults binding failed",
+			"error": "AppointmentResults binding failed",
 		})
 		return
 	}
@@ -279,9 +282,9 @@ func (ctl *AppointmentresultsController) UpdateAppointmentresults(c *gin.Context
 	c.JSON(200, a)
 }
 
-// NewAppointmentresultsController creates and registers handles for the appointmentresults controller
-func NewAppointmentresultsController(router gin.IRouter, client *ent.Client) *AppointmentresultsController {
-	ptc := &AppointmentresultsController{
+// NewAppointmentResultsController creates and registers handles for the appointmentresults controller
+func NewAppointmentResultsController(router gin.IRouter, client *ent.Client) *AppointmentResultsController {
+	ptc := &AppointmentResultsController{
 		client: client,
 		router: router,
 	}
@@ -292,13 +295,13 @@ func NewAppointmentresultsController(router gin.IRouter, client *ent.Client) *Ap
 
 }
 
-func (ctl *AppointmentresultsController) register() {
-	appointmentresultss := ctl.router.Group("/appointmentresults")
+func (ctl *AppointmentResultsController) register() {
+	appointmentresultss := ctl.router.Group("/appointmentresultss")
 
-	appointmentresultss.POST("", ctl.CreateAppointmentresults)
-	appointmentresultss.GET("", ctl.ListAppointmentresults)
-	appointmentresultss.PUT(":id", ctl.UpdateAppointmentresults)
-	appointmentresultss.GET(":id", ctl.GetAppointmentresults)
-	appointmentresultss.DELETE(":id", ctl.DeleteAppointmentresults)
+	appointmentresultss.POST("", ctl.CreateAppointmentResults)
+	appointmentresultss.GET("", ctl.ListAppointmentResults)
+	appointmentresultss.PUT(":id", ctl.UpdateAppointmentResults)
+	appointmentresultss.GET(":id", ctl.GetAppointmentResults)
+	appointmentresultss.DELETE(":id", ctl.DeleteAppointmentResults)
 
 }
