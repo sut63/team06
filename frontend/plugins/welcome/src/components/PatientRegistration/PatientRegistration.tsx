@@ -26,11 +26,11 @@ import {
   TextField,
 } from '@material-ui/core';
 
-
+import { DefaultApi } from '../../api/apis';
 import { EntPrefix } from '../../api/models/EntPrefix';
 import { EntGender } from '../../api/models/EntGender';
 import { EntBloodType } from '../../api/models/EntBloodType';
-import { DefaultApi } from '../../api/apis';
+
 
 const useStyles = makeStyles({
   boxStyle: {
@@ -153,7 +153,7 @@ export default function Create() {
     setDrugAllergy('');
   }
 
-  //create
+  //Create
   const Create = async () => {
     const apiUrl = 'http://localhost:8080/api/v1/patients';
     const patient = {
@@ -224,7 +224,7 @@ export default function Create() {
               <FormControl variant="outlined" className={classes.formControl}>
                 <TextField
                   id="personalID"
-                  label="PersonalID"
+                  label="เลขประจำตัวประชาชน"
                   name="personalID"
                   variant="outlined"
                   type="number"
@@ -239,8 +239,8 @@ export default function Create() {
                 <InputLabel>คำนำหน้า</InputLabel>
                 <Select
                   id="prefixs"
-                  label="Prefix"
-                  name="prefix"
+                  label="คำนำหน้า"
+                  name="prefixValue"
                   value={prefixID}
                   onChange={prefixHandle}
                 >
@@ -258,7 +258,7 @@ export default function Create() {
               <FormControl variant="outlined" className={classes.formControl}>
                 <TextField
                   id="patientName"
-                  label="PatientName"
+                  label="ชื่อผู้ป่วย"
                   name="patienName"
                   variant="outlined"
                   type="string"
@@ -272,7 +272,7 @@ export default function Create() {
               <FormControl variant="outlined" className={classes.formControl}>
                 <TextField
                   id="patientAge"
-                  label="Age"
+                  label="อายุ"
                   name="age"
                   variant="outlined"
                   type="number"
@@ -287,8 +287,8 @@ export default function Create() {
                 <InputLabel>เพศ</InputLabel>
                 <Select
                   id="genders"
-                  label="Gender"
-                  name="gender"
+                  label="เพศ"
+                  name="genderValue"
                   value={genderID}
                   onChange={genderHandle}
                 >
@@ -307,8 +307,8 @@ export default function Create() {
                 <InputLabel>หมู่เลือด</InputLabel>
                 <Select
                   id="bloodtypes"
-                  label="BloodType"
-                  name="bloodtype"
+                  label="หมู่เลือด"
+                  name="bloodValue"
                   value={bloodTypeID}
                   onChange={bloodtypeHandle}
                 >
@@ -326,7 +326,7 @@ export default function Create() {
               <FormControl variant="outlined" className={classes.formControl}>
                 <TextField
                   id="hospitalNumber"
-                  label="HospitalNumber"
+                  label="หมายเลขผู้ป่วย"
                   name="hospitalNumber"
                   variant="outlined"
                   type="string"
@@ -340,7 +340,7 @@ export default function Create() {
               <FormControl variant="outlined" className={classes.formControl}>
                 <TextField
                   id="drugAllergy"
-                  label="DrugAllergy"
+                  label="ประวัติการแพ้ยา"
                   name="drugAllergy"
                   variant="outlined"
                   type="string"
