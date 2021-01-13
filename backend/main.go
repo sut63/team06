@@ -229,6 +229,7 @@ func main() {
 		Doctor: []Doctor{
 			Doctor{"Suchat", "schat", "12345g"},
 			Doctor{"Suwit", "wittsu", "44355h"},
+			Doctor{"Somkiat","fickkm","123452f"},
 		},
 	}
 
@@ -244,8 +245,12 @@ func main() {
 	// Set ProcedureType Data
 	proceduretypes := ProcedureTypes{
 		ProcedureType: []ProcedureType{
-			ProcedureType{"เจาะน้ำเกลือ"},
-			ProcedureType{"ทำแผล"},
+			ProcedureType{"Endotracheal intubation"},
+            ProcedureType{"Intercostal drainage"},
+            ProcedureType{"Lumbar puncture"},
+            ProcedureType{"Thoracentesis"},
+            ProcedureType{"PCI"},
+            ProcedureType{"Dystocia"},
 		},
 	}
 

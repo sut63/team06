@@ -161,12 +161,12 @@ const medicalProcedure: FC<{}> = () => {
                     clear();
                     Toast.fire({
                         icon: 'success',
-                        title: 'บันทึกข้อมูลสำเร็จ',
+                        title: 'Save successfully',
                     });
                 } else {
                     Toast.fire({
                         icon: 'error',
-                        title: 'บันทึกข้อมูลไม่สำเร็จ',
+                        title: 'Save Failed',
                     });
                 }
             });
