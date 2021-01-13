@@ -35,8 +35,8 @@ type RightToTreatment struct {
 // @ID create-righttotreatment
 // @Accept   json
 // @Produce  json
-// @Param righttotreatment body ent.RightToTreatment true "RightToTreatment entity"
-// @Success 200 {object} ent.RightToTreatment
+// @Param righttotreatment body RightToTreatment true "RightToTreatment entity"
+// @Success 200 {object} RightToTreatment
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /righttotreatments [post]
@@ -103,7 +103,10 @@ func (ctl *RightToTreatmentController) CreateRightToTreatment(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, r)
+	c.JSON(200, gin.H{
+        "status": true,
+        "data": r,
+    })
 }
 
 // GetRightToTreatment handles GET requests to retrieve a righttotreatment entity
@@ -112,7 +115,7 @@ func (ctl *RightToTreatmentController) CreateRightToTreatment(c *gin.Context) {
 // @ID get-righttotreatment
 // @Produce  json
 // @Param id path int true "RightToTreatment ID"
-// @Success 200 {object} ent.RightToTreatment
+// @Success 200 {object} RightToTreatment
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -159,7 +162,7 @@ func (ctl *RightToTreatmentController) GetRightToTreatment(c *gin.Context) {
 // @Produce json
 // @Param limit  query int false "Limit"
 // @Param offset query int false "Offset"
-// @Success 200 {array} ent.RightToTreatment
+// @Success 200 {array} RightToTreatment
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /righttotreatments [get]
@@ -266,8 +269,8 @@ func (ctl *RightToTreatmentController) DeleteRightToTreatment(c *gin.Context) {
 // @Accept   json
 // @Produce  json
 // @Param id path int true "righttotreatment ID"
-// @Param righttotreatment body ent.RightToTreatment true "RightToTreatment entity"
-// @Success 200 {object} ent.RightToTreatment
+// @Param righttotreatment body RightToTreatment true "RightToTreatment entity"
+// @Success 200 {object} RightToTreatment
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /righttotreatments/{id} [put]
