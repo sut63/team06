@@ -24,9 +24,6 @@ import FormControl from '@material-ui/core/FormControl';
 import { DefaultApi } from '../../api/apis';
 import { MenuItem } from '@material-ui/core';
 
-
-
-
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -48,9 +45,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     }),
 );
-
-
-
 
 export default function Create() {
     const classes = useStyles();
@@ -79,7 +73,6 @@ export default function Create() {
         setOpen(false);
     };
 
-
     const getTreatmentType = async () => {
         const res = await api.listTreatmentType({ limit: 10, offset: 0 });
         SetType(res);
@@ -98,14 +91,11 @@ export default function Create() {
         getdoctor();
         getpatient();
         getTreatmentType();
-
-
     }, []);
 
     interface Diagnosis {
 
         TreatmentType: number;
-        Diagnosis: number;
         Patient: number;
         Doctor: number;
         Symptom: string;
@@ -150,7 +140,7 @@ export default function Create() {
             .then(response => response.json())
             .then(data => {
                 console.log(data.status);
-                if (data.id != null) {
+                if (data.status == true) {
                     clear();
                     setOpen(true);
                 } else {
@@ -165,24 +155,25 @@ export default function Create() {
     }
 
     //set time
-    const [diagnosisDate, setdiagnosisDate] = React.useState<any>(0)
+    const [diagnosis_Date, setdiagnosisDate] = React.useState<any>(0)
 
     // set data for time in
     const handleChangediagnosisDate = (
         event: React.ChangeEvent<{ name?: string; value: any }>,
     ) => {
-        const name = event.target.name as keyof typeof diagnosisDate;
+        const name = event.target.name as keyof typeof Create;
         const { value } = event.target;
         const time = value + ":00+07:00"
-        setdiagnosisDate({ ...diagnosisDate, [name]: time });
+        setDiagnosisitem({ ...Diagnosis, [name]: time });
         setdiagnosisDate(value);
-        console.log(diagnosisDate);
+        console.log(diagnosis_Date);
     };
 
     // clear input form
     function clear() {
         setDiagnosisitem({});
     }
+
     return (
         <Page theme={pageTheme.home}>
             <Header
@@ -233,7 +224,7 @@ export default function Create() {
               <TextField
                                 id="doctor"
                                 select
-                                name="DoctorID"
+                                name="Doctor"
                                 label="เลือกแพทย์"
                                 value={Diagnosis.Doctor}
                                 variant="outlined"
@@ -251,7 +242,7 @@ export default function Create() {
               <TextField
                                 id="patient"
                                 select
-                                name="PatientID"
+                                name="Patient"
                                 label="เลือกผู้ป่วย"
                                 value={Diagnosis.Patient}
                                 variant="outlined"
@@ -270,7 +261,7 @@ export default function Create() {
              <TextField
                                 id="course"
                                 select
-                                name="TreatmentTypeID"
+                                name="TreatmentType"
                                 label="ประเภทการรักษา"
                                 value={Diagnosis.TreatmentType}
                                 variant="outlined"
@@ -317,9 +308,9 @@ export default function Create() {
 
             <FormControl variant="outlined" className={classes.formControl}>
                             <TextField
-                                name="diagnosis_date"
+                                name="diagnosisDate"
                                 type="datetime-local"
-                                value={Diagnosis.diagnosisDate}
+                                value={diagnosis_Date}
                                 defaultValue="2020-12-31"
                                 onChange={handleChangediagnosisDate}
                                 InputLabelProps={{
