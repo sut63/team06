@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/team06/app/ent/bloodtype"
+
 	"github.com/gin-gonic/gin"
 	"github.com/team06/app/ent"
-	"github.com/team06/app/ent/bloodtype"
 )
 
 // BloodTypeController defines the struct for the bloodtype controller
@@ -36,9 +37,9 @@ func (ctl *BloodTypeController) CreateBloodType(c *gin.Context) {
 		return
 	}
 
-	bloodtypes, err := ctl.client.BloodType.
+	b, err := ctl.client.BloodType.
 		Create().
-		SetBloodValue(obj.BloodValue).
+		SetBlood(obj.Blood).
 		Save(context.Background())
 
 	if err != nil {
@@ -48,7 +49,7 @@ func (ctl *BloodTypeController) CreateBloodType(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, bloodtypes)
+	c.JSON(200, b)
 }
 
 // GetBloodType handles GET requests to retrieve a bloodtype entity
@@ -70,7 +71,7 @@ func (ctl *BloodTypeController) GetBloodType(c *gin.Context) {
 		})
 		return
 	}
-	bloodtypes, err := ctl.client.BloodType.
+	b, err := ctl.client.BloodType.
 		Query().
 		Where(bloodtype.IDEQ(int(id))).
 		Only(context.Background())
@@ -82,7 +83,7 @@ func (ctl *BloodTypeController) GetBloodType(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, bloodtypes)
+	c.JSON(200, b)
 }
 
 // ListBloodType handles request to get a list of bloodtype entities
@@ -193,8 +194,10 @@ func (ctl *BloodTypeController) UpdateBloodType(c *gin.Context) {
 		return
 	}
 	obj.ID = int(id)
-	bloodtypes, err := ctl.client.BloodType.
-		UpdateOne(&obj).
+	fmt.Println(obj.ID)
+	b, err := ctl.client.BloodType.
+		UpdateOneID(int(id)).
+		SetBlood(obj.Blood).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -203,25 +206,25 @@ func (ctl *BloodTypeController) UpdateBloodType(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, bloodtypes)
+	c.JSON(200, b)
 }
 
 // NewBloodTypeController creates and registers handles for the bloodtype controller
 func NewBloodTypeController(router gin.IRouter, client *ent.Client) *BloodTypeController {
-	bloodtypecontroller := &BloodTypeController{
+	bc := &BloodTypeController{
 		client: client,
 		router: router,
 	}
 
-	bloodtypecontroller.register()
+	bc.register()
 
-	return bloodtypecontroller
+	return bc
 
 }
 
-// InitBloodTypeController registers routes to the main engine
 func (ctl *BloodTypeController) register() {
 	bloodtypes := ctl.router.Group("/bloodtypes")
+
 	bloodtypes.GET("", ctl.ListBloodType)
 
 	// CRUD

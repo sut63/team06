@@ -15,8 +15,8 @@ type Gender struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// GenderValue holds the value of the "genderValue" field.
-	GenderValue string `json:"genderValue,omitempty"`
+	// Gender holds the value of the "gender" field.
+	Gender string `json:"gender,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the GenderQuery when eager-loading is set.
 	Edges GenderEdges `json:"edges"`
@@ -24,20 +24,20 @@ type Gender struct {
 
 // GenderEdges holds the relations/edges for other nodes in the graph.
 type GenderEdges struct {
-	// Patient holds the value of the patient edge.
-	Patient []*Patient
+	// GenderToPatient holds the value of the GenderToPatient edge.
+	GenderToPatient []*Patient
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 }
 
-// PatientOrErr returns the Patient value or an error if the edge
+// GenderToPatientOrErr returns the GenderToPatient value or an error if the edge
 // was not loaded in eager-loading.
-func (e GenderEdges) PatientOrErr() ([]*Patient, error) {
+func (e GenderEdges) GenderToPatientOrErr() ([]*Patient, error) {
 	if e.loadedTypes[0] {
-		return e.Patient, nil
+		return e.GenderToPatient, nil
 	}
-	return nil, &NotLoadedError{edge: "patient"}
+	return nil, &NotLoadedError{edge: "GenderToPatient"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -47,7 +47,7 @@ func (*Gender) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case gender.FieldID:
 			values[i] = &sql.NullInt64{}
-		case gender.FieldGenderValue:
+		case gender.FieldGender:
 			values[i] = &sql.NullString{}
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type Gender", columns[i])
@@ -70,20 +70,20 @@ func (ge *Gender) assignValues(columns []string, values []interface{}) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			ge.ID = int(value.Int64)
-		case gender.FieldGenderValue:
+		case gender.FieldGender:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field genderValue", values[i])
+				return fmt.Errorf("unexpected type %T for field gender", values[i])
 			} else if value.Valid {
-				ge.GenderValue = value.String
+				ge.Gender = value.String
 			}
 		}
 	}
 	return nil
 }
 
-// QueryPatient queries the "patient" edge of the Gender entity.
-func (ge *Gender) QueryPatient() *PatientQuery {
-	return (&GenderClient{config: ge.config}).QueryPatient(ge)
+// QueryGenderToPatient queries the "GenderToPatient" edge of the Gender entity.
+func (ge *Gender) QueryGenderToPatient() *PatientQuery {
+	return (&GenderClient{config: ge.config}).QueryGenderToPatient(ge)
 }
 
 // Update returns a builder for updating this Gender.
@@ -109,8 +109,8 @@ func (ge *Gender) String() string {
 	var builder strings.Builder
 	builder.WriteString("Gender(")
 	builder.WriteString(fmt.Sprintf("id=%v", ge.ID))
-	builder.WriteString(", genderValue=")
-	builder.WriteString(ge.GenderValue)
+	builder.WriteString(", gender=")
+	builder.WriteString(ge.Gender)
 	builder.WriteByte(')')
 	return builder.String()
 }

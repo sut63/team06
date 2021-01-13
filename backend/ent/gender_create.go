@@ -20,25 +20,25 @@ type GenderCreate struct {
 	hooks    []Hook
 }
 
-// SetGenderValue sets the "genderValue" field.
-func (gc *GenderCreate) SetGenderValue(s string) *GenderCreate {
-	gc.mutation.SetGenderValue(s)
+// SetGender sets the "gender" field.
+func (gc *GenderCreate) SetGender(s string) *GenderCreate {
+	gc.mutation.SetGender(s)
 	return gc
 }
 
-// AddPatientIDs adds the "patient" edge to the Patient entity by IDs.
-func (gc *GenderCreate) AddPatientIDs(ids ...int) *GenderCreate {
-	gc.mutation.AddPatientIDs(ids...)
+// AddGenderToPatientIDs adds the "GenderToPatient" edge to the Patient entity by IDs.
+func (gc *GenderCreate) AddGenderToPatientIDs(ids ...int) *GenderCreate {
+	gc.mutation.AddGenderToPatientIDs(ids...)
 	return gc
 }
 
-// AddPatient adds the "patient" edges to the Patient entity.
-func (gc *GenderCreate) AddPatient(p ...*Patient) *GenderCreate {
+// AddGenderToPatient adds the "GenderToPatient" edges to the Patient entity.
+func (gc *GenderCreate) AddGenderToPatient(p ...*Patient) *GenderCreate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return gc.AddPatientIDs(ids...)
+	return gc.AddGenderToPatientIDs(ids...)
 }
 
 // Mutation returns the GenderMutation object of the builder.
@@ -92,12 +92,12 @@ func (gc *GenderCreate) SaveX(ctx context.Context) *Gender {
 
 // check runs all checks and user-defined validators on the builder.
 func (gc *GenderCreate) check() error {
-	if _, ok := gc.mutation.GenderValue(); !ok {
-		return &ValidationError{Name: "genderValue", err: errors.New("ent: missing required field \"genderValue\"")}
+	if _, ok := gc.mutation.Gender(); !ok {
+		return &ValidationError{Name: "gender", err: errors.New("ent: missing required field \"gender\"")}
 	}
-	if v, ok := gc.mutation.GenderValue(); ok {
-		if err := gender.GenderValueValidator(v); err != nil {
-			return &ValidationError{Name: "genderValue", err: fmt.Errorf("ent: validator failed for field \"genderValue\": %w", err)}
+	if v, ok := gc.mutation.Gender(); ok {
+		if err := gender.GenderValidator(v); err != nil {
+			return &ValidationError{Name: "gender", err: fmt.Errorf("ent: validator failed for field \"gender\": %w", err)}
 		}
 	}
 	return nil
@@ -127,20 +127,20 @@ func (gc *GenderCreate) createSpec() (*Gender, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
-	if value, ok := gc.mutation.GenderValue(); ok {
+	if value, ok := gc.mutation.Gender(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: gender.FieldGenderValue,
+			Column: gender.FieldGender,
 		})
-		_node.GenderValue = value
+		_node.Gender = value
 	}
-	if nodes := gc.mutation.PatientIDs(); len(nodes) > 0 {
+	if nodes := gc.mutation.GenderToPatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   gender.PatientTable,
-			Columns: []string{gender.PatientColumn},
+			Table:   gender.GenderToPatientTable,
+			Columns: []string{gender.GenderToPatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

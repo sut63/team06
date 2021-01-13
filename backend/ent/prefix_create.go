@@ -20,25 +20,25 @@ type PrefixCreate struct {
 	hooks    []Hook
 }
 
-// SetPrefixValue sets the "prefixValue" field.
-func (pc *PrefixCreate) SetPrefixValue(s string) *PrefixCreate {
-	pc.mutation.SetPrefixValue(s)
+// SetPrefix sets the "prefix" field.
+func (pc *PrefixCreate) SetPrefix(s string) *PrefixCreate {
+	pc.mutation.SetPrefix(s)
 	return pc
 }
 
-// AddPatientIDs adds the "patient" edge to the Patient entity by IDs.
-func (pc *PrefixCreate) AddPatientIDs(ids ...int) *PrefixCreate {
-	pc.mutation.AddPatientIDs(ids...)
+// AddPrefixToPatientIDs adds the "PrefixToPatient" edge to the Patient entity by IDs.
+func (pc *PrefixCreate) AddPrefixToPatientIDs(ids ...int) *PrefixCreate {
+	pc.mutation.AddPrefixToPatientIDs(ids...)
 	return pc
 }
 
-// AddPatient adds the "patient" edges to the Patient entity.
-func (pc *PrefixCreate) AddPatient(p ...*Patient) *PrefixCreate {
+// AddPrefixToPatient adds the "PrefixToPatient" edges to the Patient entity.
+func (pc *PrefixCreate) AddPrefixToPatient(p ...*Patient) *PrefixCreate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return pc.AddPatientIDs(ids...)
+	return pc.AddPrefixToPatientIDs(ids...)
 }
 
 // Mutation returns the PrefixMutation object of the builder.
@@ -92,12 +92,12 @@ func (pc *PrefixCreate) SaveX(ctx context.Context) *Prefix {
 
 // check runs all checks and user-defined validators on the builder.
 func (pc *PrefixCreate) check() error {
-	if _, ok := pc.mutation.PrefixValue(); !ok {
-		return &ValidationError{Name: "prefixValue", err: errors.New("ent: missing required field \"prefixValue\"")}
+	if _, ok := pc.mutation.Prefix(); !ok {
+		return &ValidationError{Name: "prefix", err: errors.New("ent: missing required field \"prefix\"")}
 	}
-	if v, ok := pc.mutation.PrefixValue(); ok {
-		if err := prefix.PrefixValueValidator(v); err != nil {
-			return &ValidationError{Name: "prefixValue", err: fmt.Errorf("ent: validator failed for field \"prefixValue\": %w", err)}
+	if v, ok := pc.mutation.Prefix(); ok {
+		if err := prefix.PrefixValidator(v); err != nil {
+			return &ValidationError{Name: "prefix", err: fmt.Errorf("ent: validator failed for field \"prefix\": %w", err)}
 		}
 	}
 	return nil
@@ -127,20 +127,20 @@ func (pc *PrefixCreate) createSpec() (*Prefix, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
-	if value, ok := pc.mutation.PrefixValue(); ok {
+	if value, ok := pc.mutation.Prefix(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: prefix.FieldPrefixValue,
+			Column: prefix.FieldPrefix,
 		})
-		_node.PrefixValue = value
+		_node.Prefix = value
 	}
-	if nodes := pc.mutation.PatientIDs(); len(nodes) > 0 {
+	if nodes := pc.mutation.PrefixToPatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   prefix.PatientTable,
-			Columns: []string{prefix.PatientColumn},
+			Table:   prefix.PrefixToPatientTable,
+			Columns: []string{prefix.PrefixToPatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

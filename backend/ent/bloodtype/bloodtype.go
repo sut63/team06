@@ -7,27 +7,27 @@ const (
 	Label = "blood_type"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldBloodValue holds the string denoting the bloodvalue field in the database.
-	FieldBloodValue = "blood_value"
+	// FieldBlood holds the string denoting the blood field in the database.
+	FieldBlood = "blood"
 
-	// EdgePatient holds the string denoting the patient edge name in mutations.
-	EdgePatient = "patient"
+	// EdgeBloodTypeToPatient holds the string denoting the bloodtypetopatient edge name in mutations.
+	EdgeBloodTypeToPatient = "BloodTypeToPatient"
 
 	// Table holds the table name of the bloodtype in the database.
 	Table = "blood_types"
-	// PatientTable is the table the holds the patient relation/edge.
-	PatientTable = "patients"
-	// PatientInverseTable is the table name for the Patient entity.
+	// BloodTypeToPatientTable is the table the holds the BloodTypeToPatient relation/edge.
+	BloodTypeToPatientTable = "patients"
+	// BloodTypeToPatientInverseTable is the table name for the Patient entity.
 	// It exists in this package in order to avoid circular dependency with the "patient" package.
-	PatientInverseTable = "patients"
-	// PatientColumn is the table column denoting the patient relation/edge.
-	PatientColumn = "blood_type_patient"
+	BloodTypeToPatientInverseTable = "patients"
+	// BloodTypeToPatientColumn is the table column denoting the BloodTypeToPatient relation/edge.
+	BloodTypeToPatientColumn = "blood_type_blood_type_to_patient"
 )
 
 // Columns holds all SQL columns for bloodtype fields.
 var Columns = []string{
 	FieldID,
-	FieldBloodValue,
+	FieldBlood,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -41,6 +41,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// BloodValueValidator is a validator for the "bloodValue" field. It is called by the builders before save.
-	BloodValueValidator func(string) error
+	// BloodValidator is a validator for the "blood" field. It is called by the builders before save.
+	BloodValidator func(string) error
 )

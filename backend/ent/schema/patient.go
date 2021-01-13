@@ -1,8 +1,6 @@
 package schema
 
 import (
-	"time"
-
 	"github.com/facebook/ent"
 	"github.com/facebook/ent/schema/edge"
 	"github.com/facebook/ent/schema/field"
@@ -16,21 +14,21 @@ type Patient struct {
 // Fields of the Patient.
 func (Patient) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("personalID").Positive(),
+		field.Int("personalID").Positive().Unique(),
 		field.String("patientName").NotEmpty(),
 		field.Int("age").Positive(),
-		field.String("hospitalNumber").NotEmpty(),
+		field.String("hospitalNumber").NotEmpty().Unique(),
 		field.String("drugAllergy").NotEmpty(),
-		field.Time("addedDate").Default(time.Now),
+		field.Time("added_time"),
 	}
 }
 
 // Edges of the Patient.
 func (Patient) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("prefix", Prefix.Type).Ref("patient").Unique(),
-		edge.From("gender", Gender.Type).Ref("patient").Unique(),
-		edge.From("bloodtype", BloodType.Type).Ref("patient").Unique(),
+		edge.From("Prefix", Prefix.Type).Ref("PrefixToPatient").Unique(),
+		edge.From("Gender", Gender.Type).Ref("GenderToPatient").Unique(),
+		edge.From("Bloodtype", BloodType.Type).Ref("BloodTypeToPatient").Unique(),
 		edge.To("triageResult", TriageResult.Type),
 		edge.To("PatientToAppointmentResults", AppointmentResults.Type),
 		edge.To("PatientToMedicalProcedure", MedicalProcedure.Type),

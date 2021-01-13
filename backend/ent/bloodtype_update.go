@@ -27,25 +27,25 @@ func (btu *BloodTypeUpdate) Where(ps ...predicate.BloodType) *BloodTypeUpdate {
 	return btu
 }
 
-// SetBloodValue sets the "bloodValue" field.
-func (btu *BloodTypeUpdate) SetBloodValue(s string) *BloodTypeUpdate {
-	btu.mutation.SetBloodValue(s)
+// SetBlood sets the "blood" field.
+func (btu *BloodTypeUpdate) SetBlood(s string) *BloodTypeUpdate {
+	btu.mutation.SetBlood(s)
 	return btu
 }
 
-// AddPatientIDs adds the "patient" edge to the Patient entity by IDs.
-func (btu *BloodTypeUpdate) AddPatientIDs(ids ...int) *BloodTypeUpdate {
-	btu.mutation.AddPatientIDs(ids...)
+// AddBloodTypeToPatientIDs adds the "BloodTypeToPatient" edge to the Patient entity by IDs.
+func (btu *BloodTypeUpdate) AddBloodTypeToPatientIDs(ids ...int) *BloodTypeUpdate {
+	btu.mutation.AddBloodTypeToPatientIDs(ids...)
 	return btu
 }
 
-// AddPatient adds the "patient" edges to the Patient entity.
-func (btu *BloodTypeUpdate) AddPatient(p ...*Patient) *BloodTypeUpdate {
+// AddBloodTypeToPatient adds the "BloodTypeToPatient" edges to the Patient entity.
+func (btu *BloodTypeUpdate) AddBloodTypeToPatient(p ...*Patient) *BloodTypeUpdate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return btu.AddPatientIDs(ids...)
+	return btu.AddBloodTypeToPatientIDs(ids...)
 }
 
 // Mutation returns the BloodTypeMutation object of the builder.
@@ -53,25 +53,25 @@ func (btu *BloodTypeUpdate) Mutation() *BloodTypeMutation {
 	return btu.mutation
 }
 
-// ClearPatient clears all "patient" edges to the Patient entity.
-func (btu *BloodTypeUpdate) ClearPatient() *BloodTypeUpdate {
-	btu.mutation.ClearPatient()
+// ClearBloodTypeToPatient clears all "BloodTypeToPatient" edges to the Patient entity.
+func (btu *BloodTypeUpdate) ClearBloodTypeToPatient() *BloodTypeUpdate {
+	btu.mutation.ClearBloodTypeToPatient()
 	return btu
 }
 
-// RemovePatientIDs removes the "patient" edge to Patient entities by IDs.
-func (btu *BloodTypeUpdate) RemovePatientIDs(ids ...int) *BloodTypeUpdate {
-	btu.mutation.RemovePatientIDs(ids...)
+// RemoveBloodTypeToPatientIDs removes the "BloodTypeToPatient" edge to Patient entities by IDs.
+func (btu *BloodTypeUpdate) RemoveBloodTypeToPatientIDs(ids ...int) *BloodTypeUpdate {
+	btu.mutation.RemoveBloodTypeToPatientIDs(ids...)
 	return btu
 }
 
-// RemovePatient removes "patient" edges to Patient entities.
-func (btu *BloodTypeUpdate) RemovePatient(p ...*Patient) *BloodTypeUpdate {
+// RemoveBloodTypeToPatient removes "BloodTypeToPatient" edges to Patient entities.
+func (btu *BloodTypeUpdate) RemoveBloodTypeToPatient(p ...*Patient) *BloodTypeUpdate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return btu.RemovePatientIDs(ids...)
+	return btu.RemoveBloodTypeToPatientIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -133,9 +133,9 @@ func (btu *BloodTypeUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (btu *BloodTypeUpdate) check() error {
-	if v, ok := btu.mutation.BloodValue(); ok {
-		if err := bloodtype.BloodValueValidator(v); err != nil {
-			return &ValidationError{Name: "bloodValue", err: fmt.Errorf("ent: validator failed for field \"bloodValue\": %w", err)}
+	if v, ok := btu.mutation.Blood(); ok {
+		if err := bloodtype.BloodValidator(v); err != nil {
+			return &ValidationError{Name: "blood", err: fmt.Errorf("ent: validator failed for field \"blood\": %w", err)}
 		}
 	}
 	return nil
@@ -159,19 +159,19 @@ func (btu *BloodTypeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := btu.mutation.BloodValue(); ok {
+	if value, ok := btu.mutation.Blood(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: bloodtype.FieldBloodValue,
+			Column: bloodtype.FieldBlood,
 		})
 	}
-	if btu.mutation.PatientCleared() {
+	if btu.mutation.BloodTypeToPatientCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.BloodTypeToPatientTable,
+			Columns: []string{bloodtype.BloodTypeToPatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -182,12 +182,12 @@ func (btu *BloodTypeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := btu.mutation.RemovedPatientIDs(); len(nodes) > 0 && !btu.mutation.PatientCleared() {
+	if nodes := btu.mutation.RemovedBloodTypeToPatientIDs(); len(nodes) > 0 && !btu.mutation.BloodTypeToPatientCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.BloodTypeToPatientTable,
+			Columns: []string{bloodtype.BloodTypeToPatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -201,12 +201,12 @@ func (btu *BloodTypeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := btu.mutation.PatientIDs(); len(nodes) > 0 {
+	if nodes := btu.mutation.BloodTypeToPatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.BloodTypeToPatientTable,
+			Columns: []string{bloodtype.BloodTypeToPatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -238,25 +238,25 @@ type BloodTypeUpdateOne struct {
 	mutation *BloodTypeMutation
 }
 
-// SetBloodValue sets the "bloodValue" field.
-func (btuo *BloodTypeUpdateOne) SetBloodValue(s string) *BloodTypeUpdateOne {
-	btuo.mutation.SetBloodValue(s)
+// SetBlood sets the "blood" field.
+func (btuo *BloodTypeUpdateOne) SetBlood(s string) *BloodTypeUpdateOne {
+	btuo.mutation.SetBlood(s)
 	return btuo
 }
 
-// AddPatientIDs adds the "patient" edge to the Patient entity by IDs.
-func (btuo *BloodTypeUpdateOne) AddPatientIDs(ids ...int) *BloodTypeUpdateOne {
-	btuo.mutation.AddPatientIDs(ids...)
+// AddBloodTypeToPatientIDs adds the "BloodTypeToPatient" edge to the Patient entity by IDs.
+func (btuo *BloodTypeUpdateOne) AddBloodTypeToPatientIDs(ids ...int) *BloodTypeUpdateOne {
+	btuo.mutation.AddBloodTypeToPatientIDs(ids...)
 	return btuo
 }
 
-// AddPatient adds the "patient" edges to the Patient entity.
-func (btuo *BloodTypeUpdateOne) AddPatient(p ...*Patient) *BloodTypeUpdateOne {
+// AddBloodTypeToPatient adds the "BloodTypeToPatient" edges to the Patient entity.
+func (btuo *BloodTypeUpdateOne) AddBloodTypeToPatient(p ...*Patient) *BloodTypeUpdateOne {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return btuo.AddPatientIDs(ids...)
+	return btuo.AddBloodTypeToPatientIDs(ids...)
 }
 
 // Mutation returns the BloodTypeMutation object of the builder.
@@ -264,25 +264,25 @@ func (btuo *BloodTypeUpdateOne) Mutation() *BloodTypeMutation {
 	return btuo.mutation
 }
 
-// ClearPatient clears all "patient" edges to the Patient entity.
-func (btuo *BloodTypeUpdateOne) ClearPatient() *BloodTypeUpdateOne {
-	btuo.mutation.ClearPatient()
+// ClearBloodTypeToPatient clears all "BloodTypeToPatient" edges to the Patient entity.
+func (btuo *BloodTypeUpdateOne) ClearBloodTypeToPatient() *BloodTypeUpdateOne {
+	btuo.mutation.ClearBloodTypeToPatient()
 	return btuo
 }
 
-// RemovePatientIDs removes the "patient" edge to Patient entities by IDs.
-func (btuo *BloodTypeUpdateOne) RemovePatientIDs(ids ...int) *BloodTypeUpdateOne {
-	btuo.mutation.RemovePatientIDs(ids...)
+// RemoveBloodTypeToPatientIDs removes the "BloodTypeToPatient" edge to Patient entities by IDs.
+func (btuo *BloodTypeUpdateOne) RemoveBloodTypeToPatientIDs(ids ...int) *BloodTypeUpdateOne {
+	btuo.mutation.RemoveBloodTypeToPatientIDs(ids...)
 	return btuo
 }
 
-// RemovePatient removes "patient" edges to Patient entities.
-func (btuo *BloodTypeUpdateOne) RemovePatient(p ...*Patient) *BloodTypeUpdateOne {
+// RemoveBloodTypeToPatient removes "BloodTypeToPatient" edges to Patient entities.
+func (btuo *BloodTypeUpdateOne) RemoveBloodTypeToPatient(p ...*Patient) *BloodTypeUpdateOne {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return btuo.RemovePatientIDs(ids...)
+	return btuo.RemoveBloodTypeToPatientIDs(ids...)
 }
 
 // Save executes the query and returns the updated BloodType entity.
@@ -344,9 +344,9 @@ func (btuo *BloodTypeUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (btuo *BloodTypeUpdateOne) check() error {
-	if v, ok := btuo.mutation.BloodValue(); ok {
-		if err := bloodtype.BloodValueValidator(v); err != nil {
-			return &ValidationError{Name: "bloodValue", err: fmt.Errorf("ent: validator failed for field \"bloodValue\": %w", err)}
+	if v, ok := btuo.mutation.Blood(); ok {
+		if err := bloodtype.BloodValidator(v); err != nil {
+			return &ValidationError{Name: "blood", err: fmt.Errorf("ent: validator failed for field \"blood\": %w", err)}
 		}
 	}
 	return nil
@@ -368,19 +368,19 @@ func (btuo *BloodTypeUpdateOne) sqlSave(ctx context.Context) (_node *BloodType, 
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing BloodType.ID for update")}
 	}
 	_spec.Node.ID.Value = id
-	if value, ok := btuo.mutation.BloodValue(); ok {
+	if value, ok := btuo.mutation.Blood(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: bloodtype.FieldBloodValue,
+			Column: bloodtype.FieldBlood,
 		})
 	}
-	if btuo.mutation.PatientCleared() {
+	if btuo.mutation.BloodTypeToPatientCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.BloodTypeToPatientTable,
+			Columns: []string{bloodtype.BloodTypeToPatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -391,12 +391,12 @@ func (btuo *BloodTypeUpdateOne) sqlSave(ctx context.Context) (_node *BloodType, 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := btuo.mutation.RemovedPatientIDs(); len(nodes) > 0 && !btuo.mutation.PatientCleared() {
+	if nodes := btuo.mutation.RemovedBloodTypeToPatientIDs(); len(nodes) > 0 && !btuo.mutation.BloodTypeToPatientCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.BloodTypeToPatientTable,
+			Columns: []string{bloodtype.BloodTypeToPatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -410,12 +410,12 @@ func (btuo *BloodTypeUpdateOne) sqlSave(ctx context.Context) (_node *BloodType, 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := btuo.mutation.PatientIDs(); len(nodes) > 0 {
+	if nodes := btuo.mutation.BloodTypeToPatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.BloodTypeToPatientTable,
+			Columns: []string{bloodtype.BloodTypeToPatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

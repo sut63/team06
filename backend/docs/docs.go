@@ -532,19 +532,19 @@ var doc = `{
                 }
             },
             "post": {
-                "description": "Create AppointmentResults",
+                "description": "Create appointmentresults",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Create AppointmentResults",
-                "operationId": "create-AppointmentResults",
+                "summary": "Create appointmentresults",
+                "operationId": "create-appointmentresults",
                 "parameters": [
                     {
-                        "description": "AppointmentResults entity",
-                        "name": "AppointmentResults",
+                        "description": "Appointmentresults entity",
+                        "name": "appointmentresults",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -585,7 +585,7 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "AppointmentResults ID",
+                        "description": "Appointmentresults ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -631,13 +631,13 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "AppointmentResults ID",
+                        "description": "Appointmentresults ID",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "AppointmentResults entity",
+                        "description": "Appointmentresults entity",
                         "name": "appointmentresults",
                         "in": "body",
                         "required": true,
@@ -677,7 +677,7 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "AppointmentResults ID",
+                        "description": "Appointmentresults ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2474,19 +2474,19 @@ var doc = `{
                 }
             },
             "post": {
-                "description": "Create Patient",
+                "description": "Create patient",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Create Patient",
-                "operationId": "create-Patient",
+                "summary": "Create patient",
+                "operationId": "create-patient",
                 "parameters": [
                     {
                         "description": "Patient entity",
-                        "name": "Patient",
+                        "name": "patient",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -3133,7 +3133,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/controllers.RightToTreatment"
+                                "$ref": "#/definitions/ent.RightToTreatment"
                             }
                         }
                     },
@@ -3168,7 +3168,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.RightToTreatment"
+                            "$ref": "#/definitions/ent.RightToTreatment"
                         }
                     }
                 ],
@@ -3176,7 +3176,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.RightToTreatment"
+                            "$ref": "#/definitions/ent.RightToTreatment"
                         }
                     },
                     "400": {
@@ -3215,7 +3215,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.RightToTreatment"
+                            "$ref": "#/definitions/ent.RightToTreatment"
                         }
                     },
                     "400": {
@@ -3262,7 +3262,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.RightToTreatment"
+                            "$ref": "#/definitions/ent.RightToTreatment"
                         }
                     }
                 ],
@@ -3270,7 +3270,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.RightToTreatment"
+                            "$ref": "#/definitions/ent.RightToTreatment"
                         }
                     },
                     "400": {
@@ -4237,26 +4237,6 @@ var doc = `{
         }
     },
     "definitions": {
-        "controllers.RightToTreatment": {
-            "type": "object",
-            "properties": {
-                "endtime": {
-                    "type": "string"
-                },
-                "hospital": {
-                    "type": "integer"
-                },
-                "patient": {
-                    "type": "integer"
-                },
-                "rightToTreatmentType": {
-                    "type": "integer"
-                },
-                "starttime": {
-                    "type": "string"
-                }
-            }
-        },
         "ent.AppointmentResults": {
             "type": "object",
             "properties": {
@@ -4307,8 +4287,8 @@ var doc = `{
         "ent.BloodType": {
             "type": "object",
             "properties": {
-                "bloodValue": {
-                    "description": "BloodValue holds the value of the \"bloodValue\" field.",
+                "blood": {
+                    "description": "Blood holds the value of the \"blood\" field.",
                     "type": "string"
                 },
                 "edges": {
@@ -4325,8 +4305,8 @@ var doc = `{
         "ent.BloodTypeEdges": {
             "type": "object",
             "properties": {
-                "patient": {
-                    "description": "Patient holds the value of the patient edge.",
+                "bloodTypeToPatient": {
+                    "description": "BloodTypeToPatient holds the value of the BloodTypeToPatient edge.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ent.Patient"
@@ -4470,8 +4450,8 @@ var doc = `{
                     "type": "object",
                     "$ref": "#/definitions/ent.GenderEdges"
                 },
-                "genderValue": {
-                    "description": "GenderValue holds the value of the \"genderValue\" field.",
+                "gender": {
+                    "description": "Gender holds the value of the \"gender\" field.",
                     "type": "string"
                 },
                 "id": {
@@ -4483,8 +4463,8 @@ var doc = `{
         "ent.GenderEdges": {
             "type": "object",
             "properties": {
-                "patient": {
-                    "description": "Patient holds the value of the patient edge.",
+                "genderToPatient": {
+                    "description": "GenderToPatient holds the value of the GenderToPatient edge.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ent.Patient"
@@ -4629,8 +4609,8 @@ var doc = `{
         "ent.Patient": {
             "type": "object",
             "properties": {
-                "addedDate": {
-                    "description": "AddedDate holds the value of the \"addedDate\" field.",
+                "added_time": {
+                    "description": "AddedTime holds the value of the \"added_time\" field.",
                     "type": "string"
                 },
                 "age": {
@@ -4668,12 +4648,12 @@ var doc = `{
             "type": "object",
             "properties": {
                 "bloodtype": {
-                    "description": "Bloodtype holds the value of the bloodtype edge.",
+                    "description": "Bloodtype holds the value of the Bloodtype edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.BloodType"
                 },
                 "gender": {
-                    "description": "Gender holds the value of the gender edge.",
+                    "description": "Gender holds the value of the Gender edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Gender"
                 },
@@ -4706,7 +4686,7 @@ var doc = `{
                     }
                 },
                 "prefix": {
-                    "description": "Prefix holds the value of the prefix edge.",
+                    "description": "Prefix holds the value of the Prefix edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Prefix"
                 },
@@ -4731,8 +4711,8 @@ var doc = `{
                     "description": "ID of the ent.",
                     "type": "integer"
                 },
-                "prefixValue": {
-                    "description": "PrefixValue holds the value of the \"prefixValue\" field.",
+                "prefix": {
+                    "description": "Prefix holds the value of the \"prefix\" field.",
                     "type": "string"
                 }
             }
@@ -4740,8 +4720,8 @@ var doc = `{
         "ent.PrefixEdges": {
             "type": "object",
             "properties": {
-                "patient": {
-                    "description": "Patient holds the value of the patient edge.",
+                "prefixToPatient": {
+                    "description": "PrefixToPatient holds the value of the PrefixToPatient edge.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ent.Patient"

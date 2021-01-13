@@ -79,27 +79,19 @@ func (pu *PatientUpdate) SetDrugAllergy(s string) *PatientUpdate {
 	return pu
 }
 
-// SetAddedDate sets the "addedDate" field.
-func (pu *PatientUpdate) SetAddedDate(t time.Time) *PatientUpdate {
-	pu.mutation.SetAddedDate(t)
+// SetAddedTime sets the "added_time" field.
+func (pu *PatientUpdate) SetAddedTime(t time.Time) *PatientUpdate {
+	pu.mutation.SetAddedTime(t)
 	return pu
 }
 
-// SetNillableAddedDate sets the "addedDate" field if the given value is not nil.
-func (pu *PatientUpdate) SetNillableAddedDate(t *time.Time) *PatientUpdate {
-	if t != nil {
-		pu.SetAddedDate(*t)
-	}
-	return pu
-}
-
-// SetPrefixID sets the "prefix" edge to the Prefix entity by ID.
+// SetPrefixID sets the "Prefix" edge to the Prefix entity by ID.
 func (pu *PatientUpdate) SetPrefixID(id int) *PatientUpdate {
 	pu.mutation.SetPrefixID(id)
 	return pu
 }
 
-// SetNillablePrefixID sets the "prefix" edge to the Prefix entity by ID if the given value is not nil.
+// SetNillablePrefixID sets the "Prefix" edge to the Prefix entity by ID if the given value is not nil.
 func (pu *PatientUpdate) SetNillablePrefixID(id *int) *PatientUpdate {
 	if id != nil {
 		pu = pu.SetPrefixID(*id)
@@ -107,18 +99,18 @@ func (pu *PatientUpdate) SetNillablePrefixID(id *int) *PatientUpdate {
 	return pu
 }
 
-// SetPrefix sets the "prefix" edge to the Prefix entity.
+// SetPrefix sets the "Prefix" edge to the Prefix entity.
 func (pu *PatientUpdate) SetPrefix(p *Prefix) *PatientUpdate {
 	return pu.SetPrefixID(p.ID)
 }
 
-// SetGenderID sets the "gender" edge to the Gender entity by ID.
+// SetGenderID sets the "Gender" edge to the Gender entity by ID.
 func (pu *PatientUpdate) SetGenderID(id int) *PatientUpdate {
 	pu.mutation.SetGenderID(id)
 	return pu
 }
 
-// SetNillableGenderID sets the "gender" edge to the Gender entity by ID if the given value is not nil.
+// SetNillableGenderID sets the "Gender" edge to the Gender entity by ID if the given value is not nil.
 func (pu *PatientUpdate) SetNillableGenderID(id *int) *PatientUpdate {
 	if id != nil {
 		pu = pu.SetGenderID(*id)
@@ -126,18 +118,18 @@ func (pu *PatientUpdate) SetNillableGenderID(id *int) *PatientUpdate {
 	return pu
 }
 
-// SetGender sets the "gender" edge to the Gender entity.
+// SetGender sets the "Gender" edge to the Gender entity.
 func (pu *PatientUpdate) SetGender(g *Gender) *PatientUpdate {
 	return pu.SetGenderID(g.ID)
 }
 
-// SetBloodtypeID sets the "bloodtype" edge to the BloodType entity by ID.
+// SetBloodtypeID sets the "Bloodtype" edge to the BloodType entity by ID.
 func (pu *PatientUpdate) SetBloodtypeID(id int) *PatientUpdate {
 	pu.mutation.SetBloodtypeID(id)
 	return pu
 }
 
-// SetNillableBloodtypeID sets the "bloodtype" edge to the BloodType entity by ID if the given value is not nil.
+// SetNillableBloodtypeID sets the "Bloodtype" edge to the BloodType entity by ID if the given value is not nil.
 func (pu *PatientUpdate) SetNillableBloodtypeID(id *int) *PatientUpdate {
 	if id != nil {
 		pu = pu.SetBloodtypeID(*id)
@@ -145,7 +137,7 @@ func (pu *PatientUpdate) SetNillableBloodtypeID(id *int) *PatientUpdate {
 	return pu
 }
 
-// SetBloodtype sets the "bloodtype" edge to the BloodType entity.
+// SetBloodtype sets the "Bloodtype" edge to the BloodType entity.
 func (pu *PatientUpdate) SetBloodtype(b *BloodType) *PatientUpdate {
 	return pu.SetBloodtypeID(b.ID)
 }
@@ -230,19 +222,19 @@ func (pu *PatientUpdate) Mutation() *PatientMutation {
 	return pu.mutation
 }
 
-// ClearPrefix clears the "prefix" edge to the Prefix entity.
+// ClearPrefix clears the "Prefix" edge to the Prefix entity.
 func (pu *PatientUpdate) ClearPrefix() *PatientUpdate {
 	pu.mutation.ClearPrefix()
 	return pu
 }
 
-// ClearGender clears the "gender" edge to the Gender entity.
+// ClearGender clears the "Gender" edge to the Gender entity.
 func (pu *PatientUpdate) ClearGender() *PatientUpdate {
 	pu.mutation.ClearGender()
 	return pu
 }
 
-// ClearBloodtype clears the "bloodtype" edge to the BloodType entity.
+// ClearBloodtype clears the "Bloodtype" edge to the BloodType entity.
 func (pu *PatientUpdate) ClearBloodtype() *PatientUpdate {
 	pu.mutation.ClearBloodtype()
 	return pu
@@ -507,11 +499,11 @@ func (pu *PatientUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: patient.FieldDrugAllergy,
 		})
 	}
-	if value, ok := pu.mutation.AddedDate(); ok {
+	if value, ok := pu.mutation.AddedTime(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
-			Column: patient.FieldAddedDate,
+			Column: patient.FieldAddedTime,
 		})
 	}
 	if pu.mutation.PrefixCleared() {
@@ -951,27 +943,19 @@ func (puo *PatientUpdateOne) SetDrugAllergy(s string) *PatientUpdateOne {
 	return puo
 }
 
-// SetAddedDate sets the "addedDate" field.
-func (puo *PatientUpdateOne) SetAddedDate(t time.Time) *PatientUpdateOne {
-	puo.mutation.SetAddedDate(t)
+// SetAddedTime sets the "added_time" field.
+func (puo *PatientUpdateOne) SetAddedTime(t time.Time) *PatientUpdateOne {
+	puo.mutation.SetAddedTime(t)
 	return puo
 }
 
-// SetNillableAddedDate sets the "addedDate" field if the given value is not nil.
-func (puo *PatientUpdateOne) SetNillableAddedDate(t *time.Time) *PatientUpdateOne {
-	if t != nil {
-		puo.SetAddedDate(*t)
-	}
-	return puo
-}
-
-// SetPrefixID sets the "prefix" edge to the Prefix entity by ID.
+// SetPrefixID sets the "Prefix" edge to the Prefix entity by ID.
 func (puo *PatientUpdateOne) SetPrefixID(id int) *PatientUpdateOne {
 	puo.mutation.SetPrefixID(id)
 	return puo
 }
 
-// SetNillablePrefixID sets the "prefix" edge to the Prefix entity by ID if the given value is not nil.
+// SetNillablePrefixID sets the "Prefix" edge to the Prefix entity by ID if the given value is not nil.
 func (puo *PatientUpdateOne) SetNillablePrefixID(id *int) *PatientUpdateOne {
 	if id != nil {
 		puo = puo.SetPrefixID(*id)
@@ -979,18 +963,18 @@ func (puo *PatientUpdateOne) SetNillablePrefixID(id *int) *PatientUpdateOne {
 	return puo
 }
 
-// SetPrefix sets the "prefix" edge to the Prefix entity.
+// SetPrefix sets the "Prefix" edge to the Prefix entity.
 func (puo *PatientUpdateOne) SetPrefix(p *Prefix) *PatientUpdateOne {
 	return puo.SetPrefixID(p.ID)
 }
 
-// SetGenderID sets the "gender" edge to the Gender entity by ID.
+// SetGenderID sets the "Gender" edge to the Gender entity by ID.
 func (puo *PatientUpdateOne) SetGenderID(id int) *PatientUpdateOne {
 	puo.mutation.SetGenderID(id)
 	return puo
 }
 
-// SetNillableGenderID sets the "gender" edge to the Gender entity by ID if the given value is not nil.
+// SetNillableGenderID sets the "Gender" edge to the Gender entity by ID if the given value is not nil.
 func (puo *PatientUpdateOne) SetNillableGenderID(id *int) *PatientUpdateOne {
 	if id != nil {
 		puo = puo.SetGenderID(*id)
@@ -998,18 +982,18 @@ func (puo *PatientUpdateOne) SetNillableGenderID(id *int) *PatientUpdateOne {
 	return puo
 }
 
-// SetGender sets the "gender" edge to the Gender entity.
+// SetGender sets the "Gender" edge to the Gender entity.
 func (puo *PatientUpdateOne) SetGender(g *Gender) *PatientUpdateOne {
 	return puo.SetGenderID(g.ID)
 }
 
-// SetBloodtypeID sets the "bloodtype" edge to the BloodType entity by ID.
+// SetBloodtypeID sets the "Bloodtype" edge to the BloodType entity by ID.
 func (puo *PatientUpdateOne) SetBloodtypeID(id int) *PatientUpdateOne {
 	puo.mutation.SetBloodtypeID(id)
 	return puo
 }
 
-// SetNillableBloodtypeID sets the "bloodtype" edge to the BloodType entity by ID if the given value is not nil.
+// SetNillableBloodtypeID sets the "Bloodtype" edge to the BloodType entity by ID if the given value is not nil.
 func (puo *PatientUpdateOne) SetNillableBloodtypeID(id *int) *PatientUpdateOne {
 	if id != nil {
 		puo = puo.SetBloodtypeID(*id)
@@ -1017,7 +1001,7 @@ func (puo *PatientUpdateOne) SetNillableBloodtypeID(id *int) *PatientUpdateOne {
 	return puo
 }
 
-// SetBloodtype sets the "bloodtype" edge to the BloodType entity.
+// SetBloodtype sets the "Bloodtype" edge to the BloodType entity.
 func (puo *PatientUpdateOne) SetBloodtype(b *BloodType) *PatientUpdateOne {
 	return puo.SetBloodtypeID(b.ID)
 }
@@ -1102,19 +1086,19 @@ func (puo *PatientUpdateOne) Mutation() *PatientMutation {
 	return puo.mutation
 }
 
-// ClearPrefix clears the "prefix" edge to the Prefix entity.
+// ClearPrefix clears the "Prefix" edge to the Prefix entity.
 func (puo *PatientUpdateOne) ClearPrefix() *PatientUpdateOne {
 	puo.mutation.ClearPrefix()
 	return puo
 }
 
-// ClearGender clears the "gender" edge to the Gender entity.
+// ClearGender clears the "Gender" edge to the Gender entity.
 func (puo *PatientUpdateOne) ClearGender() *PatientUpdateOne {
 	puo.mutation.ClearGender()
 	return puo
 }
 
-// ClearBloodtype clears the "bloodtype" edge to the BloodType entity.
+// ClearBloodtype clears the "Bloodtype" edge to the BloodType entity.
 func (puo *PatientUpdateOne) ClearBloodtype() *PatientUpdateOne {
 	puo.mutation.ClearBloodtype()
 	return puo
@@ -1377,11 +1361,11 @@ func (puo *PatientUpdateOne) sqlSave(ctx context.Context) (_node *Patient, err e
 			Column: patient.FieldDrugAllergy,
 		})
 	}
-	if value, ok := puo.mutation.AddedDate(); ok {
+	if value, ok := puo.mutation.AddedTime(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
-			Column: patient.FieldAddedDate,
+			Column: patient.FieldAddedTime,
 		})
 	}
 	if puo.mutation.PrefixCleared() {

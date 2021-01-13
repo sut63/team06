@@ -14,13 +14,13 @@ type BloodType struct {
 // Fields of the BloodType.
 func (BloodType) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("bloodValue").NotEmpty(),
+		field.String("blood").NotEmpty(),
 	}
 }
 
 // Edges of the BloodType.
 func (BloodType) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("patient", Patient.Type),
+		edge.To("BloodTypeToPatient", Patient.Type),
 	}
 }

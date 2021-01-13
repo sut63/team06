@@ -27,11 +27,11 @@ import {
  */
 export interface EntBloodType {
     /**
-     * BloodValue holds the value of the "bloodValue" field.
+     * Blood holds the value of the "blood" field.
      * @type {string}
      * @memberof EntBloodType
      */
-    bloodValue?: string;
+    blood?: string;
     /**
      * 
      * @type {EntBloodTypeEdges}
@@ -56,7 +56,7 @@ export function EntBloodTypeFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'bloodValue': !exists(json, 'bloodValue') ? undefined : json['bloodValue'],
+        'blood': !exists(json, 'blood') ? undefined : json['blood'],
         'edges': !exists(json, 'edges') ? undefined : EntBloodTypeEdgesFromJSON(json['edges']),
         'id': !exists(json, 'id') ? undefined : json['id'],
     };
@@ -71,7 +71,7 @@ export function EntBloodTypeToJSON(value?: EntBloodType | null): any {
     }
     return {
         
-        'bloodValue': value.bloodValue,
+        'blood': value.blood,
         'edges': EntBloodTypeEdgesToJSON(value.edges),
         'id': value.id,
     };

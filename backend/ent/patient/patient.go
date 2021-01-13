@@ -2,10 +2,6 @@
 
 package patient
 
-import (
-	"time"
-)
-
 const (
 	// Label holds the string label denoting the patient type in the database.
 	Label = "patient"
@@ -21,15 +17,15 @@ const (
 	FieldHospitalNumber = "hospital_number"
 	// FieldDrugAllergy holds the string denoting the drugallergy field in the database.
 	FieldDrugAllergy = "drug_allergy"
-	// FieldAddedDate holds the string denoting the addeddate field in the database.
-	FieldAddedDate = "added_date"
+	// FieldAddedTime holds the string denoting the added_time field in the database.
+	FieldAddedTime = "added_time"
 
 	// EdgePrefix holds the string denoting the prefix edge name in mutations.
-	EdgePrefix = "prefix"
+	EdgePrefix = "Prefix"
 	// EdgeGender holds the string denoting the gender edge name in mutations.
-	EdgeGender = "gender"
+	EdgeGender = "Gender"
 	// EdgeBloodtype holds the string denoting the bloodtype edge name in mutations.
-	EdgeBloodtype = "bloodtype"
+	EdgeBloodtype = "Bloodtype"
 	// EdgeTriageResult holds the string denoting the triageresult edge name in mutations.
 	EdgeTriageResult = "triageResult"
 	// EdgePatientToAppointmentResults holds the string denoting the patienttoappointmentresults edge name in mutations.
@@ -43,27 +39,27 @@ const (
 
 	// Table holds the table name of the patient in the database.
 	Table = "patients"
-	// PrefixTable is the table the holds the prefix relation/edge.
+	// PrefixTable is the table the holds the Prefix relation/edge.
 	PrefixTable = "patients"
 	// PrefixInverseTable is the table name for the Prefix entity.
 	// It exists in this package in order to avoid circular dependency with the "prefix" package.
 	PrefixInverseTable = "prefixes"
-	// PrefixColumn is the table column denoting the prefix relation/edge.
-	PrefixColumn = "prefix_patient"
-	// GenderTable is the table the holds the gender relation/edge.
+	// PrefixColumn is the table column denoting the Prefix relation/edge.
+	PrefixColumn = "prefix_prefix_to_patient"
+	// GenderTable is the table the holds the Gender relation/edge.
 	GenderTable = "patients"
 	// GenderInverseTable is the table name for the Gender entity.
 	// It exists in this package in order to avoid circular dependency with the "gender" package.
 	GenderInverseTable = "genders"
-	// GenderColumn is the table column denoting the gender relation/edge.
-	GenderColumn = "gender_patient"
-	// BloodtypeTable is the table the holds the bloodtype relation/edge.
+	// GenderColumn is the table column denoting the Gender relation/edge.
+	GenderColumn = "gender_gender_to_patient"
+	// BloodtypeTable is the table the holds the Bloodtype relation/edge.
 	BloodtypeTable = "patients"
 	// BloodtypeInverseTable is the table name for the BloodType entity.
 	// It exists in this package in order to avoid circular dependency with the "bloodtype" package.
 	BloodtypeInverseTable = "blood_types"
-	// BloodtypeColumn is the table column denoting the bloodtype relation/edge.
-	BloodtypeColumn = "blood_type_patient"
+	// BloodtypeColumn is the table column denoting the Bloodtype relation/edge.
+	BloodtypeColumn = "blood_type_blood_type_to_patient"
 	// TriageResultTable is the table the holds the triageResult relation/edge.
 	TriageResultTable = "triage_results"
 	// TriageResultInverseTable is the table name for the TriageResult entity.
@@ -109,14 +105,14 @@ var Columns = []string{
 	FieldAge,
 	FieldHospitalNumber,
 	FieldDrugAllergy,
-	FieldAddedDate,
+	FieldAddedTime,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the Patient type.
 var ForeignKeys = []string{
-	"blood_type_patient",
-	"gender_patient",
-	"prefix_patient",
+	"blood_type_blood_type_to_patient",
+	"gender_gender_to_patient",
+	"prefix_prefix_to_patient",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -145,6 +141,4 @@ var (
 	HospitalNumberValidator func(string) error
 	// DrugAllergyValidator is a validator for the "drugAllergy" field. It is called by the builders before save.
 	DrugAllergyValidator func(string) error
-	// DefaultAddedDate holds the default value on creation for the "addedDate" field.
-	DefaultAddedDate func() time.Time
 )

@@ -7,27 +7,27 @@ const (
 	Label = "prefix"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldPrefixValue holds the string denoting the prefixvalue field in the database.
-	FieldPrefixValue = "prefix_value"
+	// FieldPrefix holds the string denoting the prefix field in the database.
+	FieldPrefix = "prefix"
 
-	// EdgePatient holds the string denoting the patient edge name in mutations.
-	EdgePatient = "patient"
+	// EdgePrefixToPatient holds the string denoting the prefixtopatient edge name in mutations.
+	EdgePrefixToPatient = "PrefixToPatient"
 
 	// Table holds the table name of the prefix in the database.
 	Table = "prefixes"
-	// PatientTable is the table the holds the patient relation/edge.
-	PatientTable = "patients"
-	// PatientInverseTable is the table name for the Patient entity.
+	// PrefixToPatientTable is the table the holds the PrefixToPatient relation/edge.
+	PrefixToPatientTable = "patients"
+	// PrefixToPatientInverseTable is the table name for the Patient entity.
 	// It exists in this package in order to avoid circular dependency with the "patient" package.
-	PatientInverseTable = "patients"
-	// PatientColumn is the table column denoting the patient relation/edge.
-	PatientColumn = "prefix_patient"
+	PrefixToPatientInverseTable = "patients"
+	// PrefixToPatientColumn is the table column denoting the PrefixToPatient relation/edge.
+	PrefixToPatientColumn = "prefix_prefix_to_patient"
 )
 
 // Columns holds all SQL columns for prefix fields.
 var Columns = []string{
 	FieldID,
-	FieldPrefixValue,
+	FieldPrefix,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -41,6 +41,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// PrefixValueValidator is a validator for the "prefixValue" field. It is called by the builders before save.
-	PrefixValueValidator func(string) error
+	// PrefixValidator is a validator for the "prefix" field. It is called by the builders before save.
+	PrefixValidator func(string) error
 )

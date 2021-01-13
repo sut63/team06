@@ -1,3 +1,4 @@
+
 package schema
 
 import (
@@ -14,13 +15,13 @@ type Gender struct {
 // Fields of the Gender.
 func (Gender) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("genderValue").NotEmpty(),
+		field.String("gender").NotEmpty(),
 	}
 }
 
 // Edges of the Gender.
 func (Gender) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("patient", Patient.Type),
+		edge.To("GenderToPatient", Patient.Type),
 	}
 }
