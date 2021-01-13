@@ -29,23 +29,23 @@ type Patient struct {
 	HospitalNumber string `json:"hospitalNumber,omitempty"`
 	// DrugAllergy holds the value of the "drugAllergy" field.
 	DrugAllergy string `json:"drugAllergy,omitempty"`
-	// AddedTime holds the value of the "added_time" field.
-	AddedTime time.Time `json:"added_time,omitempty"`
+	// AddedDate holds the value of the "addedDate" field.
+	AddedDate time.Time `json:"addedDate,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the PatientQuery when eager-loading is set.
-	Edges                            PatientEdges `json:"edges"`
-	blood_type_blood_type_to_patient *int
-	gender_gender_to_patient         *int
-	prefix_prefix_to_patient         *int
+	Edges              PatientEdges `json:"edges"`
+	blood_type_patient *int
+	gender_patient     *int
+	prefix_patient     *int
 }
 
 // PatientEdges holds the relations/edges for other nodes in the graph.
 type PatientEdges struct {
-	// Prefix holds the value of the Prefix edge.
+	// Prefix holds the value of the prefix edge.
 	Prefix *Prefix
-	// Gender holds the value of the Gender edge.
+	// Gender holds the value of the gender edge.
 	Gender *Gender
-	// Bloodtype holds the value of the Bloodtype edge.
+	// Bloodtype holds the value of the bloodtype edge.
 	Bloodtype *BloodType
 	// TriageResult holds the value of the triageResult edge.
 	TriageResult []*TriageResult
@@ -67,13 +67,13 @@ type PatientEdges struct {
 func (e PatientEdges) PrefixOrErr() (*Prefix, error) {
 	if e.loadedTypes[0] {
 		if e.Prefix == nil {
-			// The edge Prefix was loaded in eager-loading,
+			// The edge prefix was loaded in eager-loading,
 			// but was not found.
 			return nil, &NotFoundError{label: prefix.Label}
 		}
 		return e.Prefix, nil
 	}
-	return nil, &NotLoadedError{edge: "Prefix"}
+	return nil, &NotLoadedError{edge: "prefix"}
 }
 
 // GenderOrErr returns the Gender value or an error if the edge
@@ -81,13 +81,13 @@ func (e PatientEdges) PrefixOrErr() (*Prefix, error) {
 func (e PatientEdges) GenderOrErr() (*Gender, error) {
 	if e.loadedTypes[1] {
 		if e.Gender == nil {
-			// The edge Gender was loaded in eager-loading,
+			// The edge gender was loaded in eager-loading,
 			// but was not found.
 			return nil, &NotFoundError{label: gender.Label}
 		}
 		return e.Gender, nil
 	}
-	return nil, &NotLoadedError{edge: "Gender"}
+	return nil, &NotLoadedError{edge: "gender"}
 }
 
 // BloodtypeOrErr returns the Bloodtype value or an error if the edge
@@ -95,13 +95,13 @@ func (e PatientEdges) GenderOrErr() (*Gender, error) {
 func (e PatientEdges) BloodtypeOrErr() (*BloodType, error) {
 	if e.loadedTypes[2] {
 		if e.Bloodtype == nil {
-			// The edge Bloodtype was loaded in eager-loading,
+			// The edge bloodtype was loaded in eager-loading,
 			// but was not found.
 			return nil, &NotFoundError{label: bloodtype.Label}
 		}
 		return e.Bloodtype, nil
 	}
-	return nil, &NotLoadedError{edge: "Bloodtype"}
+	return nil, &NotLoadedError{edge: "bloodtype"}
 }
 
 // TriageResultOrErr returns the TriageResult value or an error if the edge
@@ -158,13 +158,13 @@ func (*Patient) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = &sql.NullInt64{}
 		case patient.FieldPatientName, patient.FieldHospitalNumber, patient.FieldDrugAllergy:
 			values[i] = &sql.NullString{}
-		case patient.FieldAddedTime:
+		case patient.FieldAddedDate:
 			values[i] = &sql.NullTime{}
-		case patient.ForeignKeys[0]: // blood_type_blood_type_to_patient
+		case patient.ForeignKeys[0]: // blood_type_patient
 			values[i] = &sql.NullInt64{}
-		case patient.ForeignKeys[1]: // gender_gender_to_patient
+		case patient.ForeignKeys[1]: // gender_patient
 			values[i] = &sql.NullInt64{}
-		case patient.ForeignKeys[2]: // prefix_prefix_to_patient
+		case patient.ForeignKeys[2]: // prefix_patient
 			values[i] = &sql.NullInt64{}
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type Patient", columns[i])
@@ -217,49 +217,49 @@ func (pa *Patient) assignValues(columns []string, values []interface{}) error {
 			} else if value.Valid {
 				pa.DrugAllergy = value.String
 			}
-		case patient.FieldAddedTime:
+		case patient.FieldAddedDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field added_time", values[i])
+				return fmt.Errorf("unexpected type %T for field addedDate", values[i])
 			} else if value.Valid {
-				pa.AddedTime = value.Time
+				pa.AddedDate = value.Time
 			}
 		case patient.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field blood_type_blood_type_to_patient", value)
+				return fmt.Errorf("unexpected type %T for edge-field blood_type_patient", value)
 			} else if value.Valid {
-				pa.blood_type_blood_type_to_patient = new(int)
-				*pa.blood_type_blood_type_to_patient = int(value.Int64)
+				pa.blood_type_patient = new(int)
+				*pa.blood_type_patient = int(value.Int64)
 			}
 		case patient.ForeignKeys[1]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field gender_gender_to_patient", value)
+				return fmt.Errorf("unexpected type %T for edge-field gender_patient", value)
 			} else if value.Valid {
-				pa.gender_gender_to_patient = new(int)
-				*pa.gender_gender_to_patient = int(value.Int64)
+				pa.gender_patient = new(int)
+				*pa.gender_patient = int(value.Int64)
 			}
 		case patient.ForeignKeys[2]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field prefix_prefix_to_patient", value)
+				return fmt.Errorf("unexpected type %T for edge-field prefix_patient", value)
 			} else if value.Valid {
-				pa.prefix_prefix_to_patient = new(int)
-				*pa.prefix_prefix_to_patient = int(value.Int64)
+				pa.prefix_patient = new(int)
+				*pa.prefix_patient = int(value.Int64)
 			}
 		}
 	}
 	return nil
 }
 
-// QueryPrefix queries the "Prefix" edge of the Patient entity.
+// QueryPrefix queries the "prefix" edge of the Patient entity.
 func (pa *Patient) QueryPrefix() *PrefixQuery {
 	return (&PatientClient{config: pa.config}).QueryPrefix(pa)
 }
 
-// QueryGender queries the "Gender" edge of the Patient entity.
+// QueryGender queries the "gender" edge of the Patient entity.
 func (pa *Patient) QueryGender() *GenderQuery {
 	return (&PatientClient{config: pa.config}).QueryGender(pa)
 }
 
-// QueryBloodtype queries the "Bloodtype" edge of the Patient entity.
+// QueryBloodtype queries the "bloodtype" edge of the Patient entity.
 func (pa *Patient) QueryBloodtype() *BloodTypeQuery {
 	return (&PatientClient{config: pa.config}).QueryBloodtype(pa)
 }
@@ -322,8 +322,8 @@ func (pa *Patient) String() string {
 	builder.WriteString(pa.HospitalNumber)
 	builder.WriteString(", drugAllergy=")
 	builder.WriteString(pa.DrugAllergy)
-	builder.WriteString(", added_time=")
-	builder.WriteString(pa.AddedTime.Format(time.ANSIC))
+	builder.WriteString(", addedDate=")
+	builder.WriteString(pa.AddedDate.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -57,7 +57,7 @@ var (
 	// BloodTypesColumns holds the columns for the "blood_types" table.
 	BloodTypesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "blood", Type: field.TypeString},
+		{Name: "blood_value", Type: field.TypeString},
 	}
 	// BloodTypesTable holds the schema information for the "blood_types" table.
 	BloodTypesTable = &schema.Table{
@@ -134,7 +134,7 @@ var (
 	// GendersColumns holds the columns for the "genders" table.
 	GendersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "gender", Type: field.TypeString},
+		{Name: "gender_value", Type: field.TypeString},
 	}
 	// GendersTable holds the schema information for the "genders" table.
 	GendersTable = &schema.Table{
@@ -223,15 +223,15 @@ var (
 	// PatientsColumns holds the columns for the "patients" table.
 	PatientsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "personal_id", Type: field.TypeInt, Unique: true},
+		{Name: "personal_id", Type: field.TypeInt},
 		{Name: "patient_name", Type: field.TypeString},
 		{Name: "age", Type: field.TypeInt},
-		{Name: "hospital_number", Type: field.TypeString, Unique: true},
+		{Name: "hospital_number", Type: field.TypeString},
 		{Name: "drug_allergy", Type: field.TypeString},
-		{Name: "added_time", Type: field.TypeTime},
-		{Name: "blood_type_blood_type_to_patient", Type: field.TypeInt, Nullable: true},
-		{Name: "gender_gender_to_patient", Type: field.TypeInt, Nullable: true},
-		{Name: "prefix_prefix_to_patient", Type: field.TypeInt, Nullable: true},
+		{Name: "added_date", Type: field.TypeTime},
+		{Name: "blood_type_patient", Type: field.TypeInt, Nullable: true},
+		{Name: "gender_patient", Type: field.TypeInt, Nullable: true},
+		{Name: "prefix_patient", Type: field.TypeInt, Nullable: true},
 	}
 	// PatientsTable holds the schema information for the "patients" table.
 	PatientsTable = &schema.Table{
@@ -240,21 +240,21 @@ var (
 		PrimaryKey: []*schema.Column{PatientsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:  "patients_blood_types_BloodTypeToPatient",
+				Symbol:  "patients_blood_types_patient",
 				Columns: []*schema.Column{PatientsColumns[7]},
 
 				RefColumns: []*schema.Column{BloodTypesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:  "patients_genders_GenderToPatient",
+				Symbol:  "patients_genders_patient",
 				Columns: []*schema.Column{PatientsColumns[8]},
 
 				RefColumns: []*schema.Column{GendersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:  "patients_prefixes_PrefixToPatient",
+				Symbol:  "patients_prefixes_patient",
 				Columns: []*schema.Column{PatientsColumns[9]},
 
 				RefColumns: []*schema.Column{PrefixesColumns[0]},
@@ -265,7 +265,7 @@ var (
 	// PrefixesColumns holds the columns for the "prefixes" table.
 	PrefixesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "prefix", Type: field.TypeString},
+		{Name: "prefix_value", Type: field.TypeString, Unique: true},
 	}
 	// PrefixesTable holds the schema information for the "prefixes" table.
 	PrefixesTable = &schema.Table{
@@ -339,7 +339,7 @@ var (
 	// RoomsColumns holds the columns for the "rooms" table.
 	RoomsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "room_name", Type: field.TypeString},
+		{Name: "room_name", Type: field.TypeString, Unique: true},
 	}
 	// RoomsTable holds the schema information for the "rooms" table.
 	RoomsTable = &schema.Table{

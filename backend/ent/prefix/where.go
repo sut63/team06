@@ -91,29 +91,29 @@ func IDLTE(id int) predicate.Prefix {
 	})
 }
 
-// Prefix applies equality check predicate on the "prefix" field. It's identical to PrefixEQ.
-func Prefix(v string) predicate.Prefix {
+// PrefixValue applies equality check predicate on the "prefixValue" field. It's identical to PrefixValueEQ.
+func PrefixValue(v string) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPrefix), v))
+		s.Where(sql.EQ(s.C(FieldPrefixValue), v))
 	})
 }
 
-// PrefixEQ applies the EQ predicate on the "prefix" field.
-func PrefixEQ(v string) predicate.Prefix {
+// PrefixValueEQ applies the EQ predicate on the "prefixValue" field.
+func PrefixValueEQ(v string) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPrefix), v))
+		s.Where(sql.EQ(s.C(FieldPrefixValue), v))
 	})
 }
 
-// PrefixNEQ applies the NEQ predicate on the "prefix" field.
-func PrefixNEQ(v string) predicate.Prefix {
+// PrefixValueNEQ applies the NEQ predicate on the "prefixValue" field.
+func PrefixValueNEQ(v string) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldPrefix), v))
+		s.Where(sql.NEQ(s.C(FieldPrefixValue), v))
 	})
 }
 
-// PrefixIn applies the In predicate on the "prefix" field.
-func PrefixIn(vs ...string) predicate.Prefix {
+// PrefixValueIn applies the In predicate on the "prefixValue" field.
+func PrefixValueIn(vs ...string) predicate.Prefix {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -125,12 +125,12 @@ func PrefixIn(vs ...string) predicate.Prefix {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldPrefix), v...))
+		s.Where(sql.In(s.C(FieldPrefixValue), v...))
 	})
 }
 
-// PrefixNotIn applies the NotIn predicate on the "prefix" field.
-func PrefixNotIn(vs ...string) predicate.Prefix {
+// PrefixValueNotIn applies the NotIn predicate on the "prefixValue" field.
+func PrefixValueNotIn(vs ...string) predicate.Prefix {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -142,92 +142,92 @@ func PrefixNotIn(vs ...string) predicate.Prefix {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldPrefix), v...))
+		s.Where(sql.NotIn(s.C(FieldPrefixValue), v...))
 	})
 }
 
-// PrefixGT applies the GT predicate on the "prefix" field.
-func PrefixGT(v string) predicate.Prefix {
+// PrefixValueGT applies the GT predicate on the "prefixValue" field.
+func PrefixValueGT(v string) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldPrefix), v))
+		s.Where(sql.GT(s.C(FieldPrefixValue), v))
 	})
 }
 
-// PrefixGTE applies the GTE predicate on the "prefix" field.
-func PrefixGTE(v string) predicate.Prefix {
+// PrefixValueGTE applies the GTE predicate on the "prefixValue" field.
+func PrefixValueGTE(v string) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldPrefix), v))
+		s.Where(sql.GTE(s.C(FieldPrefixValue), v))
 	})
 }
 
-// PrefixLT applies the LT predicate on the "prefix" field.
-func PrefixLT(v string) predicate.Prefix {
+// PrefixValueLT applies the LT predicate on the "prefixValue" field.
+func PrefixValueLT(v string) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldPrefix), v))
+		s.Where(sql.LT(s.C(FieldPrefixValue), v))
 	})
 }
 
-// PrefixLTE applies the LTE predicate on the "prefix" field.
-func PrefixLTE(v string) predicate.Prefix {
+// PrefixValueLTE applies the LTE predicate on the "prefixValue" field.
+func PrefixValueLTE(v string) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldPrefix), v))
+		s.Where(sql.LTE(s.C(FieldPrefixValue), v))
 	})
 }
 
-// PrefixContains applies the Contains predicate on the "prefix" field.
-func PrefixContains(v string) predicate.Prefix {
+// PrefixValueContains applies the Contains predicate on the "prefixValue" field.
+func PrefixValueContains(v string) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldPrefix), v))
+		s.Where(sql.Contains(s.C(FieldPrefixValue), v))
 	})
 }
 
-// PrefixHasPrefix applies the HasPrefix predicate on the "prefix" field.
-func PrefixHasPrefix(v string) predicate.Prefix {
+// PrefixValueHasPrefix applies the HasPrefix predicate on the "prefixValue" field.
+func PrefixValueHasPrefix(v string) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldPrefix), v))
+		s.Where(sql.HasPrefix(s.C(FieldPrefixValue), v))
 	})
 }
 
-// PrefixHasSuffix applies the HasSuffix predicate on the "prefix" field.
-func PrefixHasSuffix(v string) predicate.Prefix {
+// PrefixValueHasSuffix applies the HasSuffix predicate on the "prefixValue" field.
+func PrefixValueHasSuffix(v string) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldPrefix), v))
+		s.Where(sql.HasSuffix(s.C(FieldPrefixValue), v))
 	})
 }
 
-// PrefixEqualFold applies the EqualFold predicate on the "prefix" field.
-func PrefixEqualFold(v string) predicate.Prefix {
+// PrefixValueEqualFold applies the EqualFold predicate on the "prefixValue" field.
+func PrefixValueEqualFold(v string) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldPrefix), v))
+		s.Where(sql.EqualFold(s.C(FieldPrefixValue), v))
 	})
 }
 
-// PrefixContainsFold applies the ContainsFold predicate on the "prefix" field.
-func PrefixContainsFold(v string) predicate.Prefix {
+// PrefixValueContainsFold applies the ContainsFold predicate on the "prefixValue" field.
+func PrefixValueContainsFold(v string) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldPrefix), v))
+		s.Where(sql.ContainsFold(s.C(FieldPrefixValue), v))
 	})
 }
 
-// HasPrefixToPatient applies the HasEdge predicate on the "PrefixToPatient" edge.
-func HasPrefixToPatient() predicate.Prefix {
+// HasPatient applies the HasEdge predicate on the "patient" edge.
+func HasPatient() predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(PrefixToPatientTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, PrefixToPatientTable, PrefixToPatientColumn),
+			sqlgraph.To(PatientTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PatientTable, PatientColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasPrefixToPatientWith applies the HasEdge predicate on the "PrefixToPatient" edge with a given conditions (other predicates).
-func HasPrefixToPatientWith(preds ...predicate.Patient) predicate.Prefix {
+// HasPatientWith applies the HasEdge predicate on the "patient" edge with a given conditions (other predicates).
+func HasPatientWith(preds ...predicate.Patient) predicate.Prefix {
 	return predicate.Prefix(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(PrefixToPatientInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, PrefixToPatientTable, PrefixToPatientColumn),
+			sqlgraph.To(PatientInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PatientTable, PatientColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

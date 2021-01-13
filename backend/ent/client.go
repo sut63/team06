@@ -478,15 +478,15 @@ func (c *BloodTypeClient) GetX(ctx context.Context, id int) *BloodType {
 	return obj
 }
 
-// QueryBloodTypeToPatient queries the BloodTypeToPatient edge of a BloodType.
-func (c *BloodTypeClient) QueryBloodTypeToPatient(bt *BloodType) *PatientQuery {
+// QueryPatient queries the patient edge of a BloodType.
+func (c *BloodTypeClient) QueryPatient(bt *BloodType) *PatientQuery {
 	query := &PatientQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := bt.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(bloodtype.Table, bloodtype.FieldID, id),
 			sqlgraph.To(patient.Table, patient.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, bloodtype.BloodTypeToPatientTable, bloodtype.BloodTypeToPatientColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, bloodtype.PatientTable, bloodtype.PatientColumn),
 		)
 		fromV = sqlgraph.Neighbors(bt.driver.Dialect(), step)
 		return fromV, nil
@@ -958,15 +958,15 @@ func (c *GenderClient) GetX(ctx context.Context, id int) *Gender {
 	return obj
 }
 
-// QueryGenderToPatient queries the GenderToPatient edge of a Gender.
-func (c *GenderClient) QueryGenderToPatient(ge *Gender) *PatientQuery {
+// QueryPatient queries the patient edge of a Gender.
+func (c *GenderClient) QueryPatient(ge *Gender) *PatientQuery {
 	query := &PatientQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := ge.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(gender.Table, gender.FieldID, id),
 			sqlgraph.To(patient.Table, patient.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, gender.GenderToPatientTable, gender.GenderToPatientColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, gender.PatientTable, gender.PatientColumn),
 		)
 		fromV = sqlgraph.Neighbors(ge.driver.Dialect(), step)
 		return fromV, nil
@@ -1510,7 +1510,7 @@ func (c *PatientClient) GetX(ctx context.Context, id int) *Patient {
 	return obj
 }
 
-// QueryPrefix queries the Prefix edge of a Patient.
+// QueryPrefix queries the prefix edge of a Patient.
 func (c *PatientClient) QueryPrefix(pa *Patient) *PrefixQuery {
 	query := &PrefixQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
@@ -1526,7 +1526,7 @@ func (c *PatientClient) QueryPrefix(pa *Patient) *PrefixQuery {
 	return query
 }
 
-// QueryGender queries the Gender edge of a Patient.
+// QueryGender queries the gender edge of a Patient.
 func (c *PatientClient) QueryGender(pa *Patient) *GenderQuery {
 	query := &GenderQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
@@ -1542,7 +1542,7 @@ func (c *PatientClient) QueryGender(pa *Patient) *GenderQuery {
 	return query
 }
 
-// QueryBloodtype queries the Bloodtype edge of a Patient.
+// QueryBloodtype queries the bloodtype edge of a Patient.
 func (c *PatientClient) QueryBloodtype(pa *Patient) *BloodTypeQuery {
 	query := &BloodTypeQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
@@ -1726,15 +1726,15 @@ func (c *PrefixClient) GetX(ctx context.Context, id int) *Prefix {
 	return obj
 }
 
-// QueryPrefixToPatient queries the PrefixToPatient edge of a Prefix.
-func (c *PrefixClient) QueryPrefixToPatient(pr *Prefix) *PatientQuery {
+// QueryPatient queries the patient edge of a Prefix.
+func (c *PrefixClient) QueryPatient(pr *Prefix) *PatientQuery {
 	query := &PatientQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := pr.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(prefix.Table, prefix.FieldID, id),
 			sqlgraph.To(patient.Table, patient.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, prefix.PrefixToPatientTable, prefix.PrefixToPatientColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, prefix.PatientTable, prefix.PatientColumn),
 		)
 		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
 		return fromV, nil

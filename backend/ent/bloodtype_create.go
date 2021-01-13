@@ -20,25 +20,25 @@ type BloodTypeCreate struct {
 	hooks    []Hook
 }
 
-// SetBlood sets the "blood" field.
-func (btc *BloodTypeCreate) SetBlood(s string) *BloodTypeCreate {
-	btc.mutation.SetBlood(s)
+// SetBloodValue sets the "bloodValue" field.
+func (btc *BloodTypeCreate) SetBloodValue(s string) *BloodTypeCreate {
+	btc.mutation.SetBloodValue(s)
 	return btc
 }
 
-// AddBloodTypeToPatientIDs adds the "BloodTypeToPatient" edge to the Patient entity by IDs.
-func (btc *BloodTypeCreate) AddBloodTypeToPatientIDs(ids ...int) *BloodTypeCreate {
-	btc.mutation.AddBloodTypeToPatientIDs(ids...)
+// AddPatientIDs adds the "patient" edge to the Patient entity by IDs.
+func (btc *BloodTypeCreate) AddPatientIDs(ids ...int) *BloodTypeCreate {
+	btc.mutation.AddPatientIDs(ids...)
 	return btc
 }
 
-// AddBloodTypeToPatient adds the "BloodTypeToPatient" edges to the Patient entity.
-func (btc *BloodTypeCreate) AddBloodTypeToPatient(p ...*Patient) *BloodTypeCreate {
+// AddPatient adds the "patient" edges to the Patient entity.
+func (btc *BloodTypeCreate) AddPatient(p ...*Patient) *BloodTypeCreate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return btc.AddBloodTypeToPatientIDs(ids...)
+	return btc.AddPatientIDs(ids...)
 }
 
 // Mutation returns the BloodTypeMutation object of the builder.
@@ -92,12 +92,12 @@ func (btc *BloodTypeCreate) SaveX(ctx context.Context) *BloodType {
 
 // check runs all checks and user-defined validators on the builder.
 func (btc *BloodTypeCreate) check() error {
-	if _, ok := btc.mutation.Blood(); !ok {
-		return &ValidationError{Name: "blood", err: errors.New("ent: missing required field \"blood\"")}
+	if _, ok := btc.mutation.BloodValue(); !ok {
+		return &ValidationError{Name: "bloodValue", err: errors.New("ent: missing required field \"bloodValue\"")}
 	}
-	if v, ok := btc.mutation.Blood(); ok {
-		if err := bloodtype.BloodValidator(v); err != nil {
-			return &ValidationError{Name: "blood", err: fmt.Errorf("ent: validator failed for field \"blood\": %w", err)}
+	if v, ok := btc.mutation.BloodValue(); ok {
+		if err := bloodtype.BloodValueValidator(v); err != nil {
+			return &ValidationError{Name: "bloodValue", err: fmt.Errorf("ent: validator failed for field \"bloodValue\": %w", err)}
 		}
 	}
 	return nil
@@ -127,20 +127,20 @@ func (btc *BloodTypeCreate) createSpec() (*BloodType, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
-	if value, ok := btc.mutation.Blood(); ok {
+	if value, ok := btc.mutation.BloodValue(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: bloodtype.FieldBlood,
+			Column: bloodtype.FieldBloodValue,
 		})
-		_node.Blood = value
+		_node.BloodValue = value
 	}
-	if nodes := btc.mutation.BloodTypeToPatientIDs(); len(nodes) > 0 {
+	if nodes := btc.mutation.PatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.BloodTypeToPatientTable,
-			Columns: []string{bloodtype.BloodTypeToPatientColumn},
+			Table:   bloodtype.PatientTable,
+			Columns: []string{bloodtype.PatientColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
