@@ -215,7 +215,7 @@ func main() {
 	}
 
 	// Set UrgencyLevel Data
-	urgencylevels := []string{"urgency1", "urgency2", "urgency3"}
+	urgencylevels := []string{"Normal", "Urgent", "Critical"}
 
 	for _, u := range urgencylevels {
 		client.UrgencyLevel.
