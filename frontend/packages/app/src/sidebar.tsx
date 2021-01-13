@@ -19,7 +19,7 @@ export const AppSidebar = () => (
     <SidebarItem icon={CreateComponentIcon} to="diagnosis" text="Diagnosis" />
     <SidebarItem icon={CreateComponentIcon} to="triageresult" text="TriageResult" />
     <SidebarItem icon={CreateComponentIcon} to="medicalprocedure" text="MedicalProcedre" />
-    <SidebarItem icon={CreateComponentIcon} to="diagnosis" text="Diagnosis" />
+    <SidebarItem icon={CreateComponentIcon} to="create" text="Right to treatment" />
     {/* End global nav */}
     <SidebarDivider />
     <SidebarSpace />

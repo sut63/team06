@@ -15,6 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
+    ControllersRightToTreatment,
+    ControllersRightToTreatmentFromJSON,
+    ControllersRightToTreatmentToJSON,
     EntAppointmentResults,
     EntAppointmentResultsFromJSON,
     EntAppointmentResultsToJSON,
@@ -54,9 +57,6 @@ import {
     EntProcedureType,
     EntProcedureTypeFromJSON,
     EntProcedureTypeToJSON,
-    EntRightToTreatment,
-    EntRightToTreatmentFromJSON,
-    EntRightToTreatmentToJSON,
     EntRightToTreatmentType,
     EntRightToTreatmentTypeFromJSON,
     EntRightToTreatmentTypeToJSON,
@@ -74,8 +74,8 @@ import {
     EntUrgencyLevelToJSON,
 } from '../models';
 
-export interface CreateAppointmentresultsRequest {
-    appointmentresults: EntAppointmentResults;
+export interface CreateAppointmentResultsRequest {
+    appointmentResults: EntAppointmentResults;
 }
 
 export interface CreateBloodtypeRequest {
@@ -127,7 +127,7 @@ export interface CreateProceduretypeRequest {
 }
 
 export interface CreateRighttotreatmentRequest {
-    righttotreatment: EntRightToTreatment;
+    righttotreatment: ControllersRightToTreatment;
 }
 
 export interface CreateRighttotreatmenttypeRequest {
@@ -455,7 +455,7 @@ export interface UpdateProceduretypeRequest {
 
 export interface UpdateRighttotreatmentRequest {
     id: number;
-    righttotreatment: EntRightToTreatment;
+    righttotreatment: ControllersRightToTreatment;
 }
 
 export interface UpdateRighttotreatmenttypeRequest {
@@ -489,12 +489,12 @@ export interface UpdateUrgencylevelRequest {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
-     * Create appointmentresults
-     * Create appointmentresults
+     * Create AppointmentResults
+     * Create AppointmentResults
      */
-    async createAppointmentresultsRaw(requestParameters: CreateAppointmentresultsRequest): Promise<runtime.ApiResponse<EntAppointmentResults>> {
-        if (requestParameters.appointmentresults === null || requestParameters.appointmentresults === undefined) {
-            throw new runtime.RequiredError('appointmentresults','Required parameter requestParameters.appointmentresults was null or undefined when calling createAppointmentresults.');
+    async createAppointmentResultsRaw(requestParameters: CreateAppointmentResultsRequest): Promise<runtime.ApiResponse<EntAppointmentResults>> {
+        if (requestParameters.appointmentResults === null || requestParameters.appointmentResults === undefined) {
+            throw new runtime.RequiredError('appointmentResults','Required parameter requestParameters.appointmentResults was null or undefined when calling createAppointmentResults.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -508,18 +508,18 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: EntAppointmentResultsToJSON(requestParameters.appointmentresults),
+            body: EntAppointmentResultsToJSON(requestParameters.appointmentResults),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EntAppointmentResultsFromJSON(jsonValue));
     }
 
     /**
-     * Create appointmentresults
-     * Create appointmentresults
+     * Create AppointmentResults
+     * Create AppointmentResults
      */
-    async createAppointmentresults(requestParameters: CreateAppointmentresultsRequest): Promise<EntAppointmentResults> {
-        const response = await this.createAppointmentresultsRaw(requestParameters);
+    async createAppointmentResults(requestParameters: CreateAppointmentResultsRequest): Promise<EntAppointmentResults> {
+        const response = await this.createAppointmentResultsRaw(requestParameters);
         return await response.value();
     }
 
@@ -947,7 +947,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * Create righttotreatment
      * Create righttotreatment
      */
-    async createRighttotreatmentRaw(requestParameters: CreateRighttotreatmentRequest): Promise<runtime.ApiResponse<EntRightToTreatment>> {
+    async createRighttotreatmentRaw(requestParameters: CreateRighttotreatmentRequest): Promise<runtime.ApiResponse<ControllersRightToTreatment>> {
         if (requestParameters.righttotreatment === null || requestParameters.righttotreatment === undefined) {
             throw new runtime.RequiredError('righttotreatment','Required parameter requestParameters.righttotreatment was null or undefined when calling createRighttotreatment.');
         }
@@ -963,17 +963,17 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: EntRightToTreatmentToJSON(requestParameters.righttotreatment),
+            body: ControllersRightToTreatmentToJSON(requestParameters.righttotreatment),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntRightToTreatmentFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ControllersRightToTreatmentFromJSON(jsonValue));
     }
 
     /**
      * Create righttotreatment
      * Create righttotreatment
      */
-    async createRighttotreatment(requestParameters: CreateRighttotreatmentRequest): Promise<EntRightToTreatment> {
+    async createRighttotreatment(requestParameters: CreateRighttotreatmentRequest): Promise<ControllersRightToTreatment> {
         const response = await this.createRighttotreatmentRaw(requestParameters);
         return await response.value();
     }
@@ -2149,7 +2149,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * get righttotreatment by ID
      * Get a righttotreatment entity by ID
      */
-    async getRighttotreatmentRaw(requestParameters: GetRighttotreatmentRequest): Promise<runtime.ApiResponse<EntRightToTreatment>> {
+    async getRighttotreatmentRaw(requestParameters: GetRighttotreatmentRequest): Promise<runtime.ApiResponse<ControllersRightToTreatment>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getRighttotreatment.');
         }
@@ -2165,14 +2165,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntRightToTreatmentFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ControllersRightToTreatmentFromJSON(jsonValue));
     }
 
     /**
      * get righttotreatment by ID
      * Get a righttotreatment entity by ID
      */
-    async getRighttotreatment(requestParameters: GetRighttotreatmentRequest): Promise<EntRightToTreatment> {
+    async getRighttotreatment(requestParameters: GetRighttotreatmentRequest): Promise<ControllersRightToTreatment> {
         const response = await this.getRighttotreatmentRaw(requestParameters);
         return await response.value();
     }
@@ -2809,7 +2809,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * list righttotreatment entities
      * List righttotreatment entities
      */
-    async listRighttotreatmentRaw(requestParameters: ListRighttotreatmentRequest): Promise<runtime.ApiResponse<Array<EntRightToTreatment>>> {
+    async listRighttotreatmentRaw(requestParameters: ListRighttotreatmentRequest): Promise<runtime.ApiResponse<Array<ControllersRightToTreatment>>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         if (requestParameters.limit !== undefined) {
@@ -2829,14 +2829,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntRightToTreatmentFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ControllersRightToTreatmentFromJSON));
     }
 
     /**
      * list righttotreatment entities
      * List righttotreatment entities
      */
-    async listRighttotreatment(requestParameters: ListRighttotreatmentRequest): Promise<Array<EntRightToTreatment>> {
+    async listRighttotreatment(requestParameters: ListRighttotreatmentRequest): Promise<Array<ControllersRightToTreatment>> {
         const response = await this.listRighttotreatmentRaw(requestParameters);
         return await response.value();
     }
@@ -3493,7 +3493,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * update righttotreatment by ID
      * Update a righttotreatment entity by ID
      */
-    async updateRighttotreatmentRaw(requestParameters: UpdateRighttotreatmentRequest): Promise<runtime.ApiResponse<EntRightToTreatment>> {
+    async updateRighttotreatmentRaw(requestParameters: UpdateRighttotreatmentRequest): Promise<runtime.ApiResponse<ControllersRightToTreatment>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updateRighttotreatment.');
         }
@@ -3513,17 +3513,17 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: EntRightToTreatmentToJSON(requestParameters.righttotreatment),
+            body: ControllersRightToTreatmentToJSON(requestParameters.righttotreatment),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntRightToTreatmentFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ControllersRightToTreatmentFromJSON(jsonValue));
     }
 
     /**
      * update righttotreatment by ID
      * Update a righttotreatment entity by ID
      */
-    async updateRighttotreatment(requestParameters: UpdateRighttotreatmentRequest): Promise<EntRightToTreatment> {
+    async updateRighttotreatment(requestParameters: UpdateRighttotreatmentRequest): Promise<ControllersRightToTreatment> {
         const response = await this.updateRighttotreatmentRaw(requestParameters);
         return await response.value();
     }

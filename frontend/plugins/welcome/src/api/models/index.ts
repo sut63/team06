@@ -1,3 +1,4 @@
+export * from './ControllersRightToTreatment';
 export * from './EntAppointmentResults';
 export * from './EntAppointmentResultsEdges';
 export * from './EntBloodType';
