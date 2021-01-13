@@ -16,8 +16,9 @@ export const AppSidebar = () => (
     <SidebarDivider />
     {/* Global nav, not org-specific */}
     <SidebarItem icon={HomeIcon} to="./" text="Home" />
-    <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
-    <SidebarItem icon={CreateComponentIcon} to="welcome" text="Welcome" />
+    <SidebarItem icon={CreateComponentIcon} to="diagnosis" text="Diagnosis" />
+    <SidebarItem icon={CreateComponentIcon} to="triageresult" text="TriageResult" />
+    <SidebarItem icon={CreateComponentIcon} to="medicalprocedure" text="MedicalProcedre" />
     <SidebarItem icon={CreateComponentIcon} to="diagnosis" text="Diagnosis" />
     {/* End global nav */}
     <SidebarDivider />
