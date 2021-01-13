@@ -7,27 +7,27 @@ const (
 	Label = "gender"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldGender holds the string denoting the gender field in the database.
-	FieldGender = "gender"
+	// FieldGenderValue holds the string denoting the gendervalue field in the database.
+	FieldGenderValue = "gender_value"
 
-	// EdgeGenderToPatient holds the string denoting the gendertopatient edge name in mutations.
-	EdgeGenderToPatient = "GenderToPatient"
+	// EdgePatient holds the string denoting the patient edge name in mutations.
+	EdgePatient = "patient"
 
 	// Table holds the table name of the gender in the database.
 	Table = "genders"
-	// GenderToPatientTable is the table the holds the GenderToPatient relation/edge.
-	GenderToPatientTable = "patients"
-	// GenderToPatientInverseTable is the table name for the Patient entity.
+	// PatientTable is the table the holds the patient relation/edge.
+	PatientTable = "patients"
+	// PatientInverseTable is the table name for the Patient entity.
 	// It exists in this package in order to avoid circular dependency with the "patient" package.
-	GenderToPatientInverseTable = "patients"
-	// GenderToPatientColumn is the table column denoting the GenderToPatient relation/edge.
-	GenderToPatientColumn = "gender_gender_to_patient"
+	PatientInverseTable = "patients"
+	// PatientColumn is the table column denoting the patient relation/edge.
+	PatientColumn = "gender_patient"
 )
 
 // Columns holds all SQL columns for gender fields.
 var Columns = []string{
 	FieldID,
-	FieldGender,
+	FieldGenderValue,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -41,6 +41,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// GenderValidator is a validator for the "gender" field. It is called by the builders before save.
-	GenderValidator func(string) error
+	// GenderValueValidator is a validator for the "genderValue" field. It is called by the builders before save.
+	GenderValueValidator func(string) error
 )

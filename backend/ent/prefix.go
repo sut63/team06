@@ -15,8 +15,8 @@ type Prefix struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Prefix holds the value of the "prefix" field.
-	Prefix string `json:"prefix,omitempty"`
+	// PrefixValue holds the value of the "prefixValue" field.
+	PrefixValue string `json:"prefixValue,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the PrefixQuery when eager-loading is set.
 	Edges PrefixEdges `json:"edges"`
@@ -24,20 +24,20 @@ type Prefix struct {
 
 // PrefixEdges holds the relations/edges for other nodes in the graph.
 type PrefixEdges struct {
-	// PrefixToPatient holds the value of the PrefixToPatient edge.
-	PrefixToPatient []*Patient
+	// Patient holds the value of the patient edge.
+	Patient []*Patient
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 }
 
-// PrefixToPatientOrErr returns the PrefixToPatient value or an error if the edge
+// PatientOrErr returns the Patient value or an error if the edge
 // was not loaded in eager-loading.
-func (e PrefixEdges) PrefixToPatientOrErr() ([]*Patient, error) {
+func (e PrefixEdges) PatientOrErr() ([]*Patient, error) {
 	if e.loadedTypes[0] {
-		return e.PrefixToPatient, nil
+		return e.Patient, nil
 	}
-	return nil, &NotLoadedError{edge: "PrefixToPatient"}
+	return nil, &NotLoadedError{edge: "patient"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -47,7 +47,7 @@ func (*Prefix) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case prefix.FieldID:
 			values[i] = &sql.NullInt64{}
-		case prefix.FieldPrefix:
+		case prefix.FieldPrefixValue:
 			values[i] = &sql.NullString{}
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type Prefix", columns[i])
@@ -70,20 +70,20 @@ func (pr *Prefix) assignValues(columns []string, values []interface{}) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			pr.ID = int(value.Int64)
-		case prefix.FieldPrefix:
+		case prefix.FieldPrefixValue:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field prefix", values[i])
+				return fmt.Errorf("unexpected type %T for field prefixValue", values[i])
 			} else if value.Valid {
-				pr.Prefix = value.String
+				pr.PrefixValue = value.String
 			}
 		}
 	}
 	return nil
 }
 
-// QueryPrefixToPatient queries the "PrefixToPatient" edge of the Prefix entity.
-func (pr *Prefix) QueryPrefixToPatient() *PatientQuery {
-	return (&PrefixClient{config: pr.config}).QueryPrefixToPatient(pr)
+// QueryPatient queries the "patient" edge of the Prefix entity.
+func (pr *Prefix) QueryPatient() *PatientQuery {
+	return (&PrefixClient{config: pr.config}).QueryPatient(pr)
 }
 
 // Update returns a builder for updating this Prefix.
@@ -109,8 +109,8 @@ func (pr *Prefix) String() string {
 	var builder strings.Builder
 	builder.WriteString("Prefix(")
 	builder.WriteString(fmt.Sprintf("id=%v", pr.ID))
-	builder.WriteString(", prefix=")
-	builder.WriteString(pr.Prefix)
+	builder.WriteString(", prefixValue=")
+	builder.WriteString(pr.PrefixValue)
 	builder.WriteByte(')')
 	return builder.String()
 }

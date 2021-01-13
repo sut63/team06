@@ -71,7 +71,7 @@ func (pq *PatientQuery) Order(o ...OrderFunc) *PatientQuery {
 	return pq
 }
 
-// QueryPrefix chains the current query on the "Prefix" edge.
+// QueryPrefix chains the current query on the "prefix" edge.
 func (pq *PatientQuery) QueryPrefix() *PrefixQuery {
 	query := &PrefixQuery{config: pq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
@@ -93,7 +93,7 @@ func (pq *PatientQuery) QueryPrefix() *PrefixQuery {
 	return query
 }
 
-// QueryGender chains the current query on the "Gender" edge.
+// QueryGender chains the current query on the "gender" edge.
 func (pq *PatientQuery) QueryGender() *GenderQuery {
 	query := &GenderQuery{config: pq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
@@ -115,7 +115,7 @@ func (pq *PatientQuery) QueryGender() *GenderQuery {
 	return query
 }
 
-// QueryBloodtype chains the current query on the "Bloodtype" edge.
+// QueryBloodtype chains the current query on the "bloodtype" edge.
 func (pq *PatientQuery) QueryBloodtype() *BloodTypeQuery {
 	query := &BloodTypeQuery{config: pq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
@@ -443,7 +443,7 @@ func (pq *PatientQuery) Clone() *PatientQuery {
 }
 
 // WithPrefix tells the query-builder to eager-load the nodes that are connected to
-// the "Prefix" edge. The optional arguments are used to configure the query builder of the edge.
+// the "prefix" edge. The optional arguments are used to configure the query builder of the edge.
 func (pq *PatientQuery) WithPrefix(opts ...func(*PrefixQuery)) *PatientQuery {
 	query := &PrefixQuery{config: pq.config}
 	for _, opt := range opts {
@@ -454,7 +454,7 @@ func (pq *PatientQuery) WithPrefix(opts ...func(*PrefixQuery)) *PatientQuery {
 }
 
 // WithGender tells the query-builder to eager-load the nodes that are connected to
-// the "Gender" edge. The optional arguments are used to configure the query builder of the edge.
+// the "gender" edge. The optional arguments are used to configure the query builder of the edge.
 func (pq *PatientQuery) WithGender(opts ...func(*GenderQuery)) *PatientQuery {
 	query := &GenderQuery{config: pq.config}
 	for _, opt := range opts {
@@ -465,7 +465,7 @@ func (pq *PatientQuery) WithGender(opts ...func(*GenderQuery)) *PatientQuery {
 }
 
 // WithBloodtype tells the query-builder to eager-load the nodes that are connected to
-// the "Bloodtype" edge. The optional arguments are used to configure the query builder of the edge.
+// the "bloodtype" edge. The optional arguments are used to configure the query builder of the edge.
 func (pq *PatientQuery) WithBloodtype(opts ...func(*BloodTypeQuery)) *PatientQuery {
 	query := &BloodTypeQuery{config: pq.config}
 	for _, opt := range opts {
@@ -637,7 +637,7 @@ func (pq *PatientQuery) sqlAll(ctx context.Context) ([]*Patient, error) {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*Patient)
 		for i := range nodes {
-			if fk := nodes[i].prefix_prefix_to_patient; fk != nil {
+			if fk := nodes[i].prefix_patient; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
@@ -650,7 +650,7 @@ func (pq *PatientQuery) sqlAll(ctx context.Context) ([]*Patient, error) {
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "prefix_prefix_to_patient" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "prefix_patient" returned %v`, n.ID)
 			}
 			for i := range nodes {
 				nodes[i].Edges.Prefix = n
@@ -662,7 +662,7 @@ func (pq *PatientQuery) sqlAll(ctx context.Context) ([]*Patient, error) {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*Patient)
 		for i := range nodes {
-			if fk := nodes[i].gender_gender_to_patient; fk != nil {
+			if fk := nodes[i].gender_patient; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
@@ -675,7 +675,7 @@ func (pq *PatientQuery) sqlAll(ctx context.Context) ([]*Patient, error) {
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "gender_gender_to_patient" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "gender_patient" returned %v`, n.ID)
 			}
 			for i := range nodes {
 				nodes[i].Edges.Gender = n
@@ -687,7 +687,7 @@ func (pq *PatientQuery) sqlAll(ctx context.Context) ([]*Patient, error) {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*Patient)
 		for i := range nodes {
-			if fk := nodes[i].blood_type_blood_type_to_patient; fk != nil {
+			if fk := nodes[i].blood_type_patient; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
@@ -700,7 +700,7 @@ func (pq *PatientQuery) sqlAll(ctx context.Context) ([]*Patient, error) {
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "blood_type_blood_type_to_patient" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "blood_type_patient" returned %v`, n.ID)
 			}
 			for i := range nodes {
 				nodes[i].Edges.Bloodtype = n

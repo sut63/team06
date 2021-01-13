@@ -27,11 +27,11 @@ import {
  */
 export interface EntPatient {
     /**
-     * AddedTime holds the value of the "added_time" field.
+     * AddedDate holds the value of the "addedDate" field.
      * @type {string}
      * @memberof EntPatient
      */
-    addedTime?: string;
+    addedDate?: string;
     /**
      * Age holds the value of the "age" field.
      * @type {number}
@@ -86,7 +86,7 @@ export function EntPatientFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'addedTime': !exists(json, 'added_time') ? undefined : json['added_time'],
+        'addedDate': !exists(json, 'addedDate') ? undefined : json['addedDate'],
         'age': !exists(json, 'age') ? undefined : json['age'],
         'drugAllergy': !exists(json, 'drugAllergy') ? undefined : json['drugAllergy'],
         'edges': !exists(json, 'edges') ? undefined : EntPatientEdgesFromJSON(json['edges']),
@@ -106,7 +106,7 @@ export function EntPatientToJSON(value?: EntPatient | null): any {
     }
     return {
         
-        'added_time': value.addedTime,
+        'addedDate': value.addedDate,
         'age': value.age,
         'drugAllergy': value.drugAllergy,
         'edges': EntPatientEdgesToJSON(value.edges),

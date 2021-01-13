@@ -26,7 +26,7 @@ type BloodTypeQuery struct {
 	fields     []string
 	predicates []predicate.BloodType
 	// eager-loading edges.
-	withBloodTypeToPatient *PatientQuery
+	withPatient *PatientQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -56,8 +56,8 @@ func (btq *BloodTypeQuery) Order(o ...OrderFunc) *BloodTypeQuery {
 	return btq
 }
 
-// QueryBloodTypeToPatient chains the current query on the "BloodTypeToPatient" edge.
-func (btq *BloodTypeQuery) QueryBloodTypeToPatient() *PatientQuery {
+// QueryPatient chains the current query on the "patient" edge.
+func (btq *BloodTypeQuery) QueryPatient() *PatientQuery {
 	query := &PatientQuery{config: btq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := btq.prepareQuery(ctx); err != nil {
@@ -70,7 +70,7 @@ func (btq *BloodTypeQuery) QueryBloodTypeToPatient() *PatientQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(bloodtype.Table, bloodtype.FieldID, selector),
 			sqlgraph.To(patient.Table, patient.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, bloodtype.BloodTypeToPatientTable, bloodtype.BloodTypeToPatientColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, bloodtype.PatientTable, bloodtype.PatientColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(btq.driver.Dialect(), step)
 		return fromU, nil
@@ -254,26 +254,26 @@ func (btq *BloodTypeQuery) Clone() *BloodTypeQuery {
 		return nil
 	}
 	return &BloodTypeQuery{
-		config:                 btq.config,
-		limit:                  btq.limit,
-		offset:                 btq.offset,
-		order:                  append([]OrderFunc{}, btq.order...),
-		predicates:             append([]predicate.BloodType{}, btq.predicates...),
-		withBloodTypeToPatient: btq.withBloodTypeToPatient.Clone(),
+		config:      btq.config,
+		limit:       btq.limit,
+		offset:      btq.offset,
+		order:       append([]OrderFunc{}, btq.order...),
+		predicates:  append([]predicate.BloodType{}, btq.predicates...),
+		withPatient: btq.withPatient.Clone(),
 		// clone intermediate query.
 		sql:  btq.sql.Clone(),
 		path: btq.path,
 	}
 }
 
-// WithBloodTypeToPatient tells the query-builder to eager-load the nodes that are connected to
-// the "BloodTypeToPatient" edge. The optional arguments are used to configure the query builder of the edge.
-func (btq *BloodTypeQuery) WithBloodTypeToPatient(opts ...func(*PatientQuery)) *BloodTypeQuery {
+// WithPatient tells the query-builder to eager-load the nodes that are connected to
+// the "patient" edge. The optional arguments are used to configure the query builder of the edge.
+func (btq *BloodTypeQuery) WithPatient(opts ...func(*PatientQuery)) *BloodTypeQuery {
 	query := &PatientQuery{config: btq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	btq.withBloodTypeToPatient = query
+	btq.withPatient = query
 	return btq
 }
 
@@ -283,12 +283,12 @@ func (btq *BloodTypeQuery) WithBloodTypeToPatient(opts ...func(*PatientQuery)) *
 // Example:
 //
 //	var v []struct {
-//		Blood string `json:"blood,omitempty"`
+//		BloodValue string `json:"bloodValue,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BloodType.Query().
-//		GroupBy(bloodtype.FieldBlood).
+//		GroupBy(bloodtype.FieldBloodValue).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -310,11 +310,11 @@ func (btq *BloodTypeQuery) GroupBy(field string, fields ...string) *BloodTypeGro
 // Example:
 //
 //	var v []struct {
-//		Blood string `json:"blood,omitempty"`
+//		BloodValue string `json:"bloodValue,omitempty"`
 //	}
 //
 //	client.BloodType.Query().
-//		Select(bloodtype.FieldBlood).
+//		Select(bloodtype.FieldBloodValue).
 //		Scan(ctx, &v)
 //
 func (btq *BloodTypeQuery) Select(field string, fields ...string) *BloodTypeSelect {
@@ -343,7 +343,7 @@ func (btq *BloodTypeQuery) sqlAll(ctx context.Context) ([]*BloodType, error) {
 		nodes       = []*BloodType{}
 		_spec       = btq.querySpec()
 		loadedTypes = [1]bool{
-			btq.withBloodTypeToPatient != nil,
+			btq.withPatient != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]interface{}, error) {
@@ -366,32 +366,32 @@ func (btq *BloodTypeQuery) sqlAll(ctx context.Context) ([]*BloodType, error) {
 		return nodes, nil
 	}
 
-	if query := btq.withBloodTypeToPatient; query != nil {
+	if query := btq.withPatient; query != nil {
 		fks := make([]driver.Value, 0, len(nodes))
 		nodeids := make(map[int]*BloodType)
 		for i := range nodes {
 			fks = append(fks, nodes[i].ID)
 			nodeids[nodes[i].ID] = nodes[i]
-			nodes[i].Edges.BloodTypeToPatient = []*Patient{}
+			nodes[i].Edges.Patient = []*Patient{}
 		}
 		query.withFKs = true
 		query.Where(predicate.Patient(func(s *sql.Selector) {
-			s.Where(sql.InValues(bloodtype.BloodTypeToPatientColumn, fks...))
+			s.Where(sql.InValues(bloodtype.PatientColumn, fks...))
 		}))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
 		}
 		for _, n := range neighbors {
-			fk := n.blood_type_blood_type_to_patient
+			fk := n.blood_type_patient
 			if fk == nil {
-				return nil, fmt.Errorf(`foreign-key "blood_type_blood_type_to_patient" is nil for node %v`, n.ID)
+				return nil, fmt.Errorf(`foreign-key "blood_type_patient" is nil for node %v`, n.ID)
 			}
 			node, ok := nodeids[*fk]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "blood_type_blood_type_to_patient" returned %v for node %v`, *fk, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "blood_type_patient" returned %v for node %v`, *fk, n.ID)
 			}
-			node.Edges.BloodTypeToPatient = append(node.Edges.BloodTypeToPatient, n)
+			node.Edges.Patient = append(node.Edges.Patient, n)
 		}
 	}
 

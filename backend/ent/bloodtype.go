@@ -15,8 +15,8 @@ type BloodType struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Blood holds the value of the "blood" field.
-	Blood string `json:"blood,omitempty"`
+	// BloodValue holds the value of the "bloodValue" field.
+	BloodValue string `json:"bloodValue,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the BloodTypeQuery when eager-loading is set.
 	Edges BloodTypeEdges `json:"edges"`
@@ -24,20 +24,20 @@ type BloodType struct {
 
 // BloodTypeEdges holds the relations/edges for other nodes in the graph.
 type BloodTypeEdges struct {
-	// BloodTypeToPatient holds the value of the BloodTypeToPatient edge.
-	BloodTypeToPatient []*Patient
+	// Patient holds the value of the patient edge.
+	Patient []*Patient
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 }
 
-// BloodTypeToPatientOrErr returns the BloodTypeToPatient value or an error if the edge
+// PatientOrErr returns the Patient value or an error if the edge
 // was not loaded in eager-loading.
-func (e BloodTypeEdges) BloodTypeToPatientOrErr() ([]*Patient, error) {
+func (e BloodTypeEdges) PatientOrErr() ([]*Patient, error) {
 	if e.loadedTypes[0] {
-		return e.BloodTypeToPatient, nil
+		return e.Patient, nil
 	}
-	return nil, &NotLoadedError{edge: "BloodTypeToPatient"}
+	return nil, &NotLoadedError{edge: "patient"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -47,7 +47,7 @@ func (*BloodType) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case bloodtype.FieldID:
 			values[i] = &sql.NullInt64{}
-		case bloodtype.FieldBlood:
+		case bloodtype.FieldBloodValue:
 			values[i] = &sql.NullString{}
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type BloodType", columns[i])
@@ -70,20 +70,20 @@ func (bt *BloodType) assignValues(columns []string, values []interface{}) error 
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			bt.ID = int(value.Int64)
-		case bloodtype.FieldBlood:
+		case bloodtype.FieldBloodValue:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field blood", values[i])
+				return fmt.Errorf("unexpected type %T for field bloodValue", values[i])
 			} else if value.Valid {
-				bt.Blood = value.String
+				bt.BloodValue = value.String
 			}
 		}
 	}
 	return nil
 }
 
-// QueryBloodTypeToPatient queries the "BloodTypeToPatient" edge of the BloodType entity.
-func (bt *BloodType) QueryBloodTypeToPatient() *PatientQuery {
-	return (&BloodTypeClient{config: bt.config}).QueryBloodTypeToPatient(bt)
+// QueryPatient queries the "patient" edge of the BloodType entity.
+func (bt *BloodType) QueryPatient() *PatientQuery {
+	return (&BloodTypeClient{config: bt.config}).QueryPatient(bt)
 }
 
 // Update returns a builder for updating this BloodType.
@@ -109,8 +109,8 @@ func (bt *BloodType) String() string {
 	var builder strings.Builder
 	builder.WriteString("BloodType(")
 	builder.WriteString(fmt.Sprintf("id=%v", bt.ID))
-	builder.WriteString(", blood=")
-	builder.WriteString(bt.Blood)
+	builder.WriteString(", bloodValue=")
+	builder.WriteString(bt.BloodValue)
 	builder.WriteByte(')')
 	return builder.String()
 }
