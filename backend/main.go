@@ -169,7 +169,7 @@ func main() {
 	controllers.NewDoctorController(v1, client)
 	controllers.NewProceduretypeController(v1, client)
 	controllers.NewMedicalprocedureController(v1, client)
-	controllers.NewAppointmentresultsController(v1, client)
+	controllers.NewAppointmentResultsController(v1, client)
 	controllers.NewRoomController(v1, client)
 	controllers.NewHospitalController(v1, client)
 	controllers.NewRightToTreatmentController(v1, client)
@@ -229,7 +229,7 @@ func main() {
 		Doctor: []Doctor{
 			Doctor{"Suchat", "schat", "12345g"},
 			Doctor{"Suwit", "wittsu", "44355h"},
-			Doctor{"Somkiat","fickkm","123452f"},
+			Doctor{"Somkiat", "fickkm", "123452f"},
 		},
 	}
 
@@ -246,11 +246,11 @@ func main() {
 	proceduretypes := ProcedureTypes{
 		ProcedureType: []ProcedureType{
 			ProcedureType{"Endotracheal intubation"},
-            ProcedureType{"Intercostal drainage"},
-            ProcedureType{"Lumbar puncture"},
-            ProcedureType{"Thoracentesis"},
-            ProcedureType{"PCI"},
-            ProcedureType{"Dystocia"},
+			ProcedureType{"Intercostal drainage"},
+			ProcedureType{"Lumbar puncture"},
+			ProcedureType{"Thoracentesis"},
+			ProcedureType{"PCI"},
+			ProcedureType{"Dystocia"},
 		},
 	}
 
