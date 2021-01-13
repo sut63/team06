@@ -23,23 +23,23 @@ type PatientController struct {
 // Patient defines the struct for the patient controller
 type Patient struct {
 	PersonalID     int
-	HospitalNumber string
+	Prefix         int
 	PatientName    string
 	Age            int
-	DrugAllergy    string
-	Added          string
-	Prefix         int
 	Gender         int
 	BloodType      int
+	HospitalNumber string
+	DrugAllergy    string
+	AddedDate      string
 }
 
 // CreatePatient handles POST requests for adding patient entities
-// @Summary Create patient
-// @Description Create patient
-// @ID create-patient
+// @Summary Create Patient
+// @Description Create Patient
+// @ID create-Patient
 // @Accept   json
 // @Produce  json
-// @Param patient body ent.Patient true "Patient entity"
+// @Param Patient body ent.Patient true "Patient entity"
 // @Success 200 {object} ent.Patient
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -53,7 +53,7 @@ func (ctl *PatientController) CreatePatient(c *gin.Context) {
 		return
 	}
 
-	pf, err := ctl.client.Prefix.
+	prefix, err := ctl.client.Prefix.
 		Query().
 		Where(prefix.IDEQ(int(obj.Prefix))).
 		Only(context.Background())
@@ -65,7 +65,7 @@ func (ctl *PatientController) CreatePatient(c *gin.Context) {
 		return
 	}
 
-	g, err := ctl.client.Gender.
+	gender, err := ctl.client.Gender.
 		Query().
 		Where(gender.IDEQ(int(obj.Gender))).
 		Only(context.Background())
@@ -77,7 +77,7 @@ func (ctl *PatientController) CreatePatient(c *gin.Context) {
 		return
 	}
 
-	b, err := ctl.client.BloodType.
+	bloodtype, err := ctl.client.BloodType.
 		Query().
 		Where(bloodtype.IDEQ(int(obj.BloodType))).
 		Only(context.Background())
@@ -89,19 +89,19 @@ func (ctl *PatientController) CreatePatient(c *gin.Context) {
 		return
 	}
 
-	time, err := time.Parse(time.RFC3339, obj.Added)
+	addeddate, err := time.Parse(time.RFC3339, obj.AddedDate)
 
-	pt, err := ctl.client.Patient.
+	patients, err := ctl.client.Patient.
 		Create().
 		SetPersonalID(obj.PersonalID).
-		SetHospitalNumber(obj.HospitalNumber).
-		SetDrugAllergy(obj.DrugAllergy).
+		SetPrefix(prefix).
 		SetPatientName(obj.PatientName).
 		SetAge(obj.Age).
-		SetAddedTime(time).
-		SetPrefix(pf).
-		SetGender(g).
-		SetBloodtype(b).
+		SetGender(gender).
+		SetBloodtype(bloodtype).
+		SetHospitalNumber(obj.HospitalNumber).
+		SetDrugAllergy(obj.DrugAllergy).
+		SetAddedDate(addeddate).
 		Save(context.Background())
 
 	if err != nil {
@@ -111,7 +111,10 @@ func (ctl *PatientController) CreatePatient(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, pt)
+	c.JSON(200, gin.H{
+		"status": true,
+		"data":   patients,
+	})
 }
 
 // GetPatient handles GET requests to retrieve a patient entity
@@ -134,7 +137,7 @@ func (ctl *PatientController) GetPatient(c *gin.Context) {
 		return
 	}
 
-	pt, err := ctl.client.Patient.
+	patients, err := ctl.client.Patient.
 		Query().
 		Where(patient.IDEQ(int(id))).
 		Only(context.Background())
@@ -145,7 +148,7 @@ func (ctl *PatientController) GetPatient(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, pt)
+	c.JSON(200, patients)
 }
 
 // ListPatient handles request to get a list of patient entities
@@ -180,8 +183,8 @@ func (ctl *PatientController) ListPatient(c *gin.Context) {
 
 	patients, err := ctl.client.Patient.
 		Query().
-		WithGender().
 		WithPrefix().
+		WithGender().
 		WithBloodtype().
 		Limit(limit).
 		Offset(offset).
@@ -259,7 +262,7 @@ func (ctl *PatientController) UpdatePatient(c *gin.Context) {
 		return
 	}
 	obj.ID = int(id)
-	pt, err := ctl.client.Patient.
+	patients, err := ctl.client.Patient.
 		UpdateOne(&obj).
 		Save(context.Background())
 	if err != nil {
@@ -267,27 +270,29 @@ func (ctl *PatientController) UpdatePatient(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, pt)
+	c.JSON(200, patients)
 }
 
 // NewPatientController creates and registers handles for the patient controller
 func NewPatientController(router gin.IRouter, client *ent.Client) *PatientController {
-	ptc := &PatientController{
+	patientcontroller := &PatientController{
 		client: client,
 		router: router,
 	}
 
-	ptc.register()
+	patientcontroller.register()
 
-	return ptc
+	return patientcontroller
 
 }
 
+// InitPatientController registers routes to the main engine
 func (ctl *PatientController) register() {
 	patients := ctl.router.Group("/patients")
-
-	patients.POST("", ctl.CreatePatient)
 	patients.GET("", ctl.ListPatient)
+
+	//CRUD
+	patients.POST("", ctl.CreatePatient)
 	patients.PUT(":id", ctl.UpdatePatient)
 	patients.GET(":id", ctl.GetPatient)
 	patients.DELETE(":id", ctl.DeletePatient)

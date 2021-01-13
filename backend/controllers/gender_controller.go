@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/team06/app/ent/gender"
-
 	"github.com/gin-gonic/gin"
 	"github.com/team06/app/ent"
+	"github.com/team06/app/ent/gender"
 )
 
 // GenderController defines the struct for the gender controller
@@ -37,9 +36,9 @@ func (ctl *GenderController) CreateGender(c *gin.Context) {
 		return
 	}
 
-	g, err := ctl.client.Gender.
+	genders, err := ctl.client.Gender.
 		Create().
-		SetGender(obj.Gender).
+		SetGenderValue(obj.GenderValue).
 		Save(context.Background())
 
 	if err != nil {
@@ -49,7 +48,7 @@ func (ctl *GenderController) CreateGender(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, g)
+	c.JSON(200, genders)
 }
 
 // GetGender handles GET requests to retrieve a gender entity
@@ -71,7 +70,7 @@ func (ctl *GenderController) GetGender(c *gin.Context) {
 		})
 		return
 	}
-	g, err := ctl.client.Gender.
+	genders, err := ctl.client.Gender.
 		Query().
 		Where(gender.IDEQ(int(id))).
 		Only(context.Background())
@@ -83,7 +82,7 @@ func (ctl *GenderController) GetGender(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, g)
+	c.JSON(200, genders)
 }
 
 // ListGender handles request to get a list of gender entities
@@ -194,10 +193,8 @@ func (ctl *GenderController) UpdateGender(c *gin.Context) {
 		return
 	}
 	obj.ID = int(id)
-	fmt.Println(obj.ID)
-	g, err := ctl.client.Gender.
-		UpdateOneID(int(id)).
-		SetGender(obj.Gender).
+	genders, err := ctl.client.Gender.
+		UpdateOne(&obj).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -206,25 +203,25 @@ func (ctl *GenderController) UpdateGender(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, g)
+	c.JSON(200, genders)
 }
 
 // NewGenderController creates and registers handles for the gender controller
 func NewGenderController(router gin.IRouter, client *ent.Client) *GenderController {
-	gc := &GenderController{
+	gendercontroller := &GenderController{
 		client: client,
 		router: router,
 	}
 
-	gc.register()
+	gendercontroller.register()
 
-	return gc
+	return gendercontroller
 
 }
 
+// InitGenderController registers routes to the main engine
 func (ctl *GenderController) register() {
 	genders := ctl.router.Group("/genders")
-
 	genders.GET("", ctl.ListGender)
 
 	// CRUD

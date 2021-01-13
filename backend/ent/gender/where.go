@@ -91,29 +91,29 @@ func IDLTE(id int) predicate.Gender {
 	})
 }
 
-// Gender applies equality check predicate on the "gender" field. It's identical to GenderEQ.
-func Gender(v string) predicate.Gender {
+// GenderValue applies equality check predicate on the "genderValue" field. It's identical to GenderValueEQ.
+func GenderValue(v string) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldGender), v))
+		s.Where(sql.EQ(s.C(FieldGenderValue), v))
 	})
 }
 
-// GenderEQ applies the EQ predicate on the "gender" field.
-func GenderEQ(v string) predicate.Gender {
+// GenderValueEQ applies the EQ predicate on the "genderValue" field.
+func GenderValueEQ(v string) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldGender), v))
+		s.Where(sql.EQ(s.C(FieldGenderValue), v))
 	})
 }
 
-// GenderNEQ applies the NEQ predicate on the "gender" field.
-func GenderNEQ(v string) predicate.Gender {
+// GenderValueNEQ applies the NEQ predicate on the "genderValue" field.
+func GenderValueNEQ(v string) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldGender), v))
+		s.Where(sql.NEQ(s.C(FieldGenderValue), v))
 	})
 }
 
-// GenderIn applies the In predicate on the "gender" field.
-func GenderIn(vs ...string) predicate.Gender {
+// GenderValueIn applies the In predicate on the "genderValue" field.
+func GenderValueIn(vs ...string) predicate.Gender {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -125,12 +125,12 @@ func GenderIn(vs ...string) predicate.Gender {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldGender), v...))
+		s.Where(sql.In(s.C(FieldGenderValue), v...))
 	})
 }
 
-// GenderNotIn applies the NotIn predicate on the "gender" field.
-func GenderNotIn(vs ...string) predicate.Gender {
+// GenderValueNotIn applies the NotIn predicate on the "genderValue" field.
+func GenderValueNotIn(vs ...string) predicate.Gender {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -142,92 +142,92 @@ func GenderNotIn(vs ...string) predicate.Gender {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldGender), v...))
+		s.Where(sql.NotIn(s.C(FieldGenderValue), v...))
 	})
 }
 
-// GenderGT applies the GT predicate on the "gender" field.
-func GenderGT(v string) predicate.Gender {
+// GenderValueGT applies the GT predicate on the "genderValue" field.
+func GenderValueGT(v string) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldGender), v))
+		s.Where(sql.GT(s.C(FieldGenderValue), v))
 	})
 }
 
-// GenderGTE applies the GTE predicate on the "gender" field.
-func GenderGTE(v string) predicate.Gender {
+// GenderValueGTE applies the GTE predicate on the "genderValue" field.
+func GenderValueGTE(v string) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldGender), v))
+		s.Where(sql.GTE(s.C(FieldGenderValue), v))
 	})
 }
 
-// GenderLT applies the LT predicate on the "gender" field.
-func GenderLT(v string) predicate.Gender {
+// GenderValueLT applies the LT predicate on the "genderValue" field.
+func GenderValueLT(v string) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldGender), v))
+		s.Where(sql.LT(s.C(FieldGenderValue), v))
 	})
 }
 
-// GenderLTE applies the LTE predicate on the "gender" field.
-func GenderLTE(v string) predicate.Gender {
+// GenderValueLTE applies the LTE predicate on the "genderValue" field.
+func GenderValueLTE(v string) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldGender), v))
+		s.Where(sql.LTE(s.C(FieldGenderValue), v))
 	})
 }
 
-// GenderContains applies the Contains predicate on the "gender" field.
-func GenderContains(v string) predicate.Gender {
+// GenderValueContains applies the Contains predicate on the "genderValue" field.
+func GenderValueContains(v string) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldGender), v))
+		s.Where(sql.Contains(s.C(FieldGenderValue), v))
 	})
 }
 
-// GenderHasPrefix applies the HasPrefix predicate on the "gender" field.
-func GenderHasPrefix(v string) predicate.Gender {
+// GenderValueHasPrefix applies the HasPrefix predicate on the "genderValue" field.
+func GenderValueHasPrefix(v string) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldGender), v))
+		s.Where(sql.HasPrefix(s.C(FieldGenderValue), v))
 	})
 }
 
-// GenderHasSuffix applies the HasSuffix predicate on the "gender" field.
-func GenderHasSuffix(v string) predicate.Gender {
+// GenderValueHasSuffix applies the HasSuffix predicate on the "genderValue" field.
+func GenderValueHasSuffix(v string) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldGender), v))
+		s.Where(sql.HasSuffix(s.C(FieldGenderValue), v))
 	})
 }
 
-// GenderEqualFold applies the EqualFold predicate on the "gender" field.
-func GenderEqualFold(v string) predicate.Gender {
+// GenderValueEqualFold applies the EqualFold predicate on the "genderValue" field.
+func GenderValueEqualFold(v string) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldGender), v))
+		s.Where(sql.EqualFold(s.C(FieldGenderValue), v))
 	})
 }
 
-// GenderContainsFold applies the ContainsFold predicate on the "gender" field.
-func GenderContainsFold(v string) predicate.Gender {
+// GenderValueContainsFold applies the ContainsFold predicate on the "genderValue" field.
+func GenderValueContainsFold(v string) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldGender), v))
+		s.Where(sql.ContainsFold(s.C(FieldGenderValue), v))
 	})
 }
 
-// HasGenderToPatient applies the HasEdge predicate on the "GenderToPatient" edge.
-func HasGenderToPatient() predicate.Gender {
+// HasPatient applies the HasEdge predicate on the "patient" edge.
+func HasPatient() predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(GenderToPatientTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, GenderToPatientTable, GenderToPatientColumn),
+			sqlgraph.To(PatientTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PatientTable, PatientColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasGenderToPatientWith applies the HasEdge predicate on the "GenderToPatient" edge with a given conditions (other predicates).
-func HasGenderToPatientWith(preds ...predicate.Patient) predicate.Gender {
+// HasPatientWith applies the HasEdge predicate on the "patient" edge with a given conditions (other predicates).
+func HasPatientWith(preds ...predicate.Patient) predicate.Gender {
 	return predicate.Gender(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(GenderToPatientInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, GenderToPatientTable, GenderToPatientColumn),
+			sqlgraph.To(PatientInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PatientTable, PatientColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

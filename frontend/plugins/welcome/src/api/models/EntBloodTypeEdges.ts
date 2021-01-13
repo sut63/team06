@@ -27,11 +27,11 @@ import {
  */
 export interface EntBloodTypeEdges {
     /**
-     * BloodTypeToPatient holds the value of the BloodTypeToPatient edge.
+     * Patient holds the value of the patient edge.
      * @type {Array<EntPatient>}
      * @memberof EntBloodTypeEdges
      */
-    bloodTypeToPatient?: Array<EntPatient>;
+    patient?: Array<EntPatient>;
 }
 
 export function EntBloodTypeEdgesFromJSON(json: any): EntBloodTypeEdges {
@@ -44,7 +44,7 @@ export function EntBloodTypeEdgesFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'bloodTypeToPatient': !exists(json, 'bloodTypeToPatient') ? undefined : ((json['bloodTypeToPatient'] as Array<any>).map(EntPatientFromJSON)),
+        'patient': !exists(json, 'patient') ? undefined : ((json['patient'] as Array<any>).map(EntPatientFromJSON)),
     };
 }
 
@@ -57,7 +57,7 @@ export function EntBloodTypeEdgesToJSON(value?: EntBloodTypeEdges | null): any {
     }
     return {
         
-        'bloodTypeToPatient': value.bloodTypeToPatient === undefined ? undefined : ((value.bloodTypeToPatient as Array<any>).map(EntPatientToJSON)),
+        'patient': value.patient === undefined ? undefined : ((value.patient as Array<any>).map(EntPatientToJSON)),
     };
 }
 
