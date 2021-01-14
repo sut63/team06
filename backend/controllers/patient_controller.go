@@ -4,14 +4,10 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/team06/app/ent"
-	"github.com/team06/app/ent/bloodtype"
-	"github.com/team06/app/ent/gender"
 	"github.com/team06/app/ent/patient"
-	"github.com/team06/app/ent/prefix"
 )
 
 // PatientController defines the struct for the patient controller
@@ -20,32 +16,19 @@ type PatientController struct {
 	router gin.IRouter
 }
 
-// Patient defines the struct for the patient controller
-type Patient struct {
-	PersonalID     int
-	Prefix         int
-	PatientName    string
-	Age            int
-	Gender         int
-	BloodType      int
-	HospitalNumber string
-	DrugAllergy    string
-	AddedDate      string
-}
-
 // CreatePatient handles POST requests for adding patient entities
-// @Summary Create Patient
-// @Description Create Patient
-// @ID create-Patient
+// @Summary Create patient
+// @Description Create patient
+// @ID create-patient
 // @Accept   json
 // @Produce  json
-// @Param Patient body ent.Patient true "Patient entity"
+// @Param patient body ent.Patient true "Patient entity"
 // @Success 200 {object} ent.Patient
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /patients [post]
 func (ctl *PatientController) CreatePatient(c *gin.Context) {
-	obj := Patient{}
+	obj := ent.Patient{}
 	if err := c.ShouldBind(&obj); err != nil {
 		c.JSON(400, gin.H{
 			"error": "patient binding failed",
@@ -53,57 +36,12 @@ func (ctl *PatientController) CreatePatient(c *gin.Context) {
 		return
 	}
 
-	prefix, err := ctl.client.Prefix.
-		Query().
-		Where(prefix.IDEQ(int(obj.Prefix))).
-		Only(context.Background())
-
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "prefix not found",
-		})
-		return
-	}
-
-	gender, err := ctl.client.Gender.
-		Query().
-		Where(gender.IDEQ(int(obj.Gender))).
-		Only(context.Background())
-
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "gender not found",
-		})
-		return
-	}
-
-	bloodtype, err := ctl.client.BloodType.
-		Query().
-		Where(bloodtype.IDEQ(int(obj.BloodType))).
-		Only(context.Background())
-
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "blood type not found",
-		})
-		return
-	}
-
-	addeddate, err := time.Parse(time.RFC3339, obj.AddedDate)
-
-	patients, err := ctl.client.Patient.
+	u, err := ctl.client.Patient.
 		Create().
-		SetPersonalID(obj.PersonalID).
-		SetPrefix(prefix).
-		SetPatientName(obj.PatientName).
-		SetAge(obj.Age).
-		SetGender(gender).
-		SetBloodtype(bloodtype).
 		SetHospitalNumber(obj.HospitalNumber).
+		SetPatientName(obj.PatientName).
 		SetDrugAllergy(obj.DrugAllergy).
-		SetAddedDate(addeddate).
 		Save(context.Background())
-
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "saving failed",
@@ -111,10 +49,7 @@ func (ctl *PatientController) CreatePatient(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{
-		"status": true,
-		"data":   patients,
-	})
+	c.JSON(200, u)
 }
 
 // GetPatient handles GET requests to retrieve a patient entity
@@ -137,7 +72,7 @@ func (ctl *PatientController) GetPatient(c *gin.Context) {
 		return
 	}
 
-	patients, err := ctl.client.Patient.
+	u, err := ctl.client.Patient.
 		Query().
 		Where(patient.IDEQ(int(id))).
 		Only(context.Background())
@@ -148,7 +83,7 @@ func (ctl *PatientController) GetPatient(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, patients)
+	c.JSON(200, u)
 }
 
 // ListPatient handles request to get a list of patient entities
@@ -183,17 +118,11 @@ func (ctl *PatientController) ListPatient(c *gin.Context) {
 
 	patients, err := ctl.client.Patient.
 		Query().
-		WithPrefix().
-		WithGender().
-		WithBloodtype().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())
-
 	if err != nil {
-		c.JSON(400, gin.H{
-			"error": err.Error(),
-		})
+		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -257,12 +186,12 @@ func (ctl *PatientController) UpdatePatient(c *gin.Context) {
 	obj := ent.Patient{}
 	if err := c.ShouldBind(&obj); err != nil {
 		c.JSON(400, gin.H{
-			"error": "Patient binding failed",
+			"error": "patient binding failed",
 		})
 		return
 	}
 	obj.ID = int(id)
-	patients, err := ctl.client.Patient.
+	u, err := ctl.client.Patient.
 		UpdateOne(&obj).
 		Save(context.Background())
 	if err != nil {
@@ -270,31 +199,28 @@ func (ctl *PatientController) UpdatePatient(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, patients)
+	c.JSON(200, u)
 }
 
 // NewPatientController creates and registers handles for the patient controller
 func NewPatientController(router gin.IRouter, client *ent.Client) *PatientController {
-	patientcontroller := &PatientController{
+	uc := &PatientController{
 		client: client,
 		router: router,
 	}
-
-	patientcontroller.register()
-
-	return patientcontroller
-
+	uc.register()
+	return uc
 }
 
 // InitPatientController registers routes to the main engine
 func (ctl *PatientController) register() {
 	patients := ctl.router.Group("/patients")
+
 	patients.GET("", ctl.ListPatient)
 
-	//CRUD
+	// CRUD
 	patients.POST("", ctl.CreatePatient)
-	patients.PUT(":id", ctl.UpdatePatient)
 	patients.GET(":id", ctl.GetPatient)
+	patients.PUT(":id", ctl.UpdatePatient)
 	patients.DELETE(":id", ctl.DeletePatient)
-
 }

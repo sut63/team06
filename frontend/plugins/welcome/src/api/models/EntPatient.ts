@@ -27,18 +27,6 @@ import {
  */
 export interface EntPatient {
     /**
-     * AddedDate holds the value of the "addedDate" field.
-     * @type {string}
-     * @memberof EntPatient
-     */
-    addedDate?: string;
-    /**
-     * Age holds the value of the "age" field.
-     * @type {number}
-     * @memberof EntPatient
-     */
-    age?: number;
-    /**
      * DrugAllergy holds the value of the "drugAllergy" field.
      * @type {string}
      * @memberof EntPatient
@@ -68,12 +56,6 @@ export interface EntPatient {
      * @memberof EntPatient
      */
     patientName?: string;
-    /**
-     * PersonalID holds the value of the "personalID" field.
-     * @type {number}
-     * @memberof EntPatient
-     */
-    personalID?: number;
 }
 
 export function EntPatientFromJSON(json: any): EntPatient {
@@ -86,14 +68,11 @@ export function EntPatientFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'addedDate': !exists(json, 'addedDate') ? undefined : json['addedDate'],
-        'age': !exists(json, 'age') ? undefined : json['age'],
         'drugAllergy': !exists(json, 'drugAllergy') ? undefined : json['drugAllergy'],
         'edges': !exists(json, 'edges') ? undefined : EntPatientEdgesFromJSON(json['edges']),
         'hospitalNumber': !exists(json, 'hospitalNumber') ? undefined : json['hospitalNumber'],
         'id': !exists(json, 'id') ? undefined : json['id'],
         'patientName': !exists(json, 'patientName') ? undefined : json['patientName'],
-        'personalID': !exists(json, 'personalID') ? undefined : json['personalID'],
     };
 }
 
@@ -106,14 +85,11 @@ export function EntPatientToJSON(value?: EntPatient | null): any {
     }
     return {
         
-        'addedDate': value.addedDate,
-        'age': value.age,
         'drugAllergy': value.drugAllergy,
         'edges': EntPatientEdgesToJSON(value.edges),
         'hospitalNumber': value.hospitalNumber,
         'id': value.id,
         'patientName': value.patientName,
-        'personalID': value.personalID,
     };
 }
 

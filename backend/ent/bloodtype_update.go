@@ -10,7 +10,7 @@ import (
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/facebook/ent/schema/field"
 	"github.com/team06/app/ent/bloodtype"
-	"github.com/team06/app/ent/patient"
+	"github.com/team06/app/ent/patientdetail"
 	"github.com/team06/app/ent/predicate"
 )
 
@@ -33,19 +33,19 @@ func (btu *BloodTypeUpdate) SetBloodValue(s string) *BloodTypeUpdate {
 	return btu
 }
 
-// AddPatientIDs adds the "patient" edge to the Patient entity by IDs.
-func (btu *BloodTypeUpdate) AddPatientIDs(ids ...int) *BloodTypeUpdate {
-	btu.mutation.AddPatientIDs(ids...)
+// AddPatientDetailIDs adds the "patient_details" edge to the PatientDetail entity by IDs.
+func (btu *BloodTypeUpdate) AddPatientDetailIDs(ids ...int) *BloodTypeUpdate {
+	btu.mutation.AddPatientDetailIDs(ids...)
 	return btu
 }
 
-// AddPatient adds the "patient" edges to the Patient entity.
-func (btu *BloodTypeUpdate) AddPatient(p ...*Patient) *BloodTypeUpdate {
+// AddPatientDetails adds the "patient_details" edges to the PatientDetail entity.
+func (btu *BloodTypeUpdate) AddPatientDetails(p ...*PatientDetail) *BloodTypeUpdate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return btu.AddPatientIDs(ids...)
+	return btu.AddPatientDetailIDs(ids...)
 }
 
 // Mutation returns the BloodTypeMutation object of the builder.
@@ -53,25 +53,25 @@ func (btu *BloodTypeUpdate) Mutation() *BloodTypeMutation {
 	return btu.mutation
 }
 
-// ClearPatient clears all "patient" edges to the Patient entity.
-func (btu *BloodTypeUpdate) ClearPatient() *BloodTypeUpdate {
-	btu.mutation.ClearPatient()
+// ClearPatientDetails clears all "patient_details" edges to the PatientDetail entity.
+func (btu *BloodTypeUpdate) ClearPatientDetails() *BloodTypeUpdate {
+	btu.mutation.ClearPatientDetails()
 	return btu
 }
 
-// RemovePatientIDs removes the "patient" edge to Patient entities by IDs.
-func (btu *BloodTypeUpdate) RemovePatientIDs(ids ...int) *BloodTypeUpdate {
-	btu.mutation.RemovePatientIDs(ids...)
+// RemovePatientDetailIDs removes the "patient_details" edge to PatientDetail entities by IDs.
+func (btu *BloodTypeUpdate) RemovePatientDetailIDs(ids ...int) *BloodTypeUpdate {
+	btu.mutation.RemovePatientDetailIDs(ids...)
 	return btu
 }
 
-// RemovePatient removes "patient" edges to Patient entities.
-func (btu *BloodTypeUpdate) RemovePatient(p ...*Patient) *BloodTypeUpdate {
+// RemovePatientDetails removes "patient_details" edges to PatientDetail entities.
+func (btu *BloodTypeUpdate) RemovePatientDetails(p ...*PatientDetail) *BloodTypeUpdate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return btu.RemovePatientIDs(ids...)
+	return btu.RemovePatientDetailIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -166,33 +166,33 @@ func (btu *BloodTypeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: bloodtype.FieldBloodValue,
 		})
 	}
-	if btu.mutation.PatientCleared() {
+	if btu.mutation.PatientDetailsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.PatientDetailsTable,
+			Columns: []string{bloodtype.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patient.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := btu.mutation.RemovedPatientIDs(); len(nodes) > 0 && !btu.mutation.PatientCleared() {
+	if nodes := btu.mutation.RemovedPatientDetailsIDs(); len(nodes) > 0 && !btu.mutation.PatientDetailsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.PatientDetailsTable,
+			Columns: []string{bloodtype.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patient.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}
@@ -201,17 +201,17 @@ func (btu *BloodTypeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := btu.mutation.PatientIDs(); len(nodes) > 0 {
+	if nodes := btu.mutation.PatientDetailsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.PatientDetailsTable,
+			Columns: []string{bloodtype.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patient.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}
@@ -244,19 +244,19 @@ func (btuo *BloodTypeUpdateOne) SetBloodValue(s string) *BloodTypeUpdateOne {
 	return btuo
 }
 
-// AddPatientIDs adds the "patient" edge to the Patient entity by IDs.
-func (btuo *BloodTypeUpdateOne) AddPatientIDs(ids ...int) *BloodTypeUpdateOne {
-	btuo.mutation.AddPatientIDs(ids...)
+// AddPatientDetailIDs adds the "patient_details" edge to the PatientDetail entity by IDs.
+func (btuo *BloodTypeUpdateOne) AddPatientDetailIDs(ids ...int) *BloodTypeUpdateOne {
+	btuo.mutation.AddPatientDetailIDs(ids...)
 	return btuo
 }
 
-// AddPatient adds the "patient" edges to the Patient entity.
-func (btuo *BloodTypeUpdateOne) AddPatient(p ...*Patient) *BloodTypeUpdateOne {
+// AddPatientDetails adds the "patient_details" edges to the PatientDetail entity.
+func (btuo *BloodTypeUpdateOne) AddPatientDetails(p ...*PatientDetail) *BloodTypeUpdateOne {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return btuo.AddPatientIDs(ids...)
+	return btuo.AddPatientDetailIDs(ids...)
 }
 
 // Mutation returns the BloodTypeMutation object of the builder.
@@ -264,25 +264,25 @@ func (btuo *BloodTypeUpdateOne) Mutation() *BloodTypeMutation {
 	return btuo.mutation
 }
 
-// ClearPatient clears all "patient" edges to the Patient entity.
-func (btuo *BloodTypeUpdateOne) ClearPatient() *BloodTypeUpdateOne {
-	btuo.mutation.ClearPatient()
+// ClearPatientDetails clears all "patient_details" edges to the PatientDetail entity.
+func (btuo *BloodTypeUpdateOne) ClearPatientDetails() *BloodTypeUpdateOne {
+	btuo.mutation.ClearPatientDetails()
 	return btuo
 }
 
-// RemovePatientIDs removes the "patient" edge to Patient entities by IDs.
-func (btuo *BloodTypeUpdateOne) RemovePatientIDs(ids ...int) *BloodTypeUpdateOne {
-	btuo.mutation.RemovePatientIDs(ids...)
+// RemovePatientDetailIDs removes the "patient_details" edge to PatientDetail entities by IDs.
+func (btuo *BloodTypeUpdateOne) RemovePatientDetailIDs(ids ...int) *BloodTypeUpdateOne {
+	btuo.mutation.RemovePatientDetailIDs(ids...)
 	return btuo
 }
 
-// RemovePatient removes "patient" edges to Patient entities.
-func (btuo *BloodTypeUpdateOne) RemovePatient(p ...*Patient) *BloodTypeUpdateOne {
+// RemovePatientDetails removes "patient_details" edges to PatientDetail entities.
+func (btuo *BloodTypeUpdateOne) RemovePatientDetails(p ...*PatientDetail) *BloodTypeUpdateOne {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return btuo.RemovePatientIDs(ids...)
+	return btuo.RemovePatientDetailIDs(ids...)
 }
 
 // Save executes the query and returns the updated BloodType entity.
@@ -375,33 +375,33 @@ func (btuo *BloodTypeUpdateOne) sqlSave(ctx context.Context) (_node *BloodType, 
 			Column: bloodtype.FieldBloodValue,
 		})
 	}
-	if btuo.mutation.PatientCleared() {
+	if btuo.mutation.PatientDetailsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.PatientDetailsTable,
+			Columns: []string{bloodtype.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patient.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := btuo.mutation.RemovedPatientIDs(); len(nodes) > 0 && !btuo.mutation.PatientCleared() {
+	if nodes := btuo.mutation.RemovedPatientDetailsIDs(); len(nodes) > 0 && !btuo.mutation.PatientDetailsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.PatientDetailsTable,
+			Columns: []string{bloodtype.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patient.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}
@@ -410,17 +410,17 @@ func (btuo *BloodTypeUpdateOne) sqlSave(ctx context.Context) (_node *BloodType, 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := btuo.mutation.PatientIDs(); len(nodes) > 0 {
+	if nodes := btuo.mutation.PatientDetailsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.PatientDetailsTable,
+			Columns: []string{bloodtype.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patient.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}

@@ -3,8 +3,6 @@
 package patient
 
 import (
-	"time"
-
 	"github.com/facebook/ent/dialect/sql"
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/team06/app/ent/predicate"
@@ -93,10 +91,10 @@ func IDLTE(id int) predicate.Patient {
 	})
 }
 
-// PersonalID applies equality check predicate on the "personalID" field. It's identical to PersonalIDEQ.
-func PersonalID(v int) predicate.Patient {
+// HospitalNumber applies equality check predicate on the "hospitalNumber" field. It's identical to HospitalNumberEQ.
+func HospitalNumber(v string) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPersonalID), v))
+		s.Where(sql.EQ(s.C(FieldHospitalNumber), v))
 	})
 }
 
@@ -107,294 +105,10 @@ func PatientName(v string) predicate.Patient {
 	})
 }
 
-// Age applies equality check predicate on the "age" field. It's identical to AgeEQ.
-func Age(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAge), v))
-	})
-}
-
-// HospitalNumber applies equality check predicate on the "hospitalNumber" field. It's identical to HospitalNumberEQ.
-func HospitalNumber(v string) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldHospitalNumber), v))
-	})
-}
-
 // DrugAllergy applies equality check predicate on the "drugAllergy" field. It's identical to DrugAllergyEQ.
 func DrugAllergy(v string) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldDrugAllergy), v))
-	})
-}
-
-// AddedDate applies equality check predicate on the "addedDate" field. It's identical to AddedDateEQ.
-func AddedDate(v time.Time) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAddedDate), v))
-	})
-}
-
-// PersonalIDEQ applies the EQ predicate on the "personalID" field.
-func PersonalIDEQ(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPersonalID), v))
-	})
-}
-
-// PersonalIDNEQ applies the NEQ predicate on the "personalID" field.
-func PersonalIDNEQ(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldPersonalID), v))
-	})
-}
-
-// PersonalIDIn applies the In predicate on the "personalID" field.
-func PersonalIDIn(vs ...int) predicate.Patient {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Patient(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldPersonalID), v...))
-	})
-}
-
-// PersonalIDNotIn applies the NotIn predicate on the "personalID" field.
-func PersonalIDNotIn(vs ...int) predicate.Patient {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Patient(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldPersonalID), v...))
-	})
-}
-
-// PersonalIDGT applies the GT predicate on the "personalID" field.
-func PersonalIDGT(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldPersonalID), v))
-	})
-}
-
-// PersonalIDGTE applies the GTE predicate on the "personalID" field.
-func PersonalIDGTE(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldPersonalID), v))
-	})
-}
-
-// PersonalIDLT applies the LT predicate on the "personalID" field.
-func PersonalIDLT(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldPersonalID), v))
-	})
-}
-
-// PersonalIDLTE applies the LTE predicate on the "personalID" field.
-func PersonalIDLTE(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldPersonalID), v))
-	})
-}
-
-// PatientNameEQ applies the EQ predicate on the "patientName" field.
-func PatientNameEQ(v string) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPatientName), v))
-	})
-}
-
-// PatientNameNEQ applies the NEQ predicate on the "patientName" field.
-func PatientNameNEQ(v string) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldPatientName), v))
-	})
-}
-
-// PatientNameIn applies the In predicate on the "patientName" field.
-func PatientNameIn(vs ...string) predicate.Patient {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Patient(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldPatientName), v...))
-	})
-}
-
-// PatientNameNotIn applies the NotIn predicate on the "patientName" field.
-func PatientNameNotIn(vs ...string) predicate.Patient {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Patient(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldPatientName), v...))
-	})
-}
-
-// PatientNameGT applies the GT predicate on the "patientName" field.
-func PatientNameGT(v string) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldPatientName), v))
-	})
-}
-
-// PatientNameGTE applies the GTE predicate on the "patientName" field.
-func PatientNameGTE(v string) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldPatientName), v))
-	})
-}
-
-// PatientNameLT applies the LT predicate on the "patientName" field.
-func PatientNameLT(v string) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldPatientName), v))
-	})
-}
-
-// PatientNameLTE applies the LTE predicate on the "patientName" field.
-func PatientNameLTE(v string) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldPatientName), v))
-	})
-}
-
-// PatientNameContains applies the Contains predicate on the "patientName" field.
-func PatientNameContains(v string) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldPatientName), v))
-	})
-}
-
-// PatientNameHasPrefix applies the HasPrefix predicate on the "patientName" field.
-func PatientNameHasPrefix(v string) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldPatientName), v))
-	})
-}
-
-// PatientNameHasSuffix applies the HasSuffix predicate on the "patientName" field.
-func PatientNameHasSuffix(v string) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldPatientName), v))
-	})
-}
-
-// PatientNameEqualFold applies the EqualFold predicate on the "patientName" field.
-func PatientNameEqualFold(v string) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldPatientName), v))
-	})
-}
-
-// PatientNameContainsFold applies the ContainsFold predicate on the "patientName" field.
-func PatientNameContainsFold(v string) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldPatientName), v))
-	})
-}
-
-// AgeEQ applies the EQ predicate on the "age" field.
-func AgeEQ(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAge), v))
-	})
-}
-
-// AgeNEQ applies the NEQ predicate on the "age" field.
-func AgeNEQ(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldAge), v))
-	})
-}
-
-// AgeIn applies the In predicate on the "age" field.
-func AgeIn(vs ...int) predicate.Patient {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Patient(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldAge), v...))
-	})
-}
-
-// AgeNotIn applies the NotIn predicate on the "age" field.
-func AgeNotIn(vs ...int) predicate.Patient {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Patient(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldAge), v...))
-	})
-}
-
-// AgeGT applies the GT predicate on the "age" field.
-func AgeGT(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldAge), v))
-	})
-}
-
-// AgeGTE applies the GTE predicate on the "age" field.
-func AgeGTE(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldAge), v))
-	})
-}
-
-// AgeLT applies the LT predicate on the "age" field.
-func AgeLT(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldAge), v))
-	})
-}
-
-// AgeLTE applies the LTE predicate on the "age" field.
-func AgeLTE(v int) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldAge), v))
 	})
 }
 
@@ -509,6 +223,117 @@ func HospitalNumberContainsFold(v string) predicate.Patient {
 	})
 }
 
+// PatientNameEQ applies the EQ predicate on the "patientName" field.
+func PatientNameEQ(v string) predicate.Patient {
+	return predicate.Patient(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPatientName), v))
+	})
+}
+
+// PatientNameNEQ applies the NEQ predicate on the "patientName" field.
+func PatientNameNEQ(v string) predicate.Patient {
+	return predicate.Patient(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldPatientName), v))
+	})
+}
+
+// PatientNameIn applies the In predicate on the "patientName" field.
+func PatientNameIn(vs ...string) predicate.Patient {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Patient(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldPatientName), v...))
+	})
+}
+
+// PatientNameNotIn applies the NotIn predicate on the "patientName" field.
+func PatientNameNotIn(vs ...string) predicate.Patient {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Patient(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldPatientName), v...))
+	})
+}
+
+// PatientNameGT applies the GT predicate on the "patientName" field.
+func PatientNameGT(v string) predicate.Patient {
+	return predicate.Patient(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldPatientName), v))
+	})
+}
+
+// PatientNameGTE applies the GTE predicate on the "patientName" field.
+func PatientNameGTE(v string) predicate.Patient {
+	return predicate.Patient(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldPatientName), v))
+	})
+}
+
+// PatientNameLT applies the LT predicate on the "patientName" field.
+func PatientNameLT(v string) predicate.Patient {
+	return predicate.Patient(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldPatientName), v))
+	})
+}
+
+// PatientNameLTE applies the LTE predicate on the "patientName" field.
+func PatientNameLTE(v string) predicate.Patient {
+	return predicate.Patient(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldPatientName), v))
+	})
+}
+
+// PatientNameContains applies the Contains predicate on the "patientName" field.
+func PatientNameContains(v string) predicate.Patient {
+	return predicate.Patient(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldPatientName), v))
+	})
+}
+
+// PatientNameHasPrefix applies the HasPrefix predicate on the "patientName" field.
+func PatientNameHasPrefix(v string) predicate.Patient {
+	return predicate.Patient(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldPatientName), v))
+	})
+}
+
+// PatientNameHasSuffix applies the HasSuffix predicate on the "patientName" field.
+func PatientNameHasSuffix(v string) predicate.Patient {
+	return predicate.Patient(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldPatientName), v))
+	})
+}
+
+// PatientNameEqualFold applies the EqualFold predicate on the "patientName" field.
+func PatientNameEqualFold(v string) predicate.Patient {
+	return predicate.Patient(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldPatientName), v))
+	})
+}
+
+// PatientNameContainsFold applies the ContainsFold predicate on the "patientName" field.
+func PatientNameContainsFold(v string) predicate.Patient {
+	return predicate.Patient(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldPatientName), v))
+	})
+}
+
 // DrugAllergyEQ applies the EQ predicate on the "drugAllergy" field.
 func DrugAllergyEQ(v string) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
@@ -620,157 +445,25 @@ func DrugAllergyContainsFold(v string) predicate.Patient {
 	})
 }
 
-// AddedDateEQ applies the EQ predicate on the "addedDate" field.
-func AddedDateEQ(v time.Time) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAddedDate), v))
-	})
-}
-
-// AddedDateNEQ applies the NEQ predicate on the "addedDate" field.
-func AddedDateNEQ(v time.Time) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldAddedDate), v))
-	})
-}
-
-// AddedDateIn applies the In predicate on the "addedDate" field.
-func AddedDateIn(vs ...time.Time) predicate.Patient {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Patient(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldAddedDate), v...))
-	})
-}
-
-// AddedDateNotIn applies the NotIn predicate on the "addedDate" field.
-func AddedDateNotIn(vs ...time.Time) predicate.Patient {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Patient(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldAddedDate), v...))
-	})
-}
-
-// AddedDateGT applies the GT predicate on the "addedDate" field.
-func AddedDateGT(v time.Time) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldAddedDate), v))
-	})
-}
-
-// AddedDateGTE applies the GTE predicate on the "addedDate" field.
-func AddedDateGTE(v time.Time) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldAddedDate), v))
-	})
-}
-
-// AddedDateLT applies the LT predicate on the "addedDate" field.
-func AddedDateLT(v time.Time) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldAddedDate), v))
-	})
-}
-
-// AddedDateLTE applies the LTE predicate on the "addedDate" field.
-func AddedDateLTE(v time.Time) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldAddedDate), v))
-	})
-}
-
-// HasPrefix applies the HasEdge predicate on the "prefix" edge.
-func HasPrefix() predicate.Patient {
+// HasPatientDetails applies the HasEdge predicate on the "patient_details" edge.
+func HasPatientDetails() predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(PrefixTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, PrefixTable, PrefixColumn),
+			sqlgraph.To(PatientDetailsTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PatientDetailsTable, PatientDetailsColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasPrefixWith applies the HasEdge predicate on the "prefix" edge with a given conditions (other predicates).
-func HasPrefixWith(preds ...predicate.Prefix) predicate.Patient {
+// HasPatientDetailsWith applies the HasEdge predicate on the "patient_details" edge with a given conditions (other predicates).
+func HasPatientDetailsWith(preds ...predicate.PatientDetail) predicate.Patient {
 	return predicate.Patient(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(PrefixInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, PrefixTable, PrefixColumn),
-		)
-		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
-			for _, p := range preds {
-				p(s)
-			}
-		})
-	})
-}
-
-// HasGender applies the HasEdge predicate on the "gender" edge.
-func HasGender() predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(GenderTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, GenderTable, GenderColumn),
-		)
-		sqlgraph.HasNeighbors(s, step)
-	})
-}
-
-// HasGenderWith applies the HasEdge predicate on the "gender" edge with a given conditions (other predicates).
-func HasGenderWith(preds ...predicate.Gender) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(GenderInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, GenderTable, GenderColumn),
-		)
-		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
-			for _, p := range preds {
-				p(s)
-			}
-		})
-	})
-}
-
-// HasBloodtype applies the HasEdge predicate on the "bloodtype" edge.
-func HasBloodtype() predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(BloodtypeTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, BloodtypeTable, BloodtypeColumn),
-		)
-		sqlgraph.HasNeighbors(s, step)
-	})
-}
-
-// HasBloodtypeWith applies the HasEdge predicate on the "bloodtype" edge with a given conditions (other predicates).
-func HasBloodtypeWith(preds ...predicate.BloodType) predicate.Patient {
-	return predicate.Patient(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(BloodtypeInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, BloodtypeTable, BloodtypeColumn),
+			sqlgraph.To(PatientDetailsInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, PatientDetailsTable, PatientDetailsColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

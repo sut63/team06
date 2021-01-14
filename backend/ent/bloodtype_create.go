@@ -10,7 +10,7 @@ import (
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/facebook/ent/schema/field"
 	"github.com/team06/app/ent/bloodtype"
-	"github.com/team06/app/ent/patient"
+	"github.com/team06/app/ent/patientdetail"
 )
 
 // BloodTypeCreate is the builder for creating a BloodType entity.
@@ -26,19 +26,19 @@ func (btc *BloodTypeCreate) SetBloodValue(s string) *BloodTypeCreate {
 	return btc
 }
 
-// AddPatientIDs adds the "patient" edge to the Patient entity by IDs.
-func (btc *BloodTypeCreate) AddPatientIDs(ids ...int) *BloodTypeCreate {
-	btc.mutation.AddPatientIDs(ids...)
+// AddPatientDetailIDs adds the "patient_details" edge to the PatientDetail entity by IDs.
+func (btc *BloodTypeCreate) AddPatientDetailIDs(ids ...int) *BloodTypeCreate {
+	btc.mutation.AddPatientDetailIDs(ids...)
 	return btc
 }
 
-// AddPatient adds the "patient" edges to the Patient entity.
-func (btc *BloodTypeCreate) AddPatient(p ...*Patient) *BloodTypeCreate {
+// AddPatientDetails adds the "patient_details" edges to the PatientDetail entity.
+func (btc *BloodTypeCreate) AddPatientDetails(p ...*PatientDetail) *BloodTypeCreate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return btc.AddPatientIDs(ids...)
+	return btc.AddPatientDetailIDs(ids...)
 }
 
 // Mutation returns the BloodTypeMutation object of the builder.
@@ -135,17 +135,17 @@ func (btc *BloodTypeCreate) createSpec() (*BloodType, *sqlgraph.CreateSpec) {
 		})
 		_node.BloodValue = value
 	}
-	if nodes := btc.mutation.PatientIDs(); len(nodes) > 0 {
+	if nodes := btc.mutation.PatientDetailsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bloodtype.PatientTable,
-			Columns: []string{bloodtype.PatientColumn},
+			Table:   bloodtype.PatientDetailsTable,
+			Columns: []string{bloodtype.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patient.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}

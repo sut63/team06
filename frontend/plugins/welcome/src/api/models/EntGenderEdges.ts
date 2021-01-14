@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    EntPatient,
-    EntPatientFromJSON,
-    EntPatientFromJSONTyped,
-    EntPatientToJSON,
+    EntPatientDetail,
+    EntPatientDetailFromJSON,
+    EntPatientDetailFromJSONTyped,
+    EntPatientDetailToJSON,
 } from './';
 
 /**
@@ -27,11 +27,11 @@ import {
  */
 export interface EntGenderEdges {
     /**
-     * Patient holds the value of the patient edge.
-     * @type {Array<EntPatient>}
+     * PatientDetails holds the value of the patient_details edge.
+     * @type {Array<EntPatientDetail>}
      * @memberof EntGenderEdges
      */
-    patient?: Array<EntPatient>;
+    patientDetails?: Array<EntPatientDetail>;
 }
 
 export function EntGenderEdgesFromJSON(json: any): EntGenderEdges {
@@ -44,7 +44,7 @@ export function EntGenderEdgesFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'patient': !exists(json, 'patient') ? undefined : ((json['patient'] as Array<any>).map(EntPatientFromJSON)),
+        'patientDetails': !exists(json, 'patientDetails') ? undefined : ((json['patientDetails'] as Array<any>).map(EntPatientDetailFromJSON)),
     };
 }
 
@@ -57,7 +57,7 @@ export function EntGenderEdgesToJSON(value?: EntGenderEdges | null): any {
     }
     return {
         
-        'patient': value.patient === undefined ? undefined : ((value.patient as Array<any>).map(EntPatientToJSON)),
+        'patientDetails': value.patientDetails === undefined ? undefined : ((value.patientDetails as Array<any>).map(EntPatientDetailToJSON)),
     };
 }
 
