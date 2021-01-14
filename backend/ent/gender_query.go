@@ -13,7 +13,7 @@ import (
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/facebook/ent/schema/field"
 	"github.com/team06/app/ent/gender"
-	"github.com/team06/app/ent/patient"
+	"github.com/team06/app/ent/patientdetail"
 	"github.com/team06/app/ent/predicate"
 )
 
@@ -26,7 +26,7 @@ type GenderQuery struct {
 	fields     []string
 	predicates []predicate.Gender
 	// eager-loading edges.
-	withPatient *PatientQuery
+	withPatientDetails *PatientDetailQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -56,9 +56,9 @@ func (gq *GenderQuery) Order(o ...OrderFunc) *GenderQuery {
 	return gq
 }
 
-// QueryPatient chains the current query on the "patient" edge.
-func (gq *GenderQuery) QueryPatient() *PatientQuery {
-	query := &PatientQuery{config: gq.config}
+// QueryPatientDetails chains the current query on the "patient_details" edge.
+func (gq *GenderQuery) QueryPatientDetails() *PatientDetailQuery {
+	query := &PatientDetailQuery{config: gq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := gq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -69,8 +69,8 @@ func (gq *GenderQuery) QueryPatient() *PatientQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(gender.Table, gender.FieldID, selector),
-			sqlgraph.To(patient.Table, patient.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, gender.PatientTable, gender.PatientColumn),
+			sqlgraph.To(patientdetail.Table, patientdetail.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, gender.PatientDetailsTable, gender.PatientDetailsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(gq.driver.Dialect(), step)
 		return fromU, nil
@@ -254,26 +254,26 @@ func (gq *GenderQuery) Clone() *GenderQuery {
 		return nil
 	}
 	return &GenderQuery{
-		config:      gq.config,
-		limit:       gq.limit,
-		offset:      gq.offset,
-		order:       append([]OrderFunc{}, gq.order...),
-		predicates:  append([]predicate.Gender{}, gq.predicates...),
-		withPatient: gq.withPatient.Clone(),
+		config:             gq.config,
+		limit:              gq.limit,
+		offset:             gq.offset,
+		order:              append([]OrderFunc{}, gq.order...),
+		predicates:         append([]predicate.Gender{}, gq.predicates...),
+		withPatientDetails: gq.withPatientDetails.Clone(),
 		// clone intermediate query.
 		sql:  gq.sql.Clone(),
 		path: gq.path,
 	}
 }
 
-// WithPatient tells the query-builder to eager-load the nodes that are connected to
-// the "patient" edge. The optional arguments are used to configure the query builder of the edge.
-func (gq *GenderQuery) WithPatient(opts ...func(*PatientQuery)) *GenderQuery {
-	query := &PatientQuery{config: gq.config}
+// WithPatientDetails tells the query-builder to eager-load the nodes that are connected to
+// the "patient_details" edge. The optional arguments are used to configure the query builder of the edge.
+func (gq *GenderQuery) WithPatientDetails(opts ...func(*PatientDetailQuery)) *GenderQuery {
+	query := &PatientDetailQuery{config: gq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	gq.withPatient = query
+	gq.withPatientDetails = query
 	return gq
 }
 
@@ -343,7 +343,7 @@ func (gq *GenderQuery) sqlAll(ctx context.Context) ([]*Gender, error) {
 		nodes       = []*Gender{}
 		_spec       = gq.querySpec()
 		loadedTypes = [1]bool{
-			gq.withPatient != nil,
+			gq.withPatientDetails != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]interface{}, error) {
@@ -366,32 +366,32 @@ func (gq *GenderQuery) sqlAll(ctx context.Context) ([]*Gender, error) {
 		return nodes, nil
 	}
 
-	if query := gq.withPatient; query != nil {
+	if query := gq.withPatientDetails; query != nil {
 		fks := make([]driver.Value, 0, len(nodes))
 		nodeids := make(map[int]*Gender)
 		for i := range nodes {
 			fks = append(fks, nodes[i].ID)
 			nodeids[nodes[i].ID] = nodes[i]
-			nodes[i].Edges.Patient = []*Patient{}
+			nodes[i].Edges.PatientDetails = []*PatientDetail{}
 		}
 		query.withFKs = true
-		query.Where(predicate.Patient(func(s *sql.Selector) {
-			s.Where(sql.InValues(gender.PatientColumn, fks...))
+		query.Where(predicate.PatientDetail(func(s *sql.Selector) {
+			s.Where(sql.InValues(gender.PatientDetailsColumn, fks...))
 		}))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
 		}
 		for _, n := range neighbors {
-			fk := n.gender_patient
+			fk := n.gender_patient_details
 			if fk == nil {
-				return nil, fmt.Errorf(`foreign-key "gender_patient" is nil for node %v`, n.ID)
+				return nil, fmt.Errorf(`foreign-key "gender_patient_details" is nil for node %v`, n.ID)
 			}
 			node, ok := nodeids[*fk]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "gender_patient" returned %v for node %v`, *fk, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "gender_patient_details" returned %v for node %v`, *fk, n.ID)
 			}
-			node.Edges.Patient = append(node.Edges.Patient, n)
+			node.Edges.PatientDetails = append(node.Edges.PatientDetails, n)
 		}
 	}
 

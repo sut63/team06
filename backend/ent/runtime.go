@@ -116,30 +116,18 @@ func init() {
 	nurse.NursePasswordValidator = nurseDescNursePassword.Validators[0].(func(string) error)
 	patientFields := schema.Patient{}.Fields()
 	_ = patientFields
-	// patientDescPersonalID is the schema descriptor for personalID field.
-	patientDescPersonalID := patientFields[0].Descriptor()
-	// patient.PersonalIDValidator is a validator for the "personalID" field. It is called by the builders before save.
-	patient.PersonalIDValidator = patientDescPersonalID.Validators[0].(func(int) error)
+	// patientDescHospitalNumber is the schema descriptor for hospitalNumber field.
+	patientDescHospitalNumber := patientFields[0].Descriptor()
+	// patient.HospitalNumberValidator is a validator for the "hospitalNumber" field. It is called by the builders before save.
+	patient.HospitalNumberValidator = patientDescHospitalNumber.Validators[0].(func(string) error)
 	// patientDescPatientName is the schema descriptor for patientName field.
 	patientDescPatientName := patientFields[1].Descriptor()
 	// patient.PatientNameValidator is a validator for the "patientName" field. It is called by the builders before save.
 	patient.PatientNameValidator = patientDescPatientName.Validators[0].(func(string) error)
-	// patientDescAge is the schema descriptor for age field.
-	patientDescAge := patientFields[2].Descriptor()
-	// patient.AgeValidator is a validator for the "age" field. It is called by the builders before save.
-	patient.AgeValidator = patientDescAge.Validators[0].(func(int) error)
-	// patientDescHospitalNumber is the schema descriptor for hospitalNumber field.
-	patientDescHospitalNumber := patientFields[3].Descriptor()
-	// patient.HospitalNumberValidator is a validator for the "hospitalNumber" field. It is called by the builders before save.
-	patient.HospitalNumberValidator = patientDescHospitalNumber.Validators[0].(func(string) error)
 	// patientDescDrugAllergy is the schema descriptor for drugAllergy field.
-	patientDescDrugAllergy := patientFields[4].Descriptor()
+	patientDescDrugAllergy := patientFields[2].Descriptor()
 	// patient.DrugAllergyValidator is a validator for the "drugAllergy" field. It is called by the builders before save.
 	patient.DrugAllergyValidator = patientDescDrugAllergy.Validators[0].(func(string) error)
-	// patientDescAddedDate is the schema descriptor for addedDate field.
-	patientDescAddedDate := patientFields[5].Descriptor()
-	// patient.DefaultAddedDate holds the default value on creation for the addedDate field.
-	patient.DefaultAddedDate = patientDescAddedDate.Default.(func() time.Time)
 	prefixFields := schema.Prefix{}.Fields()
 	_ = prefixFields
 	// prefixDescPrefixValue is the schema descriptor for prefixValue field.

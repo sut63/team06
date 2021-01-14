@@ -21,6 +21,6 @@ func (Prefix) Fields() []ent.Field {
 // Edges of the Prefix.
 func (Prefix) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("patient", Patient.Type),
+		edge.To("patient_details", PatientDetail.Type),
 	}
 }

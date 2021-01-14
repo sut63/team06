@@ -9,7 +9,7 @@ import (
 
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/facebook/ent/schema/field"
-	"github.com/team06/app/ent/patient"
+	"github.com/team06/app/ent/patientdetail"
 	"github.com/team06/app/ent/prefix"
 )
 
@@ -26,19 +26,19 @@ func (pc *PrefixCreate) SetPrefixValue(s string) *PrefixCreate {
 	return pc
 }
 
-// AddPatientIDs adds the "patient" edge to the Patient entity by IDs.
-func (pc *PrefixCreate) AddPatientIDs(ids ...int) *PrefixCreate {
-	pc.mutation.AddPatientIDs(ids...)
+// AddPatientDetailIDs adds the "patient_details" edge to the PatientDetail entity by IDs.
+func (pc *PrefixCreate) AddPatientDetailIDs(ids ...int) *PrefixCreate {
+	pc.mutation.AddPatientDetailIDs(ids...)
 	return pc
 }
 
-// AddPatient adds the "patient" edges to the Patient entity.
-func (pc *PrefixCreate) AddPatient(p ...*Patient) *PrefixCreate {
+// AddPatientDetails adds the "patient_details" edges to the PatientDetail entity.
+func (pc *PrefixCreate) AddPatientDetails(p ...*PatientDetail) *PrefixCreate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return pc.AddPatientIDs(ids...)
+	return pc.AddPatientDetailIDs(ids...)
 }
 
 // Mutation returns the PrefixMutation object of the builder.
@@ -135,17 +135,17 @@ func (pc *PrefixCreate) createSpec() (*Prefix, *sqlgraph.CreateSpec) {
 		})
 		_node.PrefixValue = value
 	}
-	if nodes := pc.mutation.PatientIDs(); len(nodes) > 0 {
+	if nodes := pc.mutation.PatientDetailsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   prefix.PatientTable,
-			Columns: []string{prefix.PatientColumn},
+			Table:   prefix.PatientDetailsTable,
+			Columns: []string{prefix.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patient.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}

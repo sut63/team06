@@ -223,39 +223,55 @@ var (
 	// PatientsColumns holds the columns for the "patients" table.
 	PatientsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "personal_id", Type: field.TypeInt},
-		{Name: "patient_name", Type: field.TypeString},
-		{Name: "age", Type: field.TypeInt},
 		{Name: "hospital_number", Type: field.TypeString},
+		{Name: "patient_name", Type: field.TypeString},
 		{Name: "drug_allergy", Type: field.TypeString},
-		{Name: "added_date", Type: field.TypeTime},
-		{Name: "blood_type_patient", Type: field.TypeInt, Nullable: true},
-		{Name: "gender_patient", Type: field.TypeInt, Nullable: true},
-		{Name: "prefix_patient", Type: field.TypeInt, Nullable: true},
 	}
 	// PatientsTable holds the schema information for the "patients" table.
 	PatientsTable = &schema.Table{
-		Name:       "patients",
-		Columns:    PatientsColumns,
-		PrimaryKey: []*schema.Column{PatientsColumns[0]},
+		Name:        "patients",
+		Columns:     PatientsColumns,
+		PrimaryKey:  []*schema.Column{PatientsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{},
+	}
+	// PatientDetailsColumns holds the columns for the "patient_details" table.
+	PatientDetailsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "blood_type_patient_details", Type: field.TypeInt, Nullable: true},
+		{Name: "gender_patient_details", Type: field.TypeInt, Nullable: true},
+		{Name: "patient_patient_details", Type: field.TypeInt, Nullable: true},
+		{Name: "prefix_patient_details", Type: field.TypeInt, Nullable: true},
+	}
+	// PatientDetailsTable holds the schema information for the "patient_details" table.
+	PatientDetailsTable = &schema.Table{
+		Name:       "patient_details",
+		Columns:    PatientDetailsColumns,
+		PrimaryKey: []*schema.Column{PatientDetailsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:  "patients_blood_types_patient",
-				Columns: []*schema.Column{PatientsColumns[7]},
+				Symbol:  "patient_details_blood_types_patient_details",
+				Columns: []*schema.Column{PatientDetailsColumns[1]},
 
 				RefColumns: []*schema.Column{BloodTypesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:  "patients_genders_patient",
-				Columns: []*schema.Column{PatientsColumns[8]},
+				Symbol:  "patient_details_genders_patient_details",
+				Columns: []*schema.Column{PatientDetailsColumns[2]},
 
 				RefColumns: []*schema.Column{GendersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:  "patients_prefixes_patient",
-				Columns: []*schema.Column{PatientsColumns[9]},
+				Symbol:  "patient_details_patients_patient_details",
+				Columns: []*schema.Column{PatientDetailsColumns[3]},
+
+				RefColumns: []*schema.Column{PatientsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:  "patient_details_prefixes_patient_details",
+				Columns: []*schema.Column{PatientDetailsColumns[4]},
 
 				RefColumns: []*schema.Column{PrefixesColumns[0]},
 				OnDelete:   schema.SetNull,
@@ -431,6 +447,7 @@ var (
 		MedicalRecordsTable,
 		NursesTable,
 		PatientsTable,
+		PatientDetailsTable,
 		PrefixesTable,
 		ProcedureTypesTable,
 		RightToTreatmentsTable,
@@ -453,9 +470,10 @@ func init() {
 	MedicalProceduresTable.ForeignKeys[0].RefTable = DoctorsTable
 	MedicalProceduresTable.ForeignKeys[1].RefTable = PatientsTable
 	MedicalProceduresTable.ForeignKeys[2].RefTable = ProcedureTypesTable
-	PatientsTable.ForeignKeys[0].RefTable = BloodTypesTable
-	PatientsTable.ForeignKeys[1].RefTable = GendersTable
-	PatientsTable.ForeignKeys[2].RefTable = PrefixesTable
+	PatientDetailsTable.ForeignKeys[0].RefTable = BloodTypesTable
+	PatientDetailsTable.ForeignKeys[1].RefTable = GendersTable
+	PatientDetailsTable.ForeignKeys[2].RefTable = PatientsTable
+	PatientDetailsTable.ForeignKeys[3].RefTable = PrefixesTable
 	RightToTreatmentsTable.ForeignKeys[0].RefTable = HospitalsTable
 	RightToTreatmentsTable.ForeignKeys[1].RefTable = PatientsTable
 	RightToTreatmentsTable.ForeignKeys[2].RefTable = RightToTreatmentTypesTable

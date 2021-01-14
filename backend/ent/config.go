@@ -35,6 +35,7 @@ type hooks struct {
 	MedicalRecord        []ent.Hook
 	Nurse                []ent.Hook
 	Patient              []ent.Hook
+	PatientDetail        []ent.Hook
 	Prefix               []ent.Hook
 	ProcedureType        []ent.Hook
 	RightToTreatment     []ent.Hook

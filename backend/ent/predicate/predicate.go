@@ -39,6 +39,9 @@ type Nurse func(*sql.Selector)
 // Patient is the predicate function for patient builders.
 type Patient func(*sql.Selector)
 
+// PatientDetail is the predicate function for patientdetail builders.
+type PatientDetail func(*sql.Selector)
+
 // Prefix is the predicate function for prefix builders.
 type Prefix func(*sql.Selector)
 

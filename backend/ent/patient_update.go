@@ -5,19 +5,16 @@ package ent
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/facebook/ent/dialect/sql"
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/facebook/ent/schema/field"
 	"github.com/team06/app/ent/appointmentresults"
-	"github.com/team06/app/ent/bloodtype"
 	"github.com/team06/app/ent/diagnosis"
-	"github.com/team06/app/ent/gender"
 	"github.com/team06/app/ent/medicalprocedure"
 	"github.com/team06/app/ent/patient"
+	"github.com/team06/app/ent/patientdetail"
 	"github.com/team06/app/ent/predicate"
-	"github.com/team06/app/ent/prefix"
 	"github.com/team06/app/ent/righttotreatment"
 	"github.com/team06/app/ent/triageresult"
 )
@@ -35,16 +32,9 @@ func (pu *PatientUpdate) Where(ps ...predicate.Patient) *PatientUpdate {
 	return pu
 }
 
-// SetPersonalID sets the "personalID" field.
-func (pu *PatientUpdate) SetPersonalID(i int) *PatientUpdate {
-	pu.mutation.ResetPersonalID()
-	pu.mutation.SetPersonalID(i)
-	return pu
-}
-
-// AddPersonalID adds i to the "personalID" field.
-func (pu *PatientUpdate) AddPersonalID(i int) *PatientUpdate {
-	pu.mutation.AddPersonalID(i)
+// SetHospitalNumber sets the "hospitalNumber" field.
+func (pu *PatientUpdate) SetHospitalNumber(s string) *PatientUpdate {
+	pu.mutation.SetHospitalNumber(s)
 	return pu
 }
 
@@ -54,100 +44,25 @@ func (pu *PatientUpdate) SetPatientName(s string) *PatientUpdate {
 	return pu
 }
 
-// SetAge sets the "age" field.
-func (pu *PatientUpdate) SetAge(i int) *PatientUpdate {
-	pu.mutation.ResetAge()
-	pu.mutation.SetAge(i)
-	return pu
-}
-
-// AddAge adds i to the "age" field.
-func (pu *PatientUpdate) AddAge(i int) *PatientUpdate {
-	pu.mutation.AddAge(i)
-	return pu
-}
-
-// SetHospitalNumber sets the "hospitalNumber" field.
-func (pu *PatientUpdate) SetHospitalNumber(s string) *PatientUpdate {
-	pu.mutation.SetHospitalNumber(s)
-	return pu
-}
-
 // SetDrugAllergy sets the "drugAllergy" field.
 func (pu *PatientUpdate) SetDrugAllergy(s string) *PatientUpdate {
 	pu.mutation.SetDrugAllergy(s)
 	return pu
 }
 
-// SetAddedDate sets the "addedDate" field.
-func (pu *PatientUpdate) SetAddedDate(t time.Time) *PatientUpdate {
-	pu.mutation.SetAddedDate(t)
+// AddPatientDetailIDs adds the "patient_details" edge to the PatientDetail entity by IDs.
+func (pu *PatientUpdate) AddPatientDetailIDs(ids ...int) *PatientUpdate {
+	pu.mutation.AddPatientDetailIDs(ids...)
 	return pu
 }
 
-// SetNillableAddedDate sets the "addedDate" field if the given value is not nil.
-func (pu *PatientUpdate) SetNillableAddedDate(t *time.Time) *PatientUpdate {
-	if t != nil {
-		pu.SetAddedDate(*t)
+// AddPatientDetails adds the "patient_details" edges to the PatientDetail entity.
+func (pu *PatientUpdate) AddPatientDetails(p ...*PatientDetail) *PatientUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
 	}
-	return pu
-}
-
-// SetPrefixID sets the "prefix" edge to the Prefix entity by ID.
-func (pu *PatientUpdate) SetPrefixID(id int) *PatientUpdate {
-	pu.mutation.SetPrefixID(id)
-	return pu
-}
-
-// SetNillablePrefixID sets the "prefix" edge to the Prefix entity by ID if the given value is not nil.
-func (pu *PatientUpdate) SetNillablePrefixID(id *int) *PatientUpdate {
-	if id != nil {
-		pu = pu.SetPrefixID(*id)
-	}
-	return pu
-}
-
-// SetPrefix sets the "prefix" edge to the Prefix entity.
-func (pu *PatientUpdate) SetPrefix(p *Prefix) *PatientUpdate {
-	return pu.SetPrefixID(p.ID)
-}
-
-// SetGenderID sets the "gender" edge to the Gender entity by ID.
-func (pu *PatientUpdate) SetGenderID(id int) *PatientUpdate {
-	pu.mutation.SetGenderID(id)
-	return pu
-}
-
-// SetNillableGenderID sets the "gender" edge to the Gender entity by ID if the given value is not nil.
-func (pu *PatientUpdate) SetNillableGenderID(id *int) *PatientUpdate {
-	if id != nil {
-		pu = pu.SetGenderID(*id)
-	}
-	return pu
-}
-
-// SetGender sets the "gender" edge to the Gender entity.
-func (pu *PatientUpdate) SetGender(g *Gender) *PatientUpdate {
-	return pu.SetGenderID(g.ID)
-}
-
-// SetBloodtypeID sets the "bloodtype" edge to the BloodType entity by ID.
-func (pu *PatientUpdate) SetBloodtypeID(id int) *PatientUpdate {
-	pu.mutation.SetBloodtypeID(id)
-	return pu
-}
-
-// SetNillableBloodtypeID sets the "bloodtype" edge to the BloodType entity by ID if the given value is not nil.
-func (pu *PatientUpdate) SetNillableBloodtypeID(id *int) *PatientUpdate {
-	if id != nil {
-		pu = pu.SetBloodtypeID(*id)
-	}
-	return pu
-}
-
-// SetBloodtype sets the "bloodtype" edge to the BloodType entity.
-func (pu *PatientUpdate) SetBloodtype(b *BloodType) *PatientUpdate {
-	return pu.SetBloodtypeID(b.ID)
+	return pu.AddPatientDetailIDs(ids...)
 }
 
 // AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
@@ -230,22 +145,25 @@ func (pu *PatientUpdate) Mutation() *PatientMutation {
 	return pu.mutation
 }
 
-// ClearPrefix clears the "prefix" edge to the Prefix entity.
-func (pu *PatientUpdate) ClearPrefix() *PatientUpdate {
-	pu.mutation.ClearPrefix()
+// ClearPatientDetails clears all "patient_details" edges to the PatientDetail entity.
+func (pu *PatientUpdate) ClearPatientDetails() *PatientUpdate {
+	pu.mutation.ClearPatientDetails()
 	return pu
 }
 
-// ClearGender clears the "gender" edge to the Gender entity.
-func (pu *PatientUpdate) ClearGender() *PatientUpdate {
-	pu.mutation.ClearGender()
+// RemovePatientDetailIDs removes the "patient_details" edge to PatientDetail entities by IDs.
+func (pu *PatientUpdate) RemovePatientDetailIDs(ids ...int) *PatientUpdate {
+	pu.mutation.RemovePatientDetailIDs(ids...)
 	return pu
 }
 
-// ClearBloodtype clears the "bloodtype" edge to the BloodType entity.
-func (pu *PatientUpdate) ClearBloodtype() *PatientUpdate {
-	pu.mutation.ClearBloodtype()
-	return pu
+// RemovePatientDetails removes "patient_details" edges to PatientDetail entities.
+func (pu *PatientUpdate) RemovePatientDetails(p ...*PatientDetail) *PatientUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return pu.RemovePatientDetailIDs(ids...)
 }
 
 // ClearTriageResult clears all "triageResult" edges to the TriageResult entity.
@@ -412,24 +330,14 @@ func (pu *PatientUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (pu *PatientUpdate) check() error {
-	if v, ok := pu.mutation.PersonalID(); ok {
-		if err := patient.PersonalIDValidator(v); err != nil {
-			return &ValidationError{Name: "personalID", err: fmt.Errorf("ent: validator failed for field \"personalID\": %w", err)}
+	if v, ok := pu.mutation.HospitalNumber(); ok {
+		if err := patient.HospitalNumberValidator(v); err != nil {
+			return &ValidationError{Name: "hospitalNumber", err: fmt.Errorf("ent: validator failed for field \"hospitalNumber\": %w", err)}
 		}
 	}
 	if v, ok := pu.mutation.PatientName(); ok {
 		if err := patient.PatientNameValidator(v); err != nil {
 			return &ValidationError{Name: "patientName", err: fmt.Errorf("ent: validator failed for field \"patientName\": %w", err)}
-		}
-	}
-	if v, ok := pu.mutation.Age(); ok {
-		if err := patient.AgeValidator(v); err != nil {
-			return &ValidationError{Name: "age", err: fmt.Errorf("ent: validator failed for field \"age\": %w", err)}
-		}
-	}
-	if v, ok := pu.mutation.HospitalNumber(); ok {
-		if err := patient.HospitalNumberValidator(v); err != nil {
-			return &ValidationError{Name: "hospitalNumber", err: fmt.Errorf("ent: validator failed for field \"hospitalNumber\": %w", err)}
 		}
 	}
 	if v, ok := pu.mutation.DrugAllergy(); ok {
@@ -458,18 +366,11 @@ func (pu *PatientUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := pu.mutation.PersonalID(); ok {
+	if value, ok := pu.mutation.HospitalNumber(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeString,
 			Value:  value,
-			Column: patient.FieldPersonalID,
-		})
-	}
-	if value, ok := pu.mutation.AddedPersonalID(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: patient.FieldPersonalID,
+			Column: patient.FieldHospitalNumber,
 		})
 	}
 	if value, ok := pu.mutation.PatientName(); ok {
@@ -479,27 +380,6 @@ func (pu *PatientUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: patient.FieldPatientName,
 		})
 	}
-	if value, ok := pu.mutation.Age(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: patient.FieldAge,
-		})
-	}
-	if value, ok := pu.mutation.AddedAge(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: patient.FieldAge,
-		})
-	}
-	if value, ok := pu.mutation.HospitalNumber(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: patient.FieldHospitalNumber,
-		})
-	}
 	if value, ok := pu.mutation.DrugAllergy(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -507,110 +387,52 @@ func (pu *PatientUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: patient.FieldDrugAllergy,
 		})
 	}
-	if value, ok := pu.mutation.AddedDate(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: patient.FieldAddedDate,
-		})
-	}
-	if pu.mutation.PrefixCleared() {
+	if pu.mutation.PatientDetailsCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   patient.PrefixTable,
-			Columns: []string{patient.PrefixColumn},
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   patient.PatientDetailsTable,
+			Columns: []string{patient.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: prefix.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pu.mutation.PrefixIDs(); len(nodes) > 0 {
+	if nodes := pu.mutation.RemovedPatientDetailsIDs(); len(nodes) > 0 && !pu.mutation.PatientDetailsCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   patient.PrefixTable,
-			Columns: []string{patient.PrefixColumn},
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   patient.PatientDetailsTable,
+			Columns: []string{patient.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: prefix.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if pu.mutation.GenderCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   patient.GenderTable,
-			Columns: []string{patient.GenderColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: gender.FieldID,
-				},
-			},
-		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pu.mutation.GenderIDs(); len(nodes) > 0 {
+	if nodes := pu.mutation.PatientDetailsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   patient.GenderTable,
-			Columns: []string{patient.GenderColumn},
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   patient.PatientDetailsTable,
+			Columns: []string{patient.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: gender.FieldID,
-				},
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if pu.mutation.BloodtypeCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   patient.BloodtypeTable,
-			Columns: []string{patient.BloodtypeColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: bloodtype.FieldID,
-				},
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := pu.mutation.BloodtypeIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   patient.BloodtypeTable,
-			Columns: []string{patient.BloodtypeColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: bloodtype.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}
@@ -907,16 +729,9 @@ type PatientUpdateOne struct {
 	mutation *PatientMutation
 }
 
-// SetPersonalID sets the "personalID" field.
-func (puo *PatientUpdateOne) SetPersonalID(i int) *PatientUpdateOne {
-	puo.mutation.ResetPersonalID()
-	puo.mutation.SetPersonalID(i)
-	return puo
-}
-
-// AddPersonalID adds i to the "personalID" field.
-func (puo *PatientUpdateOne) AddPersonalID(i int) *PatientUpdateOne {
-	puo.mutation.AddPersonalID(i)
+// SetHospitalNumber sets the "hospitalNumber" field.
+func (puo *PatientUpdateOne) SetHospitalNumber(s string) *PatientUpdateOne {
+	puo.mutation.SetHospitalNumber(s)
 	return puo
 }
 
@@ -926,100 +741,25 @@ func (puo *PatientUpdateOne) SetPatientName(s string) *PatientUpdateOne {
 	return puo
 }
 
-// SetAge sets the "age" field.
-func (puo *PatientUpdateOne) SetAge(i int) *PatientUpdateOne {
-	puo.mutation.ResetAge()
-	puo.mutation.SetAge(i)
-	return puo
-}
-
-// AddAge adds i to the "age" field.
-func (puo *PatientUpdateOne) AddAge(i int) *PatientUpdateOne {
-	puo.mutation.AddAge(i)
-	return puo
-}
-
-// SetHospitalNumber sets the "hospitalNumber" field.
-func (puo *PatientUpdateOne) SetHospitalNumber(s string) *PatientUpdateOne {
-	puo.mutation.SetHospitalNumber(s)
-	return puo
-}
-
 // SetDrugAllergy sets the "drugAllergy" field.
 func (puo *PatientUpdateOne) SetDrugAllergy(s string) *PatientUpdateOne {
 	puo.mutation.SetDrugAllergy(s)
 	return puo
 }
 
-// SetAddedDate sets the "addedDate" field.
-func (puo *PatientUpdateOne) SetAddedDate(t time.Time) *PatientUpdateOne {
-	puo.mutation.SetAddedDate(t)
+// AddPatientDetailIDs adds the "patient_details" edge to the PatientDetail entity by IDs.
+func (puo *PatientUpdateOne) AddPatientDetailIDs(ids ...int) *PatientUpdateOne {
+	puo.mutation.AddPatientDetailIDs(ids...)
 	return puo
 }
 
-// SetNillableAddedDate sets the "addedDate" field if the given value is not nil.
-func (puo *PatientUpdateOne) SetNillableAddedDate(t *time.Time) *PatientUpdateOne {
-	if t != nil {
-		puo.SetAddedDate(*t)
+// AddPatientDetails adds the "patient_details" edges to the PatientDetail entity.
+func (puo *PatientUpdateOne) AddPatientDetails(p ...*PatientDetail) *PatientUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
 	}
-	return puo
-}
-
-// SetPrefixID sets the "prefix" edge to the Prefix entity by ID.
-func (puo *PatientUpdateOne) SetPrefixID(id int) *PatientUpdateOne {
-	puo.mutation.SetPrefixID(id)
-	return puo
-}
-
-// SetNillablePrefixID sets the "prefix" edge to the Prefix entity by ID if the given value is not nil.
-func (puo *PatientUpdateOne) SetNillablePrefixID(id *int) *PatientUpdateOne {
-	if id != nil {
-		puo = puo.SetPrefixID(*id)
-	}
-	return puo
-}
-
-// SetPrefix sets the "prefix" edge to the Prefix entity.
-func (puo *PatientUpdateOne) SetPrefix(p *Prefix) *PatientUpdateOne {
-	return puo.SetPrefixID(p.ID)
-}
-
-// SetGenderID sets the "gender" edge to the Gender entity by ID.
-func (puo *PatientUpdateOne) SetGenderID(id int) *PatientUpdateOne {
-	puo.mutation.SetGenderID(id)
-	return puo
-}
-
-// SetNillableGenderID sets the "gender" edge to the Gender entity by ID if the given value is not nil.
-func (puo *PatientUpdateOne) SetNillableGenderID(id *int) *PatientUpdateOne {
-	if id != nil {
-		puo = puo.SetGenderID(*id)
-	}
-	return puo
-}
-
-// SetGender sets the "gender" edge to the Gender entity.
-func (puo *PatientUpdateOne) SetGender(g *Gender) *PatientUpdateOne {
-	return puo.SetGenderID(g.ID)
-}
-
-// SetBloodtypeID sets the "bloodtype" edge to the BloodType entity by ID.
-func (puo *PatientUpdateOne) SetBloodtypeID(id int) *PatientUpdateOne {
-	puo.mutation.SetBloodtypeID(id)
-	return puo
-}
-
-// SetNillableBloodtypeID sets the "bloodtype" edge to the BloodType entity by ID if the given value is not nil.
-func (puo *PatientUpdateOne) SetNillableBloodtypeID(id *int) *PatientUpdateOne {
-	if id != nil {
-		puo = puo.SetBloodtypeID(*id)
-	}
-	return puo
-}
-
-// SetBloodtype sets the "bloodtype" edge to the BloodType entity.
-func (puo *PatientUpdateOne) SetBloodtype(b *BloodType) *PatientUpdateOne {
-	return puo.SetBloodtypeID(b.ID)
+	return puo.AddPatientDetailIDs(ids...)
 }
 
 // AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
@@ -1102,22 +842,25 @@ func (puo *PatientUpdateOne) Mutation() *PatientMutation {
 	return puo.mutation
 }
 
-// ClearPrefix clears the "prefix" edge to the Prefix entity.
-func (puo *PatientUpdateOne) ClearPrefix() *PatientUpdateOne {
-	puo.mutation.ClearPrefix()
+// ClearPatientDetails clears all "patient_details" edges to the PatientDetail entity.
+func (puo *PatientUpdateOne) ClearPatientDetails() *PatientUpdateOne {
+	puo.mutation.ClearPatientDetails()
 	return puo
 }
 
-// ClearGender clears the "gender" edge to the Gender entity.
-func (puo *PatientUpdateOne) ClearGender() *PatientUpdateOne {
-	puo.mutation.ClearGender()
+// RemovePatientDetailIDs removes the "patient_details" edge to PatientDetail entities by IDs.
+func (puo *PatientUpdateOne) RemovePatientDetailIDs(ids ...int) *PatientUpdateOne {
+	puo.mutation.RemovePatientDetailIDs(ids...)
 	return puo
 }
 
-// ClearBloodtype clears the "bloodtype" edge to the BloodType entity.
-func (puo *PatientUpdateOne) ClearBloodtype() *PatientUpdateOne {
-	puo.mutation.ClearBloodtype()
-	return puo
+// RemovePatientDetails removes "patient_details" edges to PatientDetail entities.
+func (puo *PatientUpdateOne) RemovePatientDetails(p ...*PatientDetail) *PatientUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return puo.RemovePatientDetailIDs(ids...)
 }
 
 // ClearTriageResult clears all "triageResult" edges to the TriageResult entity.
@@ -1284,24 +1027,14 @@ func (puo *PatientUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (puo *PatientUpdateOne) check() error {
-	if v, ok := puo.mutation.PersonalID(); ok {
-		if err := patient.PersonalIDValidator(v); err != nil {
-			return &ValidationError{Name: "personalID", err: fmt.Errorf("ent: validator failed for field \"personalID\": %w", err)}
+	if v, ok := puo.mutation.HospitalNumber(); ok {
+		if err := patient.HospitalNumberValidator(v); err != nil {
+			return &ValidationError{Name: "hospitalNumber", err: fmt.Errorf("ent: validator failed for field \"hospitalNumber\": %w", err)}
 		}
 	}
 	if v, ok := puo.mutation.PatientName(); ok {
 		if err := patient.PatientNameValidator(v); err != nil {
 			return &ValidationError{Name: "patientName", err: fmt.Errorf("ent: validator failed for field \"patientName\": %w", err)}
-		}
-	}
-	if v, ok := puo.mutation.Age(); ok {
-		if err := patient.AgeValidator(v); err != nil {
-			return &ValidationError{Name: "age", err: fmt.Errorf("ent: validator failed for field \"age\": %w", err)}
-		}
-	}
-	if v, ok := puo.mutation.HospitalNumber(); ok {
-		if err := patient.HospitalNumberValidator(v); err != nil {
-			return &ValidationError{Name: "hospitalNumber", err: fmt.Errorf("ent: validator failed for field \"hospitalNumber\": %w", err)}
 		}
 	}
 	if v, ok := puo.mutation.DrugAllergy(); ok {
@@ -1328,18 +1061,11 @@ func (puo *PatientUpdateOne) sqlSave(ctx context.Context) (_node *Patient, err e
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing Patient.ID for update")}
 	}
 	_spec.Node.ID.Value = id
-	if value, ok := puo.mutation.PersonalID(); ok {
+	if value, ok := puo.mutation.HospitalNumber(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeString,
 			Value:  value,
-			Column: patient.FieldPersonalID,
-		})
-	}
-	if value, ok := puo.mutation.AddedPersonalID(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: patient.FieldPersonalID,
+			Column: patient.FieldHospitalNumber,
 		})
 	}
 	if value, ok := puo.mutation.PatientName(); ok {
@@ -1349,27 +1075,6 @@ func (puo *PatientUpdateOne) sqlSave(ctx context.Context) (_node *Patient, err e
 			Column: patient.FieldPatientName,
 		})
 	}
-	if value, ok := puo.mutation.Age(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: patient.FieldAge,
-		})
-	}
-	if value, ok := puo.mutation.AddedAge(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: patient.FieldAge,
-		})
-	}
-	if value, ok := puo.mutation.HospitalNumber(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: patient.FieldHospitalNumber,
-		})
-	}
 	if value, ok := puo.mutation.DrugAllergy(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -1377,110 +1082,52 @@ func (puo *PatientUpdateOne) sqlSave(ctx context.Context) (_node *Patient, err e
 			Column: patient.FieldDrugAllergy,
 		})
 	}
-	if value, ok := puo.mutation.AddedDate(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: patient.FieldAddedDate,
-		})
-	}
-	if puo.mutation.PrefixCleared() {
+	if puo.mutation.PatientDetailsCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   patient.PrefixTable,
-			Columns: []string{patient.PrefixColumn},
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   patient.PatientDetailsTable,
+			Columns: []string{patient.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: prefix.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := puo.mutation.PrefixIDs(); len(nodes) > 0 {
+	if nodes := puo.mutation.RemovedPatientDetailsIDs(); len(nodes) > 0 && !puo.mutation.PatientDetailsCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   patient.PrefixTable,
-			Columns: []string{patient.PrefixColumn},
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   patient.PatientDetailsTable,
+			Columns: []string{patient.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: prefix.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if puo.mutation.GenderCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   patient.GenderTable,
-			Columns: []string{patient.GenderColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: gender.FieldID,
-				},
-			},
-		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := puo.mutation.GenderIDs(); len(nodes) > 0 {
+	if nodes := puo.mutation.PatientDetailsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   patient.GenderTable,
-			Columns: []string{patient.GenderColumn},
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   patient.PatientDetailsTable,
+			Columns: []string{patient.PatientDetailsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: gender.FieldID,
-				},
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
-	if puo.mutation.BloodtypeCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   patient.BloodtypeTable,
-			Columns: []string{patient.BloodtypeColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: bloodtype.FieldID,
-				},
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := puo.mutation.BloodtypeIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
-			Table:   patient.BloodtypeTable,
-			Columns: []string{patient.BloodtypeColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: bloodtype.FieldID,
+					Column: patientdetail.FieldID,
 				},
 			},
 		}

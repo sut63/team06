@@ -8,7 +8,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import moment from 'moment';
 
 import {
     Content,
@@ -16,7 +15,6 @@ import {
     Page,
     pageTheme,
     ContentHeader,
-    Link,
 } from '@backstage/core';
   
 import {
@@ -24,7 +22,7 @@ import {
   } from '@material-ui/core';
 
 import { DefaultApi } from '../../api/apis';
-import { EntPatient } from '../../api/models/EntPatient';
+import { EntPatientDetail } from '../../api/models/EntPatientDetail';
 
 const useStyles = makeStyles({
     table: {
@@ -35,21 +33,21 @@ const useStyles = makeStyles({
 export default function ComponentsTable() {
     const classes = useStyles();
     const http = new DefaultApi();
-    const [patients, setPatients] = useState<EntPatient[]>([]);
+    const [patientDetails, setPatientDetails] = useState<EntPatientDetail[]>([]);
 
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getPatients = async () => {
-            const res = await http.listPatient({ limit: 10, offset: 0 });
+            const res = await http.listPatientDetail({ limit: 10, offset: 0 });
             setLoading(false);
-            setPatients(res);
+            setPatientDetails(res);
         };
         getPatients();
     }, [loading]);
 
-    const deletePatients = async (id: number) => {
-        const res = await http.deletePatient({ id: id });
+    const deletePatientDetails = async (id: number) => {
+        const res = await http.deletePatientdetail({ id: id });
         setLoading(true);
     };
 
@@ -74,34 +72,28 @@ export default function ComponentsTable() {
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center">รหัสประจำตัวประชาชน</TableCell>
                                 <TableCell align="center">คำนำหน้า</TableCell>
                                 <TableCell align="center">ชื่อผู้ป่วย</TableCell>
-                                <TableCell align="center">อายุ</TableCell>
                                 <TableCell align="center">เพศ</TableCell>
                                 <TableCell align="center">หมู่เลือด</TableCell>
                                 <TableCell align="center">หมายเลขผู้ป่วย</TableCell>
                                 <TableCell align="center">ประวัติการแพ้ยา</TableCell>
-                                <TableCell align="center">วันที่ลงทะเบียน</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {patients.map((item: any) => (
+                            {patientDetails.map((item: any) => (
 
                                 <TableRow key={item.id}>
-                                    <TableCell align="center">{item.personalID}</TableCell>
                                     <TableCell align="center">{item.edges?.prefix?.prefixValue}</TableCell>
-                                    <TableCell align="center">{item.patientName}</TableCell>
-                                    <TableCell align="center">{item.age}</TableCell>
+                                    <TableCell align="center">{item.edges?.patient?.patientName}</TableCell>
                                     <TableCell align="center">{item.edges?.gender?.genderValue}</TableCell>
                                     <TableCell align="center">{item.edges?.bloodtype?.bloodValue}</TableCell>
-                                    <TableCell align="center">{item.hospitalNumber}</TableCell>
-                                    <TableCell align="center">{item.drugAllergy}</TableCell>
-                                    <TableCell align="center">{moment(item.addtime).format('LLLL')}</TableCell>
+                                    <TableCell align="center">{item.edges?.patient?.hospitalNumber}</TableCell>
+                                    <TableCell align="center">{item.edges?.patient?.drugAllergy}</TableCell>
                                     <TableCell align="center">
                                         <Button
                                             onClick={() => {
-                                                deletePatients(item.id);
+                                                deletePatientDetails(item.id);
                                             }}
                                             style={{ marginLeft: 10 }}
                                             variant="contained"
