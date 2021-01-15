@@ -3359,7 +3359,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/controllers.RightToTreatment"
+                                "$ref": "#/definitions/ent.RightToTreatment"
                             }
                         }
                     },
@@ -3394,7 +3394,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.RightToTreatment"
+                            "$ref": "#/definitions/ent.RightToTreatment"
                         }
                     }
                 ],
@@ -3402,7 +3402,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.RightToTreatment"
+                            "$ref": "#/definitions/ent.RightToTreatment"
                         }
                     },
                     "400": {
@@ -3441,7 +3441,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.RightToTreatment"
+                            "$ref": "#/definitions/ent.RightToTreatment"
                         }
                     },
                     "400": {
@@ -3488,7 +3488,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.RightToTreatment"
+                            "$ref": "#/definitions/ent.RightToTreatment"
                         }
                     }
                 ],
@@ -3496,7 +3496,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.RightToTreatment"
+                            "$ref": "#/definitions/ent.RightToTreatment"
                         }
                     },
                     "400": {
@@ -4463,26 +4463,6 @@ var doc = `{
         }
     },
     "definitions": {
-        "controllers.RightToTreatment": {
-            "type": "object",
-            "properties": {
-                "endtime": {
-                    "type": "string"
-                },
-                "hospital": {
-                    "type": "integer"
-                },
-                "patient": {
-                    "type": "integer"
-                },
-                "rightToTreatmentType": {
-                    "type": "integer"
-                },
-                "starttime": {
-                    "type": "string"
-                }
-            }
-        },
         "ent.AppointmentResults": {
             "type": "object",
             "properties": {
