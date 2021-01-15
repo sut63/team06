@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { DefaultApi } from '../../api/apis';
 import moment from 'moment';
+
 import { Link as RouterLink } from 'react-router-dom';
 import {Link,} from '@backstage/core';
 import { EntRightToTreatment } from '../../api/models/EntRightToTreatment'; 
@@ -79,5 +80,4 @@ export default function ComponentsTable() {
    </TableContainer>
  );
 }
-
 
