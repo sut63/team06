@@ -26,6 +26,16 @@ type MedicalRecord struct {
 	Name     string
 }
 
+//TreatmentTypes Struct
+type TreatmentTypes struct {
+	TreatmentType []TreatmentType
+}
+
+//TreatmentType Struct
+type TreatmentType struct {
+	Type string
+}
+
 //Prefixs Struct
 type Prefixs struct {
 	Prefix []Prefix
@@ -264,6 +274,22 @@ func main() {
 		client.Gender.
 			Create().
 			SetGenderValue(g.GenderValue).
+			Save(context.Background())
+	}
+
+	// Set BloodTypes Data
+	treatmenttypes := TreatmentTypes{
+		TreatmentType: []TreatmentType{
+			TreatmentType{"ผิวหนัง"},
+			TreatmentType{"ทางเดินอาหาร"},
+			TreatmentType{"ลำไส้"},
+		},
+	}
+
+	for _, ty := range treatmenttypes.TreatmentType {
+		client.TreatmentType.
+			Create().
+			SetType(ty.Type).
 			Save(context.Background())
 	}
 

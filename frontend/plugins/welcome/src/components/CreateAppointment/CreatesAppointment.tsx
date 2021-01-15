@@ -166,8 +166,8 @@ const CreateAppointmentResults: FC<{}> = () => {
                     <div className={classes.root}>
                         {success == 2 ? (
                             <Alert severity="error" >
-                                <AlertTitle>Error</AlertTitle>
-                                    บันทึกข้อมูลไม่สำเร็จ! — <strong>check it out!</strong> 
+                                
+                                    ERROR!---บันทึกข้อมูลไม่สำเร็จ! — <strong>check it out!</strong> 
                             </Alert>
                         ) : <b></b>}
                     </div>
