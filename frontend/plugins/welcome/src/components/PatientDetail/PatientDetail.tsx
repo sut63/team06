@@ -181,6 +181,7 @@ const PatientDetail: FC<{}> = () => {
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel>ชื่อผู้ป่วย</InputLabel>
                 <Select
+                  id="patientName"
                   name="patient"
                   value={patient_detail.patient || ''}
                   onChange={handleChange}
@@ -200,6 +201,7 @@ const PatientDetail: FC<{}> = () => {
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel>คำนำหน้า</InputLabel>
                 <Select
+                  id="prefix"
                   name="prefix"
                   value={patient_detail.prefix || ''}
                   onChange={handleChange}
@@ -218,6 +220,7 @@ const PatientDetail: FC<{}> = () => {
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel>เพศ</InputLabel>
                 <Select
+                  id="gender"
                   name="gender"
                   value={patient_detail.gender || ''}
                   onChange={handleChange}
@@ -236,6 +239,7 @@ const PatientDetail: FC<{}> = () => {
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel>หมู่เลือด</InputLabel>
                 <Select
+                  id="bloodtype"
                   name="bloodtype"
                   value={patient_detail.bloodtype || ''}
                   onChange={handleChange}
