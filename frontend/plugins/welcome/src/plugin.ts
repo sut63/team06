@@ -12,7 +12,8 @@ import Righttable from './components/Righttable';
 import PatientRegistration from './components/PatientRegistration';
 import PatientRegistrationTables from './components/PatientRegistrationTable';
 import PatientDetail from './components/PatientDetail';
-
+import CreateAppointment from './components/CreateAppointment';
+import AppointmentResults from './components/AppointmentResults';
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -30,5 +31,7 @@ export const plugin = createPlugin({
     router.registerRoute('/patientregistration', PatientRegistration);
     router.registerRoute('/patientregistrationtable', PatientRegistrationTables);
     router.registerRoute('/patientdetail', PatientDetail);
+    router.registerRoute('/createappointment', CreateAppointment);
+    router.registerRoute('/appointmentresults', AppointmentResults);
   },
 });

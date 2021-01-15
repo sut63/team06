@@ -161,7 +161,7 @@ const medicalProcedure: FC<{}> = () => {
                     clear();
                     Toast.fire({
                         icon: 'success',
-                        title: 'Save successfully',
+                        title: 'Save Successfully',
                     });
                 } else {
                     Toast.fire({

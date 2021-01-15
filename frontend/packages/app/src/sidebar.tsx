@@ -17,10 +17,11 @@ export const AppSidebar = () => (
     {/* Global nav, not org-specific */}
     <SidebarItem icon={HomeIcon} to="./" text="Home" />
     <SidebarItem icon={CreateComponentIcon} to="patientregistration" text="Patient Registration" />
-    <SidebarItem icon={CreateComponentIcon} to="diagnosis" text="Diagnosis" />
-    <SidebarItem icon={CreateComponentIcon} to="triageresult" text="TriageResult" />
-    <SidebarItem icon={CreateComponentIcon} to="medicalprocedure" text="MedicalProcedre" />
     <SidebarItem icon={CreateComponentIcon} to="create" text="Right to treatment" />
+    <SidebarItem icon={CreateComponentIcon} to="triageresult" text="TriageResult" />
+    <SidebarItem icon={CreateComponentIcon} to="diagnosis" text="Diagnosis" />
+    <SidebarItem icon={CreateComponentIcon} to="medicalprocedure" text="MedicalProcedure" />
+    <SidebarItem icon={CreateComponentIcon} to="createappointment" text="AppointmentResults" />
     {/* End global nav */}
     <SidebarDivider />
     <SidebarSpace />
