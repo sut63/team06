@@ -1,18 +1,5 @@
 basePath: /api/v1
 definitions:
-  controllers.RightToTreatment:
-    properties:
-      endtime:
-        type: string
-      hospital:
-        type: integer
-      patient:
-        type: integer
-      rightToTreatmentType:
-        type: integer
-      starttime:
-        type: string
-    type: object
   ent.AppointmentResults:
     properties:
       addtimeAppoint:
@@ -2844,7 +2831,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/controllers.RightToTreatment'
+              $ref: '#/definitions/ent.RightToTreatment'
             type: array
         "400":
           description: Bad Request
@@ -2866,14 +2853,14 @@ paths:
         name: righttotreatment
         required: true
         schema:
-          $ref: '#/definitions/controllers.RightToTreatment'
+          $ref: '#/definitions/ent.RightToTreatment'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.RightToTreatment'
+            $ref: '#/definitions/ent.RightToTreatment'
         "400":
           description: Bad Request
           schema:
@@ -2928,7 +2915,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.RightToTreatment'
+            $ref: '#/definitions/ent.RightToTreatment'
         "400":
           description: Bad Request
           schema:
@@ -2958,14 +2945,14 @@ paths:
         name: righttotreatment
         required: true
         schema:
-          $ref: '#/definitions/controllers.RightToTreatment'
+          $ref: '#/definitions/ent.RightToTreatment'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.RightToTreatment'
+            $ref: '#/definitions/ent.RightToTreatment'
         "400":
           description: Bad Request
           schema:
