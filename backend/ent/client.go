@@ -20,7 +20,6 @@ import (
 	"github.com/team06/app/ent/medicalrecord"
 	"github.com/team06/app/ent/nurse"
 	"github.com/team06/app/ent/patient"
-	"github.com/team06/app/ent/patientdetail"
 	"github.com/team06/app/ent/prefix"
 	"github.com/team06/app/ent/proceduretype"
 	"github.com/team06/app/ent/righttotreatment"
@@ -62,8 +61,6 @@ type Client struct {
 	Nurse *NurseClient
 	// Patient is the client for interacting with the Patient builders.
 	Patient *PatientClient
-	// PatientDetail is the client for interacting with the PatientDetail builders.
-	PatientDetail *PatientDetailClient
 	// Prefix is the client for interacting with the Prefix builders.
 	Prefix *PrefixClient
 	// ProcedureType is the client for interacting with the ProcedureType builders.
@@ -104,7 +101,6 @@ func (c *Client) init() {
 	c.MedicalRecord = NewMedicalRecordClient(c.config)
 	c.Nurse = NewNurseClient(c.config)
 	c.Patient = NewPatientClient(c.config)
-	c.PatientDetail = NewPatientDetailClient(c.config)
 	c.Prefix = NewPrefixClient(c.config)
 	c.ProcedureType = NewProcedureTypeClient(c.config)
 	c.RightToTreatment = NewRightToTreatmentClient(c.config)
@@ -156,7 +152,6 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		MedicalRecord:        NewMedicalRecordClient(cfg),
 		Nurse:                NewNurseClient(cfg),
 		Patient:              NewPatientClient(cfg),
-		PatientDetail:        NewPatientDetailClient(cfg),
 		Prefix:               NewPrefixClient(cfg),
 		ProcedureType:        NewProcedureTypeClient(cfg),
 		RightToTreatment:     NewRightToTreatmentClient(cfg),
@@ -191,7 +186,6 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		MedicalRecord:        NewMedicalRecordClient(cfg),
 		Nurse:                NewNurseClient(cfg),
 		Patient:              NewPatientClient(cfg),
-		PatientDetail:        NewPatientDetailClient(cfg),
 		Prefix:               NewPrefixClient(cfg),
 		ProcedureType:        NewProcedureTypeClient(cfg),
 		RightToTreatment:     NewRightToTreatmentClient(cfg),
@@ -239,7 +233,6 @@ func (c *Client) Use(hooks ...Hook) {
 	c.MedicalRecord.Use(hooks...)
 	c.Nurse.Use(hooks...)
 	c.Patient.Use(hooks...)
-	c.PatientDetail.Use(hooks...)
 	c.Prefix.Use(hooks...)
 	c.ProcedureType.Use(hooks...)
 	c.RightToTreatment.Use(hooks...)
@@ -485,15 +478,15 @@ func (c *BloodTypeClient) GetX(ctx context.Context, id int) *BloodType {
 	return obj
 }
 
-// QueryPatientDetails queries the patient_details edge of a BloodType.
-func (c *BloodTypeClient) QueryPatientDetails(bt *BloodType) *PatientDetailQuery {
-	query := &PatientDetailQuery{config: c.config}
+// QueryPatients queries the patients edge of a BloodType.
+func (c *BloodTypeClient) QueryPatients(bt *BloodType) *PatientQuery {
+	query := &PatientQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := bt.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(bloodtype.Table, bloodtype.FieldID, id),
-			sqlgraph.To(patientdetail.Table, patientdetail.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, bloodtype.PatientDetailsTable, bloodtype.PatientDetailsColumn),
+			sqlgraph.To(patient.Table, patient.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bloodtype.PatientsTable, bloodtype.PatientsColumn),
 		)
 		fromV = sqlgraph.Neighbors(bt.driver.Dialect(), step)
 		return fromV, nil
@@ -965,15 +958,15 @@ func (c *GenderClient) GetX(ctx context.Context, id int) *Gender {
 	return obj
 }
 
-// QueryPatientDetails queries the patient_details edge of a Gender.
-func (c *GenderClient) QueryPatientDetails(ge *Gender) *PatientDetailQuery {
-	query := &PatientDetailQuery{config: c.config}
+// QueryPatients queries the patients edge of a Gender.
+func (c *GenderClient) QueryPatients(ge *Gender) *PatientQuery {
+	query := &PatientQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := ge.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(gender.Table, gender.FieldID, id),
-			sqlgraph.To(patientdetail.Table, patientdetail.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, gender.PatientDetailsTable, gender.PatientDetailsColumn),
+			sqlgraph.To(patient.Table, patient.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, gender.PatientsTable, gender.PatientsColumn),
 		)
 		fromV = sqlgraph.Neighbors(ge.driver.Dialect(), step)
 		return fromV, nil
@@ -1517,15 +1510,47 @@ func (c *PatientClient) GetX(ctx context.Context, id int) *Patient {
 	return obj
 }
 
-// QueryPatientDetails queries the patient_details edge of a Patient.
-func (c *PatientClient) QueryPatientDetails(pa *Patient) *PatientDetailQuery {
-	query := &PatientDetailQuery{config: c.config}
+// QueryPrefix queries the prefix edge of a Patient.
+func (c *PatientClient) QueryPrefix(pa *Patient) *PrefixQuery {
+	query := &PrefixQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := pa.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(patient.Table, patient.FieldID, id),
-			sqlgraph.To(patientdetail.Table, patientdetail.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, patient.PatientDetailsTable, patient.PatientDetailsColumn),
+			sqlgraph.To(prefix.Table, prefix.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, patient.PrefixTable, patient.PrefixColumn),
+		)
+		fromV = sqlgraph.Neighbors(pa.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryGender queries the gender edge of a Patient.
+func (c *PatientClient) QueryGender(pa *Patient) *GenderQuery {
+	query := &GenderQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := pa.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(patient.Table, patient.FieldID, id),
+			sqlgraph.To(gender.Table, gender.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, patient.GenderTable, patient.GenderColumn),
+		)
+		fromV = sqlgraph.Neighbors(pa.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryBloodtype queries the bloodtype edge of a Patient.
+func (c *PatientClient) QueryBloodtype(pa *Patient) *BloodTypeQuery {
+	query := &BloodTypeQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := pa.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(patient.Table, patient.FieldID, id),
+			sqlgraph.To(bloodtype.Table, bloodtype.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, patient.BloodtypeTable, patient.BloodtypeColumn),
 		)
 		fromV = sqlgraph.Neighbors(pa.driver.Dialect(), step)
 		return fromV, nil
@@ -1618,158 +1643,6 @@ func (c *PatientClient) Hooks() []Hook {
 	return c.hooks.Patient
 }
 
-// PatientDetailClient is a client for the PatientDetail schema.
-type PatientDetailClient struct {
-	config
-}
-
-// NewPatientDetailClient returns a client for the PatientDetail from the given config.
-func NewPatientDetailClient(c config) *PatientDetailClient {
-	return &PatientDetailClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `patientdetail.Hooks(f(g(h())))`.
-func (c *PatientDetailClient) Use(hooks ...Hook) {
-	c.hooks.PatientDetail = append(c.hooks.PatientDetail, hooks...)
-}
-
-// Create returns a create builder for PatientDetail.
-func (c *PatientDetailClient) Create() *PatientDetailCreate {
-	mutation := newPatientDetailMutation(c.config, OpCreate)
-	return &PatientDetailCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of PatientDetail entities.
-func (c *PatientDetailClient) CreateBulk(builders ...*PatientDetailCreate) *PatientDetailCreateBulk {
-	return &PatientDetailCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for PatientDetail.
-func (c *PatientDetailClient) Update() *PatientDetailUpdate {
-	mutation := newPatientDetailMutation(c.config, OpUpdate)
-	return &PatientDetailUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *PatientDetailClient) UpdateOne(pd *PatientDetail) *PatientDetailUpdateOne {
-	mutation := newPatientDetailMutation(c.config, OpUpdateOne, withPatientDetail(pd))
-	return &PatientDetailUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *PatientDetailClient) UpdateOneID(id int) *PatientDetailUpdateOne {
-	mutation := newPatientDetailMutation(c.config, OpUpdateOne, withPatientDetailID(id))
-	return &PatientDetailUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for PatientDetail.
-func (c *PatientDetailClient) Delete() *PatientDetailDelete {
-	mutation := newPatientDetailMutation(c.config, OpDelete)
-	return &PatientDetailDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a delete builder for the given entity.
-func (c *PatientDetailClient) DeleteOne(pd *PatientDetail) *PatientDetailDeleteOne {
-	return c.DeleteOneID(pd.ID)
-}
-
-// DeleteOneID returns a delete builder for the given id.
-func (c *PatientDetailClient) DeleteOneID(id int) *PatientDetailDeleteOne {
-	builder := c.Delete().Where(patientdetail.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &PatientDetailDeleteOne{builder}
-}
-
-// Query returns a query builder for PatientDetail.
-func (c *PatientDetailClient) Query() *PatientDetailQuery {
-	return &PatientDetailQuery{config: c.config}
-}
-
-// Get returns a PatientDetail entity by its id.
-func (c *PatientDetailClient) Get(ctx context.Context, id int) (*PatientDetail, error) {
-	return c.Query().Where(patientdetail.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *PatientDetailClient) GetX(ctx context.Context, id int) *PatientDetail {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// QueryPrefix queries the prefix edge of a PatientDetail.
-func (c *PatientDetailClient) QueryPrefix(pd *PatientDetail) *PrefixQuery {
-	query := &PrefixQuery{config: c.config}
-	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
-		id := pd.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(patientdetail.Table, patientdetail.FieldID, id),
-			sqlgraph.To(prefix.Table, prefix.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, patientdetail.PrefixTable, patientdetail.PrefixColumn),
-		)
-		fromV = sqlgraph.Neighbors(pd.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// QueryGender queries the gender edge of a PatientDetail.
-func (c *PatientDetailClient) QueryGender(pd *PatientDetail) *GenderQuery {
-	query := &GenderQuery{config: c.config}
-	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
-		id := pd.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(patientdetail.Table, patientdetail.FieldID, id),
-			sqlgraph.To(gender.Table, gender.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, patientdetail.GenderTable, patientdetail.GenderColumn),
-		)
-		fromV = sqlgraph.Neighbors(pd.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// QueryBloodtype queries the bloodtype edge of a PatientDetail.
-func (c *PatientDetailClient) QueryBloodtype(pd *PatientDetail) *BloodTypeQuery {
-	query := &BloodTypeQuery{config: c.config}
-	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
-		id := pd.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(patientdetail.Table, patientdetail.FieldID, id),
-			sqlgraph.To(bloodtype.Table, bloodtype.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, patientdetail.BloodtypeTable, patientdetail.BloodtypeColumn),
-		)
-		fromV = sqlgraph.Neighbors(pd.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// QueryPatient queries the patient edge of a PatientDetail.
-func (c *PatientDetailClient) QueryPatient(pd *PatientDetail) *PatientQuery {
-	query := &PatientQuery{config: c.config}
-	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
-		id := pd.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(patientdetail.Table, patientdetail.FieldID, id),
-			sqlgraph.To(patient.Table, patient.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, patientdetail.PatientTable, patientdetail.PatientColumn),
-		)
-		fromV = sqlgraph.Neighbors(pd.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// Hooks returns the client hooks.
-func (c *PatientDetailClient) Hooks() []Hook {
-	return c.hooks.PatientDetail
-}
-
 // PrefixClient is a client for the Prefix schema.
 type PrefixClient struct {
 	config
@@ -1853,15 +1726,15 @@ func (c *PrefixClient) GetX(ctx context.Context, id int) *Prefix {
 	return obj
 }
 
-// QueryPatientDetails queries the patient_details edge of a Prefix.
-func (c *PrefixClient) QueryPatientDetails(pr *Prefix) *PatientDetailQuery {
-	query := &PatientDetailQuery{config: c.config}
+// QueryPatients queries the patients edge of a Prefix.
+func (c *PrefixClient) QueryPatients(pr *Prefix) *PatientQuery {
+	query := &PatientQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := pr.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(prefix.Table, prefix.FieldID, id),
-			sqlgraph.To(patientdetail.Table, patientdetail.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, prefix.PatientDetailsTable, prefix.PatientDetailsColumn),
+			sqlgraph.To(patient.Table, patient.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, prefix.PatientsTable, prefix.PatientsColumn),
 		)
 		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
 		return fromV, nil

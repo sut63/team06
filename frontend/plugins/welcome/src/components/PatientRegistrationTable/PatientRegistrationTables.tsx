@@ -16,13 +16,13 @@ import {
     pageTheme,
     ContentHeader,
 } from '@backstage/core';
-  
+
 import {
     Box,
-  } from '@material-ui/core';
+} from '@material-ui/core';
 
 import { DefaultApi } from '../../api/apis';
-import { EntPatientDetail } from '../../api/models/EntPatientDetail';
+import { EntPatient } from '../../api/models/EntPatient';
 
 const useStyles = makeStyles({
     table: {
@@ -33,21 +33,21 @@ const useStyles = makeStyles({
 export default function ComponentsTable() {
     const classes = useStyles();
     const http = new DefaultApi();
-    const [patientDetails, setPatientDetails] = useState<EntPatientDetail[]>([]);
+    const [patients, setPatients] = useState<EntPatient[]>([]);
 
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getPatients = async () => {
-            const res = await http.listPatientDetail({ limit: 10, offset: 0 });
+            const res = await http.listPatient({ limit: 10, offset: 0 });
             setLoading(false);
-            setPatientDetails(res);
+            setPatients(res);
         };
         getPatients();
     }, [loading]);
 
-    const deletePatientDetails = async (id: number) => {
-        const res = await http.deletePatientdetail({ id: id });
+    const deletePatients = async (id: number) => {
+        const res = await http.deletePatient({ id: id });
         setLoading(true);
     };
 
@@ -72,28 +72,32 @@ export default function ComponentsTable() {
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
+                                <TableCell align="center">เลขประจำตัวประชาชน</TableCell>
                                 <TableCell align="center">คำนำหน้า</TableCell>
                                 <TableCell align="center">ชื่อผู้ป่วย</TableCell>
                                 <TableCell align="center">เพศ</TableCell>
                                 <TableCell align="center">หมู่เลือด</TableCell>
                                 <TableCell align="center">หมายเลขผู้ป่วย</TableCell>
                                 <TableCell align="center">ประวัติการแพ้ยา</TableCell>
+                                <TableCell align="center">เบอร์โทรศัพท์</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {patientDetails.map((item: any) => (
+                            {patients.map((item: any) => (
 
                                 <TableRow key={item.id}>
+                                    <TableCell align="center">{item.personalID}</TableCell>
                                     <TableCell align="center">{item.edges?.prefix?.prefixValue}</TableCell>
-                                    <TableCell align="center">{item.edges?.patient?.patientName}</TableCell>
+                                    <TableCell align="center">{item.patientName}</TableCell>
                                     <TableCell align="center">{item.edges?.gender?.genderValue}</TableCell>
                                     <TableCell align="center">{item.edges?.bloodtype?.bloodValue}</TableCell>
-                                    <TableCell align="center">{item.edges?.patient?.hospitalNumber}</TableCell>
-                                    <TableCell align="center">{item.edges?.patient?.drugAllergy}</TableCell>
+                                    <TableCell align="center">{item.hospitalNumber}</TableCell>
+                                    <TableCell align="center">{item.drugAllergy}</TableCell>
+                                    <TableCell align="center">{item.mobileNumber}</TableCell>
                                     <TableCell align="center">
                                         <Button
                                             onClick={() => {
-                                                deletePatientDetails(item.id);
+                                                deletePatients(item.id);
                                             }}
                                             style={{ marginLeft: 10 }}
                                             variant="contained"

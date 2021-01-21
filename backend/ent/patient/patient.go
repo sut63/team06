@@ -2,20 +2,34 @@
 
 package patient
 
+import (
+	"time"
+)
+
 const (
 	// Label holds the string label denoting the patient type in the database.
 	Label = "patient"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldPersonalID holds the string denoting the personalid field in the database.
+	FieldPersonalID = "personal_id"
 	// FieldHospitalNumber holds the string denoting the hospitalnumber field in the database.
 	FieldHospitalNumber = "hospital_number"
 	// FieldPatientName holds the string denoting the patientname field in the database.
 	FieldPatientName = "patient_name"
 	// FieldDrugAllergy holds the string denoting the drugallergy field in the database.
 	FieldDrugAllergy = "drug_allergy"
+	// FieldMobileNumber holds the string denoting the mobilenumber field in the database.
+	FieldMobileNumber = "mobile_number"
+	// FieldAdded holds the string denoting the added field in the database.
+	FieldAdded = "added"
 
-	// EdgePatientDetails holds the string denoting the patient_details edge name in mutations.
-	EdgePatientDetails = "patient_details"
+	// EdgePrefix holds the string denoting the prefix edge name in mutations.
+	EdgePrefix = "prefix"
+	// EdgeGender holds the string denoting the gender edge name in mutations.
+	EdgeGender = "gender"
+	// EdgeBloodtype holds the string denoting the bloodtype edge name in mutations.
+	EdgeBloodtype = "bloodtype"
 	// EdgeTriageResult holds the string denoting the triageresult edge name in mutations.
 	EdgeTriageResult = "triageResult"
 	// EdgePatientToAppointmentResults holds the string denoting the patienttoappointmentresults edge name in mutations.
@@ -29,13 +43,27 @@ const (
 
 	// Table holds the table name of the patient in the database.
 	Table = "patients"
-	// PatientDetailsTable is the table the holds the patient_details relation/edge.
-	PatientDetailsTable = "patient_details"
-	// PatientDetailsInverseTable is the table name for the PatientDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "patientdetail" package.
-	PatientDetailsInverseTable = "patient_details"
-	// PatientDetailsColumn is the table column denoting the patient_details relation/edge.
-	PatientDetailsColumn = "patient_patient_details"
+	// PrefixTable is the table the holds the prefix relation/edge.
+	PrefixTable = "patients"
+	// PrefixInverseTable is the table name for the Prefix entity.
+	// It exists in this package in order to avoid circular dependency with the "prefix" package.
+	PrefixInverseTable = "prefixes"
+	// PrefixColumn is the table column denoting the prefix relation/edge.
+	PrefixColumn = "prefix_patients"
+	// GenderTable is the table the holds the gender relation/edge.
+	GenderTable = "patients"
+	// GenderInverseTable is the table name for the Gender entity.
+	// It exists in this package in order to avoid circular dependency with the "gender" package.
+	GenderInverseTable = "genders"
+	// GenderColumn is the table column denoting the gender relation/edge.
+	GenderColumn = "gender_patients"
+	// BloodtypeTable is the table the holds the bloodtype relation/edge.
+	BloodtypeTable = "patients"
+	// BloodtypeInverseTable is the table name for the BloodType entity.
+	// It exists in this package in order to avoid circular dependency with the "bloodtype" package.
+	BloodtypeInverseTable = "blood_types"
+	// BloodtypeColumn is the table column denoting the bloodtype relation/edge.
+	BloodtypeColumn = "blood_type_patients"
 	// TriageResultTable is the table the holds the triageResult relation/edge.
 	TriageResultTable = "triage_results"
 	// TriageResultInverseTable is the table name for the TriageResult entity.
@@ -76,9 +104,19 @@ const (
 // Columns holds all SQL columns for patient fields.
 var Columns = []string{
 	FieldID,
+	FieldPersonalID,
 	FieldHospitalNumber,
 	FieldPatientName,
 	FieldDrugAllergy,
+	FieldMobileNumber,
+	FieldAdded,
+}
+
+// ForeignKeys holds the SQL foreign-keys that are owned by the Patient type.
+var ForeignKeys = []string{
+	"blood_type_patients",
+	"gender_patients",
+	"prefix_patients",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -88,14 +126,25 @@ func ValidColumn(column string) bool {
 			return true
 		}
 	}
+	for i := range ForeignKeys {
+		if column == ForeignKeys[i] {
+			return true
+		}
+	}
 	return false
 }
 
 var (
+	// PersonalIDValidator is a validator for the "personalID" field. It is called by the builders before save.
+	PersonalIDValidator func(string) error
 	// HospitalNumberValidator is a validator for the "hospitalNumber" field. It is called by the builders before save.
 	HospitalNumberValidator func(string) error
 	// PatientNameValidator is a validator for the "patientName" field. It is called by the builders before save.
 	PatientNameValidator func(string) error
 	// DrugAllergyValidator is a validator for the "drugAllergy" field. It is called by the builders before save.
 	DrugAllergyValidator func(string) error
+	// MobileNumberValidator is a validator for the "mobileNumber" field. It is called by the builders before save.
+	MobileNumberValidator func(string) error
+	// DefaultAdded holds the default value on creation for the "added" field.
+	DefaultAdded func() time.Time
 )

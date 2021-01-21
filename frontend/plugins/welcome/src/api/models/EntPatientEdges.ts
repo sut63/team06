@@ -18,18 +18,26 @@ import {
     EntAppointmentResultsFromJSON,
     EntAppointmentResultsFromJSONTyped,
     EntAppointmentResultsToJSON,
+    EntBloodType,
+    EntBloodTypeFromJSON,
+    EntBloodTypeFromJSONTyped,
+    EntBloodTypeToJSON,
     EntDiagnosis,
     EntDiagnosisFromJSON,
     EntDiagnosisFromJSONTyped,
     EntDiagnosisToJSON,
+    EntGender,
+    EntGenderFromJSON,
+    EntGenderFromJSONTyped,
+    EntGenderToJSON,
     EntMedicalProcedure,
     EntMedicalProcedureFromJSON,
     EntMedicalProcedureFromJSONTyped,
     EntMedicalProcedureToJSON,
-    EntPatientDetail,
-    EntPatientDetailFromJSON,
-    EntPatientDetailFromJSONTyped,
-    EntPatientDetailToJSON,
+    EntPrefix,
+    EntPrefixFromJSON,
+    EntPrefixFromJSONTyped,
+    EntPrefixToJSON,
     EntRightToTreatment,
     EntRightToTreatmentFromJSON,
     EntRightToTreatmentFromJSONTyped,
@@ -47,11 +55,17 @@ import {
  */
 export interface EntPatientEdges {
     /**
-     * PatientDetails holds the value of the patient_details edge.
-     * @type {Array<EntPatientDetail>}
+     * 
+     * @type {EntBloodType}
      * @memberof EntPatientEdges
      */
-    patientDetails?: Array<EntPatientDetail>;
+    bloodtype?: EntBloodType;
+    /**
+     * 
+     * @type {EntGender}
+     * @memberof EntPatientEdges
+     */
+    gender?: EntGender;
     /**
      * PatientToAppointmentResults holds the value of the PatientToAppointmentResults edge.
      * @type {Array<EntAppointmentResults>}
@@ -77,6 +91,12 @@ export interface EntPatientEdges {
      */
     patientToRightToTreatment?: Array<EntRightToTreatment>;
     /**
+     * 
+     * @type {EntPrefix}
+     * @memberof EntPatientEdges
+     */
+    prefix?: EntPrefix;
+    /**
      * TriageResult holds the value of the triageResult edge.
      * @type {Array<EntTriageResult>}
      * @memberof EntPatientEdges
@@ -94,11 +114,13 @@ export function EntPatientEdgesFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'patientDetails': !exists(json, 'patientDetails') ? undefined : ((json['patientDetails'] as Array<any>).map(EntPatientDetailFromJSON)),
+        'bloodtype': !exists(json, 'Bloodtype') ? undefined : EntBloodTypeFromJSON(json['Bloodtype']),
+        'gender': !exists(json, 'Gender') ? undefined : EntGenderFromJSON(json['Gender']),
         'patientToAppointmentResults': !exists(json, 'patientToAppointmentResults') ? undefined : ((json['patientToAppointmentResults'] as Array<any>).map(EntAppointmentResultsFromJSON)),
         'patientToDiagnosis': !exists(json, 'patientToDiagnosis') ? undefined : ((json['patientToDiagnosis'] as Array<any>).map(EntDiagnosisFromJSON)),
         'patientToMedicalProcedure': !exists(json, 'patientToMedicalProcedure') ? undefined : ((json['patientToMedicalProcedure'] as Array<any>).map(EntMedicalProcedureFromJSON)),
         'patientToRightToTreatment': !exists(json, 'patientToRightToTreatment') ? undefined : ((json['patientToRightToTreatment'] as Array<any>).map(EntRightToTreatmentFromJSON)),
+        'prefix': !exists(json, 'Prefix') ? undefined : EntPrefixFromJSON(json['Prefix']),
         'triageResult': !exists(json, 'triageResult') ? undefined : ((json['triageResult'] as Array<any>).map(EntTriageResultFromJSON)),
     };
 }
@@ -112,11 +134,13 @@ export function EntPatientEdgesToJSON(value?: EntPatientEdges | null): any {
     }
     return {
         
-        'patientDetails': value.patientDetails === undefined ? undefined : ((value.patientDetails as Array<any>).map(EntPatientDetailToJSON)),
+        'bloodtype': EntBloodTypeToJSON(value.bloodtype),
+        'gender': EntGenderToJSON(value.gender),
         'patientToAppointmentResults': value.patientToAppointmentResults === undefined ? undefined : ((value.patientToAppointmentResults as Array<any>).map(EntAppointmentResultsToJSON)),
         'patientToDiagnosis': value.patientToDiagnosis === undefined ? undefined : ((value.patientToDiagnosis as Array<any>).map(EntDiagnosisToJSON)),
         'patientToMedicalProcedure': value.patientToMedicalProcedure === undefined ? undefined : ((value.patientToMedicalProcedure as Array<any>).map(EntMedicalProcedureToJSON)),
         'patientToRightToTreatment': value.patientToRightToTreatment === undefined ? undefined : ((value.patientToRightToTreatment as Array<any>).map(EntRightToTreatmentToJSON)),
+        'prefix': EntPrefixToJSON(value.prefix),
         'triageResult': value.triageResult === undefined ? undefined : ((value.triageResult as Array<any>).map(EntTriageResultToJSON)),
     };
 }

@@ -9,7 +9,7 @@ import (
 	"github.com/facebook/ent/dialect/sql"
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/facebook/ent/schema/field"
-	"github.com/team06/app/ent/patientdetail"
+	"github.com/team06/app/ent/patient"
 	"github.com/team06/app/ent/predicate"
 	"github.com/team06/app/ent/prefix"
 )
@@ -33,19 +33,19 @@ func (pu *PrefixUpdate) SetPrefixValue(s string) *PrefixUpdate {
 	return pu
 }
 
-// AddPatientDetailIDs adds the "patient_details" edge to the PatientDetail entity by IDs.
-func (pu *PrefixUpdate) AddPatientDetailIDs(ids ...int) *PrefixUpdate {
-	pu.mutation.AddPatientDetailIDs(ids...)
+// AddPatientIDs adds the "patients" edge to the Patient entity by IDs.
+func (pu *PrefixUpdate) AddPatientIDs(ids ...int) *PrefixUpdate {
+	pu.mutation.AddPatientIDs(ids...)
 	return pu
 }
 
-// AddPatientDetails adds the "patient_details" edges to the PatientDetail entity.
-func (pu *PrefixUpdate) AddPatientDetails(p ...*PatientDetail) *PrefixUpdate {
+// AddPatients adds the "patients" edges to the Patient entity.
+func (pu *PrefixUpdate) AddPatients(p ...*Patient) *PrefixUpdate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return pu.AddPatientDetailIDs(ids...)
+	return pu.AddPatientIDs(ids...)
 }
 
 // Mutation returns the PrefixMutation object of the builder.
@@ -53,25 +53,25 @@ func (pu *PrefixUpdate) Mutation() *PrefixMutation {
 	return pu.mutation
 }
 
-// ClearPatientDetails clears all "patient_details" edges to the PatientDetail entity.
-func (pu *PrefixUpdate) ClearPatientDetails() *PrefixUpdate {
-	pu.mutation.ClearPatientDetails()
+// ClearPatients clears all "patients" edges to the Patient entity.
+func (pu *PrefixUpdate) ClearPatients() *PrefixUpdate {
+	pu.mutation.ClearPatients()
 	return pu
 }
 
-// RemovePatientDetailIDs removes the "patient_details" edge to PatientDetail entities by IDs.
-func (pu *PrefixUpdate) RemovePatientDetailIDs(ids ...int) *PrefixUpdate {
-	pu.mutation.RemovePatientDetailIDs(ids...)
+// RemovePatientIDs removes the "patients" edge to Patient entities by IDs.
+func (pu *PrefixUpdate) RemovePatientIDs(ids ...int) *PrefixUpdate {
+	pu.mutation.RemovePatientIDs(ids...)
 	return pu
 }
 
-// RemovePatientDetails removes "patient_details" edges to PatientDetail entities.
-func (pu *PrefixUpdate) RemovePatientDetails(p ...*PatientDetail) *PrefixUpdate {
+// RemovePatients removes "patients" edges to Patient entities.
+func (pu *PrefixUpdate) RemovePatients(p ...*Patient) *PrefixUpdate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return pu.RemovePatientDetailIDs(ids...)
+	return pu.RemovePatientIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -166,33 +166,33 @@ func (pu *PrefixUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: prefix.FieldPrefixValue,
 		})
 	}
-	if pu.mutation.PatientDetailsCleared() {
+	if pu.mutation.PatientsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   prefix.PatientDetailsTable,
-			Columns: []string{prefix.PatientDetailsColumn},
+			Table:   prefix.PatientsTable,
+			Columns: []string{prefix.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pu.mutation.RemovedPatientDetailsIDs(); len(nodes) > 0 && !pu.mutation.PatientDetailsCleared() {
+	if nodes := pu.mutation.RemovedPatientsIDs(); len(nodes) > 0 && !pu.mutation.PatientsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   prefix.PatientDetailsTable,
-			Columns: []string{prefix.PatientDetailsColumn},
+			Table:   prefix.PatientsTable,
+			Columns: []string{prefix.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}
@@ -201,17 +201,17 @@ func (pu *PrefixUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pu.mutation.PatientDetailsIDs(); len(nodes) > 0 {
+	if nodes := pu.mutation.PatientsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   prefix.PatientDetailsTable,
-			Columns: []string{prefix.PatientDetailsColumn},
+			Table:   prefix.PatientsTable,
+			Columns: []string{prefix.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}
@@ -244,19 +244,19 @@ func (puo *PrefixUpdateOne) SetPrefixValue(s string) *PrefixUpdateOne {
 	return puo
 }
 
-// AddPatientDetailIDs adds the "patient_details" edge to the PatientDetail entity by IDs.
-func (puo *PrefixUpdateOne) AddPatientDetailIDs(ids ...int) *PrefixUpdateOne {
-	puo.mutation.AddPatientDetailIDs(ids...)
+// AddPatientIDs adds the "patients" edge to the Patient entity by IDs.
+func (puo *PrefixUpdateOne) AddPatientIDs(ids ...int) *PrefixUpdateOne {
+	puo.mutation.AddPatientIDs(ids...)
 	return puo
 }
 
-// AddPatientDetails adds the "patient_details" edges to the PatientDetail entity.
-func (puo *PrefixUpdateOne) AddPatientDetails(p ...*PatientDetail) *PrefixUpdateOne {
+// AddPatients adds the "patients" edges to the Patient entity.
+func (puo *PrefixUpdateOne) AddPatients(p ...*Patient) *PrefixUpdateOne {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return puo.AddPatientDetailIDs(ids...)
+	return puo.AddPatientIDs(ids...)
 }
 
 // Mutation returns the PrefixMutation object of the builder.
@@ -264,25 +264,25 @@ func (puo *PrefixUpdateOne) Mutation() *PrefixMutation {
 	return puo.mutation
 }
 
-// ClearPatientDetails clears all "patient_details" edges to the PatientDetail entity.
-func (puo *PrefixUpdateOne) ClearPatientDetails() *PrefixUpdateOne {
-	puo.mutation.ClearPatientDetails()
+// ClearPatients clears all "patients" edges to the Patient entity.
+func (puo *PrefixUpdateOne) ClearPatients() *PrefixUpdateOne {
+	puo.mutation.ClearPatients()
 	return puo
 }
 
-// RemovePatientDetailIDs removes the "patient_details" edge to PatientDetail entities by IDs.
-func (puo *PrefixUpdateOne) RemovePatientDetailIDs(ids ...int) *PrefixUpdateOne {
-	puo.mutation.RemovePatientDetailIDs(ids...)
+// RemovePatientIDs removes the "patients" edge to Patient entities by IDs.
+func (puo *PrefixUpdateOne) RemovePatientIDs(ids ...int) *PrefixUpdateOne {
+	puo.mutation.RemovePatientIDs(ids...)
 	return puo
 }
 
-// RemovePatientDetails removes "patient_details" edges to PatientDetail entities.
-func (puo *PrefixUpdateOne) RemovePatientDetails(p ...*PatientDetail) *PrefixUpdateOne {
+// RemovePatients removes "patients" edges to Patient entities.
+func (puo *PrefixUpdateOne) RemovePatients(p ...*Patient) *PrefixUpdateOne {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return puo.RemovePatientDetailIDs(ids...)
+	return puo.RemovePatientIDs(ids...)
 }
 
 // Save executes the query and returns the updated Prefix entity.
@@ -375,33 +375,33 @@ func (puo *PrefixUpdateOne) sqlSave(ctx context.Context) (_node *Prefix, err err
 			Column: prefix.FieldPrefixValue,
 		})
 	}
-	if puo.mutation.PatientDetailsCleared() {
+	if puo.mutation.PatientsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   prefix.PatientDetailsTable,
-			Columns: []string{prefix.PatientDetailsColumn},
+			Table:   prefix.PatientsTable,
+			Columns: []string{prefix.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := puo.mutation.RemovedPatientDetailsIDs(); len(nodes) > 0 && !puo.mutation.PatientDetailsCleared() {
+	if nodes := puo.mutation.RemovedPatientsIDs(); len(nodes) > 0 && !puo.mutation.PatientsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   prefix.PatientDetailsTable,
-			Columns: []string{prefix.PatientDetailsColumn},
+			Table:   prefix.PatientsTable,
+			Columns: []string{prefix.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}
@@ -410,17 +410,17 @@ func (puo *PrefixUpdateOne) sqlSave(ctx context.Context) (_node *Prefix, err err
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := puo.mutation.PatientDetailsIDs(); len(nodes) > 0 {
+	if nodes := puo.mutation.PatientsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   prefix.PatientDetailsTable,
-			Columns: []string{prefix.PatientDetailsColumn},
+			Table:   prefix.PatientsTable,
+			Columns: []string{prefix.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}

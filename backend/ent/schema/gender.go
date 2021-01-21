@@ -14,13 +14,13 @@ type Gender struct {
 // Fields of the Gender.
 func (Gender) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("genderValue").NotEmpty(),
+		field.String("genderValue").NotEmpty().Unique(),
 	}
 }
 
 // Edges of the Gender.
 func (Gender) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("patient_details", PatientDetail.Type),
+		edge.To("patients", Patient.Type),
 	}
 }

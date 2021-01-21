@@ -24,20 +24,20 @@ type Gender struct {
 
 // GenderEdges holds the relations/edges for other nodes in the graph.
 type GenderEdges struct {
-	// PatientDetails holds the value of the patient_details edge.
-	PatientDetails []*PatientDetail
+	// Patients holds the value of the patients edge.
+	Patients []*Patient
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 }
 
-// PatientDetailsOrErr returns the PatientDetails value or an error if the edge
+// PatientsOrErr returns the Patients value or an error if the edge
 // was not loaded in eager-loading.
-func (e GenderEdges) PatientDetailsOrErr() ([]*PatientDetail, error) {
+func (e GenderEdges) PatientsOrErr() ([]*Patient, error) {
 	if e.loadedTypes[0] {
-		return e.PatientDetails, nil
+		return e.Patients, nil
 	}
-	return nil, &NotLoadedError{edge: "patient_details"}
+	return nil, &NotLoadedError{edge: "patients"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -81,9 +81,9 @@ func (ge *Gender) assignValues(columns []string, values []interface{}) error {
 	return nil
 }
 
-// QueryPatientDetails queries the "patient_details" edge of the Gender entity.
-func (ge *Gender) QueryPatientDetails() *PatientDetailQuery {
-	return (&GenderClient{config: ge.config}).QueryPatientDetails(ge)
+// QueryPatients queries the "patients" edge of the Gender entity.
+func (ge *Gender) QueryPatients() *PatientQuery {
+	return (&GenderClient{config: ge.config}).QueryPatients(ge)
 }
 
 // Update returns a builder for updating this Gender.

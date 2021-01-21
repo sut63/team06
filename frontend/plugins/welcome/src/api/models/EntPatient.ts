@@ -27,6 +27,12 @@ import {
  */
 export interface EntPatient {
     /**
+     * Added holds the value of the "added" field.
+     * @type {string}
+     * @memberof EntPatient
+     */
+    added?: string;
+    /**
      * DrugAllergy holds the value of the "drugAllergy" field.
      * @type {string}
      * @memberof EntPatient
@@ -51,11 +57,23 @@ export interface EntPatient {
      */
     id?: number;
     /**
+     * MobileNumber holds the value of the "mobileNumber" field.
+     * @type {string}
+     * @memberof EntPatient
+     */
+    mobileNumber?: string;
+    /**
      * PatientName holds the value of the "patientName" field.
      * @type {string}
      * @memberof EntPatient
      */
     patientName?: string;
+    /**
+     * PersonalID holds the value of the "personalID" field.
+     * @type {string}
+     * @memberof EntPatient
+     */
+    personalID?: string;
 }
 
 export function EntPatientFromJSON(json: any): EntPatient {
@@ -68,11 +86,14 @@ export function EntPatientFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
+        'added': !exists(json, 'added') ? undefined : json['added'],
         'drugAllergy': !exists(json, 'drugAllergy') ? undefined : json['drugAllergy'],
         'edges': !exists(json, 'edges') ? undefined : EntPatientEdgesFromJSON(json['edges']),
         'hospitalNumber': !exists(json, 'hospitalNumber') ? undefined : json['hospitalNumber'],
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'mobileNumber': !exists(json, 'mobileNumber') ? undefined : json['mobileNumber'],
         'patientName': !exists(json, 'patientName') ? undefined : json['patientName'],
+        'personalID': !exists(json, 'personalID') ? undefined : json['personalID'],
     };
 }
 
@@ -85,11 +106,14 @@ export function EntPatientToJSON(value?: EntPatient | null): any {
     }
     return {
         
+        'added': value.added,
         'drugAllergy': value.drugAllergy,
         'edges': EntPatientEdgesToJSON(value.edges),
         'hospitalNumber': value.hospitalNumber,
         'id': value.id,
+        'mobileNumber': value.mobileNumber,
         'patientName': value.patientName,
+        'personalID': value.personalID,
     };
 }
 

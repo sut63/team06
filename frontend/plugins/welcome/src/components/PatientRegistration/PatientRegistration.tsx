@@ -1,23 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import {
-  Content,
-  Header,
-  Page,
-  pageTheme,
-  ContentHeader,
-} from '@backstage/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import { Alert } from '@material-ui/lab';
+import { Content, Header, Page, pageTheme, } from '@backstage/core';
+import { FormControl, Select, InputLabel, MenuItem, TextField, Button, TableCell, } from '@material-ui/core';
 import { DefaultApi } from '../../api/apis';
+import moment from 'moment';
+import Swal from 'sweetalert2';
 
-import {
-  Grid,
-  Box,
-} from '@material-ui/core';
+import { EntPrefix } from '../../api/models/EntPrefix';
+import { EntGender } from '../../api/models/EntGender';
+import { EntBloodType } from '../../api/models/EntBloodType';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,97 +17,271 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'center',
+
     },
     margin: {
-      margin: theme.spacing(3),
       display: 'flex',
       flexWrap: 'wrap',
-      width: '50ch',
+      width: '70ch',
+      margin: theme.spacing(3),
     },
     withoutLabel: {
       marginTop: theme.spacing(3),
     },
     textField: {
-      width: '25ch',
+      flexWrap: 'wrap',
+      margin: theme.spacing(3),
     },
   }),
 );
 
-const initialPatientState = {};
-
 export default function Create() {
+
   const classes = useStyles();
   const api = new DefaultApi();
 
-  const [patient, setPatient] = useState(initialPatientState);
-  const [status, setStatus] = useState(false);
-  const [alert, setAlert] = useState(true);
+  const [genders, setGenders] = React.useState<EntGender[]>([]);
+  const [prefixs, setPrefixs] = React.useState<EntPrefix[]>([]);
+  const [bloodtypes, setBloodTypes] = React.useState<EntBloodType[]>([]);
 
-  const handleInputChange = (event: any) => {
-    const { id, value } = event.target;
-    setPatient({ ...patient, [id]: value });
+  const [genderID, setGenderID] = React.useState(Number);
+  const [prefixID, setPrefixID] = React.useState(Number);
+  const [bloodtypeID, setBloodTypeID] = React.useState(Number);
+  const [personalID, setPersonalID] = React.useState(String);
+  const [hospitalNumber, setHospitalNumber] = React.useState(String);
+  const [patientName, setPatientName] = React.useState(String);
+  const [drugAllergy, setDrugAllergy] = React.useState(String);
+  const [mobileNumber, setMobileNumber] = React.useState(String);
+  const [added, setadded] = useState('');
+
+  const [hospitalNumberError, setHospitalNumberError] = React.useState('');
+  const [personalIDError, setPersonalIDError] = React.useState('');
+  const [mobileNumberError, setMobileNumberError] = React.useState('');
+
+  const [loading, setLoading] = useState(true);
+
+  //getdataToCombobox
+  useEffect(() => {
+    const getGenders = async () => {
+      const res = await api.listGender({ limit: 1000, offset: 0 });
+      setGenders(res);
+    };
+
+    const getPrefixs = async () => {
+      const res = await api.listPrefix({ limit: 1000, offset: 0 });
+      setPrefixs(res);
+    };
+
+    const getBloodTypes = async () => {
+      const res = await api.listBloodtype({ limit: 1000, offset: 0 });
+      setBloodTypes(res);
+    };
+
+    var date = moment().format();
+
+    setadded(date);
+    getGenders();
+    getPrefixs();
+    getBloodTypes();
+    setLoading(false);
+  }, [loading]);
+
+  //handle
+  const genderHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setGenderID(event.target.value as number);
+  };
+  const prefixHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setPrefixID(event.target.value as number);
+  };
+  const bloodtypeHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setBloodTypeID(event.target.value as number);
+  };
+  const personalIDHandle = (event: React.ChangeEvent<{ value: any }>) => {
+    const { value } = event.target;
+    const validateValue = value
+    checkPattern(personalID, validateValue)
+    setPersonalID(event.target.value as string);
+  };
+  const hospitalNumberHandle = (event: React.ChangeEvent<{ value: any }>) => {
+    const { value } = event.target;
+    const validateValue = value
+    checkPattern(hospitalNumber, validateValue)
+    setHospitalNumber(event.target.value as string);
+  };
+  const patientNameHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setPatientName(event.target.value as string);
+  };
+  const drugAllergyHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setDrugAllergy(event.target.value as string);
+  };
+  const mobileNumberHandle = (event: React.ChangeEvent<{ value: any }>) => {
+    const { value } = event.target;
+    const validateValue = value
+    checkPattern(mobileNumber, validateValue)
+    setMobileNumber(event.target.value as string);
   };
 
-  const CreatePatient = async () => {
-    const res = await api.createPatient({ patient });
-    setStatus(true);
-    if (res.id != '') {
-      setAlert(true);
-    } else {
-      setAlert(false);
+  //Aleart
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: toast => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
+
+  //Clear Data in field
+  function Clear() {
+    setGenderID(0);
+    setPrefixID(0);
+    setBloodTypeID(0);
+    setPersonalID('');
+    setHospitalNumber('');
+    setPatientName('');
+    setDrugAllergy('');
+    setMobileNumber('');
+  }
+
+  // ฟังก์ชั่นสำหรับ validate เลขประจำตัวประชาชน
+  const validatePersonalID = (val: string) => {
+    return val.length == 13 ? true : false;
+  }
+
+  // ฟังก์ชั่นสำหรับ validate หมายเลขผู้ป่วย
+  const validateHospitalNumber = (val: string) => {
+    return val.match("HN\\d");
+  }
+
+  // ฟังก์ชั่นสำหรับ validate เบอร์โทรศัพท์
+  const validateMobileNumber = (val: string) => {
+    return val.length == 10 ? true : false;
+  }
+
+  // สำหรับตรวจสอบรูปแบบข้อมูลที่กรอก ว่าเป็นไปตามที่กำหนดหรือไม่
+  const checkPattern = (id: string, value: string) => {
+    switch (id) {
+      case 'student_id':
+        validateHospitalNumber(value) ? setHospitalNumberError('') : setHospitalNumberError('รหัสนักศึกษาขึ้นต้นด้วย HN ตามด้วยตัวเลข');
+        return;
+      case 'identification_number':
+        validatePersonalID(value) ? setPersonalIDError('') : setPersonalIDError('เลขประจำตัวประชาชน 13 หลัก');
+        return;
+      case 'mobileNumber':
+        validateMobileNumber(value) ? setMobileNumberError('') : setMobileNumberError('เบอร์โทรศัพท์ 10 หลัก')
+        return;
+      default:
+        return;
     }
-    const timer = setTimeout(() => {
-      setStatus(false);
-    }, 1000);
-  };
+  }
+
+  const checkCaseSaveError = (field: string) => {
+    switch (field) {
+      case 'hospitalNumber':
+        alertMessage("error", "รหัสนักศึกษาขึ้นต้นด้วย HN ตามด้วยตัวเลข");
+        return;
+      case 'personalID':
+        alertMessage("error", "เลขประจำตัวประชาชน 13 หลัก");
+        return;
+      case 'mobileNumber':
+        alertMessage("error", "เบอร์โทรศัพท์ 10 หลัก");
+        return;
+      default:
+        alertMessage("error", "บันทึกข้อมูลไม่สำเร็จ");
+        return;
+    }
+  }
+
+  const alertMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+  //create
+  const Create = async () => {
+    const apiUrl = 'http://localhost:8080/api/v1/patients';
+    const patient = {
+      PersonalID: personalID,
+      HospitalNumber: hospitalNumber,
+      Prefix: prefixID,
+      PatientName: patientName,
+      Gender: genderID,
+      BloodType: bloodtypeID,
+      DrugAllergy: drugAllergy,
+      MobileNumber: mobileNumber,
+      Added: added,
+    };
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(patient),
+    };
+
+    console.log(patient);
+
+    fetch(apiUrl, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.status === true) {
+          Toast.fire({
+            icon: 'success',
+            title: 'บันทึกข้อมูลสำเร็จ',
+          });
+          Clear();
+        } else {
+          checkCaseSaveError(data.error.Name);
+        }
+      });
+  }
 
   return (
     <Page theme={pageTheme.home}>
-      <Header
-        title="ระบบลงทะเบียนผู้ป่วย"
-        subtitle="สามารถลงทะเบียนและเพิ่มข้อมูลผู้ป่วยได้ที่นี่"
-      >
-        <Button
-          component={RouterLink}
-          to="/"
-          variant="contained"
-          color="secondary"
-        >
-          Logout
-        </Button>
 
+      <Header
+        title={`ระบบลงทะเบียนผู้ป่วย`}
+      >
+        <TableCell align={
+          "center"} >
+
+          <br /><br />
+          <Button
+            component={RouterLink}
+            to="/"
+            variant="contained"
+            color="secondary"
+          >
+            Logout
+                </Button>
+        </TableCell>
       </Header>
+
       <Content>
-        <ContentHeader title="ลงทะเบียนผู้ป่วย">
-          {status ? (
-            <div>
-              {alert ? (
-                <Alert severity="success">
-                  ลงทะเบียนสำเร็จ!
-                </Alert>
-              ) : (
-                  <Alert severity="warning" style={{ marginTop: 20 }}>
-                    ลงทะเบียนไม่สำเร็จ!
-                  </Alert>
-                )}
-            </div>
-          ) : null}
-        </ContentHeader>
         <div className={classes.root}>
           <form noValidate autoComplete="off">
+
             <FormControl
               fullWidth
               className={classes.margin}
               variant="outlined"
             >
               <TextField
-                id="hospitalNumber"
-                label="หมายเลขผู้ป่วย"
+                error={personalIDError ? true : false}
+                id="personalID"
+                label="เลขประจำตัวประชาชน"
+                name="PersonalID"
                 variant="outlined"
                 type="string"
                 size="medium"
-                value={patient.hospitalNumber}
-                onChange={handleInputChange}
+                inputProps={{ maxLength: 13 }}
+                helperText={personalIDError}
+                value={personalID}
+                onChange={personalIDHandle}
               />
             </FormControl>
 
@@ -125,14 +291,103 @@ export default function Create() {
               variant="outlined"
             >
               <TextField
-                id="patientName"
-                label="ชื่อผู้ป่วย"
+                error={hospitalNumberError ? true : false}
+                id="hospitalNumber"
+                label="หมายเลขผู้ป่วย"
+                name="HospitalNumber"
                 variant="outlined"
                 type="string"
                 size="medium"
-                value={patient.patientName}
-                onChange={handleInputChange}
+                helperText={hospitalNumberError}
+                value={hospitalNumber}
+                onChange={hospitalNumberHandle}
               />
+            </FormControl>
+
+            <FormControl
+              className={classes.margin}
+              fullWidth
+              variant="outlined"
+            >
+              <InputLabel>คำนำหน้า</InputLabel>
+              <Select
+                id="prefixs"
+                label="คำนำหน้า"
+                name="prefix"
+                value={prefixID}
+                onChange={prefixHandle}
+              >
+                {prefixs.map(item => {
+                  return (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.prefixValue}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+
+            <FormControl
+              fullWidth
+              className={classes.margin}
+              variant="outlined"
+            >
+              <TextField
+                id="patientName"
+                label="ชื่อ - สกุล"
+                name="PatientName"
+                variant="outlined"
+                type="string"
+                size="medium"
+                value={patientName}
+                onChange={patientNameHandle}
+              />
+            </FormControl>
+
+            <FormControl
+              fullWidth
+              className={classes.margin}
+              variant="outlined"
+            >
+              <InputLabel>เพศ</InputLabel>
+              <Select
+                id="genders"
+                label="เพศ"
+                name="gender"
+                value={genderID}
+                onChange={genderHandle}
+              >
+                {genders.map(item => {
+                  return (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.genderValue}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+
+            <FormControl
+              className={classes.margin}
+              fullWidth
+              variant="outlined"
+            >
+              <InputLabel>หมู่เลือด</InputLabel>
+              <Select
+                id="bloodtypes"
+                label="หมู่เลือด"
+                name="bloodtype"
+                value={bloodtypeID}
+                onChange={bloodtypeHandle}
+              >
+                {bloodtypes.map(item => {
+                  return (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.bloodValue}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
             </FormControl>
 
             <FormControl
@@ -143,36 +398,78 @@ export default function Create() {
               <TextField
                 id="drugAllergy"
                 label="ประวัติการแพ้ยา"
+                name="DrugAllergy"
                 variant="outlined"
                 type="string"
                 size="medium"
-                value={patient.drugAllergy}
-                onChange={handleInputChange}
+                value={drugAllergy}
+                onChange={drugAllergyHandle}
               />
             </FormControl>
 
-            <div className={classes.margin}>
-              <Button
-                onClick={() => {
-                  CreatePatient();
-                }}
-                style={{ marginLeft: 35 }}
-                variant="contained"
-                color="primary"
-              >
-                ลงทะเบียนผู้ป่วย
-             </Button>
-              <Button
-                style={{ marginLeft: 20 }}
-                component={RouterLink}
-                to="/PatientDetail"
-                variant="contained"
-              >
-                เพิ่มรายละเอียดของผู้ป่วย
-             </Button>
+            <FormControl
+              fullWidth
+              className={classes.margin}
+              variant="outlined"
+            >
+              <TextField
+                error={mobileNumberError ? true : false}
+                id="mobileNumber"
+                label="เบอร์โทรศัพท์"
+                name="MobileNumber"
+                variant="outlined"
+                type="string"
+                size="medium"
+                inputProps={{ maxLength: 10 }}
+                helperText={mobileNumberError}
+                value={mobileNumber}
+                onChange={mobileNumberHandle}
+              />
+            </FormControl>
+
+            <FormControl
+              fullWidth
+              className={classes.margin}
+              variant="outlined"
+            >
+              <TextField
+                id="datetime-local"
+                label="วันที่ลงทะเบียน"
+                name="added"
+                variant="outlined"
+                size="medium"
+                value={added}
+                disabled
+              />
+            </FormControl>
+
+            <div className={classes.root}>
+              <TableCell>
+                <Button
+                  onClick={Create}
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                >
+                  ลงทะเบียน
+                                </Button>
+              </TableCell>
+
+              <TableCell>
+                <Button
+                  component={RouterLink}
+                  to='/patientregistrationtable'
+                  variant="contained"
+                  size="large"
+                  color="secondary"
+                >
+                  ผลการลงทะเบียน
+                                </Button>
+              </TableCell>
             </div>
           </form>
         </div>
+        <TableCell></TableCell>
       </Content>
     </Page>
   );

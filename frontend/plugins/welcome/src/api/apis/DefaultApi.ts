@@ -48,9 +48,6 @@ import {
     EntPatient,
     EntPatientFromJSON,
     EntPatientToJSON,
-    EntPatientDetail,
-    EntPatientDetailFromJSON,
-    EntPatientDetailToJSON,
     EntPrefix,
     EntPrefixFromJSON,
     EntPrefixToJSON,
@@ -119,10 +116,6 @@ export interface CreateNurseRequest {
 
 export interface CreatePatientRequest {
     patient: EntPatient;
-}
-
-export interface CreatePatientDetailRequest {
-    patientDetail: EntPatientDetail;
 }
 
 export interface CreatePrefixRequest {
@@ -201,10 +194,6 @@ export interface DeletePatientRequest {
     id: number;
 }
 
-export interface DeletePatientdetailRequest {
-    id: number;
-}
-
 export interface DeletePrefixRequest {
     id: number;
 }
@@ -274,10 +263,6 @@ export interface GetNurseRequest {
 }
 
 export interface GetPatientRequest {
-    id: number;
-}
-
-export interface GetPatientdetailRequest {
     id: number;
 }
 
@@ -364,11 +349,6 @@ export interface ListNurseRequest {
 }
 
 export interface ListPatientRequest {
-    limit?: number;
-    offset?: number;
-}
-
-export interface ListPatientDetailRequest {
     limit?: number;
     offset?: number;
 }
@@ -461,11 +441,6 @@ export interface UpdateNurseRequest {
 export interface UpdatePatientRequest {
     id: number;
     patient: EntPatient;
-}
-
-export interface UpdatePatientdetailRequest {
-    id: number;
-    patientdetail: EntPatientDetail;
 }
 
 export interface UpdatePrefixRequest {
@@ -864,8 +839,8 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create patient
-     * Create patient
+     * Create Patient
+     * Create Patient
      */
     async createPatientRaw(requestParameters: CreatePatientRequest): Promise<runtime.ApiResponse<EntPatient>> {
         if (requestParameters.patient === null || requestParameters.patient === undefined) {
@@ -890,46 +865,11 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create patient
-     * Create patient
+     * Create Patient
+     * Create Patient
      */
     async createPatient(requestParameters: CreatePatientRequest): Promise<EntPatient> {
         const response = await this.createPatientRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     * Create patient-detail
-     * Create patient-detail
-     */
-    async createPatientDetailRaw(requestParameters: CreatePatientDetailRequest): Promise<runtime.ApiResponse<EntPatientDetail>> {
-        if (requestParameters.patientDetail === null || requestParameters.patientDetail === undefined) {
-            throw new runtime.RequiredError('patientDetail','Required parameter requestParameters.patientDetail was null or undefined when calling createPatientDetail.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/patient-details`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: EntPatientDetailToJSON(requestParameters.patientDetail),
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntPatientDetailFromJSON(jsonValue));
-    }
-
-    /**
-     * Create patient-detail
-     * Create patient-detail
-     */
-    async createPatientDetail(requestParameters: CreatePatientDetailRequest): Promise<EntPatientDetail> {
-        const response = await this.createPatientDetailRaw(requestParameters);
         return await response.value();
     }
 
@@ -1566,38 +1506,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * get patientdetail by ID
-     * Delete a patientdetail entity by ID
-     */
-    async deletePatientdetailRaw(requestParameters: DeletePatientdetailRequest): Promise<runtime.ApiResponse<object>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deletePatientdetail.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/patientdetails/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse<any>(response);
-    }
-
-    /**
-     * get patientdetail by ID
-     * Delete a patientdetail entity by ID
-     */
-    async deletePatientdetail(requestParameters: DeletePatientdetailRequest): Promise<object> {
-        const response = await this.deletePatientdetailRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
      * get prefix by ID
      * Delete a prefix entity by ID
      */
@@ -2170,38 +2078,6 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getPatient(requestParameters: GetPatientRequest): Promise<EntPatient> {
         const response = await this.getPatientRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     * get patientdetail by ID
-     * Get a patientdetail entity by ID
-     */
-    async getPatientdetailRaw(requestParameters: GetPatientdetailRequest): Promise<runtime.ApiResponse<EntPatientDetail>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getPatientdetail.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/patientdetails/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntPatientDetailFromJSON(jsonValue));
-    }
-
-    /**
-     * get patientdetail by ID
-     * Get a patientdetail entity by ID
-     */
-    async getPatientdetail(requestParameters: GetPatientdetailRequest): Promise<EntPatientDetail> {
-        const response = await this.getPatientdetailRaw(requestParameters);
         return await response.value();
     }
 
@@ -2854,42 +2730,6 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async listPatient(requestParameters: ListPatientRequest): Promise<Array<EntPatient>> {
         const response = await this.listPatientRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     * list patient-detail entities
-     * List patient-detail entities
-     */
-    async listPatientDetailRaw(requestParameters: ListPatientDetailRequest): Promise<runtime.ApiResponse<Array<EntPatientDetail>>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        if (requestParameters.limit !== undefined) {
-            queryParameters['limit'] = requestParameters.limit;
-        }
-
-        if (requestParameters.offset !== undefined) {
-            queryParameters['offset'] = requestParameters.offset;
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/patient-details`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntPatientDetailFromJSON));
-    }
-
-    /**
-     * list patient-detail entities
-     * List patient-detail entities
-     */
-    async listPatientDetail(requestParameters: ListPatientDetailRequest): Promise<Array<EntPatientDetail>> {
-        const response = await this.listPatientDetailRaw(requestParameters);
         return await response.value();
     }
 
@@ -3568,45 +3408,6 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async updatePatient(requestParameters: UpdatePatientRequest): Promise<EntPatient> {
         const response = await this.updatePatientRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     * update patientdetail by ID
-     * Update a patientdetail entity by ID
-     */
-    async updatePatientdetailRaw(requestParameters: UpdatePatientdetailRequest): Promise<runtime.ApiResponse<EntPatientDetail>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updatePatientdetail.');
-        }
-
-        if (requestParameters.patientdetail === null || requestParameters.patientdetail === undefined) {
-            throw new runtime.RequiredError('patientdetail','Required parameter requestParameters.patientdetail was null or undefined when calling updatePatientdetail.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/patientdetails/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
-            body: EntPatientDetailToJSON(requestParameters.patientdetail),
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntPatientDetailFromJSON(jsonValue));
-    }
-
-    /**
-     * update patientdetail by ID
-     * Update a patientdetail entity by ID
-     */
-    async updatePatientdetail(requestParameters: UpdatePatientdetailRequest): Promise<EntPatientDetail> {
-        const response = await this.updatePatientdetailRaw(requestParameters);
         return await response.value();
     }
 

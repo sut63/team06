@@ -10,7 +10,7 @@ import (
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/facebook/ent/schema/field"
 	"github.com/team06/app/ent/gender"
-	"github.com/team06/app/ent/patientdetail"
+	"github.com/team06/app/ent/patient"
 	"github.com/team06/app/ent/predicate"
 )
 
@@ -33,19 +33,19 @@ func (gu *GenderUpdate) SetGenderValue(s string) *GenderUpdate {
 	return gu
 }
 
-// AddPatientDetailIDs adds the "patient_details" edge to the PatientDetail entity by IDs.
-func (gu *GenderUpdate) AddPatientDetailIDs(ids ...int) *GenderUpdate {
-	gu.mutation.AddPatientDetailIDs(ids...)
+// AddPatientIDs adds the "patients" edge to the Patient entity by IDs.
+func (gu *GenderUpdate) AddPatientIDs(ids ...int) *GenderUpdate {
+	gu.mutation.AddPatientIDs(ids...)
 	return gu
 }
 
-// AddPatientDetails adds the "patient_details" edges to the PatientDetail entity.
-func (gu *GenderUpdate) AddPatientDetails(p ...*PatientDetail) *GenderUpdate {
+// AddPatients adds the "patients" edges to the Patient entity.
+func (gu *GenderUpdate) AddPatients(p ...*Patient) *GenderUpdate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return gu.AddPatientDetailIDs(ids...)
+	return gu.AddPatientIDs(ids...)
 }
 
 // Mutation returns the GenderMutation object of the builder.
@@ -53,25 +53,25 @@ func (gu *GenderUpdate) Mutation() *GenderMutation {
 	return gu.mutation
 }
 
-// ClearPatientDetails clears all "patient_details" edges to the PatientDetail entity.
-func (gu *GenderUpdate) ClearPatientDetails() *GenderUpdate {
-	gu.mutation.ClearPatientDetails()
+// ClearPatients clears all "patients" edges to the Patient entity.
+func (gu *GenderUpdate) ClearPatients() *GenderUpdate {
+	gu.mutation.ClearPatients()
 	return gu
 }
 
-// RemovePatientDetailIDs removes the "patient_details" edge to PatientDetail entities by IDs.
-func (gu *GenderUpdate) RemovePatientDetailIDs(ids ...int) *GenderUpdate {
-	gu.mutation.RemovePatientDetailIDs(ids...)
+// RemovePatientIDs removes the "patients" edge to Patient entities by IDs.
+func (gu *GenderUpdate) RemovePatientIDs(ids ...int) *GenderUpdate {
+	gu.mutation.RemovePatientIDs(ids...)
 	return gu
 }
 
-// RemovePatientDetails removes "patient_details" edges to PatientDetail entities.
-func (gu *GenderUpdate) RemovePatientDetails(p ...*PatientDetail) *GenderUpdate {
+// RemovePatients removes "patients" edges to Patient entities.
+func (gu *GenderUpdate) RemovePatients(p ...*Patient) *GenderUpdate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return gu.RemovePatientDetailIDs(ids...)
+	return gu.RemovePatientIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -166,33 +166,33 @@ func (gu *GenderUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: gender.FieldGenderValue,
 		})
 	}
-	if gu.mutation.PatientDetailsCleared() {
+	if gu.mutation.PatientsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   gender.PatientDetailsTable,
-			Columns: []string{gender.PatientDetailsColumn},
+			Table:   gender.PatientsTable,
+			Columns: []string{gender.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := gu.mutation.RemovedPatientDetailsIDs(); len(nodes) > 0 && !gu.mutation.PatientDetailsCleared() {
+	if nodes := gu.mutation.RemovedPatientsIDs(); len(nodes) > 0 && !gu.mutation.PatientsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   gender.PatientDetailsTable,
-			Columns: []string{gender.PatientDetailsColumn},
+			Table:   gender.PatientsTable,
+			Columns: []string{gender.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}
@@ -201,17 +201,17 @@ func (gu *GenderUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := gu.mutation.PatientDetailsIDs(); len(nodes) > 0 {
+	if nodes := gu.mutation.PatientsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   gender.PatientDetailsTable,
-			Columns: []string{gender.PatientDetailsColumn},
+			Table:   gender.PatientsTable,
+			Columns: []string{gender.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}
@@ -244,19 +244,19 @@ func (guo *GenderUpdateOne) SetGenderValue(s string) *GenderUpdateOne {
 	return guo
 }
 
-// AddPatientDetailIDs adds the "patient_details" edge to the PatientDetail entity by IDs.
-func (guo *GenderUpdateOne) AddPatientDetailIDs(ids ...int) *GenderUpdateOne {
-	guo.mutation.AddPatientDetailIDs(ids...)
+// AddPatientIDs adds the "patients" edge to the Patient entity by IDs.
+func (guo *GenderUpdateOne) AddPatientIDs(ids ...int) *GenderUpdateOne {
+	guo.mutation.AddPatientIDs(ids...)
 	return guo
 }
 
-// AddPatientDetails adds the "patient_details" edges to the PatientDetail entity.
-func (guo *GenderUpdateOne) AddPatientDetails(p ...*PatientDetail) *GenderUpdateOne {
+// AddPatients adds the "patients" edges to the Patient entity.
+func (guo *GenderUpdateOne) AddPatients(p ...*Patient) *GenderUpdateOne {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return guo.AddPatientDetailIDs(ids...)
+	return guo.AddPatientIDs(ids...)
 }
 
 // Mutation returns the GenderMutation object of the builder.
@@ -264,25 +264,25 @@ func (guo *GenderUpdateOne) Mutation() *GenderMutation {
 	return guo.mutation
 }
 
-// ClearPatientDetails clears all "patient_details" edges to the PatientDetail entity.
-func (guo *GenderUpdateOne) ClearPatientDetails() *GenderUpdateOne {
-	guo.mutation.ClearPatientDetails()
+// ClearPatients clears all "patients" edges to the Patient entity.
+func (guo *GenderUpdateOne) ClearPatients() *GenderUpdateOne {
+	guo.mutation.ClearPatients()
 	return guo
 }
 
-// RemovePatientDetailIDs removes the "patient_details" edge to PatientDetail entities by IDs.
-func (guo *GenderUpdateOne) RemovePatientDetailIDs(ids ...int) *GenderUpdateOne {
-	guo.mutation.RemovePatientDetailIDs(ids...)
+// RemovePatientIDs removes the "patients" edge to Patient entities by IDs.
+func (guo *GenderUpdateOne) RemovePatientIDs(ids ...int) *GenderUpdateOne {
+	guo.mutation.RemovePatientIDs(ids...)
 	return guo
 }
 
-// RemovePatientDetails removes "patient_details" edges to PatientDetail entities.
-func (guo *GenderUpdateOne) RemovePatientDetails(p ...*PatientDetail) *GenderUpdateOne {
+// RemovePatients removes "patients" edges to Patient entities.
+func (guo *GenderUpdateOne) RemovePatients(p ...*Patient) *GenderUpdateOne {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return guo.RemovePatientDetailIDs(ids...)
+	return guo.RemovePatientIDs(ids...)
 }
 
 // Save executes the query and returns the updated Gender entity.
@@ -375,33 +375,33 @@ func (guo *GenderUpdateOne) sqlSave(ctx context.Context) (_node *Gender, err err
 			Column: gender.FieldGenderValue,
 		})
 	}
-	if guo.mutation.PatientDetailsCleared() {
+	if guo.mutation.PatientsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   gender.PatientDetailsTable,
-			Columns: []string{gender.PatientDetailsColumn},
+			Table:   gender.PatientsTable,
+			Columns: []string{gender.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := guo.mutation.RemovedPatientDetailsIDs(); len(nodes) > 0 && !guo.mutation.PatientDetailsCleared() {
+	if nodes := guo.mutation.RemovedPatientsIDs(); len(nodes) > 0 && !guo.mutation.PatientsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   gender.PatientDetailsTable,
-			Columns: []string{gender.PatientDetailsColumn},
+			Table:   gender.PatientsTable,
+			Columns: []string{gender.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}
@@ -410,17 +410,17 @@ func (guo *GenderUpdateOne) sqlSave(ctx context.Context) (_node *Gender, err err
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := guo.mutation.PatientDetailsIDs(); len(nodes) > 0 {
+	if nodes := guo.mutation.PatientsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   gender.PatientDetailsTable,
-			Columns: []string{gender.PatientDetailsColumn},
+			Table:   gender.PatientsTable,
+			Columns: []string{gender.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}
