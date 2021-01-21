@@ -10,7 +10,7 @@ import (
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/facebook/ent/schema/field"
 	"github.com/team06/app/ent/gender"
-	"github.com/team06/app/ent/patientdetail"
+	"github.com/team06/app/ent/patient"
 )
 
 // GenderCreate is the builder for creating a Gender entity.
@@ -26,19 +26,19 @@ func (gc *GenderCreate) SetGenderValue(s string) *GenderCreate {
 	return gc
 }
 
-// AddPatientDetailIDs adds the "patient_details" edge to the PatientDetail entity by IDs.
-func (gc *GenderCreate) AddPatientDetailIDs(ids ...int) *GenderCreate {
-	gc.mutation.AddPatientDetailIDs(ids...)
+// AddPatientIDs adds the "patients" edge to the Patient entity by IDs.
+func (gc *GenderCreate) AddPatientIDs(ids ...int) *GenderCreate {
+	gc.mutation.AddPatientIDs(ids...)
 	return gc
 }
 
-// AddPatientDetails adds the "patient_details" edges to the PatientDetail entity.
-func (gc *GenderCreate) AddPatientDetails(p ...*PatientDetail) *GenderCreate {
+// AddPatients adds the "patients" edges to the Patient entity.
+func (gc *GenderCreate) AddPatients(p ...*Patient) *GenderCreate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
 	}
-	return gc.AddPatientDetailIDs(ids...)
+	return gc.AddPatientIDs(ids...)
 }
 
 // Mutation returns the GenderMutation object of the builder.
@@ -135,17 +135,17 @@ func (gc *GenderCreate) createSpec() (*Gender, *sqlgraph.CreateSpec) {
 		})
 		_node.GenderValue = value
 	}
-	if nodes := gc.mutation.PatientDetailsIDs(); len(nodes) > 0 {
+	if nodes := gc.mutation.PatientsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   gender.PatientDetailsTable,
-			Columns: []string{gender.PatientDetailsColumn},
+			Table:   gender.PatientsTable,
+			Columns: []string{gender.PatientsColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: patient.FieldID,
 				},
 			},
 		}

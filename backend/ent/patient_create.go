@@ -6,14 +6,17 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/facebook/ent/schema/field"
 	"github.com/team06/app/ent/appointmentresults"
+	"github.com/team06/app/ent/bloodtype"
 	"github.com/team06/app/ent/diagnosis"
+	"github.com/team06/app/ent/gender"
 	"github.com/team06/app/ent/medicalprocedure"
 	"github.com/team06/app/ent/patient"
-	"github.com/team06/app/ent/patientdetail"
+	"github.com/team06/app/ent/prefix"
 	"github.com/team06/app/ent/righttotreatment"
 	"github.com/team06/app/ent/triageresult"
 )
@@ -23,6 +26,12 @@ type PatientCreate struct {
 	config
 	mutation *PatientMutation
 	hooks    []Hook
+}
+
+// SetPersonalID sets the "personalID" field.
+func (pc *PatientCreate) SetPersonalID(s string) *PatientCreate {
+	pc.mutation.SetPersonalID(s)
+	return pc
 }
 
 // SetHospitalNumber sets the "hospitalNumber" field.
@@ -43,19 +52,81 @@ func (pc *PatientCreate) SetDrugAllergy(s string) *PatientCreate {
 	return pc
 }
 
-// AddPatientDetailIDs adds the "patient_details" edge to the PatientDetail entity by IDs.
-func (pc *PatientCreate) AddPatientDetailIDs(ids ...int) *PatientCreate {
-	pc.mutation.AddPatientDetailIDs(ids...)
+// SetMobileNumber sets the "mobileNumber" field.
+func (pc *PatientCreate) SetMobileNumber(s string) *PatientCreate {
+	pc.mutation.SetMobileNumber(s)
 	return pc
 }
 
-// AddPatientDetails adds the "patient_details" edges to the PatientDetail entity.
-func (pc *PatientCreate) AddPatientDetails(p ...*PatientDetail) *PatientCreate {
-	ids := make([]int, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+// SetAdded sets the "added" field.
+func (pc *PatientCreate) SetAdded(t time.Time) *PatientCreate {
+	pc.mutation.SetAdded(t)
+	return pc
+}
+
+// SetNillableAdded sets the "added" field if the given value is not nil.
+func (pc *PatientCreate) SetNillableAdded(t *time.Time) *PatientCreate {
+	if t != nil {
+		pc.SetAdded(*t)
 	}
-	return pc.AddPatientDetailIDs(ids...)
+	return pc
+}
+
+// SetPrefixID sets the "prefix" edge to the Prefix entity by ID.
+func (pc *PatientCreate) SetPrefixID(id int) *PatientCreate {
+	pc.mutation.SetPrefixID(id)
+	return pc
+}
+
+// SetNillablePrefixID sets the "prefix" edge to the Prefix entity by ID if the given value is not nil.
+func (pc *PatientCreate) SetNillablePrefixID(id *int) *PatientCreate {
+	if id != nil {
+		pc = pc.SetPrefixID(*id)
+	}
+	return pc
+}
+
+// SetPrefix sets the "prefix" edge to the Prefix entity.
+func (pc *PatientCreate) SetPrefix(p *Prefix) *PatientCreate {
+	return pc.SetPrefixID(p.ID)
+}
+
+// SetGenderID sets the "gender" edge to the Gender entity by ID.
+func (pc *PatientCreate) SetGenderID(id int) *PatientCreate {
+	pc.mutation.SetGenderID(id)
+	return pc
+}
+
+// SetNillableGenderID sets the "gender" edge to the Gender entity by ID if the given value is not nil.
+func (pc *PatientCreate) SetNillableGenderID(id *int) *PatientCreate {
+	if id != nil {
+		pc = pc.SetGenderID(*id)
+	}
+	return pc
+}
+
+// SetGender sets the "gender" edge to the Gender entity.
+func (pc *PatientCreate) SetGender(g *Gender) *PatientCreate {
+	return pc.SetGenderID(g.ID)
+}
+
+// SetBloodtypeID sets the "bloodtype" edge to the BloodType entity by ID.
+func (pc *PatientCreate) SetBloodtypeID(id int) *PatientCreate {
+	pc.mutation.SetBloodtypeID(id)
+	return pc
+}
+
+// SetNillableBloodtypeID sets the "bloodtype" edge to the BloodType entity by ID if the given value is not nil.
+func (pc *PatientCreate) SetNillableBloodtypeID(id *int) *PatientCreate {
+	if id != nil {
+		pc = pc.SetBloodtypeID(*id)
+	}
+	return pc
+}
+
+// SetBloodtype sets the "bloodtype" edge to the BloodType entity.
+func (pc *PatientCreate) SetBloodtype(b *BloodType) *PatientCreate {
+	return pc.SetBloodtypeID(b.ID)
 }
 
 // AddTriageResultIDs adds the "triageResult" edge to the TriageResult entity by IDs.
@@ -144,6 +215,7 @@ func (pc *PatientCreate) Save(ctx context.Context) (*Patient, error) {
 		err  error
 		node *Patient
 	)
+	pc.defaults()
 	if len(pc.hooks) == 0 {
 		if err = pc.check(); err != nil {
 			return nil, err
@@ -182,8 +254,24 @@ func (pc *PatientCreate) SaveX(ctx context.Context) *Patient {
 	return v
 }
 
+// defaults sets the default values of the builder before save.
+func (pc *PatientCreate) defaults() {
+	if _, ok := pc.mutation.Added(); !ok {
+		v := patient.DefaultAdded()
+		pc.mutation.SetAdded(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (pc *PatientCreate) check() error {
+	if _, ok := pc.mutation.PersonalID(); !ok {
+		return &ValidationError{Name: "personalID", err: errors.New("ent: missing required field \"personalID\"")}
+	}
+	if v, ok := pc.mutation.PersonalID(); ok {
+		if err := patient.PersonalIDValidator(v); err != nil {
+			return &ValidationError{Name: "personalID", err: fmt.Errorf("ent: validator failed for field \"personalID\": %w", err)}
+		}
+	}
 	if _, ok := pc.mutation.HospitalNumber(); !ok {
 		return &ValidationError{Name: "hospitalNumber", err: errors.New("ent: missing required field \"hospitalNumber\"")}
 	}
@@ -207,6 +295,17 @@ func (pc *PatientCreate) check() error {
 		if err := patient.DrugAllergyValidator(v); err != nil {
 			return &ValidationError{Name: "drugAllergy", err: fmt.Errorf("ent: validator failed for field \"drugAllergy\": %w", err)}
 		}
+	}
+	if _, ok := pc.mutation.MobileNumber(); !ok {
+		return &ValidationError{Name: "mobileNumber", err: errors.New("ent: missing required field \"mobileNumber\"")}
+	}
+	if v, ok := pc.mutation.MobileNumber(); ok {
+		if err := patient.MobileNumberValidator(v); err != nil {
+			return &ValidationError{Name: "mobileNumber", err: fmt.Errorf("ent: validator failed for field \"mobileNumber\": %w", err)}
+		}
+	}
+	if _, ok := pc.mutation.Added(); !ok {
+		return &ValidationError{Name: "added", err: errors.New("ent: missing required field \"added\"")}
 	}
 	return nil
 }
@@ -235,6 +334,14 @@ func (pc *PatientCreate) createSpec() (*Patient, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
+	if value, ok := pc.mutation.PersonalID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: patient.FieldPersonalID,
+		})
+		_node.PersonalID = value
+	}
 	if value, ok := pc.mutation.HospitalNumber(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -259,17 +366,71 @@ func (pc *PatientCreate) createSpec() (*Patient, *sqlgraph.CreateSpec) {
 		})
 		_node.DrugAllergy = value
 	}
-	if nodes := pc.mutation.PatientDetailsIDs(); len(nodes) > 0 {
+	if value, ok := pc.mutation.MobileNumber(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: patient.FieldMobileNumber,
+		})
+		_node.MobileNumber = value
+	}
+	if value, ok := pc.mutation.Added(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: patient.FieldAdded,
+		})
+		_node.Added = value
+	}
+	if nodes := pc.mutation.PrefixIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   patient.PatientDetailsTable,
-			Columns: []string{patient.PatientDetailsColumn},
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   patient.PrefixTable,
+			Columns: []string{patient.PrefixColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: patientdetail.FieldID,
+					Column: prefix.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := pc.mutation.GenderIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   patient.GenderTable,
+			Columns: []string{patient.GenderColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: gender.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := pc.mutation.BloodtypeIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   patient.BloodtypeTable,
+			Columns: []string{patient.BloodtypeColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: bloodtype.FieldID,
 				},
 			},
 		}
@@ -390,6 +551,7 @@ func (pcb *PatientCreateBulk) Save(ctx context.Context) ([]*Patient, error) {
 	for i := range pcb.builders {
 		func(i int, root context.Context) {
 			builder := pcb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*PatientMutation)
 				if !ok {

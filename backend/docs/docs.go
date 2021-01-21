@@ -2427,232 +2427,6 @@ var doc = `{
                 }
             }
         },
-        "/patient-details": {
-            "get": {
-                "description": "list patient-detail entities",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "List patient-detail entities",
-                "operationId": "list-patient-detail",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Limit",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Offset",
-                        "name": "offset",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ent.PatientDetail"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create patient-detail",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Create patient-detail",
-                "operationId": "create-patient-detail",
-                "parameters": [
-                    {
-                        "description": "PatientDetail entity",
-                        "name": "patient-detail",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ent.PatientDetail"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.PatientDetail"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
-        "/patientdetails/{id}": {
-            "get": {
-                "description": "get patientdetail by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Get a patientdetail entity by ID",
-                "operationId": "get-patientdetail",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "PatientDetail ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.PatientDetail"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "update patientdetail by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Update a patientdetail entity by ID",
-                "operationId": "update-patientdetail",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "PatientDetail ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "PatientDetail entity",
-                        "name": "patientdetail",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ent.PatientDetail"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.PatientDetail"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "get patientdetail by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Delete a patientdetail entity by ID",
-                "operationId": "delete-patientdetail",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "PatientDetail ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
         "/patients": {
             "get": {
                 "description": "list patient entities",
@@ -2700,19 +2474,19 @@ var doc = `{
                 }
             },
             "post": {
-                "description": "Create patient",
+                "description": "Create Patient",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Create patient",
-                "operationId": "create-patient",
+                "summary": "Create Patient",
+                "operationId": "create-Patient",
                 "parameters": [
                     {
                         "description": "Patient entity",
-                        "name": "patient",
+                        "name": "Patient",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -4531,11 +4305,11 @@ var doc = `{
         "ent.BloodTypeEdges": {
             "type": "object",
             "properties": {
-                "patientDetails": {
-                    "description": "PatientDetails holds the value of the patient_details edge.",
+                "patients": {
+                    "description": "Patients holds the value of the patients edge.",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ent.PatientDetail"
+                        "$ref": "#/definitions/ent.Patient"
                     }
                 }
             }
@@ -4689,11 +4463,11 @@ var doc = `{
         "ent.GenderEdges": {
             "type": "object",
             "properties": {
-                "patientDetails": {
-                    "description": "PatientDetails holds the value of the patient_details edge.",
+                "patients": {
+                    "description": "Patients holds the value of the patients edge.",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ent.PatientDetail"
+                        "$ref": "#/definitions/ent.Patient"
                     }
                 }
             }
@@ -4835,6 +4609,10 @@ var doc = `{
         "ent.Patient": {
             "type": "object",
             "properties": {
+                "added": {
+                    "description": "Added holds the value of the \"added\" field.",
+                    "type": "string"
+                },
                 "drugAllergy": {
                     "description": "DrugAllergy holds the value of the \"drugAllergy\" field.",
                     "type": "string"
@@ -4852,27 +4630,21 @@ var doc = `{
                     "description": "ID of the ent.",
                     "type": "integer"
                 },
+                "mobileNumber": {
+                    "description": "MobileNumber holds the value of the \"mobileNumber\" field.",
+                    "type": "string"
+                },
                 "patientName": {
                     "description": "PatientName holds the value of the \"patientName\" field.",
+                    "type": "string"
+                },
+                "personalID": {
+                    "description": "PersonalID holds the value of the \"personalID\" field.",
                     "type": "string"
                 }
             }
         },
-        "ent.PatientDetail": {
-            "type": "object",
-            "properties": {
-                "edges": {
-                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the PatientDetailQuery when eager-loading is set.",
-                    "type": "object",
-                    "$ref": "#/definitions/ent.PatientDetailEdges"
-                },
-                "id": {
-                    "description": "ID of the ent.",
-                    "type": "integer"
-                }
-            }
-        },
-        "ent.PatientDetailEdges": {
+        "ent.PatientEdges": {
             "type": "object",
             "properties": {
                 "bloodtype": {
@@ -4884,28 +4656,6 @@ var doc = `{
                     "description": "Gender holds the value of the gender edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Gender"
-                },
-                "patient": {
-                    "description": "Patient holds the value of the patient edge.",
-                    "type": "object",
-                    "$ref": "#/definitions/ent.Patient"
-                },
-                "prefix": {
-                    "description": "Prefix holds the value of the prefix edge.",
-                    "type": "object",
-                    "$ref": "#/definitions/ent.Prefix"
-                }
-            }
-        },
-        "ent.PatientEdges": {
-            "type": "object",
-            "properties": {
-                "patientDetails": {
-                    "description": "PatientDetails holds the value of the patient_details edge.",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ent.PatientDetail"
-                    }
                 },
                 "patientToAppointmentResults": {
                     "description": "PatientToAppointmentResults holds the value of the PatientToAppointmentResults edge.",
@@ -4934,6 +4684,11 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/ent.RightToTreatment"
                     }
+                },
+                "prefix": {
+                    "description": "Prefix holds the value of the prefix edge.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.Prefix"
                 },
                 "triageResult": {
                     "description": "TriageResult holds the value of the triageResult edge.",
@@ -4965,11 +4720,11 @@ var doc = `{
         "ent.PrefixEdges": {
             "type": "object",
             "properties": {
-                "patientDetails": {
-                    "description": "PatientDetails holds the value of the patient_details edge.",
+                "patients": {
+                    "description": "Patients holds the value of the patients edge.",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ent.PatientDetail"
+                        "$ref": "#/definitions/ent.Patient"
                     }
                 }
             }

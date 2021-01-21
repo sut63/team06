@@ -18,8 +18,6 @@ export * from './EntMedicalRecord';
 export * from './EntNurse';
 export * from './EntNurseEdges';
 export * from './EntPatient';
-export * from './EntPatientDetail';
-export * from './EntPatientDetailEdges';
 export * from './EntPatientEdges';
 export * from './EntPrefix';
 export * from './EntPrefixEdges';

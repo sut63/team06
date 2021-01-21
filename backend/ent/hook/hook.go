@@ -152,19 +152,6 @@ func (f PatientFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, err
 	return f(ctx, mv)
 }
 
-// The PatientDetailFunc type is an adapter to allow the use of ordinary
-// function as PatientDetail mutator.
-type PatientDetailFunc func(context.Context, *ent.PatientDetailMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f PatientDetailFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.PatientDetailMutation)
-	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.PatientDetailMutation", m)
-	}
-	return f(ctx, mv)
-}
-
 // The PrefixFunc type is an adapter to allow the use of ordinary
 // function as Prefix mutator.
 type PrefixFunc func(context.Context, *ent.PrefixMutation) (ent.Value, error)

@@ -10,18 +10,18 @@ const (
 	// FieldPrefixValue holds the string denoting the prefixvalue field in the database.
 	FieldPrefixValue = "prefix_value"
 
-	// EdgePatientDetails holds the string denoting the patient_details edge name in mutations.
-	EdgePatientDetails = "patient_details"
+	// EdgePatients holds the string denoting the patients edge name in mutations.
+	EdgePatients = "patients"
 
 	// Table holds the table name of the prefix in the database.
 	Table = "prefixes"
-	// PatientDetailsTable is the table the holds the patient_details relation/edge.
-	PatientDetailsTable = "patient_details"
-	// PatientDetailsInverseTable is the table name for the PatientDetail entity.
-	// It exists in this package in order to avoid circular dependency with the "patientdetail" package.
-	PatientDetailsInverseTable = "patient_details"
-	// PatientDetailsColumn is the table column denoting the patient_details relation/edge.
-	PatientDetailsColumn = "prefix_patient_details"
+	// PatientsTable is the table the holds the patients relation/edge.
+	PatientsTable = "patients"
+	// PatientsInverseTable is the table name for the Patient entity.
+	// It exists in this package in order to avoid circular dependency with the "patient" package.
+	PatientsInverseTable = "patients"
+	// PatientsColumn is the table column denoting the patients relation/edge.
+	PatientsColumn = "prefix_patients"
 )
 
 // Columns holds all SQL columns for prefix fields.

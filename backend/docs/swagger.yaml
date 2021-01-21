@@ -58,10 +58,10 @@ definitions:
     type: object
   ent.BloodTypeEdges:
     properties:
-      patientDetails:
-        description: PatientDetails holds the value of the patient_details edge.
+      patients:
+        description: Patients holds the value of the patients edge.
         items:
-          $ref: '#/definitions/ent.PatientDetail'
+          $ref: '#/definitions/ent.Patient'
         type: array
     type: object
   ent.Department:
@@ -181,10 +181,10 @@ definitions:
     type: object
   ent.GenderEdges:
     properties:
-      patientDetails:
-        description: PatientDetails holds the value of the patient_details edge.
+      patients:
+        description: Patients holds the value of the patients edge.
         items:
-          $ref: '#/definitions/ent.PatientDetail'
+          $ref: '#/definitions/ent.Patient'
         type: array
     type: object
   ent.Hospital:
@@ -292,6 +292,9 @@ definitions:
     type: object
   ent.Patient:
     properties:
+      added:
+        description: Added holds the value of the "added" field.
+        type: string
       drugAllergy:
         description: DrugAllergy holds the value of the "drugAllergy" field.
         type: string
@@ -307,23 +310,17 @@ definitions:
       id:
         description: ID of the ent.
         type: integer
+      mobileNumber:
+        description: MobileNumber holds the value of the "mobileNumber" field.
+        type: string
       patientName:
         description: PatientName holds the value of the "patientName" field.
         type: string
+      personalID:
+        description: PersonalID holds the value of the "personalID" field.
+        type: string
     type: object
-  ent.PatientDetail:
-    properties:
-      edges:
-        $ref: '#/definitions/ent.PatientDetailEdges'
-        description: |-
-          Edges holds the relations/edges for other nodes in the graph.
-          The values are being populated by the PatientDetailQuery when eager-loading is set.
-        type: object
-      id:
-        description: ID of the ent.
-        type: integer
-    type: object
-  ent.PatientDetailEdges:
+  ent.PatientEdges:
     properties:
       bloodtype:
         $ref: '#/definitions/ent.BloodType'
@@ -333,22 +330,6 @@ definitions:
         $ref: '#/definitions/ent.Gender'
         description: Gender holds the value of the gender edge.
         type: object
-      patient:
-        $ref: '#/definitions/ent.Patient'
-        description: Patient holds the value of the patient edge.
-        type: object
-      prefix:
-        $ref: '#/definitions/ent.Prefix'
-        description: Prefix holds the value of the prefix edge.
-        type: object
-    type: object
-  ent.PatientEdges:
-    properties:
-      patientDetails:
-        description: PatientDetails holds the value of the patient_details edge.
-        items:
-          $ref: '#/definitions/ent.PatientDetail'
-        type: array
       patientToAppointmentResults:
         description: PatientToAppointmentResults holds the value of the PatientToAppointmentResults
           edge.
@@ -373,6 +354,10 @@ definitions:
         items:
           $ref: '#/definitions/ent.RightToTreatment'
         type: array
+      prefix:
+        $ref: '#/definitions/ent.Prefix'
+        description: Prefix holds the value of the prefix edge.
+        type: object
       triageResult:
         description: TriageResult holds the value of the triageResult edge.
         items:
@@ -396,10 +381,10 @@ definitions:
     type: object
   ent.PrefixEdges:
     properties:
-      patientDetails:
-        description: PatientDetails holds the value of the patient_details edge.
+      patients:
+        description: Patients holds the value of the patients edge.
         items:
-          $ref: '#/definitions/ent.PatientDetail'
+          $ref: '#/definitions/ent.Patient'
         type: array
     type: object
   ent.ProcedureType:
@@ -2207,157 +2192,6 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a nurse entity by ID
-  /patient-details:
-    get:
-      description: list patient-detail entities
-      operationId: list-patient-detail
-      parameters:
-      - description: Limit
-        in: query
-        name: limit
-        type: integer
-      - description: Offset
-        in: query
-        name: offset
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/ent.PatientDetail'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: List patient-detail entities
-    post:
-      consumes:
-      - application/json
-      description: Create patient-detail
-      operationId: create-patient-detail
-      parameters:
-      - description: PatientDetail entity
-        in: body
-        name: patient-detail
-        required: true
-        schema:
-          $ref: '#/definitions/ent.PatientDetail'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ent.PatientDetail'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Create patient-detail
-  /patientdetails/{id}:
-    delete:
-      description: get patientdetail by ID
-      operationId: delete-patientdetail
-      parameters:
-      - description: PatientDetail ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/gin.H'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Delete a patientdetail entity by ID
-    get:
-      description: get patientdetail by ID
-      operationId: get-patientdetail
-      parameters:
-      - description: PatientDetail ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ent.PatientDetail'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Get a patientdetail entity by ID
-    put:
-      consumes:
-      - application/json
-      description: update patientdetail by ID
-      operationId: update-patientdetail
-      parameters:
-      - description: PatientDetail ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: PatientDetail entity
-        in: body
-        name: patientdetail
-        required: true
-        schema:
-          $ref: '#/definitions/ent.PatientDetail'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ent.PatientDetail'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Update a patientdetail entity by ID
   /patients:
     get:
       description: list patient entities
@@ -2392,12 +2226,12 @@ paths:
     post:
       consumes:
       - application/json
-      description: Create patient
-      operationId: create-patient
+      description: Create Patient
+      operationId: create-Patient
       parameters:
       - description: Patient entity
         in: body
-        name: patient
+        name: Patient
         required: true
         schema:
           $ref: '#/definitions/ent.Patient'
@@ -2416,7 +2250,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Create patient
+      summary: Create Patient
   /patients/{id}:
     delete:
       description: get patient by ID

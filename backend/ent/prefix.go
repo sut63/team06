@@ -24,20 +24,20 @@ type Prefix struct {
 
 // PrefixEdges holds the relations/edges for other nodes in the graph.
 type PrefixEdges struct {
-	// PatientDetails holds the value of the patient_details edge.
-	PatientDetails []*PatientDetail
+	// Patients holds the value of the patients edge.
+	Patients []*Patient
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 }
 
-// PatientDetailsOrErr returns the PatientDetails value or an error if the edge
+// PatientsOrErr returns the Patients value or an error if the edge
 // was not loaded in eager-loading.
-func (e PrefixEdges) PatientDetailsOrErr() ([]*PatientDetail, error) {
+func (e PrefixEdges) PatientsOrErr() ([]*Patient, error) {
 	if e.loadedTypes[0] {
-		return e.PatientDetails, nil
+		return e.Patients, nil
 	}
-	return nil, &NotLoadedError{edge: "patient_details"}
+	return nil, &NotLoadedError{edge: "patients"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -81,9 +81,9 @@ func (pr *Prefix) assignValues(columns []string, values []interface{}) error {
 	return nil
 }
 
-// QueryPatientDetails queries the "patient_details" edge of the Prefix entity.
-func (pr *Prefix) QueryPatientDetails() *PatientDetailQuery {
-	return (&PrefixClient{config: pr.config}).QueryPatientDetails(pr)
+// QueryPatients queries the "patients" edge of the Prefix entity.
+func (pr *Prefix) QueryPatients() *PatientQuery {
+	return (&PrefixClient{config: pr.config}).QueryPatients(pr)
 }
 
 // Update returns a builder for updating this Prefix.

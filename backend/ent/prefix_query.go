@@ -12,7 +12,7 @@ import (
 	"github.com/facebook/ent/dialect/sql"
 	"github.com/facebook/ent/dialect/sql/sqlgraph"
 	"github.com/facebook/ent/schema/field"
-	"github.com/team06/app/ent/patientdetail"
+	"github.com/team06/app/ent/patient"
 	"github.com/team06/app/ent/predicate"
 	"github.com/team06/app/ent/prefix"
 )
@@ -26,7 +26,7 @@ type PrefixQuery struct {
 	fields     []string
 	predicates []predicate.Prefix
 	// eager-loading edges.
-	withPatientDetails *PatientDetailQuery
+	withPatients *PatientQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -56,9 +56,9 @@ func (pq *PrefixQuery) Order(o ...OrderFunc) *PrefixQuery {
 	return pq
 }
 
-// QueryPatientDetails chains the current query on the "patient_details" edge.
-func (pq *PrefixQuery) QueryPatientDetails() *PatientDetailQuery {
-	query := &PatientDetailQuery{config: pq.config}
+// QueryPatients chains the current query on the "patients" edge.
+func (pq *PrefixQuery) QueryPatients() *PatientQuery {
+	query := &PatientQuery{config: pq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := pq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -69,8 +69,8 @@ func (pq *PrefixQuery) QueryPatientDetails() *PatientDetailQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(prefix.Table, prefix.FieldID, selector),
-			sqlgraph.To(patientdetail.Table, patientdetail.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, prefix.PatientDetailsTable, prefix.PatientDetailsColumn),
+			sqlgraph.To(patient.Table, patient.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, prefix.PatientsTable, prefix.PatientsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
 		return fromU, nil
@@ -254,26 +254,26 @@ func (pq *PrefixQuery) Clone() *PrefixQuery {
 		return nil
 	}
 	return &PrefixQuery{
-		config:             pq.config,
-		limit:              pq.limit,
-		offset:             pq.offset,
-		order:              append([]OrderFunc{}, pq.order...),
-		predicates:         append([]predicate.Prefix{}, pq.predicates...),
-		withPatientDetails: pq.withPatientDetails.Clone(),
+		config:       pq.config,
+		limit:        pq.limit,
+		offset:       pq.offset,
+		order:        append([]OrderFunc{}, pq.order...),
+		predicates:   append([]predicate.Prefix{}, pq.predicates...),
+		withPatients: pq.withPatients.Clone(),
 		// clone intermediate query.
 		sql:  pq.sql.Clone(),
 		path: pq.path,
 	}
 }
 
-// WithPatientDetails tells the query-builder to eager-load the nodes that are connected to
-// the "patient_details" edge. The optional arguments are used to configure the query builder of the edge.
-func (pq *PrefixQuery) WithPatientDetails(opts ...func(*PatientDetailQuery)) *PrefixQuery {
-	query := &PatientDetailQuery{config: pq.config}
+// WithPatients tells the query-builder to eager-load the nodes that are connected to
+// the "patients" edge. The optional arguments are used to configure the query builder of the edge.
+func (pq *PrefixQuery) WithPatients(opts ...func(*PatientQuery)) *PrefixQuery {
+	query := &PatientQuery{config: pq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	pq.withPatientDetails = query
+	pq.withPatients = query
 	return pq
 }
 
@@ -343,7 +343,7 @@ func (pq *PrefixQuery) sqlAll(ctx context.Context) ([]*Prefix, error) {
 		nodes       = []*Prefix{}
 		_spec       = pq.querySpec()
 		loadedTypes = [1]bool{
-			pq.withPatientDetails != nil,
+			pq.withPatients != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]interface{}, error) {
@@ -366,32 +366,32 @@ func (pq *PrefixQuery) sqlAll(ctx context.Context) ([]*Prefix, error) {
 		return nodes, nil
 	}
 
-	if query := pq.withPatientDetails; query != nil {
+	if query := pq.withPatients; query != nil {
 		fks := make([]driver.Value, 0, len(nodes))
 		nodeids := make(map[int]*Prefix)
 		for i := range nodes {
 			fks = append(fks, nodes[i].ID)
 			nodeids[nodes[i].ID] = nodes[i]
-			nodes[i].Edges.PatientDetails = []*PatientDetail{}
+			nodes[i].Edges.Patients = []*Patient{}
 		}
 		query.withFKs = true
-		query.Where(predicate.PatientDetail(func(s *sql.Selector) {
-			s.Where(sql.InValues(prefix.PatientDetailsColumn, fks...))
+		query.Where(predicate.Patient(func(s *sql.Selector) {
+			s.Where(sql.InValues(prefix.PatientsColumn, fks...))
 		}))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
 		}
 		for _, n := range neighbors {
-			fk := n.prefix_patient_details
+			fk := n.prefix_patients
 			if fk == nil {
-				return nil, fmt.Errorf(`foreign-key "prefix_patient_details" is nil for node %v`, n.ID)
+				return nil, fmt.Errorf(`foreign-key "prefix_patients" is nil for node %v`, n.ID)
 			}
 			node, ok := nodeids[*fk]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "prefix_patient_details" returned %v for node %v`, *fk, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "prefix_patients" returned %v for node %v`, *fk, n.ID)
 			}
-			node.Edges.PatientDetails = append(node.Edges.PatientDetails, n)
+			node.Edges.Patients = append(node.Edges.Patients, n)
 		}
 	}
 

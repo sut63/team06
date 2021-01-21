@@ -34,8 +34,6 @@ type Tx struct {
 	Nurse *NurseClient
 	// Patient is the client for interacting with the Patient builders.
 	Patient *PatientClient
-	// PatientDetail is the client for interacting with the PatientDetail builders.
-	PatientDetail *PatientDetailClient
 	// Prefix is the client for interacting with the Prefix builders.
 	Prefix *PrefixClient
 	// ProcedureType is the client for interacting with the ProcedureType builders.
@@ -198,7 +196,6 @@ func (tx *Tx) init() {
 	tx.MedicalRecord = NewMedicalRecordClient(tx.config)
 	tx.Nurse = NewNurseClient(tx.config)
 	tx.Patient = NewPatientClient(tx.config)
-	tx.PatientDetail = NewPatientDetailClient(tx.config)
 	tx.Prefix = NewPrefixClient(tx.config)
 	tx.ProcedureType = NewProcedureTypeClient(tx.config)
 	tx.RightToTreatment = NewRightToTreatmentClient(tx.config)
