@@ -42,6 +42,12 @@ func (du *DiagnosisUpdate) SetOpinionresult(s string) *DiagnosisUpdate {
 	return du
 }
 
+// SetNote sets the "note" field.
+func (du *DiagnosisUpdate) SetNote(s string) *DiagnosisUpdate {
+	du.mutation.SetNote(s)
+	return du
+}
+
 // SetDiagnosisDate sets the "diagnosisDate" field.
 func (du *DiagnosisUpdate) SetDiagnosisDate(t time.Time) *DiagnosisUpdate {
 	du.mutation.SetDiagnosisDate(t)
@@ -205,6 +211,11 @@ func (du *DiagnosisUpdate) check() error {
 			return &ValidationError{Name: "Opinionresult", err: fmt.Errorf("ent: validator failed for field \"Opinionresult\": %w", err)}
 		}
 	}
+	if v, ok := du.mutation.Note(); ok {
+		if err := diagnosis.NoteValidator(v); err != nil {
+			return &ValidationError{Name: "note", err: fmt.Errorf("ent: validator failed for field \"note\": %w", err)}
+		}
+	}
 	return nil
 }
 
@@ -238,6 +249,13 @@ func (du *DiagnosisUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeString,
 			Value:  value,
 			Column: diagnosis.FieldOpinionresult,
+		})
+	}
+	if value, ok := du.mutation.Note(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: diagnosis.FieldNote,
 		})
 	}
 	if value, ok := du.mutation.DiagnosisDate(); ok {
@@ -379,6 +397,12 @@ func (duo *DiagnosisUpdateOne) SetSymptom(s string) *DiagnosisUpdateOne {
 // SetOpinionresult sets the "Opinionresult" field.
 func (duo *DiagnosisUpdateOne) SetOpinionresult(s string) *DiagnosisUpdateOne {
 	duo.mutation.SetOpinionresult(s)
+	return duo
+}
+
+// SetNote sets the "note" field.
+func (duo *DiagnosisUpdateOne) SetNote(s string) *DiagnosisUpdateOne {
+	duo.mutation.SetNote(s)
 	return duo
 }
 
@@ -545,6 +569,11 @@ func (duo *DiagnosisUpdateOne) check() error {
 			return &ValidationError{Name: "Opinionresult", err: fmt.Errorf("ent: validator failed for field \"Opinionresult\": %w", err)}
 		}
 	}
+	if v, ok := duo.mutation.Note(); ok {
+		if err := diagnosis.NoteValidator(v); err != nil {
+			return &ValidationError{Name: "note", err: fmt.Errorf("ent: validator failed for field \"note\": %w", err)}
+		}
+	}
 	return nil
 }
 
@@ -576,6 +605,13 @@ func (duo *DiagnosisUpdateOne) sqlSave(ctx context.Context) (_node *Diagnosis, e
 			Type:   field.TypeString,
 			Value:  value,
 			Column: diagnosis.FieldOpinionresult,
+		})
+	}
+	if value, ok := duo.mutation.Note(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: diagnosis.FieldNote,
 		})
 	}
 	if value, ok := duo.mutation.DiagnosisDate(); ok {

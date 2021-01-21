@@ -4364,6 +4364,10 @@ var doc = `{
                     "description": "ID of the ent.",
                     "type": "integer"
                 },
+                "note": {
+                    "description": "Note holds the value of the \"note\" field.",
+                    "type": "string"
+                },
                 "symptom": {
                     "description": "Symptom holds the value of the \"symptom\" field.",
                     "type": "string"

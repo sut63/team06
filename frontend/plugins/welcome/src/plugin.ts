@@ -13,6 +13,7 @@ import PatientRegistration from './components/PatientRegistration';
 import PatientRegistrationTables from './components/PatientRegistrationTable';
 import CreateAppointment from './components/CreateAppointment';
 import AppointmentResults from './components/AppointmentResults';
+import DiagnosisTables from './components/DiagnosisTable';
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -31,5 +32,6 @@ export const plugin = createPlugin({
     router.registerRoute('/patientregistrationtable', PatientRegistrationTables);
     router.registerRoute('/createappointment', CreateAppointment);
     router.registerRoute('/appointmentresults', AppointmentResults);
+    router.registerRoute('/diagnosistable', DiagnosisTables);
   },
 });

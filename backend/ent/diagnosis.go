@@ -23,6 +23,8 @@ type Diagnosis struct {
 	Symptom string `json:"symptom,omitempty"`
 	// Opinionresult holds the value of the "Opinionresult" field.
 	Opinionresult string `json:"Opinionresult,omitempty"`
+	// Note holds the value of the "note" field.
+	Note string `json:"note,omitempty"`
 	// DiagnosisDate holds the value of the "diagnosisDate" field.
 	DiagnosisDate time.Time `json:"diagnosisDate,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -95,7 +97,7 @@ func (*Diagnosis) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case diagnosis.FieldID:
 			values[i] = &sql.NullInt64{}
-		case diagnosis.FieldSymptom, diagnosis.FieldOpinionresult:
+		case diagnosis.FieldSymptom, diagnosis.FieldOpinionresult, diagnosis.FieldNote:
 			values[i] = &sql.NullString{}
 		case diagnosis.FieldDiagnosisDate:
 			values[i] = &sql.NullTime{}
@@ -137,6 +139,12 @@ func (d *Diagnosis) assignValues(columns []string, values []interface{}) error {
 				return fmt.Errorf("unexpected type %T for field Opinionresult", values[i])
 			} else if value.Valid {
 				d.Opinionresult = value.String
+			}
+		case diagnosis.FieldNote:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field note", values[i])
+			} else if value.Valid {
+				d.Note = value.String
 			}
 		case diagnosis.FieldDiagnosisDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -212,6 +220,8 @@ func (d *Diagnosis) String() string {
 	builder.WriteString(d.Symptom)
 	builder.WriteString(", Opinionresult=")
 	builder.WriteString(d.Opinionresult)
+	builder.WriteString(", note=")
+	builder.WriteString(d.Note)
 	builder.WriteString(", diagnosisDate=")
 	builder.WriteString(d.DiagnosisDate.Format(time.ANSIC))
 	builder.WriteByte(')')

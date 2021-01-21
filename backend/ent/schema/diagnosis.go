@@ -13,12 +13,15 @@ type Diagnosis struct {
 	ent.Schema
 }
 
-// Fields of the section.
+// Fields of the Diagnosis.
 func (Diagnosis) Fields() []ent.Field {
 	return []ent.Field{
-
 		field.String("symptom").NotEmpty(),
 		field.String("Opinionresult").NotEmpty(),
+		field.String("note").NotEmpty(),
+
+		//field.DATE
+
 		field.Time("diagnosisDate").Default(time.Now),
 	}
 }
