@@ -16,6 +16,7 @@ import {
     pageTheme,
     ContentHeader,
     Link,
+    identityApiRef,
 } from '@backstage/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -23,6 +24,8 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import { DefaultApi } from '../../api/apis';
 import { MenuItem } from '@material-ui/core';
+import Icon from '*.icon.svg';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,6 +59,11 @@ export default function Create() {
     const [PatientID, setPatient] = React.useState<EntPatient[]>([]);
     const [DoctorID, Setdoctor] = React.useState<EntDoctor[]>([]);
 
+    const [identifiCationSymptomError, setidentifiCationSymptomError] = React.useState('');
+    const [identifiNoteError, setIdentifiNoteError] = React.useState('');
+    const [identifiOpinionresultError, setOpinionresultError] = React.useState('');
+
+
     // ดึงคุกกี้
     var ck = new Cookies()
     var cookieName = ck.GetCookie()
@@ -63,9 +71,26 @@ export default function Create() {
     // alert setting
     const [open, setOpen] = React.useState(false);
     const [fail, setFail] = React.useState(false);
+    const [errors, setError] = React.useState(String);
+
+    const checkCaseSaveError = (s :string) => {
+        switch(s) {
+          case 'symptom':
+            setError("กรุณากรอกอาการให้ครบ")
+            return;
+          case 'Opinionresult':
+            setError("กรุณากรอกความเห็นให้ครบ")
+            return;
+          case 'note':
+            setError("กรอกหมายเหตุให้ครบ")
+            return;
+          default:
+            return;
+        }
+      };
 
     //close alert 
-    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    const handleClose = (_event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
@@ -94,14 +119,13 @@ export default function Create() {
     }, []);
 
     interface Diagnosis {
-
         TreatmentType: number;
         Patient: number;
         Doctor: number;
         Symptom: string;
         Opinionresult: string;
         diagnosisDate: string;
-
+        note: string;
         // create_by: number;
     }
 
@@ -115,14 +139,67 @@ export default function Create() {
       }
     };*/
 
-    const handleChange = (
-        event: React.ChangeEvent<{ name?: string; value: unknown }>,
-    ) => {
+    const handleChange = (event: React.ChangeEvent<{ name?: string; value: any }>) => {
         const name = event.target.name as keyof typeof Create;
         const { value } = event.target;
+        const validateValue = value.toString()
+        checkPattern(name, validateValue)
         setDiagnosisitem({ ...Diagnosis, [name]: value });
         console.log(Diagnosis);
     };
+
+
+    const alertMessage = (icon: any, title: any) => {
+        Toast.fire({
+            icon: icon,
+            title: title,
+        });
+    }
+
+    // Alert setting
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: Toast => {
+            Toast.addEventListener('mouseenter', Swal.stopTimer);
+            Toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+    })
+
+    //ฟังก์ชัน validate อาการ
+    const ValidateNoteError = (val: string) => {
+        return val.length > 1 ? true : false;
+    }
+
+    //ฟังก์ชัน validate อาการ
+    const ValidateOpinionresultError = (val: string) => {
+        return val.length > 1 ? true : false;
+    }
+
+    //ฟังก์ชัน validate อาการ
+    const ValidateCationSymptomError = (val: string) => {
+        return val.length > 1 ? true : false;
+    }
+
+    // สำหรับตรวจสอบรูปแบบข้อมูลที่กรอก ว่าเป็นไปตามที่กำหนดหรือไม่
+    const checkPattern = (name: string, value: string) => {
+        switch (name) {
+            case 'Symptom':
+                ValidateCationSymptomError(value) ? setidentifiCationSymptomError('') : setidentifiCationSymptomError('กรุณาระบุอาการให้ครบ');
+                return;
+            case 'note':
+                ValidateNoteError(value) ? setIdentifiNoteError('') : setIdentifiNoteError('ระบุหมายเหตุให้ครบ');
+                return;
+            case 'Opinionresult':
+                ValidateOpinionresultError(value) ? setOpinionresultError('') : setOpinionresultError('กรุณาระบุความเห็นจากแพทย์ให้ครบ')
+                return;
+            default:
+                return;
+        }
+    }
 
     function save() {
         const apiUrl = 'http://localhost:8080/api/v1/Diagnosiss';
@@ -130,23 +207,26 @@ export default function Create() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(Diagnosis),
-
-
-        };
+        }
 
         console.log(Diagnosis); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
 
         fetch(apiUrl, requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data.status);
+                console.log(data);
                 if (data.status == true) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'บันทึกสำเร็จ'
+                    })
                     clear();
                     setOpen(true);
                 } else {
                     setFail(true);
+                    checkCaseSaveError(data.error.Name)
                 }
-            });
+            })
     }
 
     function Clears() {
@@ -216,7 +296,7 @@ export default function Create() {
 
                             <Snackbar open={fail} autoHideDuration={6000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="error">
-                                    บันทึกไม่สำเร็จ!
+                                   {errors}
         </Alert>
                             </Snackbar>
 
@@ -259,10 +339,12 @@ export default function Create() {
              &nbsp;
              ประเภทการรักษา
              <TextField
-                                id="course"
+
+                                id="TreatmentType"
                                 select
                                 name="TreatmentType"
                                 label="ประเภทการรักษา"
+
                                 value={Diagnosis.TreatmentType}
                                 variant="outlined"
                                 onChange={handleChange}
@@ -285,6 +367,8 @@ export default function Create() {
                         <form className={classes.root} noValidate autoComplete="off">
 
                             <TextField id="outlined-basic" label="ความคิดเห็นจากแพทย์"
+                                error={identifiOpinionresultError ? true : false}
+                                helperText={identifiOpinionresultError}
                                 variant="outlined"
                                 name="Opinionresult"
                                 value={Diagnosis.Opinionresult}
@@ -293,10 +377,12 @@ export default function Create() {
                         </form>
     &nbsp;
 
-    <form className={classes.root} noValidate autoComplete="off">
 
-                            <TextField id="outlined-basic" label="อาการ"
+                        <form className={classes.root} noValidate autoComplete="off">
+                            <TextField id="symptom" label="อาการ"
                                 variant="outlined"
+                                error={identifiCationSymptomError ? true : false}
+                                helperText={identifiCationSymptomError}
                                 name="Symptom"
                                 value={Diagnosis.Symptom}
                                 onChange={handleChange} />
@@ -306,7 +392,18 @@ export default function Create() {
             &nbsp;
             &nbsp;
 
-            <FormControl variant="outlined" className={classes.formControl}>
+            <form className={classes.root} noValidate autoComplete="off">
+
+                            <TextField id="outlined-basic" label="หมายเหตุ"
+                            variant="outlined"
+                            error={identifiNoteError ? true : false}
+                            helperText={identifiNoteError}
+                            name="note"
+                            value={Diagnosis.note}
+                            onChange={handleChange} />
+                        </form>
+
+                        <FormControl variant="outlined" className={classes.formControl}>
                             <TextField
                                 name="diagnosisDate"
                                 type="datetime-local"
@@ -372,7 +469,4 @@ export default function Create() {
         </Page>
 
     );
-
-
 }
-

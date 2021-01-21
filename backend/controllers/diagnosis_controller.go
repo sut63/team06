@@ -28,6 +28,7 @@ type Diagnosis struct {
 	TreatmentType int
 	Patient       int
 	Doctor        int
+	Note          string
 }
 
 // CreateDiagnosis handles POST requests for adding Diagnosis entities
@@ -94,12 +95,15 @@ func (ctl *DiagnosisController) CreateDiagnosis(c *gin.Context) {
 		SetOpinionresult(obj.Opinionresult).
 		SetPatient(patient).
 		SetType(ty).
+		SetNote(obj.Note).
 		SetDoctorName(doctor).
 		Save(context.Background())
 
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(400, gin.H{
-			"error": "saving failed",
+			"status": false,
+			"error":  err,
 		})
 		return
 	}

@@ -15,6 +15,8 @@ const (
 	FieldSymptom = "symptom"
 	// FieldOpinionresult holds the string denoting the opinionresult field in the database.
 	FieldOpinionresult = "opinionresult"
+	// FieldNote holds the string denoting the note field in the database.
+	FieldNote = "note"
 	// FieldDiagnosisDate holds the string denoting the diagnosisdate field in the database.
 	FieldDiagnosisDate = "diagnosis_date"
 
@@ -55,6 +57,7 @@ var Columns = []string{
 	FieldID,
 	FieldSymptom,
 	FieldOpinionresult,
+	FieldNote,
 	FieldDiagnosisDate,
 }
 
@@ -85,6 +88,8 @@ var (
 	SymptomValidator func(string) error
 	// OpinionresultValidator is a validator for the "Opinionresult" field. It is called by the builders before save.
 	OpinionresultValidator func(string) error
+	// NoteValidator is a validator for the "note" field. It is called by the builders before save.
+	NoteValidator func(string) error
 	// DefaultDiagnosisDate holds the default value on creation for the "diagnosisDate" field.
 	DefaultDiagnosisDate func() time.Time
 )

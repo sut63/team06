@@ -51,6 +51,12 @@ export interface EntDiagnosis {
      */
     id?: number;
     /**
+     * Note holds the value of the "note" field.
+     * @type {string}
+     * @memberof EntDiagnosis
+     */
+    note?: string;
+    /**
      * Symptom holds the value of the "symptom" field.
      * @type {string}
      * @memberof EntDiagnosis
@@ -72,6 +78,7 @@ export function EntDiagnosisFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'diagnosisDate': !exists(json, 'diagnosisDate') ? undefined : json['diagnosisDate'],
         'edges': !exists(json, 'edges') ? undefined : EntDiagnosisEdgesFromJSON(json['edges']),
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'note': !exists(json, 'note') ? undefined : json['note'],
         'symptom': !exists(json, 'symptom') ? undefined : json['symptom'],
     };
 }
@@ -89,6 +96,7 @@ export function EntDiagnosisToJSON(value?: EntDiagnosis | null): any {
         'diagnosisDate': value.diagnosisDate,
         'edges': EntDiagnosisEdgesToJSON(value.edges),
         'id': value.id,
+        'note': value.note,
         'symptom': value.symptom,
     };
 }

@@ -35,6 +35,12 @@ func (dc *DiagnosisCreate) SetOpinionresult(s string) *DiagnosisCreate {
 	return dc
 }
 
+// SetNote sets the "note" field.
+func (dc *DiagnosisCreate) SetNote(s string) *DiagnosisCreate {
+	dc.mutation.SetNote(s)
+	return dc
+}
+
 // SetDiagnosisDate sets the "diagnosisDate" field.
 func (dc *DiagnosisCreate) SetDiagnosisDate(t time.Time) *DiagnosisCreate {
 	dc.mutation.SetDiagnosisDate(t)
@@ -182,6 +188,14 @@ func (dc *DiagnosisCreate) check() error {
 			return &ValidationError{Name: "Opinionresult", err: fmt.Errorf("ent: validator failed for field \"Opinionresult\": %w", err)}
 		}
 	}
+	if _, ok := dc.mutation.Note(); !ok {
+		return &ValidationError{Name: "note", err: errors.New("ent: missing required field \"note\"")}
+	}
+	if v, ok := dc.mutation.Note(); ok {
+		if err := diagnosis.NoteValidator(v); err != nil {
+			return &ValidationError{Name: "note", err: fmt.Errorf("ent: validator failed for field \"note\": %w", err)}
+		}
+	}
 	if _, ok := dc.mutation.DiagnosisDate(); !ok {
 		return &ValidationError{Name: "diagnosisDate", err: errors.New("ent: missing required field \"diagnosisDate\"")}
 	}
@@ -227,6 +241,14 @@ func (dc *DiagnosisCreate) createSpec() (*Diagnosis, *sqlgraph.CreateSpec) {
 			Column: diagnosis.FieldOpinionresult,
 		})
 		_node.Opinionresult = value
+	}
+	if value, ok := dc.mutation.Note(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: diagnosis.FieldNote,
+		})
+		_node.Note = value
 	}
 	if value, ok := dc.mutation.DiagnosisDate(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
