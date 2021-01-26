@@ -14,6 +14,11 @@ import PatientRegistrationTables from './components/PatientRegistrationTable';
 import CreateAppointment from './components/CreateAppointment';
 import AppointmentResults from './components/AppointmentResults';
 import DiagnosisTables from './components/DiagnosisTable';
+import SearchDiagnosisPage from './components/SearchDiagnosisPage';
+import { Cookies } from './Cookie'
+
+var ck = new Cookies()
+var role = ck.GetRole()
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -33,5 +38,6 @@ export const plugin = createPlugin({
     router.registerRoute('/createappointment', CreateAppointment);
     router.registerRoute('/appointmentresults', AppointmentResults);
     router.registerRoute('/diagnosistable', DiagnosisTables);
+    router.registerRoute('/searchdiagnosisPage', SearchDiagnosisPage);
   },
 });

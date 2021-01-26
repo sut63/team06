@@ -46,7 +46,7 @@ class Cookies {
     CheckLogin(arr:Array<any>, email:any, password:any){
         var boo = false
         arr.forEach((item) => {
-            if(item.email === email && item.password === password){
+            if(item.doctorUsername === email && item.doctorPassword === password){
                 boo = true                
             }
         });
@@ -56,7 +56,7 @@ class Cookies {
     SetID(arr:Array<any>, email:any, password:any){
         var boo = 0
         arr.forEach((item) => {
-            if(item.email === email && item.password === password){
+            if(item.doctorUsername === email && item.doctorPassword === password){
                 boo = item.id                
             }
         });

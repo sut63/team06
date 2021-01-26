@@ -120,7 +120,7 @@ func (ctl *DiagnosisController) CreateDiagnosis(c *gin.Context) {
 // @ID get-Diagnosis
 // @Produce  json
 // @Param id path int true "Diagnosis ID"
-// @Success 200 {object} ent.Diagnosis
+// @Success 200 {array} ent.Diagnosis
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -137,8 +137,11 @@ func (ctl *DiagnosisController) GetDiagnosis(c *gin.Context) {
 
 	Diagnosiss, err := ctl.client.Diagnosis.
 		Query().
-		Where(diagnosis.IDEQ(int(id))).
-		Only(context.Background())
+		WithDoctorName().
+		WithPatient().
+		WithType().
+		Where(diagnosis.HasPatientWith(patient.IDEQ(int(id)))).
+		All(context.Background())
 
 	if err != nil {
 		c.JSON(404, gin.H{
@@ -182,6 +185,9 @@ func (ctl *DiagnosisController) ListDiagnosis(c *gin.Context) {
 
 	Diagnosiss, err := ctl.client.Diagnosis.
 		Query().
+		WithDoctorName().
+		WithPatient().
+		WithType().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())

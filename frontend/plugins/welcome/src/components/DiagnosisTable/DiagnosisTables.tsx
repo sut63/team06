@@ -7,14 +7,23 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import moment from 'moment';
-import { EntDoctor } from '../../api/models/EntDoctor';
-import { EntPatient } from '../../api/models/EntPatient';
-import { EntTreatmentType } from '../../api/models/EntTreatmentType'; 
+import Button from '@material-ui/core/Button';
+import { Link as RouterLink } from 'react-router-dom';
+
+import {
+    Content,
+    Header,
+    Page,
+    pageTheme,
+    ContentHeader,
+} from '@backstage/core';
+
+import {
+    Box,
+} from '@material-ui/core';
+
 import { DefaultApi } from '../../api/apis';
 import { EntDiagnosis } from '../../api/models/EntDiagnosis';
-
-
 
 const useStyles = makeStyles({
     table: {
@@ -24,65 +33,97 @@ const useStyles = makeStyles({
 
 export default function ComponentsTable() {
     const classes = useStyles();
-    const api = new DefaultApi();
+    const http = new DefaultApi();
+    const [diagnosiss, setDiagnosiss] = useState<EntDiagnosis[]>([]);
 
-    const [diagnossis, setDiagnosis] = React.useState<EntDiagnosis[]>([]);
-    const [doctors, setDoctors] = React.useState<EntDoctor[]>([]);
-    const [patients, setPatients] = React.useState<EntPatient[]>([]);
-    const [treatmenttype, SetType] = React.useState<EntTreatmentType[]>([]);
-    
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const getDoctors = async () => {
-            const res = await api.listDoctor({ limit: 1000, offset: 0 });
-            setDoctors(res);
+        const getDiagnosiss = async () => {
+            const res = await http.listDiagnosis({ limit: 10, offset: 0 });
+            setLoading(false);
+            setDiagnosiss(res);
         };
-        const getPatients = async () => {
-            const res = await api.listPatient({ limit: 1000, offset: 0 });
-            setPatients(res);
-        };
-        const getTreatmentType = async () => {
-            const res = await api.listTreatmentType({ limit: 1000, offset: 0 });
-            SetType(res);
-        };
-        
-
-
-
-        getDoctors();
-        getPatients();
-        getTreatmentType();
-        
-        
-        
-        setLoading(false);
+        getDiagnosiss();
     }, [loading]);
 
+    const deleteDiagnosiss = async (id: number) => {
+        const res = await http.deleteDiagnosis({ id: id });
+        setLoading(true);
+    };
+
     return (
-        <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="center">ชื่อแพทย์</TableCell>
-                        <TableCell align="center">ชื่อผู้ป่วย</TableCell>
-                        <TableCell align="center">อาการ</TableCell>
-                        <TableCell align="center">ความคิดเห็นจากแพทย์</TableCell>
-                        <TableCell align="center">วันที่</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {diagnossis.sort().map((item: any) => (
-                        <TableRow key={item.id}>
-                            
-                            <TableCell align="center">{item.edges?.doctor?.doctorName}</TableCell>
-                            <TableCell align="center">{item.edges?.patient?.patientName}</TableCell>
-                            <TableCell align="center">{item.edges?.procedureType?.procedureName}</TableCell>
-                            <TableCell align="center">{moment(item.addtime).format('LLLL')}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <Page theme={pageTheme.home}>
+            <Header
+                title="ระบบตรวจวินิจฉัย"
+                subtitle="สามารถดูผลลงตรวจวินิจฉัยที่นี่"
+            ></Header>
+
+            <Content>
+                <ContentHeader title="ผลการตรวจวินิจฉัย">
+                    <Box
+                        display="flex"
+                        justifyContent="flex-start"
+                        flexDirection="column"
+                    >
+                    </Box>
+
+                </ContentHeader>
+                
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center">ชื่อแพทย์</TableCell>
+                                <TableCell align="center">ชื่อผู้ป่วย </TableCell>
+                                <TableCell align="center">ประเภทการรักษา</TableCell>
+                                <TableCell align="center">อาการ</TableCell>
+                                <TableCell align="center">ความคิดเห็นจากแพทย์</TableCell>
+                                <TableCell align="center">หมายเหตุ</TableCell>
+                                <TableCell align="center">วันที่</TableCell>
+                                
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {diagnosiss.map((item) => (
+
+                                <TableRow key={item.id}>
+                                    
+                                    <TableCell align="center">{item.edges?.doctorName?.doctorName}</TableCell>
+                                    <TableCell align="center">{item.edges?.patient?.patientName}</TableCell>
+                                    <TableCell align="center">{item.edges?.type?.type}</TableCell>
+                                    <TableCell align="center">{item.symptom}</TableCell>
+                                    <TableCell align="center">{item.opinionresult}</TableCell>
+                                    <TableCell align="center">{item.note}</TableCell>
+                                    <TableCell align="center">{item.diagnosisDate}</TableCell>
+                                    <TableCell align="center">
+                                        <Button
+                                            onClick={() => {
+                                                deleteDiagnosiss(item.id);
+                                            }}
+                                            style={{ marginLeft: 10 }}
+                                            variant="contained"
+                                            color="secondary"
+                                        >
+                                            Delete
+                                    </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer><br/>
+
+                     <Button
+                                style={{ marginLeft: 20 }}
+                                component={RouterLink}
+                                to="/diagnosis"
+                                variant="contained"
+                            >
+                                ย้อนกลับ
+                                &nbsp;
+             </Button>
+            </Content>
+        </Page>
     );
 }

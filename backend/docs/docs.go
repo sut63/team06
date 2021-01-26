@@ -143,7 +143,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.Diagnosis"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Diagnosis"
+                            }
                         }
                     },
                     "400": {
