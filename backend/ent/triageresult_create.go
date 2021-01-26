@@ -24,6 +24,24 @@ type TriageResultCreate struct {
 	hooks    []Hook
 }
 
+// SetHeight sets the "height" field.
+func (trc *TriageResultCreate) SetHeight(f float64) *TriageResultCreate {
+	trc.mutation.SetHeight(f)
+	return trc
+}
+
+// SetWeight sets the "weight" field.
+func (trc *TriageResultCreate) SetWeight(f float64) *TriageResultCreate {
+	trc.mutation.SetWeight(f)
+	return trc
+}
+
+// SetPressure sets the "pressure" field.
+func (trc *TriageResultCreate) SetPressure(f float64) *TriageResultCreate {
+	trc.mutation.SetPressure(f)
+	return trc
+}
+
 // SetSymptom sets the "symptom" field.
 func (trc *TriageResultCreate) SetSymptom(s string) *TriageResultCreate {
 	trc.mutation.SetSymptom(s)
@@ -180,6 +198,30 @@ func (trc *TriageResultCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (trc *TriageResultCreate) check() error {
+	if _, ok := trc.mutation.Height(); !ok {
+		return &ValidationError{Name: "height", err: errors.New("ent: missing required field \"height\"")}
+	}
+	if v, ok := trc.mutation.Height(); ok {
+		if err := triageresult.HeightValidator(v); err != nil {
+			return &ValidationError{Name: "height", err: fmt.Errorf("ent: validator failed for field \"height\": %w", err)}
+		}
+	}
+	if _, ok := trc.mutation.Weight(); !ok {
+		return &ValidationError{Name: "weight", err: errors.New("ent: missing required field \"weight\"")}
+	}
+	if v, ok := trc.mutation.Weight(); ok {
+		if err := triageresult.WeightValidator(v); err != nil {
+			return &ValidationError{Name: "weight", err: fmt.Errorf("ent: validator failed for field \"weight\": %w", err)}
+		}
+	}
+	if _, ok := trc.mutation.Pressure(); !ok {
+		return &ValidationError{Name: "pressure", err: errors.New("ent: missing required field \"pressure\"")}
+	}
+	if v, ok := trc.mutation.Pressure(); ok {
+		if err := triageresult.PressureValidator(v); err != nil {
+			return &ValidationError{Name: "pressure", err: fmt.Errorf("ent: validator failed for field \"pressure\": %w", err)}
+		}
+	}
 	if _, ok := trc.mutation.Symptom(); !ok {
 		return &ValidationError{Name: "symptom", err: errors.New("ent: missing required field \"symptom\"")}
 	}
@@ -218,6 +260,30 @@ func (trc *TriageResultCreate) createSpec() (*TriageResult, *sqlgraph.CreateSpec
 			},
 		}
 	)
+	if value, ok := trc.mutation.Height(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldHeight,
+		})
+		_node.Height = value
+	}
+	if value, ok := trc.mutation.Weight(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldWeight,
+		})
+		_node.Weight = value
+	}
+	if value, ok := trc.mutation.Pressure(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldPressure,
+		})
+		_node.Pressure = value
+	}
 	if value, ok := trc.mutation.Symptom(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,

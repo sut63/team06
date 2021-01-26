@@ -11,6 +11,12 @@ const (
 	Label = "triage_result"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldHeight holds the string denoting the height field in the database.
+	FieldHeight = "height"
+	// FieldWeight holds the string denoting the weight field in the database.
+	FieldWeight = "weight"
+	// FieldPressure holds the string denoting the pressure field in the database.
+	FieldPressure = "pressure"
 	// FieldSymptom holds the string denoting the symptom field in the database.
 	FieldSymptom = "symptom"
 	// FieldTriageDate holds the string denoting the triagedate field in the database.
@@ -60,6 +66,9 @@ const (
 // Columns holds all SQL columns for triageresult fields.
 var Columns = []string{
 	FieldID,
+	FieldHeight,
+	FieldWeight,
+	FieldPressure,
 	FieldSymptom,
 	FieldTriageDate,
 }
@@ -88,6 +97,12 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// HeightValidator is a validator for the "height" field. It is called by the builders before save.
+	HeightValidator func(float64) error
+	// WeightValidator is a validator for the "weight" field. It is called by the builders before save.
+	WeightValidator func(float64) error
+	// PressureValidator is a validator for the "pressure" field. It is called by the builders before save.
+	PressureValidator func(float64) error
 	// SymptomValidator is a validator for the "symptom" field. It is called by the builders before save.
 	SymptomValidator func(string) error
 	// DefaultTriageDate holds the default value on creation for the "triageDate" field.

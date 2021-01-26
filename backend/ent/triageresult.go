@@ -20,6 +20,12 @@ type TriageResult struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// Height holds the value of the "height" field.
+	Height float64 `json:"height,omitempty"`
+	// Weight holds the value of the "weight" field.
+	Weight float64 `json:"weight,omitempty"`
+	// Pressure holds the value of the "pressure" field.
+	Pressure float64 `json:"pressure,omitempty"`
 	// Symptom holds the value of the "symptom" field.
 	Symptom string `json:"symptom,omitempty"`
 	// TriageDate holds the value of the "triageDate" field.
@@ -109,6 +115,8 @@ func (*TriageResult) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case triageresult.FieldHeight, triageresult.FieldWeight, triageresult.FieldPressure:
+			values[i] = &sql.NullFloat64{}
 		case triageresult.FieldID:
 			values[i] = &sql.NullInt64{}
 		case triageresult.FieldSymptom:
@@ -144,6 +152,24 @@ func (tr *TriageResult) assignValues(columns []string, values []interface{}) err
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			tr.ID = int(value.Int64)
+		case triageresult.FieldHeight:
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
+				return fmt.Errorf("unexpected type %T for field height", values[i])
+			} else if value.Valid {
+				tr.Height = value.Float64
+			}
+		case triageresult.FieldWeight:
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
+				return fmt.Errorf("unexpected type %T for field weight", values[i])
+			} else if value.Valid {
+				tr.Weight = value.Float64
+			}
+		case triageresult.FieldPressure:
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
+				return fmt.Errorf("unexpected type %T for field pressure", values[i])
+			} else if value.Valid {
+				tr.Pressure = value.Float64
+			}
 		case triageresult.FieldSymptom:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field symptom", values[i])
@@ -232,6 +258,12 @@ func (tr *TriageResult) String() string {
 	var builder strings.Builder
 	builder.WriteString("TriageResult(")
 	builder.WriteString(fmt.Sprintf("id=%v", tr.ID))
+	builder.WriteString(", height=")
+	builder.WriteString(fmt.Sprintf("%v", tr.Height))
+	builder.WriteString(", weight=")
+	builder.WriteString(fmt.Sprintf("%v", tr.Weight))
+	builder.WriteString(", pressure=")
+	builder.WriteString(fmt.Sprintf("%v", tr.Pressure))
 	builder.WriteString(", symptom=")
 	builder.WriteString(tr.Symptom)
 	builder.WriteString(", triageDate=")

@@ -198,12 +198,24 @@ func init() {
 	treatmenttype.TypeValidator = treatmenttypeDescType.Validators[0].(func(string) error)
 	triageresultFields := schema.TriageResult{}.Fields()
 	_ = triageresultFields
+	// triageresultDescHeight is the schema descriptor for height field.
+	triageresultDescHeight := triageresultFields[0].Descriptor()
+	// triageresult.HeightValidator is a validator for the "height" field. It is called by the builders before save.
+	triageresult.HeightValidator = triageresultDescHeight.Validators[0].(func(float64) error)
+	// triageresultDescWeight is the schema descriptor for weight field.
+	triageresultDescWeight := triageresultFields[1].Descriptor()
+	// triageresult.WeightValidator is a validator for the "weight" field. It is called by the builders before save.
+	triageresult.WeightValidator = triageresultDescWeight.Validators[0].(func(float64) error)
+	// triageresultDescPressure is the schema descriptor for pressure field.
+	triageresultDescPressure := triageresultFields[2].Descriptor()
+	// triageresult.PressureValidator is a validator for the "pressure" field. It is called by the builders before save.
+	triageresult.PressureValidator = triageresultDescPressure.Validators[0].(func(float64) error)
 	// triageresultDescSymptom is the schema descriptor for symptom field.
-	triageresultDescSymptom := triageresultFields[0].Descriptor()
+	triageresultDescSymptom := triageresultFields[3].Descriptor()
 	// triageresult.SymptomValidator is a validator for the "symptom" field. It is called by the builders before save.
 	triageresult.SymptomValidator = triageresultDescSymptom.Validators[0].(func(string) error)
 	// triageresultDescTriageDate is the schema descriptor for triageDate field.
-	triageresultDescTriageDate := triageresultFields[1].Descriptor()
+	triageresultDescTriageDate := triageresultFields[4].Descriptor()
 	// triageresult.DefaultTriageDate holds the default value on creation for the triageDate field.
 	triageresult.DefaultTriageDate = triageresultDescTriageDate.Default.(func() time.Time)
 	urgencylevelFields := schema.UrgencyLevel{}.Fields()

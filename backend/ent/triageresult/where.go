@@ -93,6 +93,27 @@ func IDLTE(id int) predicate.TriageResult {
 	})
 }
 
+// Height applies equality check predicate on the "height" field. It's identical to HeightEQ.
+func Height(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldHeight), v))
+	})
+}
+
+// Weight applies equality check predicate on the "weight" field. It's identical to WeightEQ.
+func Weight(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldWeight), v))
+	})
+}
+
+// Pressure applies equality check predicate on the "pressure" field. It's identical to PressureEQ.
+func Pressure(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPressure), v))
+	})
+}
+
 // Symptom applies equality check predicate on the "symptom" field. It's identical to SymptomEQ.
 func Symptom(v string) predicate.TriageResult {
 	return predicate.TriageResult(func(s *sql.Selector) {
@@ -104,6 +125,234 @@ func Symptom(v string) predicate.TriageResult {
 func TriageDate(v time.Time) predicate.TriageResult {
 	return predicate.TriageResult(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldTriageDate), v))
+	})
+}
+
+// HeightEQ applies the EQ predicate on the "height" field.
+func HeightEQ(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldHeight), v))
+	})
+}
+
+// HeightNEQ applies the NEQ predicate on the "height" field.
+func HeightNEQ(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldHeight), v))
+	})
+}
+
+// HeightIn applies the In predicate on the "height" field.
+func HeightIn(vs ...float64) predicate.TriageResult {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.TriageResult(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldHeight), v...))
+	})
+}
+
+// HeightNotIn applies the NotIn predicate on the "height" field.
+func HeightNotIn(vs ...float64) predicate.TriageResult {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.TriageResult(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldHeight), v...))
+	})
+}
+
+// HeightGT applies the GT predicate on the "height" field.
+func HeightGT(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldHeight), v))
+	})
+}
+
+// HeightGTE applies the GTE predicate on the "height" field.
+func HeightGTE(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldHeight), v))
+	})
+}
+
+// HeightLT applies the LT predicate on the "height" field.
+func HeightLT(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldHeight), v))
+	})
+}
+
+// HeightLTE applies the LTE predicate on the "height" field.
+func HeightLTE(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldHeight), v))
+	})
+}
+
+// WeightEQ applies the EQ predicate on the "weight" field.
+func WeightEQ(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldWeight), v))
+	})
+}
+
+// WeightNEQ applies the NEQ predicate on the "weight" field.
+func WeightNEQ(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldWeight), v))
+	})
+}
+
+// WeightIn applies the In predicate on the "weight" field.
+func WeightIn(vs ...float64) predicate.TriageResult {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.TriageResult(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldWeight), v...))
+	})
+}
+
+// WeightNotIn applies the NotIn predicate on the "weight" field.
+func WeightNotIn(vs ...float64) predicate.TriageResult {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.TriageResult(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldWeight), v...))
+	})
+}
+
+// WeightGT applies the GT predicate on the "weight" field.
+func WeightGT(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldWeight), v))
+	})
+}
+
+// WeightGTE applies the GTE predicate on the "weight" field.
+func WeightGTE(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldWeight), v))
+	})
+}
+
+// WeightLT applies the LT predicate on the "weight" field.
+func WeightLT(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldWeight), v))
+	})
+}
+
+// WeightLTE applies the LTE predicate on the "weight" field.
+func WeightLTE(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldWeight), v))
+	})
+}
+
+// PressureEQ applies the EQ predicate on the "pressure" field.
+func PressureEQ(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPressure), v))
+	})
+}
+
+// PressureNEQ applies the NEQ predicate on the "pressure" field.
+func PressureNEQ(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldPressure), v))
+	})
+}
+
+// PressureIn applies the In predicate on the "pressure" field.
+func PressureIn(vs ...float64) predicate.TriageResult {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.TriageResult(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldPressure), v...))
+	})
+}
+
+// PressureNotIn applies the NotIn predicate on the "pressure" field.
+func PressureNotIn(vs ...float64) predicate.TriageResult {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.TriageResult(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldPressure), v...))
+	})
+}
+
+// PressureGT applies the GT predicate on the "pressure" field.
+func PressureGT(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldPressure), v))
+	})
+}
+
+// PressureGTE applies the GTE predicate on the "pressure" field.
+func PressureGTE(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldPressure), v))
+	})
+}
+
+// PressureLT applies the LT predicate on the "pressure" field.
+func PressureLT(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldPressure), v))
+	})
+}
+
+// PressureLTE applies the LTE predicate on the "pressure" field.
+func PressureLTE(v float64) predicate.TriageResult {
+	return predicate.TriageResult(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldPressure), v))
 	})
 }
 

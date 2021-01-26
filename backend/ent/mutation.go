@@ -8473,6 +8473,12 @@ type TriageResultMutation struct {
 	op                  Op
 	typ                 string
 	id                  *int
+	height              *float64
+	addheight           *float64
+	weight              *float64
+	addweight           *float64
+	pressure            *float64
+	addpressure         *float64
 	symptom             *string
 	triageDate          *time.Time
 	clearedFields       map[string]struct{}
@@ -8566,6 +8572,174 @@ func (m *TriageResultMutation) ID() (id int, exists bool) {
 		return
 	}
 	return *m.id, true
+}
+
+// SetHeight sets the "height" field.
+func (m *TriageResultMutation) SetHeight(f float64) {
+	m.height = &f
+	m.addheight = nil
+}
+
+// Height returns the value of the "height" field in the mutation.
+func (m *TriageResultMutation) Height() (r float64, exists bool) {
+	v := m.height
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldHeight returns the old "height" field's value of the TriageResult entity.
+// If the TriageResult object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TriageResultMutation) OldHeight(ctx context.Context) (v float64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldHeight is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldHeight requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldHeight: %w", err)
+	}
+	return oldValue.Height, nil
+}
+
+// AddHeight adds f to the "height" field.
+func (m *TriageResultMutation) AddHeight(f float64) {
+	if m.addheight != nil {
+		*m.addheight += f
+	} else {
+		m.addheight = &f
+	}
+}
+
+// AddedHeight returns the value that was added to the "height" field in this mutation.
+func (m *TriageResultMutation) AddedHeight() (r float64, exists bool) {
+	v := m.addheight
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetHeight resets all changes to the "height" field.
+func (m *TriageResultMutation) ResetHeight() {
+	m.height = nil
+	m.addheight = nil
+}
+
+// SetWeight sets the "weight" field.
+func (m *TriageResultMutation) SetWeight(f float64) {
+	m.weight = &f
+	m.addweight = nil
+}
+
+// Weight returns the value of the "weight" field in the mutation.
+func (m *TriageResultMutation) Weight() (r float64, exists bool) {
+	v := m.weight
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWeight returns the old "weight" field's value of the TriageResult entity.
+// If the TriageResult object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TriageResultMutation) OldWeight(ctx context.Context) (v float64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldWeight is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldWeight requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWeight: %w", err)
+	}
+	return oldValue.Weight, nil
+}
+
+// AddWeight adds f to the "weight" field.
+func (m *TriageResultMutation) AddWeight(f float64) {
+	if m.addweight != nil {
+		*m.addweight += f
+	} else {
+		m.addweight = &f
+	}
+}
+
+// AddedWeight returns the value that was added to the "weight" field in this mutation.
+func (m *TriageResultMutation) AddedWeight() (r float64, exists bool) {
+	v := m.addweight
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetWeight resets all changes to the "weight" field.
+func (m *TriageResultMutation) ResetWeight() {
+	m.weight = nil
+	m.addweight = nil
+}
+
+// SetPressure sets the "pressure" field.
+func (m *TriageResultMutation) SetPressure(f float64) {
+	m.pressure = &f
+	m.addpressure = nil
+}
+
+// Pressure returns the value of the "pressure" field in the mutation.
+func (m *TriageResultMutation) Pressure() (r float64, exists bool) {
+	v := m.pressure
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPressure returns the old "pressure" field's value of the TriageResult entity.
+// If the TriageResult object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TriageResultMutation) OldPressure(ctx context.Context) (v float64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldPressure is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldPressure requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPressure: %w", err)
+	}
+	return oldValue.Pressure, nil
+}
+
+// AddPressure adds f to the "pressure" field.
+func (m *TriageResultMutation) AddPressure(f float64) {
+	if m.addpressure != nil {
+		*m.addpressure += f
+	} else {
+		m.addpressure = &f
+	}
+}
+
+// AddedPressure returns the value that was added to the "pressure" field in this mutation.
+func (m *TriageResultMutation) AddedPressure() (r float64, exists bool) {
+	v := m.addpressure
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetPressure resets all changes to the "pressure" field.
+func (m *TriageResultMutation) ResetPressure() {
+	m.pressure = nil
+	m.addpressure = nil
 }
 
 // SetSymptom sets the "symptom" field.
@@ -8810,7 +8984,16 @@ func (m *TriageResultMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TriageResultMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 5)
+	if m.height != nil {
+		fields = append(fields, triageresult.FieldHeight)
+	}
+	if m.weight != nil {
+		fields = append(fields, triageresult.FieldWeight)
+	}
+	if m.pressure != nil {
+		fields = append(fields, triageresult.FieldPressure)
+	}
 	if m.symptom != nil {
 		fields = append(fields, triageresult.FieldSymptom)
 	}
@@ -8825,6 +9008,12 @@ func (m *TriageResultMutation) Fields() []string {
 // schema.
 func (m *TriageResultMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case triageresult.FieldHeight:
+		return m.Height()
+	case triageresult.FieldWeight:
+		return m.Weight()
+	case triageresult.FieldPressure:
+		return m.Pressure()
 	case triageresult.FieldSymptom:
 		return m.Symptom()
 	case triageresult.FieldTriageDate:
@@ -8838,6 +9027,12 @@ func (m *TriageResultMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *TriageResultMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case triageresult.FieldHeight:
+		return m.OldHeight(ctx)
+	case triageresult.FieldWeight:
+		return m.OldWeight(ctx)
+	case triageresult.FieldPressure:
+		return m.OldPressure(ctx)
 	case triageresult.FieldSymptom:
 		return m.OldSymptom(ctx)
 	case triageresult.FieldTriageDate:
@@ -8851,6 +9046,27 @@ func (m *TriageResultMutation) OldField(ctx context.Context, name string) (ent.V
 // type.
 func (m *TriageResultMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case triageresult.FieldHeight:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetHeight(v)
+		return nil
+	case triageresult.FieldWeight:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWeight(v)
+		return nil
+	case triageresult.FieldPressure:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPressure(v)
+		return nil
 	case triageresult.FieldSymptom:
 		v, ok := value.(string)
 		if !ok {
@@ -8872,13 +9088,31 @@ func (m *TriageResultMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *TriageResultMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.addheight != nil {
+		fields = append(fields, triageresult.FieldHeight)
+	}
+	if m.addweight != nil {
+		fields = append(fields, triageresult.FieldWeight)
+	}
+	if m.addpressure != nil {
+		fields = append(fields, triageresult.FieldPressure)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *TriageResultMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case triageresult.FieldHeight:
+		return m.AddedHeight()
+	case triageresult.FieldWeight:
+		return m.AddedWeight()
+	case triageresult.FieldPressure:
+		return m.AddedPressure()
+	}
 	return nil, false
 }
 
@@ -8887,6 +9121,27 @@ func (m *TriageResultMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *TriageResultMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case triageresult.FieldHeight:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddHeight(v)
+		return nil
+	case triageresult.FieldWeight:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddWeight(v)
+		return nil
+	case triageresult.FieldPressure:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPressure(v)
+		return nil
 	}
 	return fmt.Errorf("unknown TriageResult numeric field %s", name)
 }
@@ -8914,6 +9169,15 @@ func (m *TriageResultMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *TriageResultMutation) ResetField(name string) error {
 	switch name {
+	case triageresult.FieldHeight:
+		m.ResetHeight()
+		return nil
+	case triageresult.FieldWeight:
+		m.ResetWeight()
+		return nil
+	case triageresult.FieldPressure:
+		m.ResetPressure()
+		return nil
 	case triageresult.FieldSymptom:
 		m.ResetSymptom()
 		return nil

@@ -31,6 +31,45 @@ func (tru *TriageResultUpdate) Where(ps ...predicate.TriageResult) *TriageResult
 	return tru
 }
 
+// SetHeight sets the "height" field.
+func (tru *TriageResultUpdate) SetHeight(f float64) *TriageResultUpdate {
+	tru.mutation.ResetHeight()
+	tru.mutation.SetHeight(f)
+	return tru
+}
+
+// AddHeight adds f to the "height" field.
+func (tru *TriageResultUpdate) AddHeight(f float64) *TriageResultUpdate {
+	tru.mutation.AddHeight(f)
+	return tru
+}
+
+// SetWeight sets the "weight" field.
+func (tru *TriageResultUpdate) SetWeight(f float64) *TriageResultUpdate {
+	tru.mutation.ResetWeight()
+	tru.mutation.SetWeight(f)
+	return tru
+}
+
+// AddWeight adds f to the "weight" field.
+func (tru *TriageResultUpdate) AddWeight(f float64) *TriageResultUpdate {
+	tru.mutation.AddWeight(f)
+	return tru
+}
+
+// SetPressure sets the "pressure" field.
+func (tru *TriageResultUpdate) SetPressure(f float64) *TriageResultUpdate {
+	tru.mutation.ResetPressure()
+	tru.mutation.SetPressure(f)
+	return tru
+}
+
+// AddPressure adds f to the "pressure" field.
+func (tru *TriageResultUpdate) AddPressure(f float64) *TriageResultUpdate {
+	tru.mutation.AddPressure(f)
+	return tru
+}
+
 // SetSymptom sets the "symptom" field.
 func (tru *TriageResultUpdate) SetSymptom(s string) *TriageResultUpdate {
 	tru.mutation.SetSymptom(s)
@@ -215,6 +254,21 @@ func (tru *TriageResultUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (tru *TriageResultUpdate) check() error {
+	if v, ok := tru.mutation.Height(); ok {
+		if err := triageresult.HeightValidator(v); err != nil {
+			return &ValidationError{Name: "height", err: fmt.Errorf("ent: validator failed for field \"height\": %w", err)}
+		}
+	}
+	if v, ok := tru.mutation.Weight(); ok {
+		if err := triageresult.WeightValidator(v); err != nil {
+			return &ValidationError{Name: "weight", err: fmt.Errorf("ent: validator failed for field \"weight\": %w", err)}
+		}
+	}
+	if v, ok := tru.mutation.Pressure(); ok {
+		if err := triageresult.PressureValidator(v); err != nil {
+			return &ValidationError{Name: "pressure", err: fmt.Errorf("ent: validator failed for field \"pressure\": %w", err)}
+		}
+	}
 	if v, ok := tru.mutation.Symptom(); ok {
 		if err := triageresult.SymptomValidator(v); err != nil {
 			return &ValidationError{Name: "symptom", err: fmt.Errorf("ent: validator failed for field \"symptom\": %w", err)}
@@ -240,6 +294,48 @@ func (tru *TriageResultUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := tru.mutation.Height(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldHeight,
+		})
+	}
+	if value, ok := tru.mutation.AddedHeight(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldHeight,
+		})
+	}
+	if value, ok := tru.mutation.Weight(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldWeight,
+		})
+	}
+	if value, ok := tru.mutation.AddedWeight(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldWeight,
+		})
+	}
+	if value, ok := tru.mutation.Pressure(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldPressure,
+		})
+	}
+	if value, ok := tru.mutation.AddedPressure(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldPressure,
+		})
 	}
 	if value, ok := tru.mutation.Symptom(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
@@ -411,6 +507,45 @@ type TriageResultUpdateOne struct {
 	config
 	hooks    []Hook
 	mutation *TriageResultMutation
+}
+
+// SetHeight sets the "height" field.
+func (truo *TriageResultUpdateOne) SetHeight(f float64) *TriageResultUpdateOne {
+	truo.mutation.ResetHeight()
+	truo.mutation.SetHeight(f)
+	return truo
+}
+
+// AddHeight adds f to the "height" field.
+func (truo *TriageResultUpdateOne) AddHeight(f float64) *TriageResultUpdateOne {
+	truo.mutation.AddHeight(f)
+	return truo
+}
+
+// SetWeight sets the "weight" field.
+func (truo *TriageResultUpdateOne) SetWeight(f float64) *TriageResultUpdateOne {
+	truo.mutation.ResetWeight()
+	truo.mutation.SetWeight(f)
+	return truo
+}
+
+// AddWeight adds f to the "weight" field.
+func (truo *TriageResultUpdateOne) AddWeight(f float64) *TriageResultUpdateOne {
+	truo.mutation.AddWeight(f)
+	return truo
+}
+
+// SetPressure sets the "pressure" field.
+func (truo *TriageResultUpdateOne) SetPressure(f float64) *TriageResultUpdateOne {
+	truo.mutation.ResetPressure()
+	truo.mutation.SetPressure(f)
+	return truo
+}
+
+// AddPressure adds f to the "pressure" field.
+func (truo *TriageResultUpdateOne) AddPressure(f float64) *TriageResultUpdateOne {
+	truo.mutation.AddPressure(f)
+	return truo
 }
 
 // SetSymptom sets the "symptom" field.
@@ -597,6 +732,21 @@ func (truo *TriageResultUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (truo *TriageResultUpdateOne) check() error {
+	if v, ok := truo.mutation.Height(); ok {
+		if err := triageresult.HeightValidator(v); err != nil {
+			return &ValidationError{Name: "height", err: fmt.Errorf("ent: validator failed for field \"height\": %w", err)}
+		}
+	}
+	if v, ok := truo.mutation.Weight(); ok {
+		if err := triageresult.WeightValidator(v); err != nil {
+			return &ValidationError{Name: "weight", err: fmt.Errorf("ent: validator failed for field \"weight\": %w", err)}
+		}
+	}
+	if v, ok := truo.mutation.Pressure(); ok {
+		if err := triageresult.PressureValidator(v); err != nil {
+			return &ValidationError{Name: "pressure", err: fmt.Errorf("ent: validator failed for field \"pressure\": %w", err)}
+		}
+	}
 	if v, ok := truo.mutation.Symptom(); ok {
 		if err := triageresult.SymptomValidator(v); err != nil {
 			return &ValidationError{Name: "symptom", err: fmt.Errorf("ent: validator failed for field \"symptom\": %w", err)}
@@ -621,6 +771,48 @@ func (truo *TriageResultUpdateOne) sqlSave(ctx context.Context) (_node *TriageRe
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing TriageResult.ID for update")}
 	}
 	_spec.Node.ID.Value = id
+	if value, ok := truo.mutation.Height(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldHeight,
+		})
+	}
+	if value, ok := truo.mutation.AddedHeight(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldHeight,
+		})
+	}
+	if value, ok := truo.mutation.Weight(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldWeight,
+		})
+	}
+	if value, ok := truo.mutation.AddedWeight(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldWeight,
+		})
+	}
+	if value, ok := truo.mutation.Pressure(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldPressure,
+		})
+	}
+	if value, ok := truo.mutation.AddedPressure(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: triageresult.FieldPressure,
+		})
+	}
 	if value, ok := truo.mutation.Symptom(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,

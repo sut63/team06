@@ -527,15 +527,24 @@ definitions:
           Edges holds the relations/edges for other nodes in the graph.
           The values are being populated by the TriageResultQuery when eager-loading is set.
         type: object
+      height:
+        description: Height holds the value of the "height" field.
+        type: number
       id:
         description: ID of the ent.
         type: integer
+      pressure:
+        description: Pressure holds the value of the "pressure" field.
+        type: number
       symptom:
         description: Symptom holds the value of the "symptom" field.
         type: string
       triageDate:
         description: TriageDate holds the value of the "triageDate" field.
         type: string
+      weight:
+        description: Weight holds the value of the "weight" field.
+        type: number
     type: object
   ent.TriageResultEdges:
     properties:
