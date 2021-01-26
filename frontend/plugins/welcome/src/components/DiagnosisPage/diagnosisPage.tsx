@@ -27,6 +27,21 @@ import { MenuItem } from '@material-ui/core';
 import Icon from '*.icon.svg';
 import Swal from 'sweetalert2';
 
+interface Diagnosis {
+    TreatmentType: number;
+    Patient: number;
+    Doctor: number;
+    Symptom: string;
+    Opinionresult: string;
+    diagnosisDate: string;
+    note: string;
+    // create_by: number;
+}
+
+const HeaderCustom = {
+    minHeight: '50px',
+};
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -45,6 +60,31 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         formControl: {
             width: 300,
+        },
+        
+        paper: {
+            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(2),
+        },
+    
+        selectEmpty: {
+            marginTop: theme.spacing(2),
+        },
+        container: {
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
+       
+        bottom: {
+            marginLeft: theme.spacing(3),
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(2),
+        },
+        divider: {
+            margin: theme.spacing(2, 0),
+        },
+        table: {
+            minWidth: 650,
         },
     }),
 );
@@ -67,27 +107,29 @@ export default function Create() {
     // ดึงคุกกี้
     var ck = new Cookies()
     var cookieName = ck.GetCookie()
+    var cookieID = ck.GetID()
+
 
     // alert setting
     const [open, setOpen] = React.useState(false);
     const [fail, setFail] = React.useState(false);
     const [errors, setError] = React.useState(String);
 
-    const checkCaseSaveError = (s :string) => {
-        switch(s) {
-          case 'symptom':
-            setError("กรุณากรอกอาการให้ครบ")
-            return;
-          case 'Opinionresult':
-            setError("กรุณากรอกความเห็นให้ครบ")
-            return;
-          case 'note':
-            setError("กรอกหมายเหตุให้ครบ")
-            return;
-          default:
-            return;
+    const checkCaseSaveError = (s: string) => {
+        switch (s) {
+            case 'symptom':
+                setError("กรุณากรอกอาการให้ครบ")
+                return;
+            case 'Opinionresult':
+                setError("กรุณากรอกความเห็นให้ครบ")
+                return;
+            case 'note':
+                setError("กรอกหมายเหตุให้ครบ")
+                return;
+            default:
+                return;
         }
-      };
+    };
 
     //close alert 
     const handleClose = (_event?: React.SyntheticEvent, reason?: string) => {
@@ -112,22 +154,11 @@ export default function Create() {
         setPatient(res);
     };
 
-    useEffect(() => {
-        getdoctor();
-        getpatient();
-        getTreatmentType();
-    }, []);
 
-    interface Diagnosis {
-        TreatmentType: number;
-        Patient: number;
-        Doctor: number;
-        Symptom: string;
-        Opinionresult: string;
-        diagnosisDate: string;
-        note: string;
-        // create_by: number;
-    }
+
+
+
+
 
     /*const Createsection = async () => {
       const res: any = await api.createSection({ section });
@@ -139,6 +170,15 @@ export default function Create() {
       }
     };*/
 
+    /*const handleChanges = (event: React.ChangeEvent<{ name?: string; value: any }>) => {
+        //const name = event.target.name as keyof typeof Create;
+        //const { value } = Number(cookieID)
+        //const validateValue = value.toString()
+        //checkPattern(name, validateValue)
+        setDiagnosisitem({ ...Diagnosis, [Diagnosis.Doctor]: Number(cookieID) });
+        console.log(Diagnosis);
+    };
+*/
     const handleChange = (event: React.ChangeEvent<{ name?: string; value: any }>) => {
         const name = event.target.name as keyof typeof Create;
         const { value } = event.target;
@@ -147,6 +187,15 @@ export default function Create() {
         setDiagnosisitem({ ...Diagnosis, [name]: value });
         console.log(Diagnosis);
     };
+
+    // list Doctor
+    const [doctor, setDoctor] = React.useState<EntDoctor>()
+    const listDoctor = async () => {
+        const res = await api.getDoctor({ id: Number(cookieID) })
+        setDoctor(res)
+        console.log(doctor?.doctorName);
+
+    }
 
 
     const alertMessage = (icon: any, title: any) => {
@@ -254,30 +303,54 @@ export default function Create() {
         setDiagnosisitem({});
     }
 
+    useEffect(() => {
+        setDiagnosisitem({ ...Diagnosis, ['Doctor']: doctor?.id })
+    }, [doctor]);
+
+    useEffect(() => {
+        getdoctor();
+        getpatient();
+        getTreatmentType();
+        listDoctor();
+    }, []);
+
     return (
         <Page theme={pageTheme.home}>
-            <Header
-                title={`Welcome ${profile.givenName || 'to Backstage'}`}
-                subtitle="Some quick intro and links."
-
-            ></Header>
+            <Header style={HeaderCustom} title={`ระบบค้นหาการตรวจวินิจฉัย`}>
+                
+                <div style={{ marginLeft: 10, marginRight: 20 }}>{cookieName}</div>
+                <Button
+                    style={{ marginLeft: 20 }}
+                    component={RouterLink}
+                    to="/"
+                    variant="contained"
+                >
+                    ออกจากระบบ
+                    &nbsp;
+             </Button>
+            </Header>
             <Content>
 
                 <ContentHeader title="ระบบการตรวจรักษา">
 
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-          <Avatar src="/broken-image.jpg" style={{ height: 75, width: 75 }} />
+          
                     <Link component={RouterLink} to="" >
-                        <Button
-                            style={{ marginLeft: 20 }}
-                            component={RouterLink}
-                            to="/"
-                            variant="contained"
-                        >
-                            ออกจากระบบ
-                            &nbsp;
-             </Button>
+                       
              &nbsp;
+             <Button
+                                style={{ marginRight: 600  }}
+
+                                size="large"
+                                color="inherit"
+                                component={RouterLink}
+                                to="/SearchdiagnosisPage"
+                                variant="outlined"
+                            >
+                                ค้นหาการตรวจวินิจฉัย
+                                
+             </Button>
+             &nbsp; 
         </Link>
                 </ContentHeader>
                 <div className={classes.root}>
@@ -296,28 +369,22 @@ export default function Create() {
 
                             <Snackbar open={fail} autoHideDuration={6000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="error">
-                                   {errors}
-        </Alert>
+                                    {errors}
+                                </Alert>
                             </Snackbar>
 
               ชื่อแพทย์
-              <TextField
-                                id="doctor"
-                                select
-                                name="Doctor"
-                                label="เลือกแพทย์"
-                                value={Diagnosis.Doctor}
-                                variant="outlined"
-                                onChange={handleChange}
-                            >
-                                {DoctorID.map(item => {
-                                    return (
-                                        <MenuItem key={item.id} value={item.id}>
-                                            {item.doctorName}
-                                        </MenuItem>
-                                    );
-                                })}
-                            </TextField>
+              <FormControl variant="outlined" className={classes.formControl}>
+                                <TextField
+                                    disabled
+                                    name="Doctor"
+                                    variant="outlined"
+                                    value={doctor?.doctorName}
+                                    onChange={handleChange}
+                                />
+                            </FormControl>
+
+
               ชื่อผู้ป่วย
               <TextField
                                 id="patient"
@@ -395,12 +462,12 @@ export default function Create() {
             <form className={classes.root} noValidate autoComplete="off">
 
                             <TextField id="outlined-basic" label="หมายเหตุ"
-                            variant="outlined"
-                            error={identifiNoteError ? true : false}
-                            helperText={identifiNoteError}
-                            name="note"
-                            value={Diagnosis.note}
-                            onChange={handleChange} />
+                                variant="outlined"
+                                error={identifiNoteError ? true : false}
+                                helperText={identifiNoteError}
+                                name="note"
+                                value={Diagnosis.note}
+                                onChange={handleChange} />
                         </form>
 
                         <FormControl variant="outlined" className={classes.formControl}>
@@ -442,19 +509,21 @@ export default function Create() {
                                 ยืนยันการลงทะเบียน
              </Button>
 
-                            <Button
+                       
+             &nbsp;
+             <Button
                                 style={{ marginLeft: 20 }}
                                 component={RouterLink}
-                                to="/WelcomePage"
+                                to="/diagnosistable"
                                 variant="contained"
                             >
-                                ย้อนกลับ
+                                ดูผลการตรวจวินิจฉัย
                                 &nbsp;
              </Button>
-             &nbsp;
 
-            </div>
+                        </div>
                     </form>
+
 
                 </div>
         หมายเหตุ

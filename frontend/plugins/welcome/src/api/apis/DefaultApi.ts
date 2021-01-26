@@ -1861,7 +1861,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * get Diagnosis by ID
      * Get a Diagnosis entity by ID
      */
-    async getDiagnosisRaw(requestParameters: GetDiagnosisRequest): Promise<runtime.ApiResponse<EntDiagnosis>> {
+    async getDiagnosisRaw(requestParameters: GetDiagnosisRequest): Promise<runtime.ApiResponse<Array<EntDiagnosis>>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getDiagnosis.');
         }
@@ -1877,14 +1877,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntDiagnosisFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntDiagnosisFromJSON));
     }
 
     /**
      * get Diagnosis by ID
      * Get a Diagnosis entity by ID
      */
-    async getDiagnosis(requestParameters: GetDiagnosisRequest): Promise<EntDiagnosis> {
+    async getDiagnosis(requestParameters: GetDiagnosisRequest): Promise<Array<EntDiagnosis>> {
         const response = await this.getDiagnosisRaw(requestParameters);
         return await response.value();
     }

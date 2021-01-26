@@ -64,7 +64,7 @@ export function EntDiagnosisEdgesFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'doctorName': !exists(json, 'DoctorName') ? undefined : EntDoctorFromJSON(json['doctorName']),
+        'doctorName': !exists(json, 'DoctorName') ? undefined : EntDoctorFromJSON(json['DoctorName']),
         'patient': !exists(json, 'Patient') ? undefined : EntPatientFromJSON(json['Patient']),
         'type': !exists(json, 'Type') ? undefined : EntTreatmentTypeFromJSON(json['Type']),
     };
