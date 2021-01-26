@@ -4906,9 +4906,17 @@ var doc = `{
                     "type": "object",
                     "$ref": "#/definitions/ent.TriageResultEdges"
                 },
+                "height": {
+                    "description": "Height holds the value of the \"height\" field.",
+                    "type": "number"
+                },
                 "id": {
                     "description": "ID of the ent.",
                     "type": "integer"
+                },
+                "pressure": {
+                    "description": "Pressure holds the value of the \"pressure\" field.",
+                    "type": "number"
                 },
                 "symptom": {
                     "description": "Symptom holds the value of the \"symptom\" field.",
@@ -4917,6 +4925,10 @@ var doc = `{
                 "triageDate": {
                     "description": "TriageDate holds the value of the \"triageDate\" field.",
                     "type": "string"
+                },
+                "weight": {
+                    "description": "Weight holds the value of the \"weight\" field.",
+                    "type": "number"
                 }
             }
         },

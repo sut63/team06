@@ -25,6 +25,9 @@ type TriageResultController struct {
 // TriageResult defines the struct for the TriageResult controller
 type TriageResult struct {
 	Symptom      string
+	Height		string
+	Weight		string
+	Pressure	string
 	TriageDate   string
 	Patient      int
 	Nurse        int
@@ -45,12 +48,19 @@ type TriageResult struct {
 // @Router /triageresults [post]
 func (ctl *TriageResultController) CreateTriageResult(c *gin.Context) {
 	obj := TriageResult{}
-	if err := c.ShouldBind(&obj); err != nil {
+	if err := c.ShouldBind(&obj);
+	err != nil {
 		c.JSON(400, gin.H{
 			"error": "triageresult binding failed",
 		})
 		return
-	}
+	};
+
+	weight, err	:= strconv.ParseFloat(obj.Weight, 64);
+
+	height, err	:= strconv.ParseFloat(obj.Height, 64);
+
+	pressure, err	:= strconv.ParseFloat(obj.Pressure, 64);
 
 	patient, err := ctl.client.Patient.
 		Query().
@@ -98,13 +108,16 @@ func (ctl *TriageResultController) CreateTriageResult(c *gin.Context) {
 			"error": "UrgencyLevel not found",
 		})
 		return
-	}
+	};
 
 	triagedate, err := time.Parse(time.RFC3339, obj.TriageDate)
 
 	triageresults, err := ctl.client.TriageResult.
 		Create().
 		SetSymptom(obj.Symptom).
+		SetHeight(float64(height)).
+		SetWeight(float64(weight)). 
+		SetPressure(float64(pressure)).
 		SetTriageDate(triagedate).
 		SetDepartment(department).
 		SetNurse(nurse).
@@ -114,7 +127,8 @@ func (ctl *TriageResultController) CreateTriageResult(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "saving failed",
+			"status": false,
+			"error": err,
 		})
 		return
 	}

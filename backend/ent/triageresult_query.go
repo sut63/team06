@@ -391,12 +391,12 @@ func (trq *TriageResultQuery) WithPatient(opts ...func(*PatientQuery)) *TriageRe
 // Example:
 //
 //	var v []struct {
-//		Symptom string `json:"symptom,omitempty"`
+//		Height float64 `json:"height,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.TriageResult.Query().
-//		GroupBy(triageresult.FieldSymptom).
+//		GroupBy(triageresult.FieldHeight).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -418,11 +418,11 @@ func (trq *TriageResultQuery) GroupBy(field string, fields ...string) *TriageRes
 // Example:
 //
 //	var v []struct {
-//		Symptom string `json:"symptom,omitempty"`
+//		Height float64 `json:"height,omitempty"`
 //	}
 //
 //	client.TriageResult.Query().
-//		Select(triageresult.FieldSymptom).
+//		Select(triageresult.FieldHeight).
 //		Scan(ctx, &v)
 //
 func (trq *TriageResultQuery) Select(field string, fields ...string) *TriageResultSelect {

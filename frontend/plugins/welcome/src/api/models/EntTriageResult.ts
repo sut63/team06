@@ -33,11 +33,23 @@ export interface EntTriageResult {
      */
     edges?: EntTriageResultEdges;
     /**
+     * Height holds the value of the "height" field.
+     * @type {number}
+     * @memberof EntTriageResult
+     */
+    height?: number;
+    /**
      * ID of the ent.
      * @type {number}
      * @memberof EntTriageResult
      */
     id?: number;
+    /**
+     * Pressure holds the value of the "pressure" field.
+     * @type {number}
+     * @memberof EntTriageResult
+     */
+    pressure?: number;
     /**
      * Symptom holds the value of the "symptom" field.
      * @type {string}
@@ -50,6 +62,12 @@ export interface EntTriageResult {
      * @memberof EntTriageResult
      */
     triageDate?: string;
+    /**
+     * Weight holds the value of the "weight" field.
+     * @type {number}
+     * @memberof EntTriageResult
+     */
+    weight?: number;
 }
 
 export function EntTriageResultFromJSON(json: any): EntTriageResult {
@@ -63,9 +81,12 @@ export function EntTriageResultFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'edges': !exists(json, 'edges') ? undefined : EntTriageResultEdgesFromJSON(json['edges']),
+        'height': !exists(json, 'height') ? undefined : json['height'],
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'pressure': !exists(json, 'pressure') ? undefined : json['pressure'],
         'symptom': !exists(json, 'symptom') ? undefined : json['symptom'],
         'triageDate': !exists(json, 'triageDate') ? undefined : json['triageDate'],
+        'weight': !exists(json, 'weight') ? undefined : json['weight'],
     };
 }
 
@@ -79,9 +100,12 @@ export function EntTriageResultToJSON(value?: EntTriageResult | null): any {
     return {
         
         'edges': EntTriageResultEdgesToJSON(value.edges),
+        'height': value.height,
         'id': value.id,
+        'pressure': value.pressure,
         'symptom': value.symptom,
         'triageDate': value.triageDate,
+        'weight': value.weight,
     };
 }
 

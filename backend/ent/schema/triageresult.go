@@ -16,6 +16,9 @@ type TriageResult struct {
 // Fields of the TriageResult.
 func (TriageResult) Fields() []ent.Field {
 	return []ent.Field{
+		field.Float("height").Positive(),
+		field.Float("weight").Positive(),
+		field.Float("pressure").Positive(),
 		field.String("symptom").NotEmpty(),
 		field.Time("triageDate").Default(time.Now),
 	}

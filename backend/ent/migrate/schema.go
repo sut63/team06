@@ -364,6 +364,9 @@ var (
 	// TriageResultsColumns holds the columns for the "triage_results" table.
 	TriageResultsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "height", Type: field.TypeFloat64},
+		{Name: "weight", Type: field.TypeFloat64},
+		{Name: "pressure", Type: field.TypeFloat64},
 		{Name: "symptom", Type: field.TypeString},
 		{Name: "triage_date", Type: field.TypeTime},
 		{Name: "department_triage_result", Type: field.TypeInt, Nullable: true},
@@ -379,28 +382,28 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "triage_results_departments_triageResult",
-				Columns: []*schema.Column{TriageResultsColumns[3]},
+				Columns: []*schema.Column{TriageResultsColumns[6]},
 
 				RefColumns: []*schema.Column{DepartmentsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "triage_results_nurses_triageResult",
-				Columns: []*schema.Column{TriageResultsColumns[4]},
+				Columns: []*schema.Column{TriageResultsColumns[7]},
 
 				RefColumns: []*schema.Column{NursesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "triage_results_patients_triageResult",
-				Columns: []*schema.Column{TriageResultsColumns[5]},
+				Columns: []*schema.Column{TriageResultsColumns[8]},
 
 				RefColumns: []*schema.Column{PatientsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "triage_results_urgency_levels_triageResult",
-				Columns: []*schema.Column{TriageResultsColumns[6]},
+				Columns: []*schema.Column{TriageResultsColumns[9]},
 
 				RefColumns: []*schema.Column{UrgencyLevelsColumns[0]},
 				OnDelete:   schema.SetNull,

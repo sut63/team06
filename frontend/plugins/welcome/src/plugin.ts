@@ -2,8 +2,9 @@ import { createPlugin } from '@backstage/core';
 import WelcomePage from './components/WelcomePage';
 import DiagnosisPage from './components/DiagnosisPage';
 import LoginPage from './components/login';
+import TriageResultLogin from './components/TriageResultLogin';
 import TriageResult from './components/TriageResult';
-import Result from './components/Result';
+import TriageResultSearch from './components/TriageResultSearch';
 import MedicalProcedure from './components/Medicalprocedure';
 import Medicalresults from './components/Medicalresults';
 import Table from './components/Table';
@@ -15,6 +16,7 @@ import CreateAppointment from './components/CreateAppointment';
 import AppointmentResults from './components/AppointmentResults';
 import DiagnosisTables from './components/DiagnosisTable';
 import SearchDiagnosisPage from './components/SearchDiagnosisPage';
+
 import { Cookies } from './Cookie'
 
 var ck = new Cookies()
@@ -26,8 +28,9 @@ export const plugin = createPlugin({
     router.registerRoute('/welcome', WelcomePage);
     router.registerRoute('/diagnosis', DiagnosisPage);
     router.registerRoute('/', LoginPage);
+    router.registerRoute('/triageresultlogin', TriageResultLogin);
     router.registerRoute('/triageresult', TriageResult);
-    router.registerRoute('/result', Result);
+    router.registerRoute('/triageresultsearch', TriageResultSearch);
     router.registerRoute('/medicalprocedure', MedicalProcedure);
     router.registerRoute('/medicalresults', Medicalresults);
     router.registerRoute('/table', Table);
