@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -31,7 +31,8 @@ const useStyles = makeStyles({
     },
 });
 
-export default function ComponentsTable() {
+const PatientRegistrationTables: FC<{}> = () => {
+
     const classes = useStyles();
     const http = new DefaultApi();
     const [patients, setPatients] = useState<EntPatient[]>([]);
@@ -118,3 +119,4 @@ export default function ComponentsTable() {
         </Page>
     );
 }
+export default PatientRegistrationTables;
