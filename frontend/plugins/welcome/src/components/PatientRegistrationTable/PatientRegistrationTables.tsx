@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import moment from 'moment';
 
 import {
     Content,
@@ -80,6 +81,7 @@ export default function ComponentsTable() {
                                 <TableCell align="center">หมายเลขผู้ป่วย</TableCell>
                                 <TableCell align="center">ประวัติการแพ้ยา</TableCell>
                                 <TableCell align="center">เบอร์โทรศัพท์</TableCell>
+                                <TableCell align="center">วันที่ลงทะเบียน</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -94,6 +96,7 @@ export default function ComponentsTable() {
                                     <TableCell align="center">{item.hospitalNumber}</TableCell>
                                     <TableCell align="center">{item.drugAllergy}</TableCell>
                                     <TableCell align="center">{item.mobileNumber}</TableCell>
+                                    <TableCell align="center">{moment(item.added).format('LLL')}</TableCell>
                                     <TableCell align="center">
                                         <Button
                                             onClick={() => {
