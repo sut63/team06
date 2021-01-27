@@ -13,9 +13,9 @@ type MedicalRecord struct {
 // Fields of the MedicalRecord.
 func (MedicalRecord) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("email").NotEmpty(),
-		field.String("password").NotEmpty(),
-		field.String("name").NotEmpty(),
+		field.String("email").NotEmpty().Unique(),
+		field.String("password").NotEmpty().Unique(),
+		field.String("name").NotEmpty().Unique(),
 	}
 }
 
