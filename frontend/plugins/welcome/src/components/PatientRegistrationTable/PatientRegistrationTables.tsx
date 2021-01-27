@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
+import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 
 import {
     Content,
@@ -68,6 +69,15 @@ const PatientRegistrationTables: FC<{}> = () => {
                         flexDirection="column"
                     >
                     </Box>
+
+                    <Button
+                        href="/searchpatient"
+                        variant="contained"
+                        color="primary"
+                        startIcon={<SearchTwoToneIcon />}
+                    >
+                        ค้นหาข้อมูลผู้ป่วย
+          </Button>
 
                 </ContentHeader>
                 <TableContainer component={Paper}>

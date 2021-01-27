@@ -74,10 +74,10 @@ export function EntTriageResultEdgesFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'department': !exists(json, 'department') ? undefined : EntDepartmentFromJSON(json['department']),
-        'nurse': !exists(json, 'nurse') ? undefined : EntNurseFromJSON(json['nurse']),
-        'patient': !exists(json, 'patient') ? undefined : EntPatientFromJSON(json['patient']),
-        'urgencyLevel': !exists(json, 'urgencyLevel') ? undefined : EntUrgencyLevelFromJSON(json['urgencyLevel']),
+        'department': !exists(json, 'Department') ? undefined : EntDepartmentFromJSON(json['Department']),
+        'nurse': !exists(json, 'Nurse') ? undefined : EntNurseFromJSON(json['Nurse']),
+        'patient': !exists(json, 'Patient') ? undefined : EntPatientFromJSON(json['Patient']),
+        'urgencyLevel': !exists(json, 'UrgencyLevel') ? undefined : EntUrgencyLevelFromJSON(json['UrgencyLevel']),
     };
 }
 

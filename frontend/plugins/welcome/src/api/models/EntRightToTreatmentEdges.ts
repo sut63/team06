@@ -64,9 +64,9 @@ export function EntRightToTreatmentEdgesFromJSONTyped(json: any, ignoreDiscrimin
     }
     return {
         
-        'hospital': !exists(json, 'hospital') ? undefined : EntHospitalFromJSON(json['hospital']),
-        'patient': !exists(json, 'patient') ? undefined : EntPatientFromJSON(json['patient']),
-        'rightToTreatmentType': !exists(json, 'rightToTreatmentType') ? undefined : EntRightToTreatmentTypeFromJSON(json['rightToTreatmentType']),
+        'hospital': !exists(json, 'Hospital') ? undefined : EntHospitalFromJSON(json['Hospital']),
+        'patient': !exists(json, 'Patient') ? undefined : EntPatientFromJSON(json['Patient']),
+        'rightToTreatmentType': !exists(json, 'RightToTreatmentType') ? undefined : EntRightToTreatmentTypeFromJSON(json['RightToTreatmentType']),
     };
 }
 
