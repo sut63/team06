@@ -290,7 +290,7 @@ const RightToTreatment: FC<{}> = () => {
                 <br/><br/>
                 <Button
                     component={RouterLink}
-                    to="/"
+                    to="/Loginright"
                     variant="contained"
                     color="secondary"
                 >
@@ -298,9 +298,17 @@ const RightToTreatment: FC<{}> = () => {
                 </Button>
             </TableCell>
             </Header>
+            
   
             <Content>
                 <ContentHeader title="ข้อมูลสิทธิการรักษา" >
+                <Button
+            href="/Searchrighttotreatment"
+            variant="contained"
+            color="primary"
+          >
+            ค้นหาสิทธิการรักษา
+          </Button>
                 {status ? (
                     <div className={classes.root}>
                         {alert ? (

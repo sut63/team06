@@ -155,7 +155,7 @@ export default function ComponentsTable() {
             variant="contained"
             color="primary"
           >
-            ย้อนกลับ
+            เพิ่มข้อมูล
           </Button>
         </ContentHeader>
 
@@ -245,7 +245,7 @@ export default function ComponentsTable() {
                         <TableContainer component={Paper}>
                           <Table className={classes.table} aria-label="simple table">
                             <TableHead>
-                              <TableRow>
+                             <TableRow>
                               <TableCell align="center">No.</TableCell>
            <TableCell align="center">ผู้ป่วย</TableCell>
            <TableCell align="center">เลขบัตรประจำตัวประชาชน</TableCell>
