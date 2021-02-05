@@ -157,15 +157,15 @@ const RightToTreatment: FC<{}> = () => {
     };
     const idenhandleChange = (event: any) => {
         setiden(event.target.value as string);
-        //CheckPattern("iden",event.target.value as string);
+        CheckPattern("iden",event.target.value as string);
       };
     const agehandleChange = (event: any) => {
         setage(event.target.value as number);
-        //CheckPattern("age",event.target.value as number);
+        CheckPattern("age",event.target.value as number);
     };
     const telhandleChange = (event: any) => {
         settel(event.target.value as string);
-        //CheckPattern("tel",event.target.value as string);
+        CheckPattern("tel",event.target.value as string);
       };
     const alertMessage = (icon: any, title: any) => {
         Toast.fire({
@@ -186,11 +186,8 @@ const RightToTreatment: FC<{}> = () => {
         };
 
         //checkValue
-    /*const checkiden = (value: string) =>{
+    const checkiden = (value: string) =>{
         return value.length == 13;
-    }
-    const checkage = (value: string) =>{
-        return value.length>0;
     }
     const checktel = (value: string) =>{
         return value.length == 10;
@@ -201,18 +198,15 @@ const RightToTreatment: FC<{}> = () => {
     const CheckPattern = (id: string, value:any) => {
         switch(id){
             case 'iden' :
-                checkiden(value)? setidenerror(''): setidenerror('กรุณากรอกสาเหตุที่นัด!');
-                return;
-            case 'age' :
-                checkage(value)? setageerror(''): setageerror('กรุณากรอกคำแนะนำ!');
+                checkiden(value)? setidenerror(''): setidenerror('กรุณากรอกเลขบัตรประจำตัวประชาชน 13 หลัก');
                 return;
             case 'tel' :
-                checktel(value)? settelerror(''): settelerror('กรุณากรอกค่าระหว่าง 0-3!');
+                checktel(value)? settelerror(''): settelerror('กรุณากรอกเบอร์โทรศัพท์ 10 หลัก');
                 return;
-            case 'minute' :
-        }
+                
 
-    }*/
+        }
+    }
 
     const checkCaseSaveError = (field: string) => {
         switch(field) {
@@ -244,7 +238,14 @@ const RightToTreatment: FC<{}> = () => {
     },
   });
 
+
       console.log(righttotreatment)
+
+      function Create(){
+
+        CheckPattern("iden",idenerror);
+        CheckPattern("tel",telerror);
+      }
     const save = async () => {
         if(righttotreatment.age){
             var age : number = +righttotreatment.age;
@@ -341,10 +342,12 @@ const RightToTreatment: FC<{}> = () => {
 
                         <TextField
                           className={classes.margin}
+                          error={idenerror? true : false}
                           variant="outlined"
                           id="iden"
                           label="ID card number"
                           type="string"
+                          helperText={idenerror}
                           onChange={idenhandleChange}
                           value={idenid}
                           
@@ -411,11 +414,12 @@ const RightToTreatment: FC<{}> = () => {
                     
                         <TextField
                           className={classes.margin}
+                          error={telerror? true : false}
                           variant="outlined"
                           id="tel"
                           label="Tel"
-                          
                           type="string"
+                          helperText={telerror}
                           onChange={telhandleChange}
                           value={telid}
                           
