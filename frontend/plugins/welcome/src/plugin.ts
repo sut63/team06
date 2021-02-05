@@ -18,6 +18,7 @@ import DiagnosisTables from './components/DiagnosisTable';
 import SearchDiagnosisPage from './components/SearchDiagnosisPage';
 import Searchrighttotreatment from './components/Searchrighttotreatment';
 import MedicalRecordSignIn from './components/MedicalRecordSignIn';
+import SearchPatient from './components/SearchPatient';
 
 import { Cookies } from './Cookie'
 
@@ -46,5 +47,6 @@ export const plugin = createPlugin({
     router.registerRoute('/searchdiagnosisPage', SearchDiagnosisPage);
     router.registerRoute('/Searchrighttotreatment', Searchrighttotreatment);
     router.registerRoute('/medicalrecordsignin', MedicalRecordSignIn);
+    router.registerRoute('/searchpatient', SearchPatient);
   },
 });

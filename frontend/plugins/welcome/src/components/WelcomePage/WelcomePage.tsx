@@ -36,6 +36,7 @@ const WelcomePage: FC<{}> = () => {
                 สามารถตรวจสอบสิทธิการรักษา ผลการคัดกรอง ผลการตรวจรักษา ดูบันทึกการทำหัตการ
                 และยังมีระบบนัดหมายผู้ป่วยอีกด้วย
               </Typography>
+              <br></br>
               <Typography variant="h6" gutterBottom>
                 สมาชิกในทีม
               </Typography>
@@ -63,7 +64,7 @@ const WelcomePage: FC<{}> = () => {
           </Grid>
           <Grid item>
             <InfoCard>
-              <Typography variant="h5">ระบบย่อย</Typography>
+              <Typography variant="h5">ระบบย่อย #1</Typography>
               <List>
                 <ListItem>
                   <Link href="http://localhost:3000/patientregistration">ระบบลงทะเบียนผู้ป่วย</Link>
@@ -81,7 +82,32 @@ const WelcomePage: FC<{}> = () => {
                   <Link href="http://localhost:3000/medicalprocedure">ระบบบันทึกการทำหัตถการ</Link>
                 </ListItem>
                 <ListItem>
-                  <Link href="http://localhost:3000/createappointment">ระบบนัดหมาด</Link>
+                  <Link href="http://localhost:3000/createappointment">ระบบนัดหมาย</Link>
+                </ListItem>
+              </List>
+            </InfoCard>
+          </Grid>
+          <Grid item>
+            <InfoCard>
+              <Typography variant="h5">ระบบย่อย #2 </Typography>
+              <List>
+                <ListItem>
+                  <Link href="http://localhost:3000/searchpatient">ระบบค้นหาข้อมูลผู้ป่วย</Link>
+                </ListItem>
+                <ListItem>
+                  <Link href="http://localhost:3000/Create">ระบบค้นหาบันทึกสิทธิการรักษาของผู้ป่วย (ลิงก์ยังไม่ถูก)</Link>
+                </ListItem>
+                <ListItem>
+                  <Link href="http://localhost:3000/triageresult">ระบบค้นหาบันทึกการคัดกรอง (ลิงก์ยังไม่ถูก)</Link>
+                </ListItem>
+                <ListItem>
+                  <Link href="http://localhost:3000/diagnosis">ระบบค้นหาประวัติการตรวจรักษา (ลิงก์ยังไม่ถูก)</Link>
+                </ListItem>
+                <ListItem>
+                  <Link href="http://localhost:3000/medicalprocedure">ระบบค้นหาบันทึกการทำหัตถการ (ลิงก์ยังไม่ถูก)</Link>
+                </ListItem>
+                <ListItem>
+                  <Link href="http://localhost:3000/createappointment">ระบบค้นหาการนัดหมาย (ลิงก์ยังไม่ถูก)</Link>
                 </ListItem>
               </List>
             </InfoCard>
