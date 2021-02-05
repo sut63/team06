@@ -17,6 +17,7 @@ import AppointmentResults from './components/AppointmentResults';
 import DiagnosisTables from './components/DiagnosisTable';
 import SearchDiagnosisPage from './components/SearchDiagnosisPage';
 import Searchrighttotreatment from './components/Searchrighttotreatment';
+import MedicalRecordSignIn from './components/MedicalRecordSignIn';
 
 import { Cookies } from './Cookie'
 
@@ -28,7 +29,7 @@ export const plugin = createPlugin({
   register({ router }) {
     router.registerRoute('/welcome', WelcomePage);
     router.registerRoute('/diagnosis', DiagnosisPage);
-    router.registerRoute('/', LoginPage);
+    router.registerRoute('/', WelcomePage);
     router.registerRoute('/triageresultlogin', TriageResultLogin);
     router.registerRoute('/triageresult', TriageResult);
     router.registerRoute('/triageresultsearch', TriageResultSearch);
@@ -44,5 +45,6 @@ export const plugin = createPlugin({
     router.registerRoute('/diagnosistable', DiagnosisTables);
     router.registerRoute('/searchdiagnosisPage', SearchDiagnosisPage);
     router.registerRoute('/Searchrighttotreatment', Searchrighttotreatment);
+    router.registerRoute('/medicalrecordsignin', MedicalRecordSignIn);
   },
 });

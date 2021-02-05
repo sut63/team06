@@ -139,6 +139,14 @@ export default function ComponentsTable() {
       <Content>
         <ContentHeader title="ดูข้อมูลผู้ป่วย">
           <Button
+            href="/patientregistration"
+            variant="contained"
+            color="primary"
+          >
+            ลงทะเบียนผู้ป่วย
+          </Button>
+          &nbsp;&nbsp;&nbsp;
+          <Button
             href="/patientregistrationtable"
             variant="contained"
             color="primary"

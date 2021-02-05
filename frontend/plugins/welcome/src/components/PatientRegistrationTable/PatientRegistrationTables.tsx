@@ -69,7 +69,14 @@ const PatientRegistrationTables: FC<{}> = () => {
                         flexDirection="column"
                     >
                     </Box>
-
+                    <Button
+                        href="/patientregistration"
+                        variant="contained"
+                        color="primary"
+                    >
+                        ลงทะเบียนผู้ป่วย
+                    </Button>
+                         &nbsp;&nbsp;&nbsp;
                     <Button
                         href="/searchpatient"
                         variant="contained"
@@ -77,7 +84,7 @@ const PatientRegistrationTables: FC<{}> = () => {
                         startIcon={<SearchTwoToneIcon />}
                     >
                         ค้นหาข้อมูลผู้ป่วย
-          </Button>
+                    </Button>
 
                 </ContentHeader>
                 <TableContainer component={Paper}>

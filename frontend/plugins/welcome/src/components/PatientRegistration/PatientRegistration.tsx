@@ -1,8 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Content, Header, Page, pageTheme, } from '@backstage/core';
-import { FormControl, Select, InputLabel, MenuItem, TextField, Button, TableCell, } from '@material-ui/core';
+import {
+  Content,
+  Header,
+  Page,
+  pageTheme,
+} from '@backstage/core';
+import {
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem,
+  TextField,
+  Button,
+  TableCell,
+  Typography,
+} from '@material-ui/core';
+
 import { DefaultApi } from '../../api/apis';
 import moment from 'moment';
 import Swal from 'sweetalert2';
@@ -44,6 +59,7 @@ export default function Create() {
   const [prefixs, setPrefixs] = React.useState<EntPrefix[]>([]);
   const [bloodtypes, setBloodTypes] = React.useState<EntBloodType[]>([]);
 
+  const [userName, setName] = useState(String);
   const [genderID, setGenderID] = React.useState(Number);
   const [prefixID, setPrefixID] = React.useState(Number);
   const [bloodtypeID, setBloodTypeID] = React.useState(Number);
@@ -60,8 +76,39 @@ export default function Create() {
 
   const [loading, setLoading] = useState(true);
 
-  //getdataToCombobox
+
+  //getdataToCombobox and checkLogin
   useEffect(() => {
+    const checkUser = async () => {
+      const user = JSON.parse(String(localStorage.getItem('medicalrecord-email')));
+      const name = JSON.parse(String(localStorage.getItem('medicalrecord-name')));
+      setLoading(false);
+      const check1 = 'wuttisak@gmail.com';
+      const check2 = 'aun@gmail.com';
+      if (
+        user != check1 &&
+        user != check2
+      ) {
+        Swal.fire({
+          title: 'เข้าสู่ระบบก่อนใช้งาน',
+          position: 'center',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: toast => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          },
+        });
+        setTimeout(() => {
+          history.pushState('', '', './medicalrecordsignin');
+          window.location.reload(false);
+        }, 3000);
+      }
+      setName(name)
+    };
+    checkUser();
+
     const getGenders = async () => {
       const res = await api.listGender({ limit: 1000, offset: 0 });
       setGenders(res);
@@ -86,66 +133,6 @@ export default function Create() {
     setLoading(false);
   }, [loading]);
 
-  //handle
-  const genderHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setGenderID(event.target.value as number);
-  };
-  const prefixHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setPrefixID(event.target.value as number);
-  };
-  const bloodtypeHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setBloodTypeID(event.target.value as number);
-  };
-  const personalIDHandle = (event: React.ChangeEvent<{ value: any }>) => {
-    const { value } = event.target;
-    const validateValue = value
-    checkPattern(personalID, validateValue)
-    setPersonalID(event.target.value as string);
-  };
-  const hospitalNumberHandle = (event: React.ChangeEvent<{ value: any }>) => {
-    const { value } = event.target;
-    const validateValue = value
-    checkPattern(hospitalNumber, validateValue)
-    setHospitalNumber(event.target.value as string);
-  };
-  const patientNameHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setPatientName(event.target.value as string);
-  };
-  const drugAllergyHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setDrugAllergy(event.target.value as string);
-  };
-  const mobileNumberHandle = (event: React.ChangeEvent<{ value: any }>) => {
-    const { value } = event.target;
-    const validateValue = value
-    checkPattern(mobileNumber, validateValue)
-    setMobileNumber(event.target.value as string);
-  };
-
-  //Aleart
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: toast => {
-      toast.addEventListener('mouseenter', Swal.stopTimer);
-      toast.addEventListener('mouseleave', Swal.resumeTimer);
-    },
-  });
-
-  //Clear Data in field
-  function Clear() {
-    setGenderID(0);
-    setPrefixID(0);
-    setBloodTypeID(0);
-    setPersonalID('');
-    setHospitalNumber('');
-    setPatientName('');
-    setDrugAllergy('');
-    setMobileNumber('');
-  }
-
   // ฟังก์ชั่นสำหรับ validate เลขประจำตัวประชาชน
   const validatePersonalID = (val: string) => {
     return val.length == 13 ? true : false;
@@ -164,10 +151,10 @@ export default function Create() {
   // สำหรับตรวจสอบรูปแบบข้อมูลที่กรอก ว่าเป็นไปตามที่กำหนดหรือไม่
   const checkPattern = (id: string, value: string) => {
     switch (id) {
-      case 'student_id':
+      case 'hospitalNumber':
         validateHospitalNumber(value) ? setHospitalNumberError('') : setHospitalNumberError('รหัสนักศึกษาขึ้นต้นด้วย HN ตามด้วยตัวเลข');
         return;
-      case 'identification_number':
+      case 'personalID':
         validatePersonalID(value) ? setPersonalIDError('') : setPersonalIDError('เลขประจำตัวประชาชน 13 หลัก');
         return;
       case 'mobileNumber':
@@ -200,6 +187,66 @@ export default function Create() {
       icon: icon,
       title: title,
     });
+  }
+
+  //handle
+  const genderHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setGenderID(event.target.value as number);
+  };
+  const prefixHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setPrefixID(event.target.value as number);
+  };
+  const bloodtypeHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setBloodTypeID(event.target.value as number);
+  };
+  const personalIDHandle = (event: React.ChangeEvent<{ value: any }>) => {
+    const { value } = event.target;
+    const validateValue = value
+    checkPattern('personalID', validateValue)
+    setPersonalID(event.target.value as string);
+  };
+  const hospitalNumberHandle = (event: React.ChangeEvent<{ value: any }>) => {
+    const { value } = event.target;
+    const validateValue = value
+    checkPattern('hospitalNumber', validateValue)
+    setHospitalNumber(event.target.value as string);
+  };
+  const patientNameHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setPatientName(event.target.value as string);
+  };
+  const drugAllergyHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setDrugAllergy(event.target.value as string);
+  };
+  const mobileNumberHandle = (event: React.ChangeEvent<{ value: any }>) => {
+    const { value } = event.target;
+    const validateValue = value
+    checkPattern('mobileNumber', validateValue)
+    setMobileNumber(event.target.value as string);
+  };
+
+  //Aleart
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: toast => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
+
+  //Clear Data in field
+  function Clear() {
+    setGenderID(0);
+    setPrefixID(0);
+    setBloodTypeID(0);
+    setPersonalID('');
+    setHospitalNumber('');
+    setPatientName('');
+    setDrugAllergy('');
+    setMobileNumber('');
   }
 
   //create
@@ -244,21 +291,21 @@ export default function Create() {
     <Page theme={pageTheme.home}>
 
       <Header
-        title={`ระบบลงทะเบียนผู้ป่วย`}
+        title="ระบบลงทะเบียนผู้ป่วย"
+        subtitle="สามารถลงทะเบียนผู้ป่วยได้ที่นี่"
       >
-        <TableCell align={
-          "center"} >
-
-          <br /><br />
-          <Button
-            component={RouterLink}
-            to="/"
-            variant="contained"
-            color="secondary"
-          >
-            Logout
-                </Button>
-        </TableCell>
+        <Typography>
+          {userName}
+        </Typography>
+        &nbsp;&nbsp;&nbsp;
+        <Button
+          component={RouterLink}
+          to="/medicalrecordsignin"
+          variant="contained"
+          color="secondary"
+        >
+          Logout
+          </Button>
       </Header>
 
       <Content>
