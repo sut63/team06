@@ -42,35 +42,35 @@ const WelcomePage: FC<{}> = () => {
               </Typography>
               <List>
                 <ListItem>
-                  <ListItemText primary="B6102852 นายฤชากร กลิ่นสุข - ระบบนัดหมาย" />
+                  <ListItemText primary="B6102852 นายฤชากร กลิ่นสุข - ระบบนัดหมาย ระบบค้นหาการนัดหมาย" />
                 </ListItem>
                 <ListItem>
-                  <ListItemText primary="B6104320 นายวุฒิศักดิ์ คุชิตา - ระบบลงทะเบียนผู้ป่วย" />
+                  <ListItemText primary="B6104320 นายวุฒิศักดิ์ คุชิตา - ระบบลงทะเบียนผู้ป่วย ระบบค้นหาข้อมูลผู้ป่วย" />
                 </ListItem>
                 <ListItem>
-                  <ListItemText primary="B6104696 นายสมเกียรติ จบสูงเนิน - ระบบบันทึกการคัดกรอง" />
+                  <ListItemText primary="B6104696 นายสมเกียรติ จบสูงเนิน - ระบบบันทึกการคัดกรอง ระบบค้นหาบันทึกการคัดกรอง" />
                 </ListItem>
                 <ListItem>
-                  <ListItemText primary="B6109189 นางสาวสุภาพร บุญอิทร์ - ระบบสิทธิการรักษา" />
+                  <ListItemText primary="B6109189 นางสาวสุภาพร บุญอิทร์ - ระบบสิทธิการรักษา ระบบค้นหาสิทธิการรักษา" />
                 </ListItem>
                 <ListItem>
-                  <ListItemText primary="B6116262 นางสาวปานตา เสาวภา - ระบบบันทึกการทำหัตถการ" />
+                  <ListItemText primary="B6116262 นางสาวปานตา เสาวภา - ระบบบันทึกการทำหัตถการ ระบบค้นหาการทำหัตถการ" />
                 </ListItem>
                 <ListItem>
-                  <ListItemText primary="B6117368 นายนพชัย อัตถาวงศ์ - ระบบการตรวจรักษา" />
+                  <ListItemText primary="B6117368 นายนพชัย อัตถาวงศ์ - ระบบการตรวจรักษา ระบบค้นหาประวัติการตรวจรักษา" />
                 </ListItem>
               </List>
             </InfoCard>
           </Grid>
           <Grid item>
             <InfoCard>
-              <Typography variant="h5">ระบบย่อย</Typography>
+              <Typography variant="h5">ระบบย่อย #1</Typography>
               <List>
                 <ListItem>
                   <Link href="http://localhost:3000/patientregistration">ระบบลงทะเบียนผู้ป่วย</Link>
                 </ListItem>
                 <ListItem>
-                  <Link href="http://localhost:3000/Create">ระบบบันทึกสิทธิการรักษาของผู้ป่วย</Link>
+                  <Link href="http://localhost:3000/Create">ระบบบันทึกสิทธิการรักษา</Link>
                 </ListItem>
                 <ListItem>
                   <Link href="http://localhost:3000/triageresult">ระบบบันทึกการคัดกรอง</Link>
@@ -83,6 +83,31 @@ const WelcomePage: FC<{}> = () => {
                 </ListItem>
                 <ListItem>
                   <Link href="http://localhost:3000/createappointment">ระบบนัดหมาย</Link>
+                </ListItem>
+              </List>
+            </InfoCard>
+          </Grid>
+          <Grid item>
+            <InfoCard>
+              <Typography variant="h5">ระบบย่อย #2</Typography>
+              <List>
+                <ListItem>
+                  <Link href="http://localhost:3000/searchpatient">ระบบค้นหาข้อมูลผู้ป่วย</Link>
+                </ListItem>
+                <ListItem>
+                  <Link href="http://localhost:3000/Searchrighttotreatment">ระบบค้นหาสิทธิการรักษา</Link>
+                </ListItem>
+                <ListItem>
+                  <Link href="http://localhost:3000/triageresult">ระบบค้นหาบันทึกการคัดกรอง (ลิงก์ยังไม่ถูก)</Link>
+                </ListItem>
+                <ListItem>
+                  <Link href="http://localhost:3000/SearchdiagnosisPage">ระบบค้นหาประวัติการตรวจรักษา</Link>
+                </ListItem>
+                <ListItem>
+                  <Link href="http://localhost:3000/medicalprocedure">ระบบค้นหาบันทึกการคัดกรอง (ลิงก์ยังไม่ถูก)</Link>
+                </ListItem>
+                <ListItem>
+                  <Link href="http://localhost:3000/createappointment">ระบบค้นหาการนัดหมาย (ลิงก์ยังไม่ถูก)</Link>
                 </ListItem>
               </List>
             </InfoCard>

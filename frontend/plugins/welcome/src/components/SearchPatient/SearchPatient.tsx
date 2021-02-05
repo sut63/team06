@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { ContentHeader, Content, Header, Page, pageTheme } from '@backstage/core';
-import { FormControl, TextField, Button, Grid } from '@material-ui/core';
+import { FormControl, TextField, Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { DefaultApi } from '../../api/apis';
 import Table from '@material-ui/core/Table';
@@ -75,6 +76,7 @@ export default function ComponentsTable() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(false);
 
+  const [userName, setName] = useState(String);
   const [checkpersonalID, setPersonalIDs] = useState(false);
   const [patients, setPatients] = useState<EntPatient[]>([])
 
@@ -88,6 +90,36 @@ export default function ComponentsTable() {
   }
 
   useEffect(() => {
+    const checkUser = async () => {
+      const user = JSON.parse(String(localStorage.getItem('medicalrecord-email')));
+      const name = JSON.parse(String(localStorage.getItem('medicalrecord-name')));
+      setLoading(false);
+      const check1 = 'wuttisak@gmail.com';
+      const check2 = 'aun@gmail.com';
+      if (
+        user != check1 &&
+        user != check2
+      ) {
+        Swal.fire({
+          title: 'เข้าสู่ระบบก่อนใช้งาน',
+          position: 'center',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: toast => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          },
+        });
+        setTimeout(() => {
+          history.pushState('', '', './medicalrecordsignin');
+          window.location.reload(false);
+        }, 3000);
+      }
+      setName(name)
+    };
+    checkUser();
+
     const getPatients = async () => {
       const res = await http.listPatient({ offset: 0 });
       setLoading(false);
@@ -135,6 +167,18 @@ export default function ComponentsTable() {
 
     <Page theme={pageTheme.home}>
       <Header title="ระบบค้นหาข้อมูลผู้ป่วย">
+        <Typography>
+          {userName}
+        </Typography>
+        &nbsp;&nbsp;&nbsp;
+        <Button
+          component={RouterLink}
+          to="/medicalrecordsignin"
+          variant="contained"
+          color="secondary"
+        >
+          Logout
+          </Button>
       </Header>
       <Content>
         <ContentHeader title="ดูข้อมูลผู้ป่วย">
@@ -188,7 +232,7 @@ export default function ComponentsTable() {
             color="secondary"
             startIcon={<SearchTwoToneIcon />}
           >
-            ค้นหาข้อมูล
+            ค้นหาผู้ป่วย
           </Button>
           <div>&nbsp;&nbsp;&nbsp;</div>
           <Button
