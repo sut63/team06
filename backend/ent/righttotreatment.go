@@ -23,6 +23,12 @@ type RightToTreatment struct {
 	StartTime time.Time `json:"StartTime,omitempty"`
 	// EndTime holds the value of the "EndTime" field.
 	EndTime time.Time `json:"EndTime,omitempty"`
+	// Tel holds the value of the "tel" field.
+	Tel string `json:"tel,omitempty"`
+	// Idennum holds the value of the "idennum" field.
+	Idennum string `json:"idennum,omitempty"`
+	// Age holds the value of the "age" field.
+	Age int `json:"age,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the RightToTreatmentQuery when eager-loading is set.
 	Edges                                 RightToTreatmentEdges `json:"edges"`
@@ -91,8 +97,10 @@ func (*RightToTreatment) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case righttotreatment.FieldID:
+		case righttotreatment.FieldID, righttotreatment.FieldAge:
 			values[i] = &sql.NullInt64{}
+		case righttotreatment.FieldTel, righttotreatment.FieldIdennum:
+			values[i] = &sql.NullString{}
 		case righttotreatment.FieldStartTime, righttotreatment.FieldEndTime:
 			values[i] = &sql.NullTime{}
 		case righttotreatment.ForeignKeys[0]: // hospital_hospital
@@ -133,6 +141,24 @@ func (rtt *RightToTreatment) assignValues(columns []string, values []interface{}
 				return fmt.Errorf("unexpected type %T for field EndTime", values[i])
 			} else if value.Valid {
 				rtt.EndTime = value.Time
+			}
+		case righttotreatment.FieldTel:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field tel", values[i])
+			} else if value.Valid {
+				rtt.Tel = value.String
+			}
+		case righttotreatment.FieldIdennum:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field idennum", values[i])
+			} else if value.Valid {
+				rtt.Idennum = value.String
+			}
+		case righttotreatment.FieldAge:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field age", values[i])
+			} else if value.Valid {
+				rtt.Age = int(value.Int64)
 			}
 		case righttotreatment.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -202,6 +228,12 @@ func (rtt *RightToTreatment) String() string {
 	builder.WriteString(rtt.StartTime.Format(time.ANSIC))
 	builder.WriteString(", EndTime=")
 	builder.WriteString(rtt.EndTime.Format(time.ANSIC))
+	builder.WriteString(", tel=")
+	builder.WriteString(rtt.Tel)
+	builder.WriteString(", idennum=")
+	builder.WriteString(rtt.Idennum)
+	builder.WriteString(", age=")
+	builder.WriteString(fmt.Sprintf("%v", rtt.Age))
 	builder.WriteByte(')')
 	return builder.String()
 }

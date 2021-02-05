@@ -45,11 +45,14 @@ export default function ComponentsTable() {
        <TableHead>
          <TableRow>
            <TableCell align="center">No.</TableCell>
-           <TableCell align="center">Patient</TableCell>
-           <TableCell align="center">Right to treatment type</TableCell>
-           <TableCell align="center">Hospital</TableCell>
-           <TableCell align="center">Exercise date</TableCell>
-           <TableCell align="center">Expiration date</TableCell>
+           <TableCell align="center">ผู้ป่วย</TableCell>
+           <TableCell align="center">เลขบัตรประจำตัวประชาชน</TableCell>
+           <TableCell align="center">อายุ</TableCell>
+           <TableCell align="center">ประเภทสิทธิการรักษา</TableCell>
+           <TableCell align="center">โรงพยาบาลที่ใช้สิทธิ</TableCell>
+           <TableCell align="center">เบอร์โทรศัพท์</TableCell>
+           <TableCell align="center">วันที่เริ่มใช้สิทธิ</TableCell>
+           <TableCell align="center">วันที่หมดสิทธิ</TableCell>
            <TableCell align="center">
             <Link component={RouterLink} to='/create'>
                                 <Button 
@@ -69,8 +72,11 @@ export default function ComponentsTable() {
            <TableRow key={item.id}>
              <TableCell align="center">{item.id}</TableCell>
              <TableCell align="center">{item.edges?.patient?.patientName}</TableCell>
+             <TableCell align="center">{item.idennum}</TableCell>
+             <TableCell align="center">{item.age}</TableCell>
              <TableCell align="center">{item.edges?.rightToTreatmentType?.typeName}</TableCell>
              <TableCell align="center">{item.edges?.hospital.hospitalName}</TableCell>
+             <TableCell align="center">{item.tel}</TableCell>
              <TableCell align="center">{moment(item.startTime).format('DD/MM/YYYY')}</TableCell>
              <TableCell align="center">{moment(item.endTime).format('DD/MM/YYYY')}</TableCell>
            </TableRow>

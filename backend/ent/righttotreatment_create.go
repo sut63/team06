@@ -35,6 +35,24 @@ func (rttc *RightToTreatmentCreate) SetEndTime(t time.Time) *RightToTreatmentCre
 	return rttc
 }
 
+// SetTel sets the "tel" field.
+func (rttc *RightToTreatmentCreate) SetTel(s string) *RightToTreatmentCreate {
+	rttc.mutation.SetTel(s)
+	return rttc
+}
+
+// SetIdennum sets the "idennum" field.
+func (rttc *RightToTreatmentCreate) SetIdennum(s string) *RightToTreatmentCreate {
+	rttc.mutation.SetIdennum(s)
+	return rttc
+}
+
+// SetAge sets the "age" field.
+func (rttc *RightToTreatmentCreate) SetAge(i int) *RightToTreatmentCreate {
+	rttc.mutation.SetAge(i)
+	return rttc
+}
+
 // SetHospitalID sets the "Hospital" edge to the Hospital entity by ID.
 func (rttc *RightToTreatmentCreate) SetHospitalID(id int) *RightToTreatmentCreate {
 	rttc.mutation.SetHospitalID(id)
@@ -149,6 +167,30 @@ func (rttc *RightToTreatmentCreate) check() error {
 	if _, ok := rttc.mutation.EndTime(); !ok {
 		return &ValidationError{Name: "EndTime", err: errors.New("ent: missing required field \"EndTime\"")}
 	}
+	if _, ok := rttc.mutation.Tel(); !ok {
+		return &ValidationError{Name: "tel", err: errors.New("ent: missing required field \"tel\"")}
+	}
+	if v, ok := rttc.mutation.Tel(); ok {
+		if err := righttotreatment.TelValidator(v); err != nil {
+			return &ValidationError{Name: "tel", err: fmt.Errorf("ent: validator failed for field \"tel\": %w", err)}
+		}
+	}
+	if _, ok := rttc.mutation.Idennum(); !ok {
+		return &ValidationError{Name: "idennum", err: errors.New("ent: missing required field \"idennum\"")}
+	}
+	if v, ok := rttc.mutation.Idennum(); ok {
+		if err := righttotreatment.IdennumValidator(v); err != nil {
+			return &ValidationError{Name: "idennum", err: fmt.Errorf("ent: validator failed for field \"idennum\": %w", err)}
+		}
+	}
+	if _, ok := rttc.mutation.Age(); !ok {
+		return &ValidationError{Name: "age", err: errors.New("ent: missing required field \"age\"")}
+	}
+	if v, ok := rttc.mutation.Age(); ok {
+		if err := righttotreatment.AgeValidator(v); err != nil {
+			return &ValidationError{Name: "age", err: fmt.Errorf("ent: validator failed for field \"age\": %w", err)}
+		}
+	}
 	return nil
 }
 
@@ -191,6 +233,30 @@ func (rttc *RightToTreatmentCreate) createSpec() (*RightToTreatment, *sqlgraph.C
 			Column: righttotreatment.FieldEndTime,
 		})
 		_node.EndTime = value
+	}
+	if value, ok := rttc.mutation.Tel(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: righttotreatment.FieldTel,
+		})
+		_node.Tel = value
+	}
+	if value, ok := rttc.mutation.Idennum(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: righttotreatment.FieldIdennum,
+		})
+		_node.Idennum = value
+	}
+	if value, ok := rttc.mutation.Age(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: righttotreatment.FieldAge,
+		})
+		_node.Age = value
 	}
 	if nodes := rttc.mutation.HospitalIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

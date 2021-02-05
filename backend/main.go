@@ -432,6 +432,7 @@ func main() {
 		},
 	}
 
+	
 	for _, t := range righttotreatmenttypes.RightToTreatmentType {
 		client.RightToTreatmentType.
 			Create().

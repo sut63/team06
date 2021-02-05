@@ -27,6 +27,9 @@ type RightToTreatment struct {
 	RightToTreatmentType int
 	Starttime            string
 	Endtime              string
+	Tel					string
+	Idennum				string
+	Age					int
 }
 
 // CreateRightToTreatment handles POST requests for adding righttotreatment entities
@@ -86,7 +89,25 @@ func (ctl *RightToTreatmentController) CreateRightToTreatment(c *gin.Context) {
 	}
 
 	s, err := time.Parse(time.RFC3339, obj.Starttime)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "start date not found",
+		})
+		return
+	}
 	e, err := time.Parse(time.RFC3339, obj.Endtime)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "end date not found",
+		})
+		return
+	}
+	/*if !(obj.Age > 0){
+		c.JSON(400, gin.H{
+			"error": "อายุต้องเป็นตัวเลข กรุณากรอกอายุให้ถูกต้อง",
+		})
+		return
+	}*/
 
 	r, err := ctl.client.RightToTreatment.
 		Create().
@@ -95,10 +116,15 @@ func (ctl *RightToTreatmentController) CreateRightToTreatment(c *gin.Context) {
 		SetHospital(h).
 		SetPatient(p).
 		SetRightToTreatmentType(t).
+		SetAge(obj.Age).
+		SetIdennum(obj.Idennum).
+		SetTel(obj.Tel).
 		Save(context.Background())
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(400, gin.H{
-			"error": "saving failed",
+			"status": false,
+			"error": err,
 		})
 		return
 	}
@@ -115,7 +141,7 @@ func (ctl *RightToTreatmentController) CreateRightToTreatment(c *gin.Context) {
 // @ID get-righttotreatment
 // @Produce  json
 // @Param id path int true "RightToTreatment ID"
-// @Success 200 {object} ent.RightToTreatment
+// @Success 200 {array} ent.RightToTreatment
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -137,8 +163,11 @@ func (ctl *RightToTreatmentController) GetRightToTreatment(c *gin.Context) {
 
 	r, err := ctl.client.RightToTreatment.
 		Query().
+		WithHospital().
+		WithRightToTreatmentType().
+		WithPatient().
 		Where(righttotreatment.IDEQ(int(id))).
-		Only(context.Background())
+		All(context.Background())
 
 	if err != nil {
 

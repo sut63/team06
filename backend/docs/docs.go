@@ -3218,7 +3218,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.RightToTreatment"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.RightToTreatment"
+                            }
                         }
                     },
                     "400": {
@@ -4777,6 +4780,10 @@ var doc = `{
                     "description": "StartTime holds the value of the \"StartTime\" field.",
                     "type": "string"
                 },
+                "age": {
+                    "description": "Age holds the value of the \"age\" field.",
+                    "type": "integer"
+                },
                 "edges": {
                     "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the RightToTreatmentQuery when eager-loading is set.",
                     "type": "object",
@@ -4785,6 +4792,14 @@ var doc = `{
                 "id": {
                     "description": "ID of the ent.",
                     "type": "integer"
+                },
+                "idennum": {
+                    "description": "Idennum holds the value of the \"idennum\" field.",
+                    "type": "string"
+                },
+                "tel": {
+                    "description": "Tel holds the value of the \"tel\" field.",
+                    "type": "string"
                 }
             }
         },

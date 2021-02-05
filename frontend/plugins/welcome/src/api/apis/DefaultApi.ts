@@ -2149,7 +2149,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * get righttotreatment by ID
      * Get a righttotreatment entity by ID
      */
-    async getRighttotreatmentRaw(requestParameters: GetRighttotreatmentRequest): Promise<runtime.ApiResponse<EntRightToTreatment>> {
+    async getRighttotreatmentRaw(requestParameters: GetRighttotreatmentRequest): Promise<runtime.ApiResponse<Array<EntRightToTreatment>>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getRighttotreatment.');
         }
@@ -2165,14 +2165,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntRightToTreatmentFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntRightToTreatmentFromJSON));
     }
 
     /**
      * get righttotreatment by ID
      * Get a righttotreatment entity by ID
      */
-    async getRighttotreatment(requestParameters: GetRighttotreatmentRequest): Promise<EntRightToTreatment> {
+    async getRighttotreatment(requestParameters: GetRighttotreatmentRequest): Promise<Array<EntRightToTreatment>> {
         const response = await this.getRighttotreatmentRaw(requestParameters);
         return await response.value();
     }
