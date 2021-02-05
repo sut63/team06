@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: '#FF0066	',
+    backgroundColor: '#C7B2DE	',
   },
   form: {
     width: '100%',
@@ -127,7 +127,7 @@ const SignIn: FC<{}> = () => {
             onChange={PasswordhandelChange}
           />
           <Button
-            style={{ backgroundColor: '#FF0066	' }}
+            style={{ backgroundColor: '#C7B2DE	' }}
             type="submit"
             fullWidth
             variant="contained"
