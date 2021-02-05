@@ -23,9 +23,27 @@ type MedicalProcedureCreate struct {
 	hooks    []Hook
 }
 
+// SetProcedureOrder sets the "procedureOrder" field.
+func (mpc *MedicalProcedureCreate) SetProcedureOrder(s string) *MedicalProcedureCreate {
+	mpc.mutation.SetProcedureOrder(s)
+	return mpc
+}
+
+// SetProcedureRoom sets the "procedureRoom" field.
+func (mpc *MedicalProcedureCreate) SetProcedureRoom(s string) *MedicalProcedureCreate {
+	mpc.mutation.SetProcedureRoom(s)
+	return mpc
+}
+
 // SetAddtime sets the "Addtime" field.
 func (mpc *MedicalProcedureCreate) SetAddtime(t time.Time) *MedicalProcedureCreate {
 	mpc.mutation.SetAddtime(t)
+	return mpc
+}
+
+// SetProcedureDescripe sets the "procedureDescripe" field.
+func (mpc *MedicalProcedureCreate) SetProcedureDescripe(s string) *MedicalProcedureCreate {
+	mpc.mutation.SetProcedureDescripe(s)
 	return mpc
 }
 
@@ -137,8 +155,32 @@ func (mpc *MedicalProcedureCreate) SaveX(ctx context.Context) *MedicalProcedure 
 
 // check runs all checks and user-defined validators on the builder.
 func (mpc *MedicalProcedureCreate) check() error {
+	if _, ok := mpc.mutation.ProcedureOrder(); !ok {
+		return &ValidationError{Name: "procedureOrder", err: errors.New("ent: missing required field \"procedureOrder\"")}
+	}
+	if v, ok := mpc.mutation.ProcedureOrder(); ok {
+		if err := medicalprocedure.ProcedureOrderValidator(v); err != nil {
+			return &ValidationError{Name: "procedureOrder", err: fmt.Errorf("ent: validator failed for field \"procedureOrder\": %w", err)}
+		}
+	}
+	if _, ok := mpc.mutation.ProcedureRoom(); !ok {
+		return &ValidationError{Name: "procedureRoom", err: errors.New("ent: missing required field \"procedureRoom\"")}
+	}
+	if v, ok := mpc.mutation.ProcedureRoom(); ok {
+		if err := medicalprocedure.ProcedureRoomValidator(v); err != nil {
+			return &ValidationError{Name: "procedureRoom", err: fmt.Errorf("ent: validator failed for field \"procedureRoom\": %w", err)}
+		}
+	}
 	if _, ok := mpc.mutation.Addtime(); !ok {
 		return &ValidationError{Name: "Addtime", err: errors.New("ent: missing required field \"Addtime\"")}
+	}
+	if _, ok := mpc.mutation.ProcedureDescripe(); !ok {
+		return &ValidationError{Name: "procedureDescripe", err: errors.New("ent: missing required field \"procedureDescripe\"")}
+	}
+	if v, ok := mpc.mutation.ProcedureDescripe(); ok {
+		if err := medicalprocedure.ProcedureDescripeValidator(v); err != nil {
+			return &ValidationError{Name: "procedureDescripe", err: fmt.Errorf("ent: validator failed for field \"procedureDescripe\": %w", err)}
+		}
 	}
 	return nil
 }
@@ -167,6 +209,22 @@ func (mpc *MedicalProcedureCreate) createSpec() (*MedicalProcedure, *sqlgraph.Cr
 			},
 		}
 	)
+	if value, ok := mpc.mutation.ProcedureOrder(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: medicalprocedure.FieldProcedureOrder,
+		})
+		_node.ProcedureOrder = value
+	}
+	if value, ok := mpc.mutation.ProcedureRoom(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: medicalprocedure.FieldProcedureRoom,
+		})
+		_node.ProcedureRoom = value
+	}
 	if value, ok := mpc.mutation.Addtime(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
@@ -174,6 +232,14 @@ func (mpc *MedicalProcedureCreate) createSpec() (*MedicalProcedure, *sqlgraph.Cr
 			Column: medicalprocedure.FieldAddtime,
 		})
 		_node.Addtime = value
+	}
+	if value, ok := mpc.mutation.ProcedureDescripe(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: medicalprocedure.FieldProcedureDescripe,
+		})
+		_node.ProcedureDescripe = value
 	}
 	if nodes := mpc.mutation.PatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

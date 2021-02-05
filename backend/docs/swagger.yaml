@@ -227,6 +227,16 @@ definitions:
       id:
         description: ID of the ent.
         type: integer
+      procedureDescripe:
+        description: ProcedureDescripe holds the value of the "procedureDescripe"
+          field.
+        type: string
+      procedureOrder:
+        description: ProcedureOrder holds the value of the "procedureOrder" field.
+        type: string
+      procedureRoom:
+        description: ProcedureRoom holds the value of the "procedureRoom" field.
+        type: string
     type: object
   ent.MedicalProcedureEdges:
     properties:
@@ -1913,6 +1923,37 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Delete a medicalprocedure entity by ID
+    get:
+      description: get medicalprocedure by ID
+      operationId: get-medicalprocedure
+      parameters:
+      - description: MedicalProcedure ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.MedicalProcedure'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a medicalprocedure entity by ID
   /medicalrecords:
     get:
       description: list medicalrecord entities

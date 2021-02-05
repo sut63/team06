@@ -159,7 +159,10 @@ var (
 	// MedicalProceduresColumns holds the columns for the "medical_procedures" table.
 	MedicalProceduresColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "procedure_order", Type: field.TypeString},
+		{Name: "procedure_room", Type: field.TypeString, Size: 4},
 		{Name: "addtime", Type: field.TypeTime},
+		{Name: "procedure_descripe", Type: field.TypeString},
 		{Name: "doctor_doctor_to_medical_procedure", Type: field.TypeInt, Nullable: true},
 		{Name: "patient_patient_to_medical_procedure", Type: field.TypeInt, Nullable: true},
 		{Name: "procedure_type_procedure_to_medical_procedure", Type: field.TypeInt, Nullable: true},
@@ -172,21 +175,21 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "medical_procedures_doctors_DoctorToMedicalProcedure",
-				Columns: []*schema.Column{MedicalProceduresColumns[2]},
+				Columns: []*schema.Column{MedicalProceduresColumns[5]},
 
 				RefColumns: []*schema.Column{DoctorsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "medical_procedures_patients_PatientToMedicalProcedure",
-				Columns: []*schema.Column{MedicalProceduresColumns[3]},
+				Columns: []*schema.Column{MedicalProceduresColumns[6]},
 
 				RefColumns: []*schema.Column{PatientsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "medical_procedures_procedure_types_ProcedureToMedicalProcedure",
-				Columns: []*schema.Column{MedicalProceduresColumns[4]},
+				Columns: []*schema.Column{MedicalProceduresColumns[7]},
 
 				RefColumns: []*schema.Column{ProcedureTypesColumns[0]},
 				OnDelete:   schema.SetNull,

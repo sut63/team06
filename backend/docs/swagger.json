@@ -1919,6 +1919,52 @@
             }
         },
         "/medicalprocedure/{id}": {
+            "get": {
+                "description": "get medicalprocedure by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a medicalprocedure entity by ID",
+                "operationId": "get-medicalprocedure",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MedicalProcedure ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.MedicalProcedure"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "get medicalprocedure by ID",
                 "produces": [
@@ -4512,6 +4558,18 @@
                 "id": {
                     "description": "ID of the ent.",
                     "type": "integer"
+                },
+                "procedureDescripe": {
+                    "description": "ProcedureDescripe holds the value of the \"procedureDescripe\" field.",
+                    "type": "string"
+                },
+                "procedureOrder": {
+                    "description": "ProcedureOrder holds the value of the \"procedureOrder\" field.",
+                    "type": "string"
+                },
+                "procedureRoom": {
+                    "description": "ProcedureRoom holds the value of the \"procedureRoom\" field.",
+                    "type": "string"
                 }
             }
         },

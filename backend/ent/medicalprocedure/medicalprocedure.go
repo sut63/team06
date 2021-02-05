@@ -7,8 +7,14 @@ const (
 	Label = "medical_procedure"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldProcedureOrder holds the string denoting the procedureorder field in the database.
+	FieldProcedureOrder = "procedure_order"
+	// FieldProcedureRoom holds the string denoting the procedureroom field in the database.
+	FieldProcedureRoom = "procedure_room"
 	// FieldAddtime holds the string denoting the addtime field in the database.
 	FieldAddtime = "addtime"
+	// FieldProcedureDescripe holds the string denoting the proceduredescripe field in the database.
+	FieldProcedureDescripe = "procedure_descripe"
 
 	// EdgePatient holds the string denoting the patient edge name in mutations.
 	EdgePatient = "Patient"
@@ -45,7 +51,10 @@ const (
 // Columns holds all SQL columns for medicalprocedure fields.
 var Columns = []string{
 	FieldID,
+	FieldProcedureOrder,
+	FieldProcedureRoom,
 	FieldAddtime,
+	FieldProcedureDescripe,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the MedicalProcedure type.
@@ -69,3 +78,12 @@ func ValidColumn(column string) bool {
 	}
 	return false
 }
+
+var (
+	// ProcedureOrderValidator is a validator for the "procedureOrder" field. It is called by the builders before save.
+	ProcedureOrderValidator func(string) error
+	// ProcedureRoomValidator is a validator for the "procedureRoom" field. It is called by the builders before save.
+	ProcedureRoomValidator func(string) error
+	// ProcedureDescripeValidator is a validator for the "procedureDescripe" field. It is called by the builders before save.
+	ProcedureDescripeValidator func(string) error
+)

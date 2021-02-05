@@ -12,6 +12,7 @@ import (
 	"github.com/team06/app/ent/doctor"
 	"github.com/team06/app/ent/gender"
 	"github.com/team06/app/ent/hospital"
+	"github.com/team06/app/ent/medicalprocedure"
 	"github.com/team06/app/ent/medicalrecord"
 	"github.com/team06/app/ent/nurse"
 	"github.com/team06/app/ent/patient"
@@ -91,6 +92,34 @@ func init() {
 	hospitalDescHospitalName := hospitalFields[0].Descriptor()
 	// hospital.HospitalNameValidator is a validator for the "HospitalName" field. It is called by the builders before save.
 	hospital.HospitalNameValidator = hospitalDescHospitalName.Validators[0].(func(string) error)
+	medicalprocedureFields := schema.MedicalProcedure{}.Fields()
+	_ = medicalprocedureFields
+	// medicalprocedureDescProcedureOrder is the schema descriptor for procedureOrder field.
+	medicalprocedureDescProcedureOrder := medicalprocedureFields[0].Descriptor()
+	// medicalprocedure.ProcedureOrderValidator is a validator for the "procedureOrder" field. It is called by the builders before save.
+	medicalprocedure.ProcedureOrderValidator = medicalprocedureDescProcedureOrder.Validators[0].(func(string) error)
+	// medicalprocedureDescProcedureRoom is the schema descriptor for procedureRoom field.
+	medicalprocedureDescProcedureRoom := medicalprocedureFields[1].Descriptor()
+	// medicalprocedure.ProcedureRoomValidator is a validator for the "procedureRoom" field. It is called by the builders before save.
+	medicalprocedure.ProcedureRoomValidator = func() func(string) error {
+		validators := medicalprocedureDescProcedureRoom.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(procedureRoom string) error {
+			for _, fn := range fns {
+				if err := fn(procedureRoom); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// medicalprocedureDescProcedureDescripe is the schema descriptor for procedureDescripe field.
+	medicalprocedureDescProcedureDescripe := medicalprocedureFields[3].Descriptor()
+	// medicalprocedure.ProcedureDescripeValidator is a validator for the "procedureDescripe" field. It is called by the builders before save.
+	medicalprocedure.ProcedureDescripeValidator = medicalprocedureDescProcedureDescripe.Validators[0].(func(string) error)
 	medicalrecordFields := schema.MedicalRecord{}.Fields()
 	_ = medicalrecordFields
 	// medicalrecordDescEmail is the schema descriptor for email field.

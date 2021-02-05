@@ -10,6 +10,7 @@ import (
 	"github.com/team06/app/ent/doctor"
 	"github.com/team06/app/ent/patient"
 	"github.com/team06/app/ent/proceduretype"
+	"github.com/team06/app/ent/medicalprocedure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,10 +22,14 @@ type MedicalprocedureController struct {
 
 // Medicalprocedure defines the struct for the medicalprocedure
 type Medicalprocedure struct {
+	Orders string
 	Doctors int
 	Patients int
+	Rooms string
 	Proceduretypes  int
+	Descriptions string
 	Addedtime  string
+
 }
 
 // CreateMedicalprocedure handles POST requests for adding medicalprocedure entities
@@ -86,14 +91,19 @@ func (ctl *MedicalprocedureController) CreateMedicalprocedure(c *gin.Context) {
 
 	medicalprocedure, err := ctl.client.MedicalProcedure.
 		Create().
+		SetProcedureOrder(obj.Orders).
 		SetDoctor(doctors).
 		SetPatient(patient).
+		SetProcedureRoom(obj.Rooms).
 		SetProcedureType(procedure).
 		SetAddtime(times).
+		SetProcedureDescripe(obj.Descriptions).
 		Save(context.Background())
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(400, gin.H{
-			"error": "saving failed",
+			"status": false,
+			"error" : err,
 		})
 		return
 	}
@@ -102,6 +112,54 @@ func (ctl *MedicalprocedureController) CreateMedicalprocedure(c *gin.Context) {
 		"status": true,
 		"data":   medicalprocedure,
 	})
+}
+// GetMedicalprocedure handles GET requests to retrieve a medicalprocedure entity
+// @Summary Get a medicalprocedure entity by ID
+// @Description get medicalprocedure by ID
+// @ID get-medicalprocedure
+// @Produce  json
+// @Param id path int true "MedicalProcedure ID"
+// @Success 200 {array} ent.MedicalProcedure
+// @Failure 400 {object} gin.H
+// @Failure 404 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /medicalprocedure/{id} [get]
+func (ctl *MedicalprocedureController) GetMedicalprocedure(c *gin.Context) {
+
+    id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+
+    if err != nil {
+
+        c.JSON(400, gin.H{
+
+            "error": err.Error(),
+        })
+
+        return
+
+    }
+
+    r, err := ctl.client.MedicalProcedure.
+        Query().
+        WithDoctor().
+        WithPatient().
+        WithProcedureType().
+        Where(medicalprocedure.IDEQ(int(id))).
+        All(context.Background())
+
+    if err != nil {
+
+        c.JSON(404, gin.H{
+
+            "error": err.Error(),
+        })
+
+        return
+
+    }
+
+    c.JSON(200, r)
+
 }
 
 // ListMedicalprocedure handles request to get a list of medicalprocedure entities
@@ -201,6 +259,7 @@ func (ctl *MedicalprocedureController) register() {
 
 	// CRUD
 	medicalprocedures.POST("", ctl.CreateMedicalprocedure)
+	medicalprocedures.GET(":id", ctl.GetMedicalprocedure)
 	medicalprocedures.DELETE(":id", ctl.DeleteMedicalprocedure)
 
 }

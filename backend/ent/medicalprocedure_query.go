@@ -355,12 +355,12 @@ func (mpq *MedicalProcedureQuery) WithDoctor(opts ...func(*DoctorQuery)) *Medica
 // Example:
 //
 //	var v []struct {
-//		Addtime time.Time `json:"Addtime,omitempty"`
+//		ProcedureOrder string `json:"procedureOrder,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.MedicalProcedure.Query().
-//		GroupBy(medicalprocedure.FieldAddtime).
+//		GroupBy(medicalprocedure.FieldProcedureOrder).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -382,11 +382,11 @@ func (mpq *MedicalProcedureQuery) GroupBy(field string, fields ...string) *Medic
 // Example:
 //
 //	var v []struct {
-//		Addtime time.Time `json:"Addtime,omitempty"`
+//		ProcedureOrder string `json:"procedureOrder,omitempty"`
 //	}
 //
 //	client.MedicalProcedure.Query().
-//		Select(medicalprocedure.FieldAddtime).
+//		Select(medicalprocedure.FieldProcedureOrder).
 //		Scan(ctx, &v)
 //
 func (mpq *MedicalProcedureQuery) Select(field string, fields ...string) *MedicalProcedureSelect {

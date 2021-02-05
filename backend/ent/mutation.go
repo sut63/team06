@@ -3458,7 +3458,10 @@ type MedicalProcedureMutation struct {
 	op                    Op
 	typ                   string
 	id                    *int
+	procedureOrder        *string
+	procedureRoom         *string
 	_Addtime              *time.Time
+	procedureDescripe     *string
 	clearedFields         map[string]struct{}
 	_Patient              *int
 	cleared_Patient       bool
@@ -3550,6 +3553,78 @@ func (m *MedicalProcedureMutation) ID() (id int, exists bool) {
 	return *m.id, true
 }
 
+// SetProcedureOrder sets the "procedureOrder" field.
+func (m *MedicalProcedureMutation) SetProcedureOrder(s string) {
+	m.procedureOrder = &s
+}
+
+// ProcedureOrder returns the value of the "procedureOrder" field in the mutation.
+func (m *MedicalProcedureMutation) ProcedureOrder() (r string, exists bool) {
+	v := m.procedureOrder
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldProcedureOrder returns the old "procedureOrder" field's value of the MedicalProcedure entity.
+// If the MedicalProcedure object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MedicalProcedureMutation) OldProcedureOrder(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldProcedureOrder is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldProcedureOrder requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldProcedureOrder: %w", err)
+	}
+	return oldValue.ProcedureOrder, nil
+}
+
+// ResetProcedureOrder resets all changes to the "procedureOrder" field.
+func (m *MedicalProcedureMutation) ResetProcedureOrder() {
+	m.procedureOrder = nil
+}
+
+// SetProcedureRoom sets the "procedureRoom" field.
+func (m *MedicalProcedureMutation) SetProcedureRoom(s string) {
+	m.procedureRoom = &s
+}
+
+// ProcedureRoom returns the value of the "procedureRoom" field in the mutation.
+func (m *MedicalProcedureMutation) ProcedureRoom() (r string, exists bool) {
+	v := m.procedureRoom
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldProcedureRoom returns the old "procedureRoom" field's value of the MedicalProcedure entity.
+// If the MedicalProcedure object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MedicalProcedureMutation) OldProcedureRoom(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldProcedureRoom is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldProcedureRoom requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldProcedureRoom: %w", err)
+	}
+	return oldValue.ProcedureRoom, nil
+}
+
+// ResetProcedureRoom resets all changes to the "procedureRoom" field.
+func (m *MedicalProcedureMutation) ResetProcedureRoom() {
+	m.procedureRoom = nil
+}
+
 // SetAddtime sets the "Addtime" field.
 func (m *MedicalProcedureMutation) SetAddtime(t time.Time) {
 	m._Addtime = &t
@@ -3584,6 +3659,42 @@ func (m *MedicalProcedureMutation) OldAddtime(ctx context.Context) (v time.Time,
 // ResetAddtime resets all changes to the "Addtime" field.
 func (m *MedicalProcedureMutation) ResetAddtime() {
 	m._Addtime = nil
+}
+
+// SetProcedureDescripe sets the "procedureDescripe" field.
+func (m *MedicalProcedureMutation) SetProcedureDescripe(s string) {
+	m.procedureDescripe = &s
+}
+
+// ProcedureDescripe returns the value of the "procedureDescripe" field in the mutation.
+func (m *MedicalProcedureMutation) ProcedureDescripe() (r string, exists bool) {
+	v := m.procedureDescripe
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldProcedureDescripe returns the old "procedureDescripe" field's value of the MedicalProcedure entity.
+// If the MedicalProcedure object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *MedicalProcedureMutation) OldProcedureDescripe(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldProcedureDescripe is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldProcedureDescripe requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldProcedureDescripe: %w", err)
+	}
+	return oldValue.ProcedureDescripe, nil
+}
+
+// ResetProcedureDescripe resets all changes to the "procedureDescripe" field.
+func (m *MedicalProcedureMutation) ResetProcedureDescripe() {
+	m.procedureDescripe = nil
 }
 
 // SetPatientID sets the "Patient" edge to the Patient entity by id.
@@ -3717,9 +3828,18 @@ func (m *MedicalProcedureMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *MedicalProcedureMutation) Fields() []string {
-	fields := make([]string, 0, 1)
+	fields := make([]string, 0, 4)
+	if m.procedureOrder != nil {
+		fields = append(fields, medicalprocedure.FieldProcedureOrder)
+	}
+	if m.procedureRoom != nil {
+		fields = append(fields, medicalprocedure.FieldProcedureRoom)
+	}
 	if m._Addtime != nil {
 		fields = append(fields, medicalprocedure.FieldAddtime)
+	}
+	if m.procedureDescripe != nil {
+		fields = append(fields, medicalprocedure.FieldProcedureDescripe)
 	}
 	return fields
 }
@@ -3729,8 +3849,14 @@ func (m *MedicalProcedureMutation) Fields() []string {
 // schema.
 func (m *MedicalProcedureMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case medicalprocedure.FieldProcedureOrder:
+		return m.ProcedureOrder()
+	case medicalprocedure.FieldProcedureRoom:
+		return m.ProcedureRoom()
 	case medicalprocedure.FieldAddtime:
 		return m.Addtime()
+	case medicalprocedure.FieldProcedureDescripe:
+		return m.ProcedureDescripe()
 	}
 	return nil, false
 }
@@ -3740,8 +3866,14 @@ func (m *MedicalProcedureMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *MedicalProcedureMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case medicalprocedure.FieldProcedureOrder:
+		return m.OldProcedureOrder(ctx)
+	case medicalprocedure.FieldProcedureRoom:
+		return m.OldProcedureRoom(ctx)
 	case medicalprocedure.FieldAddtime:
 		return m.OldAddtime(ctx)
+	case medicalprocedure.FieldProcedureDescripe:
+		return m.OldProcedureDescripe(ctx)
 	}
 	return nil, fmt.Errorf("unknown MedicalProcedure field %s", name)
 }
@@ -3751,12 +3883,33 @@ func (m *MedicalProcedureMutation) OldField(ctx context.Context, name string) (e
 // type.
 func (m *MedicalProcedureMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case medicalprocedure.FieldProcedureOrder:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetProcedureOrder(v)
+		return nil
+	case medicalprocedure.FieldProcedureRoom:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetProcedureRoom(v)
+		return nil
 	case medicalprocedure.FieldAddtime:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAddtime(v)
+		return nil
+	case medicalprocedure.FieldProcedureDescripe:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetProcedureDescripe(v)
 		return nil
 	}
 	return fmt.Errorf("unknown MedicalProcedure field %s", name)
@@ -3807,8 +3960,17 @@ func (m *MedicalProcedureMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *MedicalProcedureMutation) ResetField(name string) error {
 	switch name {
+	case medicalprocedure.FieldProcedureOrder:
+		m.ResetProcedureOrder()
+		return nil
+	case medicalprocedure.FieldProcedureRoom:
+		m.ResetProcedureRoom()
+		return nil
 	case medicalprocedure.FieldAddtime:
 		m.ResetAddtime()
+		return nil
+	case medicalprocedure.FieldProcedureDescripe:
+		m.ResetProcedureDescripe()
 		return nil
 	}
 	return fmt.Errorf("unknown MedicalProcedure field %s", name)

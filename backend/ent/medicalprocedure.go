@@ -19,8 +19,14 @@ type MedicalProcedure struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// ProcedureOrder holds the value of the "procedureOrder" field.
+	ProcedureOrder string `json:"procedureOrder,omitempty"`
+	// ProcedureRoom holds the value of the "procedureRoom" field.
+	ProcedureRoom string `json:"procedureRoom,omitempty"`
 	// Addtime holds the value of the "Addtime" field.
 	Addtime time.Time `json:"Addtime,omitempty"`
+	// ProcedureDescripe holds the value of the "procedureDescripe" field.
+	ProcedureDescripe string `json:"procedureDescripe,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the MedicalProcedureQuery when eager-loading is set.
 	Edges                                         MedicalProcedureEdges `json:"edges"`
@@ -91,6 +97,8 @@ func (*MedicalProcedure) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case medicalprocedure.FieldID:
 			values[i] = &sql.NullInt64{}
+		case medicalprocedure.FieldProcedureOrder, medicalprocedure.FieldProcedureRoom, medicalprocedure.FieldProcedureDescripe:
+			values[i] = &sql.NullString{}
 		case medicalprocedure.FieldAddtime:
 			values[i] = &sql.NullTime{}
 		case medicalprocedure.ForeignKeys[0]: // doctor_doctor_to_medical_procedure
@@ -120,11 +128,29 @@ func (mp *MedicalProcedure) assignValues(columns []string, values []interface{})
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			mp.ID = int(value.Int64)
+		case medicalprocedure.FieldProcedureOrder:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field procedureOrder", values[i])
+			} else if value.Valid {
+				mp.ProcedureOrder = value.String
+			}
+		case medicalprocedure.FieldProcedureRoom:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field procedureRoom", values[i])
+			} else if value.Valid {
+				mp.ProcedureRoom = value.String
+			}
 		case medicalprocedure.FieldAddtime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field Addtime", values[i])
 			} else if value.Valid {
 				mp.Addtime = value.Time
+			}
+		case medicalprocedure.FieldProcedureDescripe:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field procedureDescripe", values[i])
+			} else if value.Valid {
+				mp.ProcedureDescripe = value.String
 			}
 		case medicalprocedure.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -190,8 +216,14 @@ func (mp *MedicalProcedure) String() string {
 	var builder strings.Builder
 	builder.WriteString("MedicalProcedure(")
 	builder.WriteString(fmt.Sprintf("id=%v", mp.ID))
+	builder.WriteString(", procedureOrder=")
+	builder.WriteString(mp.ProcedureOrder)
+	builder.WriteString(", procedureRoom=")
+	builder.WriteString(mp.ProcedureRoom)
 	builder.WriteString(", Addtime=")
 	builder.WriteString(mp.Addtime.Format(time.ANSIC))
+	builder.WriteString(", procedureDescripe=")
+	builder.WriteString(mp.ProcedureDescripe)
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -30,9 +30,27 @@ func (mpu *MedicalProcedureUpdate) Where(ps ...predicate.MedicalProcedure) *Medi
 	return mpu
 }
 
+// SetProcedureOrder sets the "procedureOrder" field.
+func (mpu *MedicalProcedureUpdate) SetProcedureOrder(s string) *MedicalProcedureUpdate {
+	mpu.mutation.SetProcedureOrder(s)
+	return mpu
+}
+
+// SetProcedureRoom sets the "procedureRoom" field.
+func (mpu *MedicalProcedureUpdate) SetProcedureRoom(s string) *MedicalProcedureUpdate {
+	mpu.mutation.SetProcedureRoom(s)
+	return mpu
+}
+
 // SetAddtime sets the "Addtime" field.
 func (mpu *MedicalProcedureUpdate) SetAddtime(t time.Time) *MedicalProcedureUpdate {
 	mpu.mutation.SetAddtime(t)
+	return mpu
+}
+
+// SetProcedureDescripe sets the "procedureDescripe" field.
+func (mpu *MedicalProcedureUpdate) SetProcedureDescripe(s string) *MedicalProcedureUpdate {
+	mpu.mutation.SetProcedureDescripe(s)
 	return mpu
 }
 
@@ -123,12 +141,18 @@ func (mpu *MedicalProcedureUpdate) Save(ctx context.Context) (int, error) {
 		affected int
 	)
 	if len(mpu.hooks) == 0 {
+		if err = mpu.check(); err != nil {
+			return 0, err
+		}
 		affected, err = mpu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*MedicalProcedureMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = mpu.check(); err != nil {
+				return 0, err
 			}
 			mpu.mutation = mutation
 			affected, err = mpu.sqlSave(ctx)
@@ -167,6 +191,26 @@ func (mpu *MedicalProcedureUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (mpu *MedicalProcedureUpdate) check() error {
+	if v, ok := mpu.mutation.ProcedureOrder(); ok {
+		if err := medicalprocedure.ProcedureOrderValidator(v); err != nil {
+			return &ValidationError{Name: "procedureOrder", err: fmt.Errorf("ent: validator failed for field \"procedureOrder\": %w", err)}
+		}
+	}
+	if v, ok := mpu.mutation.ProcedureRoom(); ok {
+		if err := medicalprocedure.ProcedureRoomValidator(v); err != nil {
+			return &ValidationError{Name: "procedureRoom", err: fmt.Errorf("ent: validator failed for field \"procedureRoom\": %w", err)}
+		}
+	}
+	if v, ok := mpu.mutation.ProcedureDescripe(); ok {
+		if err := medicalprocedure.ProcedureDescripeValidator(v); err != nil {
+			return &ValidationError{Name: "procedureDescripe", err: fmt.Errorf("ent: validator failed for field \"procedureDescripe\": %w", err)}
+		}
+	}
+	return nil
+}
+
 func (mpu *MedicalProcedureUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -185,11 +229,32 @@ func (mpu *MedicalProcedureUpdate) sqlSave(ctx context.Context) (n int, err erro
 			}
 		}
 	}
+	if value, ok := mpu.mutation.ProcedureOrder(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: medicalprocedure.FieldProcedureOrder,
+		})
+	}
+	if value, ok := mpu.mutation.ProcedureRoom(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: medicalprocedure.FieldProcedureRoom,
+		})
+	}
 	if value, ok := mpu.mutation.Addtime(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
 			Column: medicalprocedure.FieldAddtime,
+		})
+	}
+	if value, ok := mpu.mutation.ProcedureDescripe(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: medicalprocedure.FieldProcedureDescripe,
 		})
 	}
 	if mpu.mutation.PatientCleared() {
@@ -315,9 +380,27 @@ type MedicalProcedureUpdateOne struct {
 	mutation *MedicalProcedureMutation
 }
 
+// SetProcedureOrder sets the "procedureOrder" field.
+func (mpuo *MedicalProcedureUpdateOne) SetProcedureOrder(s string) *MedicalProcedureUpdateOne {
+	mpuo.mutation.SetProcedureOrder(s)
+	return mpuo
+}
+
+// SetProcedureRoom sets the "procedureRoom" field.
+func (mpuo *MedicalProcedureUpdateOne) SetProcedureRoom(s string) *MedicalProcedureUpdateOne {
+	mpuo.mutation.SetProcedureRoom(s)
+	return mpuo
+}
+
 // SetAddtime sets the "Addtime" field.
 func (mpuo *MedicalProcedureUpdateOne) SetAddtime(t time.Time) *MedicalProcedureUpdateOne {
 	mpuo.mutation.SetAddtime(t)
+	return mpuo
+}
+
+// SetProcedureDescripe sets the "procedureDescripe" field.
+func (mpuo *MedicalProcedureUpdateOne) SetProcedureDescripe(s string) *MedicalProcedureUpdateOne {
+	mpuo.mutation.SetProcedureDescripe(s)
 	return mpuo
 }
 
@@ -408,12 +491,18 @@ func (mpuo *MedicalProcedureUpdateOne) Save(ctx context.Context) (*MedicalProced
 		node *MedicalProcedure
 	)
 	if len(mpuo.hooks) == 0 {
+		if err = mpuo.check(); err != nil {
+			return nil, err
+		}
 		node, err = mpuo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*MedicalProcedureMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = mpuo.check(); err != nil {
+				return nil, err
 			}
 			mpuo.mutation = mutation
 			node, err = mpuo.sqlSave(ctx)
@@ -452,6 +541,26 @@ func (mpuo *MedicalProcedureUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (mpuo *MedicalProcedureUpdateOne) check() error {
+	if v, ok := mpuo.mutation.ProcedureOrder(); ok {
+		if err := medicalprocedure.ProcedureOrderValidator(v); err != nil {
+			return &ValidationError{Name: "procedureOrder", err: fmt.Errorf("ent: validator failed for field \"procedureOrder\": %w", err)}
+		}
+	}
+	if v, ok := mpuo.mutation.ProcedureRoom(); ok {
+		if err := medicalprocedure.ProcedureRoomValidator(v); err != nil {
+			return &ValidationError{Name: "procedureRoom", err: fmt.Errorf("ent: validator failed for field \"procedureRoom\": %w", err)}
+		}
+	}
+	if v, ok := mpuo.mutation.ProcedureDescripe(); ok {
+		if err := medicalprocedure.ProcedureDescripeValidator(v); err != nil {
+			return &ValidationError{Name: "procedureDescripe", err: fmt.Errorf("ent: validator failed for field \"procedureDescripe\": %w", err)}
+		}
+	}
+	return nil
+}
+
 func (mpuo *MedicalProcedureUpdateOne) sqlSave(ctx context.Context) (_node *MedicalProcedure, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -468,11 +577,32 @@ func (mpuo *MedicalProcedureUpdateOne) sqlSave(ctx context.Context) (_node *Medi
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing MedicalProcedure.ID for update")}
 	}
 	_spec.Node.ID.Value = id
+	if value, ok := mpuo.mutation.ProcedureOrder(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: medicalprocedure.FieldProcedureOrder,
+		})
+	}
+	if value, ok := mpuo.mutation.ProcedureRoom(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: medicalprocedure.FieldProcedureRoom,
+		})
+	}
 	if value, ok := mpuo.mutation.Addtime(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
 			Column: medicalprocedure.FieldAddtime,
+		})
+	}
+	if value, ok := mpuo.mutation.ProcedureDescripe(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: medicalprocedure.FieldProcedureDescripe,
 		})
 	}
 	if mpuo.mutation.PatientCleared() {
