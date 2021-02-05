@@ -73,6 +73,10 @@ interface RightToTreatment {
     rightToTreatmentType: number;
     Starttime: Date;
     endtime: Date;
+    age : number;
+    idennum : string;
+    tel : string;
+
 }
 
 const RightToTreatment: FC<{}> = () => {
@@ -95,9 +99,16 @@ const RightToTreatment: FC<{}> = () => {
     const [hospitalid, sethospital] = useState(Number);
     const [patientid, setpatient] = useState(Number);
     const [righttotreatmentypeid, setrighttotreatmentype] = useState(Number);
-
     const [StartTime, setstarttime] = useState('');
     const [EndTime, setendtime] = useState('');
+
+    const [idenid, setiden] = useState(String);
+    const [telid, settel] = useState(String);
+    const [ageid, setage] = useState(Number);
+
+    const [idenerror, setidenerror] = useState(String);
+    const [telerror, settelerror] = useState(String);
+    const [ageerror, setageerror] = useState(Number);
 
       useEffect(() => {
         var date = moment().format();
@@ -144,17 +155,103 @@ const RightToTreatment: FC<{}> = () => {
     const EndtimeThandleChange = (event: any) => {
       setendtime(event.target.value as string);
     };
+    const idenhandleChange = (event: any) => {
+        setiden(event.target.value as string);
+        //CheckPattern("iden",event.target.value as string);
+      };
+    const agehandleChange = (event: any) => {
+        setage(event.target.value as number);
+        //CheckPattern("age",event.target.value as number);
+    };
+    const telhandleChange = (event: any) => {
+        settel(event.target.value as string);
+        //CheckPattern("tel",event.target.value as string);
+      };
+    const alertMessage = (icon: any, title: any) => {
+        Toast.fire({
+          icon: icon,
+          title: title,
+        });
+      }
 
-
-    function Create() {
-        const apiUrl = 'http://localhost:8080/api/v1/righttotreatments';
-        const righttotreatment = {
+      const righttotreatment = {
         hospital: hospitalid,
         patient: patientid,
         rightToTreatmentType: righttotreatmentypeid,
         starttime : StartTime + "T00:00:00+00:00",
         endtime : EndTime + "T00:00:00+00:00",
+        tel : telid,
+        idennum : idenid,
+        age : ageid,
         };
+
+        //checkValue
+    /*const checkiden = (value: string) =>{
+        return value.length == 13;
+    }
+    const checkage = (value: string) =>{
+        return value.length>0;
+    }
+    const checktel = (value: string) =>{
+        return value.length == 10;
+    }
+
+
+    //CheckPattern
+    const CheckPattern = (id: string, value:any) => {
+        switch(id){
+            case 'iden' :
+                checkiden(value)? setidenerror(''): setidenerror('กรุณากรอกสาเหตุที่นัด!');
+                return;
+            case 'age' :
+                checkage(value)? setageerror(''): setageerror('กรุณากรอกคำแนะนำ!');
+                return;
+            case 'tel' :
+                checktel(value)? settelerror(''): settelerror('กรุณากรอกค่าระหว่าง 0-3!');
+                return;
+            case 'minute' :
+        }
+
+    }*/
+
+    const checkCaseSaveError = (field: string) => {
+        switch(field) {
+        case 'idennum':
+            alertMessage("error","รหัสบัตรประจำตัวประชาชนมี 13 หลัก กรุณากรอกข้อมูลให้ถูกต้อง");
+            return;
+        case 'age':
+            alertMessage("error","อายุต้องเป็นตัวเลข กรุณากรอกอายุให้ถูกต้อง");
+            return;
+        case 'tel':
+            alertMessage("error","เบอร์โทรศัพท์มี 10 หลัก กรุณากรอกจำนวนให้ถูกต้อง");
+            return;
+        default:
+            alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
+            return;
+        }
+      }
+
+  //Aleart
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: toast => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
+
+      console.log(righttotreatment)
+    const save = async () => {
+        if(righttotreatment.age){
+            var age : number = +righttotreatment.age;
+            righttotreatment.age = age;        
+        }
+
+        const apiUrl = 'http://localhost:8080/api/v1/righttotreatments';
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -167,20 +264,17 @@ const RightToTreatment: FC<{}> = () => {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                if (data.status === true) {
+                if (data.status == true) {
                     
                     Toast.fire({
                         icon: 'success',
                         title: 'บันทึกข้อมูลสำเร็จ',
                     });
                 } else {
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'บันทึกข้อมูลไม่สำเร็จ',
-                    });
+                    checkCaseSaveError(data.error.Name)
                 }
             });
-    }
+    };
 
     return (
         <Page theme={pageTheme.home}>
@@ -244,6 +338,34 @@ const RightToTreatment: FC<{}> = () => {
                                 ))}
                             </Select>
                         </FormControl>
+
+                        <TextField
+                          className={classes.margin}
+                          variant="outlined"
+                          id="iden"
+                          label="ID card number"
+                          type="string"
+                          onChange={idenhandleChange}
+                          value={idenid}
+                          
+                          InputLabelProps={{
+                          shrink: true,
+                          }}
+                          />
+
+                        <TextField
+                          className={classes.margin}
+                          variant="outlined"
+                          id="age"
+                          label="Age"
+                          type="number"
+                          onChange={agehandleChange}
+                          value={ageid}
+                          
+                          InputLabelProps={{
+                          shrink: true,
+                          }}
+                          />
   
                         <FormControl
                             fullWidth
@@ -286,7 +408,21 @@ const RightToTreatment: FC<{}> = () => {
                         </FormControl>
   
                         <b></b>
-  
+                    
+                        <TextField
+                          className={classes.margin}
+                          variant="outlined"
+                          id="tel"
+                          label="Tel"
+                          
+                          type="string"
+                          onChange={telhandleChange}
+                          value={telid}
+                          
+                          InputLabelProps={{
+                          shrink: true,
+                          }}
+                          />
   
                       <TextField
                           className={classes.margin}
@@ -318,7 +454,7 @@ const RightToTreatment: FC<{}> = () => {
   <div className={classes.root}>
                             <TableCell>
                                 <Button
-                                    onClick={Create}
+                                    onClick={save}
                                     variant="contained"
                                     size="large"
                                     color="primary"

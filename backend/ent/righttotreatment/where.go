@@ -107,6 +107,27 @@ func EndTime(v time.Time) predicate.RightToTreatment {
 	})
 }
 
+// Tel applies equality check predicate on the "tel" field. It's identical to TelEQ.
+func Tel(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldTel), v))
+	})
+}
+
+// Idennum applies equality check predicate on the "idennum" field. It's identical to IdennumEQ.
+func Idennum(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIdennum), v))
+	})
+}
+
+// Age applies equality check predicate on the "age" field. It's identical to AgeEQ.
+func Age(v int) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAge), v))
+	})
+}
+
 // StartTimeEQ applies the EQ predicate on the "StartTime" field.
 func StartTimeEQ(v time.Time) predicate.RightToTreatment {
 	return predicate.RightToTreatment(func(s *sql.Selector) {
@@ -256,6 +277,304 @@ func EndTimeLT(v time.Time) predicate.RightToTreatment {
 func EndTimeLTE(v time.Time) predicate.RightToTreatment {
 	return predicate.RightToTreatment(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldEndTime), v))
+	})
+}
+
+// TelEQ applies the EQ predicate on the "tel" field.
+func TelEQ(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldTel), v))
+	})
+}
+
+// TelNEQ applies the NEQ predicate on the "tel" field.
+func TelNEQ(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldTel), v))
+	})
+}
+
+// TelIn applies the In predicate on the "tel" field.
+func TelIn(vs ...string) predicate.RightToTreatment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldTel), v...))
+	})
+}
+
+// TelNotIn applies the NotIn predicate on the "tel" field.
+func TelNotIn(vs ...string) predicate.RightToTreatment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldTel), v...))
+	})
+}
+
+// TelGT applies the GT predicate on the "tel" field.
+func TelGT(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldTel), v))
+	})
+}
+
+// TelGTE applies the GTE predicate on the "tel" field.
+func TelGTE(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldTel), v))
+	})
+}
+
+// TelLT applies the LT predicate on the "tel" field.
+func TelLT(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldTel), v))
+	})
+}
+
+// TelLTE applies the LTE predicate on the "tel" field.
+func TelLTE(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldTel), v))
+	})
+}
+
+// TelContains applies the Contains predicate on the "tel" field.
+func TelContains(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldTel), v))
+	})
+}
+
+// TelHasPrefix applies the HasPrefix predicate on the "tel" field.
+func TelHasPrefix(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldTel), v))
+	})
+}
+
+// TelHasSuffix applies the HasSuffix predicate on the "tel" field.
+func TelHasSuffix(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldTel), v))
+	})
+}
+
+// TelEqualFold applies the EqualFold predicate on the "tel" field.
+func TelEqualFold(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldTel), v))
+	})
+}
+
+// TelContainsFold applies the ContainsFold predicate on the "tel" field.
+func TelContainsFold(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldTel), v))
+	})
+}
+
+// IdennumEQ applies the EQ predicate on the "idennum" field.
+func IdennumEQ(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIdennum), v))
+	})
+}
+
+// IdennumNEQ applies the NEQ predicate on the "idennum" field.
+func IdennumNEQ(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldIdennum), v))
+	})
+}
+
+// IdennumIn applies the In predicate on the "idennum" field.
+func IdennumIn(vs ...string) predicate.RightToTreatment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldIdennum), v...))
+	})
+}
+
+// IdennumNotIn applies the NotIn predicate on the "idennum" field.
+func IdennumNotIn(vs ...string) predicate.RightToTreatment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldIdennum), v...))
+	})
+}
+
+// IdennumGT applies the GT predicate on the "idennum" field.
+func IdennumGT(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldIdennum), v))
+	})
+}
+
+// IdennumGTE applies the GTE predicate on the "idennum" field.
+func IdennumGTE(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldIdennum), v))
+	})
+}
+
+// IdennumLT applies the LT predicate on the "idennum" field.
+func IdennumLT(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldIdennum), v))
+	})
+}
+
+// IdennumLTE applies the LTE predicate on the "idennum" field.
+func IdennumLTE(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldIdennum), v))
+	})
+}
+
+// IdennumContains applies the Contains predicate on the "idennum" field.
+func IdennumContains(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldIdennum), v))
+	})
+}
+
+// IdennumHasPrefix applies the HasPrefix predicate on the "idennum" field.
+func IdennumHasPrefix(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldIdennum), v))
+	})
+}
+
+// IdennumHasSuffix applies the HasSuffix predicate on the "idennum" field.
+func IdennumHasSuffix(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldIdennum), v))
+	})
+}
+
+// IdennumEqualFold applies the EqualFold predicate on the "idennum" field.
+func IdennumEqualFold(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldIdennum), v))
+	})
+}
+
+// IdennumContainsFold applies the ContainsFold predicate on the "idennum" field.
+func IdennumContainsFold(v string) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldIdennum), v))
+	})
+}
+
+// AgeEQ applies the EQ predicate on the "age" field.
+func AgeEQ(v int) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAge), v))
+	})
+}
+
+// AgeNEQ applies the NEQ predicate on the "age" field.
+func AgeNEQ(v int) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldAge), v))
+	})
+}
+
+// AgeIn applies the In predicate on the "age" field.
+func AgeIn(vs ...int) predicate.RightToTreatment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldAge), v...))
+	})
+}
+
+// AgeNotIn applies the NotIn predicate on the "age" field.
+func AgeNotIn(vs ...int) predicate.RightToTreatment {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldAge), v...))
+	})
+}
+
+// AgeGT applies the GT predicate on the "age" field.
+func AgeGT(v int) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldAge), v))
+	})
+}
+
+// AgeGTE applies the GTE predicate on the "age" field.
+func AgeGTE(v int) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldAge), v))
+	})
+}
+
+// AgeLT applies the LT predicate on the "age" field.
+func AgeLT(v int) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldAge), v))
+	})
+}
+
+// AgeLTE applies the LTE predicate on the "age" field.
+func AgeLTE(v int) predicate.RightToTreatment {
+	return predicate.RightToTreatment(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldAge), v))
 	})
 }
 

@@ -422,6 +422,9 @@ definitions:
       StartTime:
         description: StartTime holds the value of the "StartTime" field.
         type: string
+      age:
+        description: Age holds the value of the "age" field.
+        type: integer
       edges:
         $ref: '#/definitions/ent.RightToTreatmentEdges'
         description: |-
@@ -431,6 +434,12 @@ definitions:
       id:
         description: ID of the ent.
         type: integer
+      idennum:
+        description: Idennum holds the value of the "idennum" field.
+        type: string
+      tel:
+        description: Tel holds the value of the "tel" field.
+        type: string
     type: object
   ent.RightToTreatmentEdges:
     properties:
@@ -2763,7 +2772,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.RightToTreatment'
+            items:
+              $ref: '#/definitions/ent.RightToTreatment'
+            type: array
         "400":
           description: Bad Request
           schema:

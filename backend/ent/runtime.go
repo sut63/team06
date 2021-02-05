@@ -16,6 +16,7 @@ import (
 	"github.com/team06/app/ent/nurse"
 	"github.com/team06/app/ent/patient"
 	"github.com/team06/app/ent/prefix"
+	"github.com/team06/app/ent/righttotreatment"
 	"github.com/team06/app/ent/righttotreatmenttype"
 	"github.com/team06/app/ent/room"
 	"github.com/team06/app/ent/schema"
@@ -178,6 +179,34 @@ func init() {
 	prefixDescPrefixValue := prefixFields[0].Descriptor()
 	// prefix.PrefixValueValidator is a validator for the "prefixValue" field. It is called by the builders before save.
 	prefix.PrefixValueValidator = prefixDescPrefixValue.Validators[0].(func(string) error)
+	righttotreatmentFields := schema.RightToTreatment{}.Fields()
+	_ = righttotreatmentFields
+	// righttotreatmentDescTel is the schema descriptor for tel field.
+	righttotreatmentDescTel := righttotreatmentFields[2].Descriptor()
+	// righttotreatment.TelValidator is a validator for the "tel" field. It is called by the builders before save.
+	righttotreatment.TelValidator = righttotreatmentDescTel.Validators[0].(func(string) error)
+	// righttotreatmentDescIdennum is the schema descriptor for idennum field.
+	righttotreatmentDescIdennum := righttotreatmentFields[3].Descriptor()
+	// righttotreatment.IdennumValidator is a validator for the "idennum" field. It is called by the builders before save.
+	righttotreatment.IdennumValidator = func() func(string) error {
+		validators := righttotreatmentDescIdennum.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(idennum string) error {
+			for _, fn := range fns {
+				if err := fn(idennum); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// righttotreatmentDescAge is the schema descriptor for age field.
+	righttotreatmentDescAge := righttotreatmentFields[4].Descriptor()
+	// righttotreatment.AgeValidator is a validator for the "age" field. It is called by the builders before save.
+	righttotreatment.AgeValidator = righttotreatmentDescAge.Validators[0].(func(int) error)
 	righttotreatmenttypeFields := schema.RightToTreatmentType{}.Fields()
 	_ = righttotreatmenttypeFields
 	// righttotreatmenttypeDescTypeName is the schema descriptor for TypeName field.

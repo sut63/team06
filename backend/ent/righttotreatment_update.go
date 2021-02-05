@@ -42,6 +42,31 @@ func (rttu *RightToTreatmentUpdate) SetEndTime(t time.Time) *RightToTreatmentUpd
 	return rttu
 }
 
+// SetTel sets the "tel" field.
+func (rttu *RightToTreatmentUpdate) SetTel(s string) *RightToTreatmentUpdate {
+	rttu.mutation.SetTel(s)
+	return rttu
+}
+
+// SetIdennum sets the "idennum" field.
+func (rttu *RightToTreatmentUpdate) SetIdennum(s string) *RightToTreatmentUpdate {
+	rttu.mutation.SetIdennum(s)
+	return rttu
+}
+
+// SetAge sets the "age" field.
+func (rttu *RightToTreatmentUpdate) SetAge(i int) *RightToTreatmentUpdate {
+	rttu.mutation.ResetAge()
+	rttu.mutation.SetAge(i)
+	return rttu
+}
+
+// AddAge adds i to the "age" field.
+func (rttu *RightToTreatmentUpdate) AddAge(i int) *RightToTreatmentUpdate {
+	rttu.mutation.AddAge(i)
+	return rttu
+}
+
 // SetHospitalID sets the "Hospital" edge to the Hospital entity by ID.
 func (rttu *RightToTreatmentUpdate) SetHospitalID(id int) *RightToTreatmentUpdate {
 	rttu.mutation.SetHospitalID(id)
@@ -129,12 +154,18 @@ func (rttu *RightToTreatmentUpdate) Save(ctx context.Context) (int, error) {
 		affected int
 	)
 	if len(rttu.hooks) == 0 {
+		if err = rttu.check(); err != nil {
+			return 0, err
+		}
 		affected, err = rttu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*RightToTreatmentMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = rttu.check(); err != nil {
+				return 0, err
 			}
 			rttu.mutation = mutation
 			affected, err = rttu.sqlSave(ctx)
@@ -173,6 +204,26 @@ func (rttu *RightToTreatmentUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (rttu *RightToTreatmentUpdate) check() error {
+	if v, ok := rttu.mutation.Tel(); ok {
+		if err := righttotreatment.TelValidator(v); err != nil {
+			return &ValidationError{Name: "tel", err: fmt.Errorf("ent: validator failed for field \"tel\": %w", err)}
+		}
+	}
+	if v, ok := rttu.mutation.Idennum(); ok {
+		if err := righttotreatment.IdennumValidator(v); err != nil {
+			return &ValidationError{Name: "idennum", err: fmt.Errorf("ent: validator failed for field \"idennum\": %w", err)}
+		}
+	}
+	if v, ok := rttu.mutation.Age(); ok {
+		if err := righttotreatment.AgeValidator(v); err != nil {
+			return &ValidationError{Name: "age", err: fmt.Errorf("ent: validator failed for field \"age\": %w", err)}
+		}
+	}
+	return nil
+}
+
 func (rttu *RightToTreatmentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -203,6 +254,34 @@ func (rttu *RightToTreatmentUpdate) sqlSave(ctx context.Context) (n int, err err
 			Type:   field.TypeTime,
 			Value:  value,
 			Column: righttotreatment.FieldEndTime,
+		})
+	}
+	if value, ok := rttu.mutation.Tel(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: righttotreatment.FieldTel,
+		})
+	}
+	if value, ok := rttu.mutation.Idennum(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: righttotreatment.FieldIdennum,
+		})
+	}
+	if value, ok := rttu.mutation.Age(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: righttotreatment.FieldAge,
+		})
+	}
+	if value, ok := rttu.mutation.AddedAge(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: righttotreatment.FieldAge,
 		})
 	}
 	if rttu.mutation.HospitalCleared() {
@@ -340,6 +419,31 @@ func (rttuo *RightToTreatmentUpdateOne) SetEndTime(t time.Time) *RightToTreatmen
 	return rttuo
 }
 
+// SetTel sets the "tel" field.
+func (rttuo *RightToTreatmentUpdateOne) SetTel(s string) *RightToTreatmentUpdateOne {
+	rttuo.mutation.SetTel(s)
+	return rttuo
+}
+
+// SetIdennum sets the "idennum" field.
+func (rttuo *RightToTreatmentUpdateOne) SetIdennum(s string) *RightToTreatmentUpdateOne {
+	rttuo.mutation.SetIdennum(s)
+	return rttuo
+}
+
+// SetAge sets the "age" field.
+func (rttuo *RightToTreatmentUpdateOne) SetAge(i int) *RightToTreatmentUpdateOne {
+	rttuo.mutation.ResetAge()
+	rttuo.mutation.SetAge(i)
+	return rttuo
+}
+
+// AddAge adds i to the "age" field.
+func (rttuo *RightToTreatmentUpdateOne) AddAge(i int) *RightToTreatmentUpdateOne {
+	rttuo.mutation.AddAge(i)
+	return rttuo
+}
+
 // SetHospitalID sets the "Hospital" edge to the Hospital entity by ID.
 func (rttuo *RightToTreatmentUpdateOne) SetHospitalID(id int) *RightToTreatmentUpdateOne {
 	rttuo.mutation.SetHospitalID(id)
@@ -427,12 +531,18 @@ func (rttuo *RightToTreatmentUpdateOne) Save(ctx context.Context) (*RightToTreat
 		node *RightToTreatment
 	)
 	if len(rttuo.hooks) == 0 {
+		if err = rttuo.check(); err != nil {
+			return nil, err
+		}
 		node, err = rttuo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*RightToTreatmentMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = rttuo.check(); err != nil {
+				return nil, err
 			}
 			rttuo.mutation = mutation
 			node, err = rttuo.sqlSave(ctx)
@@ -471,6 +581,26 @@ func (rttuo *RightToTreatmentUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (rttuo *RightToTreatmentUpdateOne) check() error {
+	if v, ok := rttuo.mutation.Tel(); ok {
+		if err := righttotreatment.TelValidator(v); err != nil {
+			return &ValidationError{Name: "tel", err: fmt.Errorf("ent: validator failed for field \"tel\": %w", err)}
+		}
+	}
+	if v, ok := rttuo.mutation.Idennum(); ok {
+		if err := righttotreatment.IdennumValidator(v); err != nil {
+			return &ValidationError{Name: "idennum", err: fmt.Errorf("ent: validator failed for field \"idennum\": %w", err)}
+		}
+	}
+	if v, ok := rttuo.mutation.Age(); ok {
+		if err := righttotreatment.AgeValidator(v); err != nil {
+			return &ValidationError{Name: "age", err: fmt.Errorf("ent: validator failed for field \"age\": %w", err)}
+		}
+	}
+	return nil
+}
+
 func (rttuo *RightToTreatmentUpdateOne) sqlSave(ctx context.Context) (_node *RightToTreatment, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -499,6 +629,34 @@ func (rttuo *RightToTreatmentUpdateOne) sqlSave(ctx context.Context) (_node *Rig
 			Type:   field.TypeTime,
 			Value:  value,
 			Column: righttotreatment.FieldEndTime,
+		})
+	}
+	if value, ok := rttuo.mutation.Tel(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: righttotreatment.FieldTel,
+		})
+	}
+	if value, ok := rttuo.mutation.Idennum(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: righttotreatment.FieldIdennum,
+		})
+	}
+	if value, ok := rttuo.mutation.Age(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: righttotreatment.FieldAge,
+		})
+	}
+	if value, ok := rttuo.mutation.AddedAge(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: righttotreatment.FieldAge,
 		})
 	}
 	if rttuo.mutation.HospitalCleared() {

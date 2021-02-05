@@ -39,6 +39,12 @@ export interface EntRightToTreatment {
      */
     startTime?: string;
     /**
+     * Age holds the value of the "age" field.
+     * @type {number}
+     * @memberof EntRightToTreatment
+     */
+    age?: number;
+    /**
      * 
      * @type {EntRightToTreatmentEdges}
      * @memberof EntRightToTreatment
@@ -50,6 +56,18 @@ export interface EntRightToTreatment {
      * @memberof EntRightToTreatment
      */
     id?: number;
+    /**
+     * Idennum holds the value of the "idennum" field.
+     * @type {string}
+     * @memberof EntRightToTreatment
+     */
+    idennum?: string;
+    /**
+     * Tel holds the value of the "tel" field.
+     * @type {string}
+     * @memberof EntRightToTreatment
+     */
+    tel?: string;
 }
 
 export function EntRightToTreatmentFromJSON(json: any): EntRightToTreatment {
@@ -64,8 +82,11 @@ export function EntRightToTreatmentFromJSONTyped(json: any, ignoreDiscriminator:
         
         'endTime': !exists(json, 'EndTime') ? undefined : json['EndTime'],
         'startTime': !exists(json, 'StartTime') ? undefined : json['StartTime'],
+        'age': !exists(json, 'age') ? undefined : json['age'],
         'edges': !exists(json, 'edges') ? undefined : EntRightToTreatmentEdgesFromJSON(json['edges']),
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'idennum': !exists(json, 'idennum') ? undefined : json['idennum'],
+        'tel': !exists(json, 'tel') ? undefined : json['tel'],
     };
 }
 
@@ -80,8 +101,11 @@ export function EntRightToTreatmentToJSON(value?: EntRightToTreatment | null): a
         
         'EndTime': value.endTime,
         'StartTime': value.startTime,
+        'age': value.age,
         'edges': EntRightToTreatmentEdgesToJSON(value.edges),
         'id': value.id,
+        'idennum': value.idennum,
+        'tel': value.tel,
     };
 }
 

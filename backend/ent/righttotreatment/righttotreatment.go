@@ -11,6 +11,12 @@ const (
 	FieldStartTime = "start_time"
 	// FieldEndTime holds the string denoting the endtime field in the database.
 	FieldEndTime = "end_time"
+	// FieldTel holds the string denoting the tel field in the database.
+	FieldTel = "tel"
+	// FieldIdennum holds the string denoting the idennum field in the database.
+	FieldIdennum = "idennum"
+	// FieldAge holds the string denoting the age field in the database.
+	FieldAge = "age"
 
 	// EdgeHospital holds the string denoting the hospital edge name in mutations.
 	EdgeHospital = "Hospital"
@@ -49,6 +55,9 @@ var Columns = []string{
 	FieldID,
 	FieldStartTime,
 	FieldEndTime,
+	FieldTel,
+	FieldIdennum,
+	FieldAge,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the RightToTreatment type.
@@ -72,3 +81,12 @@ func ValidColumn(column string) bool {
 	}
 	return false
 }
+
+var (
+	// TelValidator is a validator for the "tel" field. It is called by the builders before save.
+	TelValidator func(string) error
+	// IdennumValidator is a validator for the "idennum" field. It is called by the builders before save.
+	IdennumValidator func(string) error
+	// AgeValidator is a validator for the "age" field. It is called by the builders before save.
+	AgeValidator func(int) error
+)
