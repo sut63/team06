@@ -598,7 +598,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.AppointmentResults"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.AppointmentResults"
+                            }
                         }
                     },
                     "400": {
@@ -4292,12 +4295,20 @@ var doc = `{
         "ent.AppointmentResults": {
             "type": "object",
             "properties": {
-                "addtimeAppoint": {
-                    "description": "AddtimeAppoint holds the value of the \"addtimeAppoint\" field.",
-                    "type": "string"
-                },
                 "addtimeSave": {
                     "description": "AddtimeSave holds the value of the \"addtimeSave\" field.",
+                    "type": "string"
+                },
+                "advice": {
+                    "description": "Advice holds the value of the \"advice\" field.",
+                    "type": "string"
+                },
+                "causeAppoint": {
+                    "description": "CauseAppoint holds the value of the \"causeAppoint\" field.",
+                    "type": "string"
+                },
+                "dateAppoint": {
+                    "description": "DateAppoint holds the value of the \"dateAppoint\" field.",
                     "type": "string"
                 },
                 "edges": {
@@ -4305,9 +4316,21 @@ var doc = `{
                     "type": "object",
                     "$ref": "#/definitions/ent.AppointmentResultsEdges"
                 },
+                "hourBeforeAppoint": {
+                    "description": "HourBeforeAppoint holds the value of the \"hourBeforeAppoint\" field.",
+                    "type": "integer"
+                },
                 "id": {
                     "description": "ID of the ent.",
                     "type": "integer"
+                },
+                "minuteBeforeAppoint": {
+                    "description": "MinuteBeforeAppoint holds the value of the \"minuteBeforeAppoint\" field.",
+                    "type": "integer"
+                },
+                "timeAppoint": {
+                    "description": "TimeAppoint holds the value of the \"timeAppoint\" field.",
+                    "type": "string"
                 }
             }
         },

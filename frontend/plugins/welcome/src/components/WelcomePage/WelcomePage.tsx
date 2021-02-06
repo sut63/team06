@@ -79,7 +79,7 @@ const WelcomePage: FC<{}> = () => {
                   <Link href="http://localhost:3000/diagnosis">ระบบการตรวจรักษา</Link>
                 </ListItem>
                 <ListItem>
-                  <Link href="http://localhost:3000/medicalprocedure">ระบบบันทึกการทำหัตถการ</Link>
+                  <Link href="http://localhost:3000/loginmedicalprocedure">ระบบบันทึกการทำหัตถการ</Link>
                 </ListItem>
                 <ListItem>
                   <Link href="http://localhost:3000/loginappointment">ระบบนัดหมาย</Link>
@@ -104,10 +104,10 @@ const WelcomePage: FC<{}> = () => {
                   <Link href="http://localhost:3000/SearchdiagnosisPage">ระบบค้นหาประวัติการตรวจรักษา</Link>
                 </ListItem>
                 <ListItem>
-                  <Link href="http://localhost:3000/loginmedicalprocedure">ระบบค้นหาบันทึกการคัดกรอง (ลิงก์ยังไม่ถูก)</Link>
+                  <Link href="http://localhost:3000/searchmedicalprocedure">ระบบค้นหาบันทึกการทำหัตถการ</Link>
                 </ListItem>
                 <ListItem>
-                  <Link href="http://localhost:3000/createappointment">ระบบค้นหาการนัดหมาย (ลิงก์ยังไม่ถูก)</Link>
+                  <Link href="http://localhost:3000/searchappointment">ระบบค้นหาการนัดหมาย </Link>
                 </ListItem>
               </List>
             </InfoCard>

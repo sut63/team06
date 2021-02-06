@@ -11,10 +11,20 @@ const (
 	Label = "appointment_results"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldAddtimeAppoint holds the string denoting the addtimeappoint field in the database.
-	FieldAddtimeAppoint = "addtime_appoint"
+	// FieldCauseAppoint holds the string denoting the causeappoint field in the database.
+	FieldCauseAppoint = "cause_appoint"
+	// FieldAdvice holds the string denoting the advice field in the database.
+	FieldAdvice = "advice"
+	// FieldDateAppoint holds the string denoting the dateappoint field in the database.
+	FieldDateAppoint = "date_appoint"
+	// FieldTimeAppoint holds the string denoting the timeappoint field in the database.
+	FieldTimeAppoint = "time_appoint"
 	// FieldAddtimeSave holds the string denoting the addtimesave field in the database.
 	FieldAddtimeSave = "addtime_save"
+	// FieldHourBeforeAppoint holds the string denoting the hourbeforeappoint field in the database.
+	FieldHourBeforeAppoint = "hour_before_appoint"
+	// FieldMinuteBeforeAppoint holds the string denoting the minutebeforeappoint field in the database.
+	FieldMinuteBeforeAppoint = "minute_before_appoint"
 
 	// EdgeAppointmentResultsToPatient holds the string denoting the appointmentresultstopatient edge name in mutations.
 	EdgeAppointmentResultsToPatient = "appointmentResultsToPatient"
@@ -60,8 +70,13 @@ const (
 // Columns holds all SQL columns for appointmentresults fields.
 var Columns = []string{
 	FieldID,
-	FieldAddtimeAppoint,
+	FieldCauseAppoint,
+	FieldAdvice,
+	FieldDateAppoint,
+	FieldTimeAppoint,
 	FieldAddtimeSave,
+	FieldHourBeforeAppoint,
+	FieldMinuteBeforeAppoint,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the AppointmentResults type.
@@ -88,6 +103,18 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// CauseAppointValidator is a validator for the "causeAppoint" field. It is called by the builders before save.
+	CauseAppointValidator func(string) error
+	// AdviceValidator is a validator for the "advice" field. It is called by the builders before save.
+	AdviceValidator func(string) error
 	// DefaultAddtimeSave holds the default value on creation for the "addtimeSave" field.
 	DefaultAddtimeSave func() time.Time
+	// DefaultHourBeforeAppoint holds the default value on creation for the "hourBeforeAppoint" field.
+	DefaultHourBeforeAppoint int
+	// HourBeforeAppointValidator is a validator for the "hourBeforeAppoint" field. It is called by the builders before save.
+	HourBeforeAppointValidator func(int) error
+	// DefaultMinuteBeforeAppoint holds the default value on creation for the "minuteBeforeAppoint" field.
+	DefaultMinuteBeforeAppoint int
+	// MinuteBeforeAppointValidator is a validator for the "minuteBeforeAppoint" field. It is called by the builders before save.
+	MinuteBeforeAppointValidator func(int) error
 )

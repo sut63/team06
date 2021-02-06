@@ -24,9 +24,27 @@ type AppointmentResultsCreate struct {
 	hooks    []Hook
 }
 
-// SetAddtimeAppoint sets the "addtimeAppoint" field.
-func (arc *AppointmentResultsCreate) SetAddtimeAppoint(t time.Time) *AppointmentResultsCreate {
-	arc.mutation.SetAddtimeAppoint(t)
+// SetCauseAppoint sets the "causeAppoint" field.
+func (arc *AppointmentResultsCreate) SetCauseAppoint(s string) *AppointmentResultsCreate {
+	arc.mutation.SetCauseAppoint(s)
+	return arc
+}
+
+// SetAdvice sets the "advice" field.
+func (arc *AppointmentResultsCreate) SetAdvice(s string) *AppointmentResultsCreate {
+	arc.mutation.SetAdvice(s)
+	return arc
+}
+
+// SetDateAppoint sets the "dateAppoint" field.
+func (arc *AppointmentResultsCreate) SetDateAppoint(t time.Time) *AppointmentResultsCreate {
+	arc.mutation.SetDateAppoint(t)
+	return arc
+}
+
+// SetTimeAppoint sets the "timeAppoint" field.
+func (arc *AppointmentResultsCreate) SetTimeAppoint(t time.Time) *AppointmentResultsCreate {
+	arc.mutation.SetTimeAppoint(t)
 	return arc
 }
 
@@ -40,6 +58,34 @@ func (arc *AppointmentResultsCreate) SetAddtimeSave(t time.Time) *AppointmentRes
 func (arc *AppointmentResultsCreate) SetNillableAddtimeSave(t *time.Time) *AppointmentResultsCreate {
 	if t != nil {
 		arc.SetAddtimeSave(*t)
+	}
+	return arc
+}
+
+// SetHourBeforeAppoint sets the "hourBeforeAppoint" field.
+func (arc *AppointmentResultsCreate) SetHourBeforeAppoint(i int) *AppointmentResultsCreate {
+	arc.mutation.SetHourBeforeAppoint(i)
+	return arc
+}
+
+// SetNillableHourBeforeAppoint sets the "hourBeforeAppoint" field if the given value is not nil.
+func (arc *AppointmentResultsCreate) SetNillableHourBeforeAppoint(i *int) *AppointmentResultsCreate {
+	if i != nil {
+		arc.SetHourBeforeAppoint(*i)
+	}
+	return arc
+}
+
+// SetMinuteBeforeAppoint sets the "minuteBeforeAppoint" field.
+func (arc *AppointmentResultsCreate) SetMinuteBeforeAppoint(i int) *AppointmentResultsCreate {
+	arc.mutation.SetMinuteBeforeAppoint(i)
+	return arc
+}
+
+// SetNillableMinuteBeforeAppoint sets the "minuteBeforeAppoint" field if the given value is not nil.
+func (arc *AppointmentResultsCreate) SetNillableMinuteBeforeAppoint(i *int) *AppointmentResultsCreate {
+	if i != nil {
+		arc.SetMinuteBeforeAppoint(*i)
 	}
 	return arc
 }
@@ -176,15 +222,58 @@ func (arc *AppointmentResultsCreate) defaults() {
 		v := appointmentresults.DefaultAddtimeSave()
 		arc.mutation.SetAddtimeSave(v)
 	}
+	if _, ok := arc.mutation.HourBeforeAppoint(); !ok {
+		v := appointmentresults.DefaultHourBeforeAppoint
+		arc.mutation.SetHourBeforeAppoint(v)
+	}
+	if _, ok := arc.mutation.MinuteBeforeAppoint(); !ok {
+		v := appointmentresults.DefaultMinuteBeforeAppoint
+		arc.mutation.SetMinuteBeforeAppoint(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
 func (arc *AppointmentResultsCreate) check() error {
-	if _, ok := arc.mutation.AddtimeAppoint(); !ok {
-		return &ValidationError{Name: "addtimeAppoint", err: errors.New("ent: missing required field \"addtimeAppoint\"")}
+	if _, ok := arc.mutation.CauseAppoint(); !ok {
+		return &ValidationError{Name: "causeAppoint", err: errors.New("ent: missing required field \"causeAppoint\"")}
+	}
+	if v, ok := arc.mutation.CauseAppoint(); ok {
+		if err := appointmentresults.CauseAppointValidator(v); err != nil {
+			return &ValidationError{Name: "causeAppoint", err: fmt.Errorf("ent: validator failed for field \"causeAppoint\": %w", err)}
+		}
+	}
+	if _, ok := arc.mutation.Advice(); !ok {
+		return &ValidationError{Name: "advice", err: errors.New("ent: missing required field \"advice\"")}
+	}
+	if v, ok := arc.mutation.Advice(); ok {
+		if err := appointmentresults.AdviceValidator(v); err != nil {
+			return &ValidationError{Name: "advice", err: fmt.Errorf("ent: validator failed for field \"advice\": %w", err)}
+		}
+	}
+	if _, ok := arc.mutation.DateAppoint(); !ok {
+		return &ValidationError{Name: "dateAppoint", err: errors.New("ent: missing required field \"dateAppoint\"")}
+	}
+	if _, ok := arc.mutation.TimeAppoint(); !ok {
+		return &ValidationError{Name: "timeAppoint", err: errors.New("ent: missing required field \"timeAppoint\"")}
 	}
 	if _, ok := arc.mutation.AddtimeSave(); !ok {
 		return &ValidationError{Name: "addtimeSave", err: errors.New("ent: missing required field \"addtimeSave\"")}
+	}
+	if _, ok := arc.mutation.HourBeforeAppoint(); !ok {
+		return &ValidationError{Name: "hourBeforeAppoint", err: errors.New("ent: missing required field \"hourBeforeAppoint\"")}
+	}
+	if v, ok := arc.mutation.HourBeforeAppoint(); ok {
+		if err := appointmentresults.HourBeforeAppointValidator(v); err != nil {
+			return &ValidationError{Name: "hourBeforeAppoint", err: fmt.Errorf("ent: validator failed for field \"hourBeforeAppoint\": %w", err)}
+		}
+	}
+	if _, ok := arc.mutation.MinuteBeforeAppoint(); !ok {
+		return &ValidationError{Name: "minuteBeforeAppoint", err: errors.New("ent: missing required field \"minuteBeforeAppoint\"")}
+	}
+	if v, ok := arc.mutation.MinuteBeforeAppoint(); ok {
+		if err := appointmentresults.MinuteBeforeAppointValidator(v); err != nil {
+			return &ValidationError{Name: "minuteBeforeAppoint", err: fmt.Errorf("ent: validator failed for field \"minuteBeforeAppoint\": %w", err)}
+		}
 	}
 	return nil
 }
@@ -213,13 +302,37 @@ func (arc *AppointmentResultsCreate) createSpec() (*AppointmentResults, *sqlgrap
 			},
 		}
 	)
-	if value, ok := arc.mutation.AddtimeAppoint(); ok {
+	if value, ok := arc.mutation.CauseAppoint(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appointmentresults.FieldCauseAppoint,
+		})
+		_node.CauseAppoint = value
+	}
+	if value, ok := arc.mutation.Advice(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appointmentresults.FieldAdvice,
+		})
+		_node.Advice = value
+	}
+	if value, ok := arc.mutation.DateAppoint(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
-			Column: appointmentresults.FieldAddtimeAppoint,
+			Column: appointmentresults.FieldDateAppoint,
 		})
-		_node.AddtimeAppoint = value
+		_node.DateAppoint = value
+	}
+	if value, ok := arc.mutation.TimeAppoint(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: appointmentresults.FieldTimeAppoint,
+		})
+		_node.TimeAppoint = value
 	}
 	if value, ok := arc.mutation.AddtimeSave(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
@@ -228,6 +341,22 @@ func (arc *AppointmentResultsCreate) createSpec() (*AppointmentResults, *sqlgrap
 			Column: appointmentresults.FieldAddtimeSave,
 		})
 		_node.AddtimeSave = value
+	}
+	if value, ok := arc.mutation.HourBeforeAppoint(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appointmentresults.FieldHourBeforeAppoint,
+		})
+		_node.HourBeforeAppoint = value
+	}
+	if value, ok := arc.mutation.MinuteBeforeAppoint(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appointmentresults.FieldMinuteBeforeAppoint,
+		})
+		_node.MinuteBeforeAppoint = value
 	}
 	if nodes := arc.mutation.AppointmentResultsToPatientIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

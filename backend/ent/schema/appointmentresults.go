@@ -16,8 +16,13 @@ type AppointmentResults struct {
 // Fields of the AppointmentResults.
 func (AppointmentResults) Fields() []ent.Field {
 	return []ent.Field{
-		field.Time("addtimeAppoint"),
+		field.String("causeAppoint").NotEmpty(),
+		field.String("advice").NotEmpty(),
+		field.Time("dateAppoint"),
+		field.Time("timeAppoint"),
 		field.Time("addtimeSave").Default(time.Now),
+		field.Int("hourBeforeAppoint").Range(0, 3).Default(0),
+		field.Int("minuteBeforeAppoint").Range(0, 59).Default(0),
 	}
 }
 

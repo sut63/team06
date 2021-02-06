@@ -44,6 +44,24 @@ export interface EntMedicalProcedure {
      * @memberof EntMedicalProcedure
      */
     id?: number;
+    /**
+     * ProcedureDescripe holds the value of the "procedureDescripe" field.
+     * @type {string}
+     * @memberof EntMedicalProcedure
+     */
+    procedureDescripe?: string;
+    /**
+     * ProcedureOrder holds the value of the "procedureOrder" field.
+     * @type {string}
+     * @memberof EntMedicalProcedure
+     */
+    procedureOrder?: string;
+    /**
+     * ProcedureRoom holds the value of the "procedureRoom" field.
+     * @type {string}
+     * @memberof EntMedicalProcedure
+     */
+    procedureRoom?: string;
 }
 
 export function EntMedicalProcedureFromJSON(json: any): EntMedicalProcedure {
@@ -59,6 +77,9 @@ export function EntMedicalProcedureFromJSONTyped(json: any, ignoreDiscriminator:
         'addtime': !exists(json, 'Addtime') ? undefined : json['Addtime'],
         'edges': !exists(json, 'edges') ? undefined : EntMedicalProcedureEdgesFromJSON(json['edges']),
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'procedureDescripe': !exists(json, 'procedureDescripe') ? undefined : json['procedureDescripe'],
+        'procedureOrder': !exists(json, 'procedureOrder') ? undefined : json['procedureOrder'],
+        'procedureRoom': !exists(json, 'procedureRoom') ? undefined : json['procedureRoom'],
     };
 }
 
@@ -74,6 +95,9 @@ export function EntMedicalProcedureToJSON(value?: EntMedicalProcedure | null): a
         'Addtime': value.addtime,
         'edges': EntMedicalProcedureEdgesToJSON(value.edges),
         'id': value.id,
+        'procedureDescripe': value.procedureDescripe,
+        'procedureOrder': value.procedureOrder,
+        'procedureRoom': value.procedureRoom,
     };
 }
 
