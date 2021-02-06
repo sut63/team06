@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ContentHeader, Content, Header, Page, pageTheme } from '@backstage/core';
+import { ContentHeader, Content, Header, Page, pageTheme,Link } from '@backstage/core';
 import { FormControl, TextField, Button, Grid } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { DefaultApi } from '../../api/apis';
@@ -13,9 +13,12 @@ import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 import Swal from 'sweetalert2'
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
-
+import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import { EntPatient } from '../../api/models/EntPatient';
 import { EntAppointmentResults } from '../../api/models/EntAppointmentResults';
+import Avatar from '@material-ui/core/Avatar';
+import { Link as RouterLink } from 'react-router-dom';
+import {Cookies} from '../../Cookie';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,6 +57,10 @@ const useStyles = makeStyles((theme: Theme) =>
     table: {
       minWidth: 650,
     },
+    orange: {
+      color: theme.palette.getContrastText(deepPurple[500]),
+      backgroundColor: deepPurple[500],
+  },
   }),
 );
 
@@ -141,20 +148,33 @@ export default function ComponentsTable() {
     }
   };
 
+  function Logout() {
+    const cookie = new Cookies();
+    cookie.SetCookie("nurseusername", "", 30);
+  }  
+
   return (
 
     <Page theme={pageTheme.home}>
       <Header title="ระบบค้นหาข้อมูลการนัดหมาย">
+      <Avatar className={classes.orange} style={{ height: 65, width: 65 }} >N</Avatar>
+
+              <Link component={RouterLink} to='/loginappointment'>
+                  <Button 
+                      style={{ marginLeft: 15 }}
+                      variant="contained"
+                      size="large"
+                      onClick={() => {
+                          Logout()
+                      }}
+                   >
+                          <b>ออกจากระบบ</b>
+                  </Button>
+              </Link>      
       </Header>
       <Content>
         <ContentHeader title="ค้นหาข้อมูลการนัดหมายของผู้ป่วย">
-          <Button
-            href="/createappointment"
-            variant="contained"
-            color="primary"
-          >
-            กลับสู่ระบบนัดหมาย
-          </Button>
+          
         </ContentHeader>
 
         <div className={classes.root}>
@@ -190,7 +210,7 @@ export default function ComponentsTable() {
             color="secondary"
             startIcon={<SearchTwoToneIcon />}
           >
-            ค้นหาข้อมูล
+            <b>ค้นหาข้อมูล</b>
           </Button>
           <div>&nbsp;&nbsp;&nbsp;</div>
           <Button
@@ -200,6 +220,14 @@ export default function ComponentsTable() {
             variant="contained"
           >
             เคลียร์ข้อมูล
+          </Button>
+          <div>&nbsp;&nbsp;&nbsp;</div>
+          <Button
+            href="/createappointment"
+            variant="contained"
+            color="primary"
+          >
+            ย้อนกลับ
           </Button>
         </div>
 

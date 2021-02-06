@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            margin: theme.spacing(2),
+            margin: theme.spacing(0.75),
         },
         margin: {
             margin: theme.spacing(0.5),
@@ -67,9 +67,12 @@ const useStyles = makeStyles((theme: Theme) =>
         formNum: {
             width: 120,
         },
+        formsave: {
+            width: 215,
+        },
         orange: {
-            color: theme.palette.getContrastText(deepOrange[500]),
-            backgroundColor: deepOrange[500],
+            color: theme.palette.getContrastText(deepPurple[500]),
+            backgroundColor: deepPurple[500],
         },
     }),
 );
@@ -354,10 +357,11 @@ function Clear() {
                 <Button
                             href="/searchappointment"
                             variant="contained"
-                            color="primary"
+                            style={{ backgroundColor: '#FF1493	' }}
+                            size="large"
                             startIcon={<SearchTwoToneIcon />}
                         >
-                            ระบบค้นหาข้อมูลการนัดหมาย
+                            ค้นหาข้อมูลการนัดหมาย
                 </Button>
                 </Link> 
             </ContentHeader>
@@ -490,6 +494,31 @@ function Clear() {
                     </div>   
 
 
+                    <div className={classes.root2}>    
+                            
+                            <TextField className={classes.formDate}
+                                id="datetime-local"
+                                label="วันนัดหมาย"
+                                type="date" 
+                                value={dateappoint || ''}
+                                onChange={dateappointHandleChange}
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                            />      
+                            <TextField className={classes.formDate}
+                                id="time"
+                                label="เวลานัดหมาย"
+                                type="time" 
+                                value={timeappoint || ''}
+                                onChange={timeappointHandleChange}
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                            />            
+                                                                                         
+                        </div>
+
                         <div className={classes.root2}>
                         
                             <TableCell>
@@ -532,9 +561,10 @@ function Clear() {
                         </div>
 
 
+                        
+                        
                         <div className={classes.root2}>
-                                                                                                                                   
-                            <TextField className={classes.formDate}
+                        <TextField className={classes.formDate}
                                 disabled
                                 id="datetime-local"
                                 label="วัน/เวลาที่บันทึก"
@@ -544,40 +574,10 @@ function Clear() {
                                 shrink: true
                                 }}
                             />
-                            
-                            <TextField className={classes.formDate}
-                                id="datetime-local"
-                                label="วันนัดหมาย"
-                                type="date" 
-                                value={dateappoint || ''}
-                                onChange={dateappointHandleChange}
-                                InputLabelProps={{
-                                    shrink: true
-                                }}
-                            />      
-                                                                                         
-                        </div>
-                        
-                        <div className={classes.root2}>
-                        <TextField className={classes.formDate}
-                                id="time"
-                                label="เวลานัดหมาย"
-                                type="time" 
-                                value={timeappoint || ''}
-                                onChange={timeappointHandleChange}
-                                InputLabelProps={{
-                                    shrink: true
-                                }}
-                            />                                                                                                   
-                                                                                                                                                                                         
-                        </div>
-
-
-                        <div className={classes.root5}>
-                        <TableRow>
+                                <TableRow>
                             <TableCell>
                             
-                                <Button className={classes.formNum}
+                                <Button className={classes.formsave}
                                     onClick={() => {
                                         Create()
                                     }}
@@ -587,30 +587,18 @@ function Clear() {
                                     startIcon={<SaveIcon />}                               
                                 >
                                     บันทึก
-                                </Button>
-                            
-                            </TableCell>
+                                </Button>           
+                            </TableCell>                                          
+                            </TableRow>                                                                           
+                                                                                                                                                                                         
+                        </div>
 
-                            <TableCell>
-                            
-                            <Link component={RouterLink} to='/appointmentresults'> 
-                                <Button className={classes.formNum}
-                                    variant="outlined" 
-                                    size="large"
-                                    color="secondary"
-                                    >
-                                        ผลลัพธ์
-                                </Button>
-                            </Link>
-                           
-                            </TableCell>                                                      
-                            </TableRow>
+
+                        <div className={classes.root5}>
+                        
                         </div>
                         
-                    
-                        
-                    
-                
+                     
                 <TableCell></TableCell>
             </Content>
         </Page>
