@@ -13,9 +13,10 @@ import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 import Swal from 'sweetalert2'
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
-
+import { Cookies } from '../../Cookie';
 import { EntPatient } from '../../api/models/EntPatient';
 import { EntMedicalProcedure } from '../../api/models/EntMedicalProcedure';
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -73,6 +74,8 @@ const Toast = Swal.mixin({
 export default function ComponentsTable() {
     const classes = useStyles();
     const http = new DefaultApi();
+    var cookie = new Cookies();
+    var nursename = cookie.GetCookie("nursename");
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState(false);
 
@@ -102,6 +105,22 @@ export default function ComponentsTable() {
             setmedical(res);
         };
         getMedicalprocedures();
+        if (nursename == "") {
+            Swal.fire({
+                title: 'โปรดเข้าสู่ระบบก่อนเข้าใช้งาน',
+                position: 'center',
+                showConfirmButton: true,
+                timer: 6000,
+                timerProgressBar: false,
+                didOpen: toast => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                },
+            });
+            setTimeout(() => {
+                window.location.replace("http://localhost:3000/loginmedicalprocedure");
+            }, 3000);
+        }
     }, [loading]);
 
     const patientnamehandlehange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -145,6 +164,7 @@ export default function ComponentsTable() {
             <Header title="ระบบค้นหาการทำหัตถการ">
                 <TableCell align={
                     "center"} >
+                    <text><strong> {nursename}</strong></text>
                     <br /><br />
                     <Button
                         style={{ backgroundColor: '#4fc3f7	' }}
@@ -180,8 +200,8 @@ export default function ComponentsTable() {
                             />
                         </FormControl>
                     </form>
-                    
-                </div>
+
+                    </div>
                 </div>
                 <div className={classes.root}>
                     <Button
@@ -216,7 +236,7 @@ export default function ComponentsTable() {
                                                         <TableCell align="center">ชื่อหมอ</TableCell>
                                                         <TableCell align="center">คำอธิบาย</TableCell>
                                                         <TableCell align="center">วันที่-เวลา</TableCell>
-                                
+
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
