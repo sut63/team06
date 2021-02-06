@@ -11,8 +11,13 @@ var (
 	// AppointmentResultsColumns holds the columns for the "appointment_results" table.
 	AppointmentResultsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "addtime_appoint", Type: field.TypeTime},
+		{Name: "cause_appoint", Type: field.TypeString},
+		{Name: "advice", Type: field.TypeString},
+		{Name: "date_appoint", Type: field.TypeTime},
+		{Name: "time_appoint", Type: field.TypeTime},
 		{Name: "addtime_save", Type: field.TypeTime},
+		{Name: "hour_before_appoint", Type: field.TypeInt},
+		{Name: "minute_before_appoint", Type: field.TypeInt},
 		{Name: "doctor_doctor_to_appointment_results", Type: field.TypeInt, Nullable: true},
 		{Name: "nurse_nurse_to_appointment_results", Type: field.TypeInt, Nullable: true},
 		{Name: "patient_patient_to_appointment_results", Type: field.TypeInt, Nullable: true},
@@ -26,28 +31,28 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "appointment_results_doctors_DoctorToAppointmentResults",
-				Columns: []*schema.Column{AppointmentResultsColumns[3]},
+				Columns: []*schema.Column{AppointmentResultsColumns[8]},
 
 				RefColumns: []*schema.Column{DoctorsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "appointment_results_nurses_NurseToAppointmentResults",
-				Columns: []*schema.Column{AppointmentResultsColumns[4]},
+				Columns: []*schema.Column{AppointmentResultsColumns[9]},
 
 				RefColumns: []*schema.Column{NursesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "appointment_results_patients_PatientToAppointmentResults",
-				Columns: []*schema.Column{AppointmentResultsColumns[5]},
+				Columns: []*schema.Column{AppointmentResultsColumns[10]},
 
 				RefColumns: []*schema.Column{PatientsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "appointment_results_rooms_RoomToAppointmentResults",
-				Columns: []*schema.Column{AppointmentResultsColumns[6]},
+				Columns: []*schema.Column{AppointmentResultsColumns[11]},
 
 				RefColumns: []*schema.Column{RoomsColumns[0]},
 				OnDelete:   schema.SetNull,

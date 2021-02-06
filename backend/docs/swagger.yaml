@@ -2,11 +2,17 @@ basePath: /api/v1
 definitions:
   ent.AppointmentResults:
     properties:
-      addtimeAppoint:
-        description: AddtimeAppoint holds the value of the "addtimeAppoint" field.
-        type: string
       addtimeSave:
         description: AddtimeSave holds the value of the "addtimeSave" field.
+        type: string
+      advice:
+        description: Advice holds the value of the "advice" field.
+        type: string
+      causeAppoint:
+        description: CauseAppoint holds the value of the "causeAppoint" field.
+        type: string
+      dateAppoint:
+        description: DateAppoint holds the value of the "dateAppoint" field.
         type: string
       edges:
         $ref: '#/definitions/ent.AppointmentResultsEdges'
@@ -14,9 +20,20 @@ definitions:
           Edges holds the relations/edges for other nodes in the graph.
           The values are being populated by the AppointmentResultsQuery when eager-loading is set.
         type: object
+      hourBeforeAppoint:
+        description: HourBeforeAppoint holds the value of the "hourBeforeAppoint"
+          field.
+        type: integer
       id:
         description: ID of the ent.
         type: integer
+      minuteBeforeAppoint:
+        description: MinuteBeforeAppoint holds the value of the "minuteBeforeAppoint"
+          field.
+        type: integer
+      timeAppoint:
+        description: TimeAppoint holds the value of the "timeAppoint" field.
+        type: string
     type: object
   ent.AppointmentResultsEdges:
     properties:
@@ -1032,7 +1049,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.AppointmentResults'
+            items:
+              $ref: '#/definitions/ent.AppointmentResults'
+            type: array
         "400":
           description: Bad Request
           schema:

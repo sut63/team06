@@ -23,12 +23,17 @@ type AppointmentResultsController struct {
 
 // AppointmentResults defines the struct for the AppointmentResults controller
 type AppointmentResults struct {
-	Patient        int
-	Nurse          int
-	Doctor         int
-	Room           int
-	AddtimeAppoint string
-	AddtimeSave    string
+	Patient     int
+	Nurse       int
+	Doctor      int
+	Room        int
+	Cause       string
+	Advice      string
+	Hour        string
+	Minute      string
+	DateAppoint string
+	TimeAppoint string
+	AddtimeSave string
 }
 
 // CreateAppointmentResults handles POST requests for adding AppointmentResults entities
@@ -99,22 +104,55 @@ func (ctl *AppointmentResultsController) CreateAppointmentResults(c *gin.Context
 		return
 	}
 
-	timeappoint, err := time.Parse(time.RFC3339, obj.AddtimeAppoint)
-	timesave, err := time.Parse(time.RFC3339, obj.AddtimeSave)
-
+	save, err := time.Parse(time.RFC3339, obj.AddtimeSave)
+	date, err := time.Parse(time.RFC3339, obj.DateAppoint)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "date appointment not found",
+		})
+		return
+	}
+	time, err := time.Parse(time.RFC3339, obj.TimeAppoint)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "time appointment not found",
+		})
+		return
+	}
+	hour, err := strconv.Atoi(obj.Hour)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "hour not found",
+		})
+		return
+	}
+	minute, err := strconv.Atoi(obj.Minute)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "minute not found",
+		})
+		return
+	}
 	a, err := ctl.client.AppointmentResults.
 		Create().
-		SetAddtimeAppoint(timeappoint).
-		SetAddtimeSave(timesave).
 		SetAppointmentResultsToPatient(p).
 		SetAppointmentResultsToNurse(n).
 		SetAppointmentResultsToDoctor(d).
 		SetAppointmentResultsToRoom(r).
+		SetCauseAppoint(obj.Cause).
+		SetAdvice(obj.Advice).
+		SetHourBeforeAppoint(hour).
+		SetMinuteBeforeAppoint(minute).
+		SetDateAppoint(date).
+		SetTimeAppoint(time).
+		SetAddtimeSave(save).
 		Save(context.Background())
 
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(400, gin.H{
-			"error": "saving failed",
+			"status": false,
+			"error":  err,
 		})
 		return
 	}
@@ -131,7 +169,7 @@ func (ctl *AppointmentResultsController) CreateAppointmentResults(c *gin.Context
 // @ID get-appointmentresults
 // @Produce  json
 // @Param id path int true "AppointmentResults ID"
-// @Success 200 {object} ent.AppointmentResults
+// @Success 200 {array} ent.AppointmentResults
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H

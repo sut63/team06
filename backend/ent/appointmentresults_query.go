@@ -391,12 +391,12 @@ func (arq *AppointmentResultsQuery) WithAppointmentResultsToRoom(opts ...func(*R
 // Example:
 //
 //	var v []struct {
-//		AddtimeAppoint time.Time `json:"addtimeAppoint,omitempty"`
+//		CauseAppoint string `json:"causeAppoint,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.AppointmentResults.Query().
-//		GroupBy(appointmentresults.FieldAddtimeAppoint).
+//		GroupBy(appointmentresults.FieldCauseAppoint).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -418,11 +418,11 @@ func (arq *AppointmentResultsQuery) GroupBy(field string, fields ...string) *App
 // Example:
 //
 //	var v []struct {
-//		AddtimeAppoint time.Time `json:"addtimeAppoint,omitempty"`
+//		CauseAppoint string `json:"causeAppoint,omitempty"`
 //	}
 //
 //	client.AppointmentResults.Query().
-//		Select(appointmentresults.FieldAddtimeAppoint).
+//		Select(appointmentresults.FieldCauseAppoint).
 //		Scan(ctx, &v)
 //
 func (arq *AppointmentResultsQuery) Select(field string, fields ...string) *AppointmentResultsSelect {

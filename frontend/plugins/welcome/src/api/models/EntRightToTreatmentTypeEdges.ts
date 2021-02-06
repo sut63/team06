@@ -44,7 +44,7 @@ export function EntRightToTreatmentTypeEdgesFromJSONTyped(json: any, ignoreDiscr
     }
     return {
         
-        'type': !exists(json, 'type') ? undefined : ((json['type'] as Array<any>).map(EntRightToTreatmentFromJSON)),
+        'type': !exists(json, 'Type') ? undefined : ((json['Type'] as Array<any>).map(EntRightToTreatmentFromJSON)),
     };
 }
 

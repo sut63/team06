@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
+import {Cookies} from '../../Cookie';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -75,7 +76,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 const CreateAppointmentResults: FC<{}> = () => {
-  
+
+    const cookie = new Cookies();
+    var nurse = cookie.GetCookie("nurseusername")
+    var id = cookie.GetCookie("id")
+    
     const classes = useStyles();
     const api = new DefaultApi();
     const [doctors, setDoctors] = React.useState<EntDoctor[]>([]);
@@ -226,9 +231,14 @@ const CreateAppointmentResults: FC<{}> = () => {
             toast.addEventListener('mouseleave', Swal.resumeTimer);
         },
     });
+
+    function Logout() {
+        cookie.SetCookie("nurseusername", "", 30);
+    }  
+
 //Clear Data in field
 function Clear() {
-    setNurseID(0);
+    //setNurseID(0);
     setPatientID(0);
     setDoctorID(0);
     setRoomID(0);
@@ -251,7 +261,7 @@ function Clear() {
     const apiUrl = 'http://localhost:8080/api/v1/appointmentresultss';
     const appointmentresults = {
         Patient :        patientID,
-        Nurse :          nurseID,  
+        Nurse :          Number(id),  
         Doctor :         doctorID, 
         Room :           roomID,
         Cause :          cause,
@@ -328,6 +338,9 @@ function Clear() {
                         style={{ marginLeft: 15 }}
                         variant="contained"
                         size="large"
+                        onClick={() => {
+                            Logout()
+                        }}
                      >
                             <b>ออกจากระบบ</b>
                     </Button>
@@ -352,28 +365,19 @@ function Clear() {
             
                 <div className={classes.root}>
                                            
-                    <FormControl
+                <FormControl
                             fullWidth
                             className={classes.formControl}
                             variant="outlined"
-                            
                         >
-                            <InputLabel>ผู้ใช้ระบบ</InputLabel>
-                            <Select
-                                id="nurses"
-                                label="Nurse"
-                                name="nurse"
-                                value={nurseID || ''}
-                                onChange={nurseHandle}
-                            >
-                                {nurses.map(item => {
-                                return (
-                                <MenuItem key={item.id} value={item.id}>
-                                    {item.nurseName}
-                                </MenuItem>
-                                );
-                                })}
-                            </Select>
+                            <TextField  
+                                disabled
+                                id="outlined-basic" 
+                                label="ผู้ใช้ระบบ" 
+                                variant="outlined" 
+                                value={nurse}
+                            />
+                            
                         </FormControl>
                     </div>
                     <div className={classes.root}>

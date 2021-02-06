@@ -116,12 +116,12 @@ export function EntPatientEdgesFromJSONTyped(json: any, ignoreDiscriminator: boo
         
         'bloodtype': !exists(json, 'Bloodtype') ? undefined : EntBloodTypeFromJSON(json['Bloodtype']),
         'gender': !exists(json, 'Gender') ? undefined : EntGenderFromJSON(json['Gender']),
-        'patientToAppointmentResults': !exists(json, 'patientToAppointmentResults') ? undefined : ((json['patientToAppointmentResults'] as Array<any>).map(EntAppointmentResultsFromJSON)),
-        'patientToDiagnosis': !exists(json, 'patientToDiagnosis') ? undefined : ((json['patientToDiagnosis'] as Array<any>).map(EntDiagnosisFromJSON)),
-        'patientToMedicalProcedure': !exists(json, 'patientToMedicalProcedure') ? undefined : ((json['patientToMedicalProcedure'] as Array<any>).map(EntMedicalProcedureFromJSON)),
-        'patientToRightToTreatment': !exists(json, 'patientToRightToTreatment') ? undefined : ((json['patientToRightToTreatment'] as Array<any>).map(EntRightToTreatmentFromJSON)),
+        'patientToAppointmentResults': !exists(json, 'PatientToAppointmentResults') ? undefined : ((json['PatientToAppointmentResults'] as Array<any>).map(EntAppointmentResultsFromJSON)),
+        'patientToDiagnosis': !exists(json, 'PatientToDiagnosis') ? undefined : ((json['PatientToDiagnosis'] as Array<any>).map(EntDiagnosisFromJSON)),
+        'patientToMedicalProcedure': !exists(json, 'PatientToMedicalProcedure') ? undefined : ((json['PatientToMedicalProcedure'] as Array<any>).map(EntMedicalProcedureFromJSON)),
+        'patientToRightToTreatment': !exists(json, 'PatientToRightToTreatment') ? undefined : ((json['PatientToRightToTreatment'] as Array<any>).map(EntRightToTreatmentFromJSON)),
         'prefix': !exists(json, 'Prefix') ? undefined : EntPrefixFromJSON(json['Prefix']),
-        'triageResult': !exists(json, 'triageResult') ? undefined : ((json['triageResult'] as Array<any>).map(EntTriageResultFromJSON)),
+        'triageResult': !exists(json, 'TriageResult') ? undefined : ((json['TriageResult'] as Array<any>).map(EntTriageResultFromJSON)),
     };
 }
 

@@ -254,6 +254,10 @@ export interface GetHospitalRequest {
     id: number;
 }
 
+export interface GetMedicalprocedureRequest {
+    id: number;
+}
+
 export interface GetMedicalrecordRequest {
     id: number;
 }
@@ -1765,7 +1769,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * get appointmentresults by ID
      * Get a appointmentresults entity by ID
      */
-    async getAppointmentresultsRaw(requestParameters: GetAppointmentresultsRequest): Promise<runtime.ApiResponse<EntAppointmentResults>> {
+    async getAppointmentresultsRaw(requestParameters: GetAppointmentresultsRequest): Promise<runtime.ApiResponse<Array<EntAppointmentResults>>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getAppointmentresults.');
         }
@@ -1781,14 +1785,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntAppointmentResultsFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntAppointmentResultsFromJSON));
     }
 
     /**
      * get appointmentresults by ID
      * Get a appointmentresults entity by ID
      */
-    async getAppointmentresults(requestParameters: GetAppointmentresultsRequest): Promise<EntAppointmentResults> {
+    async getAppointmentresults(requestParameters: GetAppointmentresultsRequest): Promise<Array<EntAppointmentResults>> {
         const response = await this.getAppointmentresultsRaw(requestParameters);
         return await response.value();
     }
@@ -1982,6 +1986,38 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getHospital(requestParameters: GetHospitalRequest): Promise<EntHospital> {
         const response = await this.getHospitalRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * get medicalprocedure by ID
+     * Get a medicalprocedure entity by ID
+     */
+    async getMedicalprocedureRaw(requestParameters: GetMedicalprocedureRequest): Promise<runtime.ApiResponse<Array<EntMedicalProcedure>>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getMedicalprocedure.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/medicalprocedure/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntMedicalProcedureFromJSON));
+    }
+
+    /**
+     * get medicalprocedure by ID
+     * Get a medicalprocedure entity by ID
+     */
+    async getMedicalprocedure(requestParameters: GetMedicalprocedureRequest): Promise<Array<EntMedicalProcedure>> {
+        const response = await this.getMedicalprocedureRaw(requestParameters);
         return await response.value();
     }
 

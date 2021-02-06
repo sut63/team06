@@ -44,7 +44,7 @@ export function EntTreatmentTypeEdgesFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'treatmentTypeToDiagnosis': !exists(json, 'treatmentTypeToDiagnosis') ? undefined : ((json['treatmentTypeToDiagnosis'] as Array<any>).map(EntDiagnosisFromJSON)),
+        'treatmentTypeToDiagnosis': !exists(json, 'TreatmentTypeToDiagnosis') ? undefined : ((json['TreatmentTypeToDiagnosis'] as Array<any>).map(EntDiagnosisFromJSON)),
     };
 }
 

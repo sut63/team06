@@ -31,9 +31,27 @@ func (aru *AppointmentResultsUpdate) Where(ps ...predicate.AppointmentResults) *
 	return aru
 }
 
-// SetAddtimeAppoint sets the "addtimeAppoint" field.
-func (aru *AppointmentResultsUpdate) SetAddtimeAppoint(t time.Time) *AppointmentResultsUpdate {
-	aru.mutation.SetAddtimeAppoint(t)
+// SetCauseAppoint sets the "causeAppoint" field.
+func (aru *AppointmentResultsUpdate) SetCauseAppoint(s string) *AppointmentResultsUpdate {
+	aru.mutation.SetCauseAppoint(s)
+	return aru
+}
+
+// SetAdvice sets the "advice" field.
+func (aru *AppointmentResultsUpdate) SetAdvice(s string) *AppointmentResultsUpdate {
+	aru.mutation.SetAdvice(s)
+	return aru
+}
+
+// SetDateAppoint sets the "dateAppoint" field.
+func (aru *AppointmentResultsUpdate) SetDateAppoint(t time.Time) *AppointmentResultsUpdate {
+	aru.mutation.SetDateAppoint(t)
+	return aru
+}
+
+// SetTimeAppoint sets the "timeAppoint" field.
+func (aru *AppointmentResultsUpdate) SetTimeAppoint(t time.Time) *AppointmentResultsUpdate {
+	aru.mutation.SetTimeAppoint(t)
 	return aru
 }
 
@@ -48,6 +66,48 @@ func (aru *AppointmentResultsUpdate) SetNillableAddtimeSave(t *time.Time) *Appoi
 	if t != nil {
 		aru.SetAddtimeSave(*t)
 	}
+	return aru
+}
+
+// SetHourBeforeAppoint sets the "hourBeforeAppoint" field.
+func (aru *AppointmentResultsUpdate) SetHourBeforeAppoint(i int) *AppointmentResultsUpdate {
+	aru.mutation.ResetHourBeforeAppoint()
+	aru.mutation.SetHourBeforeAppoint(i)
+	return aru
+}
+
+// SetNillableHourBeforeAppoint sets the "hourBeforeAppoint" field if the given value is not nil.
+func (aru *AppointmentResultsUpdate) SetNillableHourBeforeAppoint(i *int) *AppointmentResultsUpdate {
+	if i != nil {
+		aru.SetHourBeforeAppoint(*i)
+	}
+	return aru
+}
+
+// AddHourBeforeAppoint adds i to the "hourBeforeAppoint" field.
+func (aru *AppointmentResultsUpdate) AddHourBeforeAppoint(i int) *AppointmentResultsUpdate {
+	aru.mutation.AddHourBeforeAppoint(i)
+	return aru
+}
+
+// SetMinuteBeforeAppoint sets the "minuteBeforeAppoint" field.
+func (aru *AppointmentResultsUpdate) SetMinuteBeforeAppoint(i int) *AppointmentResultsUpdate {
+	aru.mutation.ResetMinuteBeforeAppoint()
+	aru.mutation.SetMinuteBeforeAppoint(i)
+	return aru
+}
+
+// SetNillableMinuteBeforeAppoint sets the "minuteBeforeAppoint" field if the given value is not nil.
+func (aru *AppointmentResultsUpdate) SetNillableMinuteBeforeAppoint(i *int) *AppointmentResultsUpdate {
+	if i != nil {
+		aru.SetMinuteBeforeAppoint(*i)
+	}
+	return aru
+}
+
+// AddMinuteBeforeAppoint adds i to the "minuteBeforeAppoint" field.
+func (aru *AppointmentResultsUpdate) AddMinuteBeforeAppoint(i int) *AppointmentResultsUpdate {
+	aru.mutation.AddMinuteBeforeAppoint(i)
 	return aru
 }
 
@@ -163,12 +223,18 @@ func (aru *AppointmentResultsUpdate) Save(ctx context.Context) (int, error) {
 		affected int
 	)
 	if len(aru.hooks) == 0 {
+		if err = aru.check(); err != nil {
+			return 0, err
+		}
 		affected, err = aru.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*AppointmentResultsMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = aru.check(); err != nil {
+				return 0, err
 			}
 			aru.mutation = mutation
 			affected, err = aru.sqlSave(ctx)
@@ -207,6 +273,31 @@ func (aru *AppointmentResultsUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (aru *AppointmentResultsUpdate) check() error {
+	if v, ok := aru.mutation.CauseAppoint(); ok {
+		if err := appointmentresults.CauseAppointValidator(v); err != nil {
+			return &ValidationError{Name: "causeAppoint", err: fmt.Errorf("ent: validator failed for field \"causeAppoint\": %w", err)}
+		}
+	}
+	if v, ok := aru.mutation.Advice(); ok {
+		if err := appointmentresults.AdviceValidator(v); err != nil {
+			return &ValidationError{Name: "advice", err: fmt.Errorf("ent: validator failed for field \"advice\": %w", err)}
+		}
+	}
+	if v, ok := aru.mutation.HourBeforeAppoint(); ok {
+		if err := appointmentresults.HourBeforeAppointValidator(v); err != nil {
+			return &ValidationError{Name: "hourBeforeAppoint", err: fmt.Errorf("ent: validator failed for field \"hourBeforeAppoint\": %w", err)}
+		}
+	}
+	if v, ok := aru.mutation.MinuteBeforeAppoint(); ok {
+		if err := appointmentresults.MinuteBeforeAppointValidator(v); err != nil {
+			return &ValidationError{Name: "minuteBeforeAppoint", err: fmt.Errorf("ent: validator failed for field \"minuteBeforeAppoint\": %w", err)}
+		}
+	}
+	return nil
+}
+
 func (aru *AppointmentResultsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -225,11 +316,32 @@ func (aru *AppointmentResultsUpdate) sqlSave(ctx context.Context) (n int, err er
 			}
 		}
 	}
-	if value, ok := aru.mutation.AddtimeAppoint(); ok {
+	if value, ok := aru.mutation.CauseAppoint(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appointmentresults.FieldCauseAppoint,
+		})
+	}
+	if value, ok := aru.mutation.Advice(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appointmentresults.FieldAdvice,
+		})
+	}
+	if value, ok := aru.mutation.DateAppoint(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
-			Column: appointmentresults.FieldAddtimeAppoint,
+			Column: appointmentresults.FieldDateAppoint,
+		})
+	}
+	if value, ok := aru.mutation.TimeAppoint(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: appointmentresults.FieldTimeAppoint,
 		})
 	}
 	if value, ok := aru.mutation.AddtimeSave(); ok {
@@ -237,6 +349,34 @@ func (aru *AppointmentResultsUpdate) sqlSave(ctx context.Context) (n int, err er
 			Type:   field.TypeTime,
 			Value:  value,
 			Column: appointmentresults.FieldAddtimeSave,
+		})
+	}
+	if value, ok := aru.mutation.HourBeforeAppoint(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appointmentresults.FieldHourBeforeAppoint,
+		})
+	}
+	if value, ok := aru.mutation.AddedHourBeforeAppoint(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appointmentresults.FieldHourBeforeAppoint,
+		})
+	}
+	if value, ok := aru.mutation.MinuteBeforeAppoint(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appointmentresults.FieldMinuteBeforeAppoint,
+		})
+	}
+	if value, ok := aru.mutation.AddedMinuteBeforeAppoint(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appointmentresults.FieldMinuteBeforeAppoint,
 		})
 	}
 	if aru.mutation.AppointmentResultsToPatientCleared() {
@@ -397,9 +537,27 @@ type AppointmentResultsUpdateOne struct {
 	mutation *AppointmentResultsMutation
 }
 
-// SetAddtimeAppoint sets the "addtimeAppoint" field.
-func (aruo *AppointmentResultsUpdateOne) SetAddtimeAppoint(t time.Time) *AppointmentResultsUpdateOne {
-	aruo.mutation.SetAddtimeAppoint(t)
+// SetCauseAppoint sets the "causeAppoint" field.
+func (aruo *AppointmentResultsUpdateOne) SetCauseAppoint(s string) *AppointmentResultsUpdateOne {
+	aruo.mutation.SetCauseAppoint(s)
+	return aruo
+}
+
+// SetAdvice sets the "advice" field.
+func (aruo *AppointmentResultsUpdateOne) SetAdvice(s string) *AppointmentResultsUpdateOne {
+	aruo.mutation.SetAdvice(s)
+	return aruo
+}
+
+// SetDateAppoint sets the "dateAppoint" field.
+func (aruo *AppointmentResultsUpdateOne) SetDateAppoint(t time.Time) *AppointmentResultsUpdateOne {
+	aruo.mutation.SetDateAppoint(t)
+	return aruo
+}
+
+// SetTimeAppoint sets the "timeAppoint" field.
+func (aruo *AppointmentResultsUpdateOne) SetTimeAppoint(t time.Time) *AppointmentResultsUpdateOne {
+	aruo.mutation.SetTimeAppoint(t)
 	return aruo
 }
 
@@ -414,6 +572,48 @@ func (aruo *AppointmentResultsUpdateOne) SetNillableAddtimeSave(t *time.Time) *A
 	if t != nil {
 		aruo.SetAddtimeSave(*t)
 	}
+	return aruo
+}
+
+// SetHourBeforeAppoint sets the "hourBeforeAppoint" field.
+func (aruo *AppointmentResultsUpdateOne) SetHourBeforeAppoint(i int) *AppointmentResultsUpdateOne {
+	aruo.mutation.ResetHourBeforeAppoint()
+	aruo.mutation.SetHourBeforeAppoint(i)
+	return aruo
+}
+
+// SetNillableHourBeforeAppoint sets the "hourBeforeAppoint" field if the given value is not nil.
+func (aruo *AppointmentResultsUpdateOne) SetNillableHourBeforeAppoint(i *int) *AppointmentResultsUpdateOne {
+	if i != nil {
+		aruo.SetHourBeforeAppoint(*i)
+	}
+	return aruo
+}
+
+// AddHourBeforeAppoint adds i to the "hourBeforeAppoint" field.
+func (aruo *AppointmentResultsUpdateOne) AddHourBeforeAppoint(i int) *AppointmentResultsUpdateOne {
+	aruo.mutation.AddHourBeforeAppoint(i)
+	return aruo
+}
+
+// SetMinuteBeforeAppoint sets the "minuteBeforeAppoint" field.
+func (aruo *AppointmentResultsUpdateOne) SetMinuteBeforeAppoint(i int) *AppointmentResultsUpdateOne {
+	aruo.mutation.ResetMinuteBeforeAppoint()
+	aruo.mutation.SetMinuteBeforeAppoint(i)
+	return aruo
+}
+
+// SetNillableMinuteBeforeAppoint sets the "minuteBeforeAppoint" field if the given value is not nil.
+func (aruo *AppointmentResultsUpdateOne) SetNillableMinuteBeforeAppoint(i *int) *AppointmentResultsUpdateOne {
+	if i != nil {
+		aruo.SetMinuteBeforeAppoint(*i)
+	}
+	return aruo
+}
+
+// AddMinuteBeforeAppoint adds i to the "minuteBeforeAppoint" field.
+func (aruo *AppointmentResultsUpdateOne) AddMinuteBeforeAppoint(i int) *AppointmentResultsUpdateOne {
+	aruo.mutation.AddMinuteBeforeAppoint(i)
 	return aruo
 }
 
@@ -529,12 +729,18 @@ func (aruo *AppointmentResultsUpdateOne) Save(ctx context.Context) (*Appointment
 		node *AppointmentResults
 	)
 	if len(aruo.hooks) == 0 {
+		if err = aruo.check(); err != nil {
+			return nil, err
+		}
 		node, err = aruo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*AppointmentResultsMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = aruo.check(); err != nil {
+				return nil, err
 			}
 			aruo.mutation = mutation
 			node, err = aruo.sqlSave(ctx)
@@ -573,6 +779,31 @@ func (aruo *AppointmentResultsUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (aruo *AppointmentResultsUpdateOne) check() error {
+	if v, ok := aruo.mutation.CauseAppoint(); ok {
+		if err := appointmentresults.CauseAppointValidator(v); err != nil {
+			return &ValidationError{Name: "causeAppoint", err: fmt.Errorf("ent: validator failed for field \"causeAppoint\": %w", err)}
+		}
+	}
+	if v, ok := aruo.mutation.Advice(); ok {
+		if err := appointmentresults.AdviceValidator(v); err != nil {
+			return &ValidationError{Name: "advice", err: fmt.Errorf("ent: validator failed for field \"advice\": %w", err)}
+		}
+	}
+	if v, ok := aruo.mutation.HourBeforeAppoint(); ok {
+		if err := appointmentresults.HourBeforeAppointValidator(v); err != nil {
+			return &ValidationError{Name: "hourBeforeAppoint", err: fmt.Errorf("ent: validator failed for field \"hourBeforeAppoint\": %w", err)}
+		}
+	}
+	if v, ok := aruo.mutation.MinuteBeforeAppoint(); ok {
+		if err := appointmentresults.MinuteBeforeAppointValidator(v); err != nil {
+			return &ValidationError{Name: "minuteBeforeAppoint", err: fmt.Errorf("ent: validator failed for field \"minuteBeforeAppoint\": %w", err)}
+		}
+	}
+	return nil
+}
+
 func (aruo *AppointmentResultsUpdateOne) sqlSave(ctx context.Context) (_node *AppointmentResults, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -589,11 +820,32 @@ func (aruo *AppointmentResultsUpdateOne) sqlSave(ctx context.Context) (_node *Ap
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing AppointmentResults.ID for update")}
 	}
 	_spec.Node.ID.Value = id
-	if value, ok := aruo.mutation.AddtimeAppoint(); ok {
+	if value, ok := aruo.mutation.CauseAppoint(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appointmentresults.FieldCauseAppoint,
+		})
+	}
+	if value, ok := aruo.mutation.Advice(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: appointmentresults.FieldAdvice,
+		})
+	}
+	if value, ok := aruo.mutation.DateAppoint(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
-			Column: appointmentresults.FieldAddtimeAppoint,
+			Column: appointmentresults.FieldDateAppoint,
+		})
+	}
+	if value, ok := aruo.mutation.TimeAppoint(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: appointmentresults.FieldTimeAppoint,
 		})
 	}
 	if value, ok := aruo.mutation.AddtimeSave(); ok {
@@ -601,6 +853,34 @@ func (aruo *AppointmentResultsUpdateOne) sqlSave(ctx context.Context) (_node *Ap
 			Type:   field.TypeTime,
 			Value:  value,
 			Column: appointmentresults.FieldAddtimeSave,
+		})
+	}
+	if value, ok := aruo.mutation.HourBeforeAppoint(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appointmentresults.FieldHourBeforeAppoint,
+		})
+	}
+	if value, ok := aruo.mutation.AddedHourBeforeAppoint(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appointmentresults.FieldHourBeforeAppoint,
+		})
+	}
+	if value, ok := aruo.mutation.MinuteBeforeAppoint(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appointmentresults.FieldMinuteBeforeAppoint,
+		})
+	}
+	if value, ok := aruo.mutation.AddedMinuteBeforeAppoint(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: appointmentresults.FieldMinuteBeforeAppoint,
 		})
 	}
 	if aruo.mutation.AppointmentResultsToPatientCleared() {

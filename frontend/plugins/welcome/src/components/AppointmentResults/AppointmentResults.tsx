@@ -13,6 +13,8 @@ import { Link,} from '@backstage/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { EntAppointmentResults } from '../../api/models/EntAppointmentResults'; 
 import moment from "moment";
+import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
+
 const useStyles = makeStyles({
  table: {
    minWidth: 650,
@@ -42,22 +44,29 @@ export default function ComponentsTable() {
        <TableHead >
          <TableRow>
            <TableCell align="center">ลำดับ</TableCell>
-           <TableCell align="center">พยาบาลผู้บันทึก</TableCell>
+           <TableCell align="center">ผู้บันทึก</TableCell>
            <TableCell align="center">ผู้ป่วย</TableCell>
            <TableCell align="center">แพทย์</TableCell>
            <TableCell align="center">ห้องตรวจ</TableCell>
-           <TableCell align="center">วัน/เวลานัดหมาย</TableCell>
+           <TableCell align="center">สาเหตุ</TableCell>
+           <TableCell align="center">คำแนะนำ</TableCell>
+           <TableCell align="center">ยื่นบัตรนัด<br></br>ก่อนเวลานัด<br></br><br></br>ชั่วโมง</TableCell>
+           <TableCell align="left"><br></br><br></br><br></br>นาที</TableCell>
+           <TableCell align="center">วันนัดหมาย</TableCell>
+           <TableCell align="center">เวลานัดหมาย</TableCell>
            <TableCell align="center">วัน/เวลาที่บันทึก</TableCell>
            <TableCell align="center">
-            <Link component={RouterLink} to='/createappointment'>
-                                <Button 
-                                    variant="contained"
-                                    size="large"
-                                    color="secondary"
-                                    >
-                                        เพิ่มรายการนัดหมาย
-                                </Button>
+           <Link component={RouterLink} to='/createappointment'>
+            <Button
+                        href="/createappointment"
+                        variant="contained"
+                        color="secondary"
+                    >
+                        เพิ่มข้อมูลการนัดหมาย
+          </Button>
             </Link>
+            
+            
            </TableCell>
          </TableRow>
        </TableHead>
@@ -66,11 +75,18 @@ export default function ComponentsTable() {
            <TableRow key={item.id}>
              <TableCell align="center">{item.id}</TableCell>
              <TableCell align="center">{item.edges?.appointmentResultsToNurse?.nurseName}</TableCell>
-             <TableCell align="center">{item.edges?.appointmentResultsToPatient?.patientName}</TableCell>
+             <TableCell align="center">{item.edges?.appointmentResultsToPatient?.hospitalNumber}</TableCell>
              <TableCell align="center">{item.edges?.appointmentResultsToDoctor?.doctorName}</TableCell>
              <TableCell align="center">{item.edges?.appointmentResultsToRoom?.roomName}</TableCell>
-             <TableCell align="center">{moment(item.addtimeAppoint).format("LLLL")}</TableCell>
-             <TableCell align="center">{moment(item.addtimeSave).format("LLLL")}</TableCell>
+
+             <TableCell align="center">{item.causeAppoint}</TableCell>
+             <TableCell align="center">{item.advice}</TableCell>
+             <TableCell align="center">{item.hourBeforeAppoint||0} hr</TableCell>
+             <TableCell align="left">{item.minuteBeforeAppoint||0} m</TableCell>
+
+             <TableCell align="center">{moment(item.dateAppoint).format("ll")}</TableCell>
+             <TableCell align="center">{moment(item.timeAppoint).format("LT")}</TableCell>
+             <TableCell align="center">{moment(item.addtimeSave).format("lll")}</TableCell>
            </TableRow>         
           ))}          
        </TableBody>
@@ -78,4 +94,3 @@ export default function ComponentsTable() {
    </TableContainer>
  );
 }
-

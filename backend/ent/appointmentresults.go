@@ -20,10 +20,20 @@ type AppointmentResults struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// AddtimeAppoint holds the value of the "addtimeAppoint" field.
-	AddtimeAppoint time.Time `json:"addtimeAppoint,omitempty"`
+	// CauseAppoint holds the value of the "causeAppoint" field.
+	CauseAppoint string `json:"causeAppoint,omitempty"`
+	// Advice holds the value of the "advice" field.
+	Advice string `json:"advice,omitempty"`
+	// DateAppoint holds the value of the "dateAppoint" field.
+	DateAppoint time.Time `json:"dateAppoint,omitempty"`
+	// TimeAppoint holds the value of the "timeAppoint" field.
+	TimeAppoint time.Time `json:"timeAppoint,omitempty"`
 	// AddtimeSave holds the value of the "addtimeSave" field.
 	AddtimeSave time.Time `json:"addtimeSave,omitempty"`
+	// HourBeforeAppoint holds the value of the "hourBeforeAppoint" field.
+	HourBeforeAppoint int `json:"hourBeforeAppoint,omitempty"`
+	// MinuteBeforeAppoint holds the value of the "minuteBeforeAppoint" field.
+	MinuteBeforeAppoint int `json:"minuteBeforeAppoint,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the AppointmentResultsQuery when eager-loading is set.
 	Edges                                  AppointmentResultsEdges `json:"edges"`
@@ -109,9 +119,11 @@ func (*AppointmentResults) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case appointmentresults.FieldID:
+		case appointmentresults.FieldID, appointmentresults.FieldHourBeforeAppoint, appointmentresults.FieldMinuteBeforeAppoint:
 			values[i] = &sql.NullInt64{}
-		case appointmentresults.FieldAddtimeAppoint, appointmentresults.FieldAddtimeSave:
+		case appointmentresults.FieldCauseAppoint, appointmentresults.FieldAdvice:
+			values[i] = &sql.NullString{}
+		case appointmentresults.FieldDateAppoint, appointmentresults.FieldTimeAppoint, appointmentresults.FieldAddtimeSave:
 			values[i] = &sql.NullTime{}
 		case appointmentresults.ForeignKeys[0]: // doctor_doctor_to_appointment_results
 			values[i] = &sql.NullInt64{}
@@ -142,17 +154,47 @@ func (ar *AppointmentResults) assignValues(columns []string, values []interface{
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			ar.ID = int(value.Int64)
-		case appointmentresults.FieldAddtimeAppoint:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field addtimeAppoint", values[i])
+		case appointmentresults.FieldCauseAppoint:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field causeAppoint", values[i])
 			} else if value.Valid {
-				ar.AddtimeAppoint = value.Time
+				ar.CauseAppoint = value.String
+			}
+		case appointmentresults.FieldAdvice:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field advice", values[i])
+			} else if value.Valid {
+				ar.Advice = value.String
+			}
+		case appointmentresults.FieldDateAppoint:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field dateAppoint", values[i])
+			} else if value.Valid {
+				ar.DateAppoint = value.Time
+			}
+		case appointmentresults.FieldTimeAppoint:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field timeAppoint", values[i])
+			} else if value.Valid {
+				ar.TimeAppoint = value.Time
 			}
 		case appointmentresults.FieldAddtimeSave:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field addtimeSave", values[i])
 			} else if value.Valid {
 				ar.AddtimeSave = value.Time
+			}
+		case appointmentresults.FieldHourBeforeAppoint:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field hourBeforeAppoint", values[i])
+			} else if value.Valid {
+				ar.HourBeforeAppoint = int(value.Int64)
+			}
+		case appointmentresults.FieldMinuteBeforeAppoint:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field minuteBeforeAppoint", values[i])
+			} else if value.Valid {
+				ar.MinuteBeforeAppoint = int(value.Int64)
 			}
 		case appointmentresults.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -230,10 +272,20 @@ func (ar *AppointmentResults) String() string {
 	var builder strings.Builder
 	builder.WriteString("AppointmentResults(")
 	builder.WriteString(fmt.Sprintf("id=%v", ar.ID))
-	builder.WriteString(", addtimeAppoint=")
-	builder.WriteString(ar.AddtimeAppoint.Format(time.ANSIC))
+	builder.WriteString(", causeAppoint=")
+	builder.WriteString(ar.CauseAppoint)
+	builder.WriteString(", advice=")
+	builder.WriteString(ar.Advice)
+	builder.WriteString(", dateAppoint=")
+	builder.WriteString(ar.DateAppoint.Format(time.ANSIC))
+	builder.WriteString(", timeAppoint=")
+	builder.WriteString(ar.TimeAppoint.Format(time.ANSIC))
 	builder.WriteString(", addtimeSave=")
 	builder.WriteString(ar.AddtimeSave.Format(time.ANSIC))
+	builder.WriteString(", hourBeforeAppoint=")
+	builder.WriteString(fmt.Sprintf("%v", ar.HourBeforeAppoint))
+	builder.WriteString(", minuteBeforeAppoint=")
+	builder.WriteString(fmt.Sprintf("%v", ar.MinuteBeforeAppoint))
 	builder.WriteByte(')')
 	return builder.String()
 }

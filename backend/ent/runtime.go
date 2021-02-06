@@ -32,10 +32,30 @@ import (
 func init() {
 	appointmentresultsFields := schema.AppointmentResults{}.Fields()
 	_ = appointmentresultsFields
+	// appointmentresultsDescCauseAppoint is the schema descriptor for causeAppoint field.
+	appointmentresultsDescCauseAppoint := appointmentresultsFields[0].Descriptor()
+	// appointmentresults.CauseAppointValidator is a validator for the "causeAppoint" field. It is called by the builders before save.
+	appointmentresults.CauseAppointValidator = appointmentresultsDescCauseAppoint.Validators[0].(func(string) error)
+	// appointmentresultsDescAdvice is the schema descriptor for advice field.
+	appointmentresultsDescAdvice := appointmentresultsFields[1].Descriptor()
+	// appointmentresults.AdviceValidator is a validator for the "advice" field. It is called by the builders before save.
+	appointmentresults.AdviceValidator = appointmentresultsDescAdvice.Validators[0].(func(string) error)
 	// appointmentresultsDescAddtimeSave is the schema descriptor for addtimeSave field.
-	appointmentresultsDescAddtimeSave := appointmentresultsFields[1].Descriptor()
+	appointmentresultsDescAddtimeSave := appointmentresultsFields[4].Descriptor()
 	// appointmentresults.DefaultAddtimeSave holds the default value on creation for the addtimeSave field.
 	appointmentresults.DefaultAddtimeSave = appointmentresultsDescAddtimeSave.Default.(func() time.Time)
+	// appointmentresultsDescHourBeforeAppoint is the schema descriptor for hourBeforeAppoint field.
+	appointmentresultsDescHourBeforeAppoint := appointmentresultsFields[5].Descriptor()
+	// appointmentresults.DefaultHourBeforeAppoint holds the default value on creation for the hourBeforeAppoint field.
+	appointmentresults.DefaultHourBeforeAppoint = appointmentresultsDescHourBeforeAppoint.Default.(int)
+	// appointmentresults.HourBeforeAppointValidator is a validator for the "hourBeforeAppoint" field. It is called by the builders before save.
+	appointmentresults.HourBeforeAppointValidator = appointmentresultsDescHourBeforeAppoint.Validators[0].(func(int) error)
+	// appointmentresultsDescMinuteBeforeAppoint is the schema descriptor for minuteBeforeAppoint field.
+	appointmentresultsDescMinuteBeforeAppoint := appointmentresultsFields[6].Descriptor()
+	// appointmentresults.DefaultMinuteBeforeAppoint holds the default value on creation for the minuteBeforeAppoint field.
+	appointmentresults.DefaultMinuteBeforeAppoint = appointmentresultsDescMinuteBeforeAppoint.Default.(int)
+	// appointmentresults.MinuteBeforeAppointValidator is a validator for the "minuteBeforeAppoint" field. It is called by the builders before save.
+	appointmentresults.MinuteBeforeAppointValidator = appointmentresultsDescMinuteBeforeAppoint.Validators[0].(func(int) error)
 	bloodtypeFields := schema.BloodType{}.Fields()
 	_ = bloodtypeFields
 	// bloodtypeDescBloodValue is the schema descriptor for bloodValue field.

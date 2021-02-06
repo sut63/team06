@@ -27,17 +27,29 @@ import {
  */
 export interface EntAppointmentResults {
     /**
-     * AddtimeAppoint holds the value of the "addtimeAppoint" field.
-     * @type {string}
-     * @memberof EntAppointmentResults
-     */
-    addtimeAppoint?: string;
-    /**
      * AddtimeSave holds the value of the "addtimeSave" field.
      * @type {string}
      * @memberof EntAppointmentResults
      */
     addtimeSave?: string;
+    /**
+     * Advice holds the value of the "advice" field.
+     * @type {string}
+     * @memberof EntAppointmentResults
+     */
+    advice?: string;
+    /**
+     * CauseAppoint holds the value of the "causeAppoint" field.
+     * @type {string}
+     * @memberof EntAppointmentResults
+     */
+    causeAppoint?: string;
+    /**
+     * DateAppoint holds the value of the "dateAppoint" field.
+     * @type {string}
+     * @memberof EntAppointmentResults
+     */
+    dateAppoint?: string;
     /**
      * 
      * @type {EntAppointmentResultsEdges}
@@ -45,11 +57,29 @@ export interface EntAppointmentResults {
      */
     edges?: EntAppointmentResultsEdges;
     /**
+     * HourBeforeAppoint holds the value of the "hourBeforeAppoint" field.
+     * @type {number}
+     * @memberof EntAppointmentResults
+     */
+    hourBeforeAppoint?: number;
+    /**
      * ID of the ent.
      * @type {number}
      * @memberof EntAppointmentResults
      */
     id?: number;
+    /**
+     * MinuteBeforeAppoint holds the value of the "minuteBeforeAppoint" field.
+     * @type {number}
+     * @memberof EntAppointmentResults
+     */
+    minuteBeforeAppoint?: number;
+    /**
+     * TimeAppoint holds the value of the "timeAppoint" field.
+     * @type {string}
+     * @memberof EntAppointmentResults
+     */
+    timeAppoint?: string;
 }
 
 export function EntAppointmentResultsFromJSON(json: any): EntAppointmentResults {
@@ -62,10 +92,15 @@ export function EntAppointmentResultsFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'addtimeAppoint': !exists(json, 'addtimeAppoint') ? undefined : json['addtimeAppoint'],
         'addtimeSave': !exists(json, 'addtimeSave') ? undefined : json['addtimeSave'],
+        'advice': !exists(json, 'advice') ? undefined : json['advice'],
+        'causeAppoint': !exists(json, 'causeAppoint') ? undefined : json['causeAppoint'],
+        'dateAppoint': !exists(json, 'dateAppoint') ? undefined : json['dateAppoint'],
         'edges': !exists(json, 'edges') ? undefined : EntAppointmentResultsEdgesFromJSON(json['edges']),
+        'hourBeforeAppoint': !exists(json, 'hourBeforeAppoint') ? undefined : json['hourBeforeAppoint'],
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'minuteBeforeAppoint': !exists(json, 'minuteBeforeAppoint') ? undefined : json['minuteBeforeAppoint'],
+        'timeAppoint': !exists(json, 'timeAppoint') ? undefined : json['timeAppoint'],
     };
 }
 
@@ -78,10 +113,15 @@ export function EntAppointmentResultsToJSON(value?: EntAppointmentResults | null
     }
     return {
         
-        'addtimeAppoint': value.addtimeAppoint,
         'addtimeSave': value.addtimeSave,
+        'advice': value.advice,
+        'causeAppoint': value.causeAppoint,
+        'dateAppoint': value.dateAppoint,
         'edges': EntAppointmentResultsEdgesToJSON(value.edges),
+        'hourBeforeAppoint': value.hourBeforeAppoint,
         'id': value.id,
+        'minuteBeforeAppoint': value.minuteBeforeAppoint,
+        'timeAppoint': value.timeAppoint,
     };
 }
 

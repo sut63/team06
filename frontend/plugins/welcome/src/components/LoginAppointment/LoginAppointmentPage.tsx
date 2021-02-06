@@ -11,6 +11,8 @@ import { DefaultApi, EntNurse } from '../../api';
 import { Alert } from '@material-ui/lab'; // alert
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Swal from 'sweetalert2';
+import {Cookies} from '../../Cookie';
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -32,6 +34,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn: FC<{}> = () => {
+  var cookie = new Cookies();
+
   const classes = useStyles();
   const api = new DefaultApi();
 
@@ -67,6 +71,8 @@ const SignIn: FC<{}> = () => {
       if (item.nurseUsername == username && item.nursePassword == password) {
         SetAlert(true);
         localStorage.setItem('nurse-id', JSON.stringify(item.id));
+        cookie.SetCookie("nurseusername", item.nurseUsername, 30);
+        cookie.SetCookie("id", item.id, 30);
         localStorage.setItem('nurse-nurseName', JSON.stringify(item.nurseName));
         localStorage.setItem('nurse-nurseUsername', JSON.stringify(item.nurseUsername));
         history.pushState('', '', '/createappointment');
