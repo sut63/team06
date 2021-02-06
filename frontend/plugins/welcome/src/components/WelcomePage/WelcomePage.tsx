@@ -98,7 +98,7 @@ const WelcomePage: FC<{}> = () => {
                   <Link href="http://localhost:3000/Searchrighttotreatment">ระบบค้นหาสิทธิการรักษา</Link>
                 </ListItem>
                 <ListItem>
-                  <Link href="http://localhost:3000/triageresult">ระบบค้นหาบันทึกการคัดกรอง (ลิงก์ยังไม่ถูก)</Link>
+                  <Link href="http://localhost:3000/triageresultsearch">ระบบค้นหาบันทึกการคัดกรอง</Link>
                 </ListItem>
                 <ListItem>
                   <Link href="http://localhost:3000/SearchdiagnosisPage">ระบบค้นหาประวัติการตรวจรักษา</Link>
