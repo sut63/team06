@@ -173,6 +173,7 @@ const Searchdiagnosis: FC<{}> = () => {
                         <FormControl variant="outlined" className={classes.formControl}>
                             <InputLabel> เลือกผู้ป่วย</InputLabel>
                             <Select
+                                id="Patient"
                                 name="Patient"
                                 value={idPatient || ''} // (undefined || '') = ''
                                 onChange={handleChange}

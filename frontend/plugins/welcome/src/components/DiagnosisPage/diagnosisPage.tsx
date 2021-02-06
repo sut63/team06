@@ -322,7 +322,7 @@ export default function Create() {
                 <Button
                     style={{ marginLeft: 20 }}
                     component={RouterLink}
-                    to="/"
+                    to="/loginpage"
                     variant="contained"
                 >
                     ออกจากระบบ

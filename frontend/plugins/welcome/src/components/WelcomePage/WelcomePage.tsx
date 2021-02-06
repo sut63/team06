@@ -76,7 +76,7 @@ const WelcomePage: FC<{}> = () => {
                   <Link href="http://localhost:3000/triageresult">ระบบบันทึกการคัดกรอง</Link>
                 </ListItem>
                 <ListItem>
-                  <Link href="http://localhost:3000/diagnosis">ระบบการตรวจรักษา</Link>
+                  <Link href="http://localhost:3000/loginpage">ระบบการตรวจรักษา</Link>
                 </ListItem>
                 <ListItem>
                   <Link href="http://localhost:3000/loginmedicalprocedure">ระบบบันทึกการทำหัตถการ</Link>

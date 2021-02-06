@@ -91,7 +91,7 @@ const SignIn: FC<{}> = () => {
       //window.location.reload(false)
     }else if(check === false){
       alert(" ลงชื่อเข้าใช้ผิดพลาด !!!")
-      setPath("/")
+      setPath("/loginpage")
     }
   }
   // useEffect

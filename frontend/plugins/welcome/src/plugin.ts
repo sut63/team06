@@ -59,5 +59,6 @@ export const plugin = createPlugin({
     router.registerRoute('/Loginright', Loginright);
     router.registerRoute('/searchmedicalprocedure', SearchMedicalprocedure);
     router.registerRoute('/loginmedicalprocedure', LoginMedicalprocedure);
+    router.registerRoute('/loginpage', LoginPage);
   },
 });
