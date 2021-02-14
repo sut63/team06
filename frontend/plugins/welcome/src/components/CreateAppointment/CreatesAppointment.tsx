@@ -98,10 +98,10 @@ const CreateAppointmentResults: FC<{}> = () => {
     const [timeappoint, setTimeAppoint] = useState("");
     const [addtimesave, setAddtimeSave] = useState('');
 
-    const [cause, setCause] = React.useState(String);
+    const [causeAppoint, setCause] = React.useState(String);
     const [advice, setAdvice] = React.useState(String);
-    const [hour, setHour] = React.useState(String);
-    const [minute, setMinute] = React.useState(String);
+    const [hourBeforeAppoint, setHour] = React.useState(String);
+    const [minuteBeforeAppoint, setMinute] = React.useState(String);
 
     //error
     const [causeError, setCauseError] = React.useState(String);
@@ -141,6 +141,22 @@ const CreateAppointmentResults: FC<{}> = () => {
         setDateAppoint(setformat2);
         setTimeAppoint(setformat2);
         setLoading(false);
+        if (nurse == "") {
+            Swal.fire({
+                title: 'กรุณาเข้าสู่ระบบก่อนใช้งาน',
+                position: 'center',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: toast => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                },
+            });
+            setTimeout(() => {
+                window.location.replace("http://localhost:3000/loginappointment");
+            }, 3000);
+        }
     }, [loading]);
 
   //handle
@@ -171,7 +187,7 @@ const CreateAppointmentResults: FC<{}> = () => {
     //error
     const causeHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
         setCause(event.target.value as string);
-        CheckPattern("cause",event.target.value as string);
+        CheckPattern("causeAppoint",event.target.value as string);
       };
     const adviceHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
         setAdvice(event.target.value as string);
@@ -179,11 +195,11 @@ const CreateAppointmentResults: FC<{}> = () => {
     };
     const hourHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
         setHour(event.target.value as string);
-        CheckPattern("hour",event.target.value as string);
+        CheckPattern("hourBeforeAppoint",event.target.value as string);
       };
     const minuteHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
         setMinute(event.target.value as string);
-        CheckPattern("minute",event.target.value as string);
+        CheckPattern("minuteBeforeAppoint",event.target.value as string);
     };
 
 
@@ -205,16 +221,16 @@ const CreateAppointmentResults: FC<{}> = () => {
     //CheckPattern
     const CheckPattern = (id: string, value:string) => {
         switch(id){
-            case 'cause' :
+            case 'causeAppoint' :
                 checkCause(value)? setCauseError(''): setCauseError('กรุณากรอกสาเหตุที่นัด!');
                 return;
             case 'advice' :
                 checkAdvice(value)? setAdviceError(''): setAdviceError('กรุณากรอกคำแนะนำ!');
                 return;
-            case 'hour' :
+            case 'hourBeforeAppoint' :
                 checkHour(value)? setHourError(''): setHourError('กรุณากรอกตัวเลขระหว่าง 0-3!');
                 return;
-            case 'minute' :
+            case 'minuteBeforeAppoint' :
                 checkMinute(value)? setMinuteError(''): setMinuteError('กรุณากรอกตัวเลขระหว่าง 0-59!');
                 return;
             default:
@@ -236,7 +252,9 @@ const CreateAppointmentResults: FC<{}> = () => {
     });
 
     function Logout() {
+        const cookie = new Cookies();
         cookie.SetCookie("nurseusername", "", 30);
+        aleartMessageLogOut("success", "ออกจากระบบสำเร็จ!");
     }  
 
 //Clear Data in field
@@ -256,10 +274,10 @@ function Clear() {
 
    function Create() {
 
-    CheckPattern("cause",cause);
+    CheckPattern("causeAppoint",causeAppoint);
     CheckPattern("advice",advice);
-    CheckPattern("hour",hour);
-    CheckPattern("minute",minute);
+    CheckPattern("hourBeforeAppoint",hourBeforeAppoint);
+    CheckPattern("minuteBeforeAppoint",minuteBeforeAppoint);
 
     const apiUrl = 'http://localhost:8080/api/v1/appointmentresultss';
     const appointmentresults = {
@@ -267,10 +285,10 @@ function Clear() {
         Nurse :          Number(id),  
         Doctor :         doctorID, 
         Room :           roomID,
-        Cause :          cause,
+        Cause :          causeAppoint,
         Advice :         advice,
-        Hour :           hour || 0,
-        Minute :         minute || 0,
+        Hour :           hourBeforeAppoint || 0,
+        Minute :         minuteBeforeAppoint || 0,
         DateAppoint :    (dateappoint + "T00:00:00+07:00")   ,
         TimeAppoint :    "2000-01-01T" + timeappoint + ":00+07:00",
         AddtimeSave :    addtimesave
@@ -292,6 +310,12 @@ function Clear() {
                   Toast.fire({
                     icon: 'success',
                     title: 'บันทึกข้อมูลสำเร็จ',
+                    backdrop: `
+                        rgba(0,255,127,0.9)
+                        url("/images/nyan-cat.gif")
+                        left top
+                        no-repeat
+                    `
                 });
                   Clear();
               } else {
@@ -303,6 +327,25 @@ function Clear() {
         Toast.fire({
             icon: icon,
             title: title,
+            backdrop: `
+                        rgba(255,48,48,0.9)
+                        url("/images/nyan-cat.gif")
+                        left top
+                        no-repeat
+                    `
+        });
+    }
+
+    const aleartMessageLogOut = (icon:any, title:any) =>{
+        Toast.fire({
+            icon: icon,
+            title: title,
+            backdrop: `
+                        rgba(0,255,127,0.75)
+                        url("/images/nyan-cat.gif")
+                        left top
+                        no-repeat
+                    `
         });
     }
 
@@ -469,7 +512,7 @@ function Clear() {
                                 label="สาเหตุที่นัด" 
                                 variant="outlined" 
                                 helperText={causeError}
-                                value={cause}
+                                value={causeAppoint}
                                 onChange={causeHandle}
                             />
                             
@@ -524,18 +567,17 @@ function Clear() {
                             <TableCell>
                             กำหนดยื่นบัตรนัดล่วงหน้า :
                             <TextField className={classes.formNum}
-                                error = {hourError? true:false}
-                                id="outlined-number"
-                                label=""
-                                type="number"
+                                error = {hourError? true:false} 
+                                id="hour"
+                                label="" 
+                                name="hour"
+                                variant="outlined"
+                                type="string"
                                 size="small"
                                 helperText={hourError}
-                                value={hour}
+                                value={hourBeforeAppoint }
                                 onChange={hourHandle}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                variant="outlined"
+                               
                                 />ชั่วโมง
                             
                             </TableCell>
@@ -544,17 +586,16 @@ function Clear() {
                             
                             <TextField className={classes.formNum}
                                 error = {minuteError? true:false}
-                                id="outlined-number"
+                                id="minute"
                                 label=""
-                                type="number"
+                                name="minute"
+                                variant="outlined"
+                                type="string"
                                 size="small"
                                 helperText={minuteError}
-                                value={minute}
+                                value={minuteBeforeAppoint }
                                 onChange={minuteHandle}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                variant="outlined"
+                                
                                 />นาที
                             
                             </TableCell>                                                    

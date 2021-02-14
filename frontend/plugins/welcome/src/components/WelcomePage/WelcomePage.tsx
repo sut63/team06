@@ -42,7 +42,7 @@ const WelcomePage: FC<{}> = () => {
               </Typography>
               <List>
                 <ListItem>
-                  <ListItemText primary="B6102852 นายฤชากร กลิ่นสุข - ระบบนัดหมาย ระบบค้นหาการนัดหมาย" />
+                  <ListItemText primary="B6102852 นายฤชากร กลิ่นศรีสุข - ระบบนัดหมาย ระบบค้นหาการนัดหมาย" />
                 </ListItem>
                 <ListItem>
                   <ListItemText primary="B6104320 นายวุฒิศักดิ์ คุชิตา - ระบบลงทะเบียนผู้ป่วย ระบบค้นหาข้อมูลผู้ป่วย" />

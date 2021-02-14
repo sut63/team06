@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Toast = Swal.mixin({
   toast: true,
-  position: 'top-end',
+  position: 'center',
   showConfirmButton: false,
   timer: 3000,
   timerProgressBar: true,
@@ -78,6 +78,10 @@ const Toast = Swal.mixin({
 
 
 export default function ComponentsTable() {
+
+  const cookie = new Cookies();
+  var nurse = cookie.GetCookie("nurseusername");
+
   const classes = useStyles();
   const http = new DefaultApi();
   const [loading, setLoading] = useState(true);
@@ -90,14 +94,45 @@ export default function ComponentsTable() {
   const [appointmentresultss, setAppointmentResultss] = useState<EntAppointmentResults[]>([])
 
   const [hospitalnumberID, sethospitalnumberID] = useState(String);
+  const alertMessageFound = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+      backdrop: `
+                        rgba(0,255,127,0.75)
+                        url("/images/nyan-cat.gif")
+                        left top
+                        no-repeat
+                    `
+    });
+    setSearch(false);
+  }
+  const alertMessageNotFound = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+      backdrop: `
+                        rgba(255,48,48,0.75)
+                        url("/images/nyan-cat.gif")
+                        left top
+                        no-repeat
+                    `
+    });
+    setSearch(false);
+  }
   const alertMessage = (icon: any, title: any) => {
     Toast.fire({
       icon: icon,
       title: title,
+      backdrop: `
+                        rgba(135,206,255,0.75)
+                        url("/images/nyan-cat.gif")
+                        left top
+                        no-repeat
+                    `
     });
     setSearch(false);
   }
-
   useEffect(() => {
     const getPatients = async () => {
       const res = await http.listPatient({ offset: 0 });
@@ -111,6 +146,22 @@ export default function ComponentsTable() {
         setAppointmentResultss(res);
       };
       getAppointmentResultss();
+      if (nurse == "") {
+        Swal.fire({
+            title: 'กรุณาเข้าสู่ระบบก่อนใช้งาน',
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: toast => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+        });
+        setTimeout(() => {
+            window.location.replace("http://localhost:3000/loginappointment");
+        }, 3000);
+    }
   }, [loading]);
 
   const hospitalnumberIDhandlehange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -125,7 +176,7 @@ export default function ComponentsTable() {
     setSearch(false);
     setHospitalNumberIDs(false);
     setSearch(false);
-
+    alertMessage("info", "แสดงรายการนัดหมายทั้งหมด");
   }
 
   const checkresearch = async () => {
@@ -134,23 +185,24 @@ export default function ComponentsTable() {
       if (hospitalnumberID != "") {
         if (item.edges?.appointmentResultsToPatient?.hospitalNumber == hospitalnumberID) {
             setHospitalNumberIDs(true);
-          alertMessage("success", "ค้นหาข้อมูลการนัดหมายของผู้ป่วยสำเร็จ");
+          alertMessageFound("success", "พบรายการนัดหมายของผู้ป่วย");
           check = true;
         }
       }
     })
     if (!check) {
-      alertMessage("error", "ไม่พบข้อมูลการนัดหมายของผู้ป่วยที่ค้นหา");
+      alertMessageNotFound("error", "ไม่พบรายการนัดหมายของผู้ป่วย");
     }
     console.log(checkHospitalNumberID)
     if (hospitalnumberID == "") {
-      alertMessage("info", "แสดงข้อมูลการนัดหมายทั้งหมดในระบบ");
+      alertMessage("info", "แสดงรายการนัดหมายทั้งหมด");
     }
   };
 
   function Logout() {
     const cookie = new Cookies();
     cookie.SetCookie("nurseusername", "", 30);
+    alertMessageFound("success", "ออกจากระบบสำเร็จ!");
   }  
 
   return (
