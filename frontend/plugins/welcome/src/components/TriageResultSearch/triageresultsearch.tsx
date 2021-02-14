@@ -54,43 +54,42 @@ const TriageResultSearch: FC<{}> = () => {
 
   const classes = useStyles();
   const api = new DefaultApi();
-  var cookie = new Cookies();
-
-  var nursename = cookie.GetCookie("nursename");
-
-  const [triageresult, setTriageresult] = React.useState<EntTriageResult[]>([]);
-  const [patientname, setPatientname] = React.useState("");
   const [loading, setLoading] = useState(true);
 
+  //cookie init
+  var cookie = new Cookies();
+
+  //get cookie value
+  var nursename = cookie.GetCookie("nursename");
+
+  //variable for query data
+  const [triageresult, setTriageresult] = React.useState<EntTriageResult[]>([]);
+  const [patientname, setPatientname] = React.useState("");
+
+  //variable for search status
   const [search, setSearch] = useState(false);
   const [status, setStatus] = useState(false);
   const [patients, setPatients] = useState<EntPatient[]>([])
 
+  //Handle value
   const handlePatientname = (event: any) => {
     setSearch(false);
     setStatus(false);
     setPatientname(event.target.value);
   }
 
-  const clear = () => {
-    setPatientname("");
-    setSearch(false);
-    setStatus(false);
-  }
-
-  //Aleart
+  //Aleart function
   const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
     timer: 3000,
-    timerProgressBar: true,
+    timerProgressBar: false,
     didOpen: toast => {
       toast.addEventListener('mouseenter', Swal.stopTimer);
       toast.addEventListener('mouseleave', Swal.resumeTimer);
     },
   });
-
   const aleartMessage = (icon: any, title: any) => {
     Toast.fire({
       icon: icon,
@@ -98,6 +97,7 @@ const TriageResultSearch: FC<{}> = () => {
     });
   }
 
+  //Function Check Search Status
   const checksearch = async () => {
     var check = false;
     triageresult.map(item => {
@@ -121,39 +121,46 @@ const TriageResultSearch: FC<{}> = () => {
   const Logout = async () => {
     cookie.SetCookie('nursename', "", 30)
     console.log("Logout success");
-    aleartMessage("success", "ออกจากระบบสำเร็จ!");
+    aleartMessage("warning", "ออกจากระบบสำเร็จ!");
+    setTimeout(() => {
+      window.location.replace("http://localhost:3000/triageresultlogin");
+    }, 1200);
   }
 
-  //start
+  //start list data To Combobox
   useEffect(() => {
+    cookie.SetCookie('gotopage', "http://localhost:3000/triageresultsearch", 30);
+    //check login status
+    if (nursename == "") {
+      Swal.fire({
+          title: 'เข้าสู่ระบบก่อนใช้งาน',
+          position: 'center',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: false,
+      });
+      setTimeout(() => {
+          window.location.replace("http://localhost:3000/triageresultlogin");
+      }, 3000);
+    }
+
+    //list triageresult
     const getTriageResults = async () => {
       const res = await api.listTriageresult({ offset: 0 });
       setTriageresult(res);
     };
-    getTriageResults();
+
+    //list patient
     const getPatients = async () => {
       const res = await api.listPatient({ offset: 0 });
       setPatients(res);
     };
+
+    getTriageResults();
     getPatients();
     getTriageResults();
     setLoading(false);
-    if (nursename == "") {
-      Swal.fire({
-        title: 'เข้าสู่ระบบก่อนใช้งาน',
-        position: 'center',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: toast => {
-          toast.addEventListener('mouseenter', Swal.stopTimer);
-          toast.addEventListener('mouseleave', Swal.resumeTimer);
-        },
-      });
-      setTimeout(() => {
-        window.location.replace("http://localhost:3000/triageresultlogin");
-      }, 3000);
-    }
+
   }, [loading]);
 
   return (
@@ -176,8 +183,6 @@ const TriageResultSearch: FC<{}> = () => {
             onClick={() => {
               Logout();
             }}
-            component={RouterLink}
-            to="/triageresultlogin"
           >
             Logout
         </Button>
@@ -299,42 +304,7 @@ const TriageResultSearch: FC<{}> = () => {
                   </div>
                 ) : null}
             </div>
-          ) : (
-              <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center">No.</TableCell>
-                      <TableCell align="center">Patient</TableCell>
-                      <TableCell align="center">Symptom</TableCell>
-                      <TableCell align="center">Height</TableCell>
-                      <TableCell align="center">Weight</TableCell>
-                      <TableCell align="center">Pressure</TableCell>
-                      <TableCell align="center">UrgencyLeval</TableCell>
-                      <TableCell align="center">Department</TableCell>
-                      <TableCell align="center">Nurse</TableCell>
-                      <TableCell align="center">Date</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {triageresult.sort().map((item: any) => (
-                      <TableRow key={item.id}>
-                        <TableCell align="center">{item.id}</TableCell>
-                        <TableCell align="center">{item.edges?.patient?.patientName}</TableCell>
-                        <TableCell align="center">{item.symptom}</TableCell>
-                        <TableCell align="center">{item.height}</TableCell>
-                        <TableCell align="center">{item.weight}</TableCell>
-                        <TableCell align="center">{item.pressure}</TableCell>
-                        <TableCell align="center">{item.edges?.urgencyLevel?.urgencyName}</TableCell>
-                        <TableCell align="center">{item.edges?.department?.departmentName}</TableCell>
-                        <TableCell align="center">{item.edges?.nurse?.nurseName}</TableCell>
-                        <TableCell align="center">{moment(item.triageDate).format('LLLL')}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            )}
+          ) : null}
         </Paper>
       </Content>
     </Page>

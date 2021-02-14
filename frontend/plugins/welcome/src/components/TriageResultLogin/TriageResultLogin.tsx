@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#29ab87',
   },
   form: {
     width: '100%',
@@ -42,13 +42,16 @@ const SignIn: FC<{}> = () => {
   const [loading, setLoading] = useState(true);
   const [path, setPath] = React.useState("");
 
-  //cookie
+  //cookie init
   var cookie = new Cookies();
 
-  //query
+  //get cookie value
+  var gotopage = cookie.GetCookie("gotopage");
+
+  //query nurse
   const [nurses, setNurses] = React.useState<EntNurse[]>([]);
 
-  //input
+  //input variable
   const [username, setUsername] = React.useState(String);
   const [password, setPassword] = React.useState(String);
 
@@ -60,13 +63,13 @@ const SignIn: FC<{}> = () => {
     setPassword(event.target.value as string);
   };
 
-  //Aleart
+  //Aleart function
   const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
     timer: 3000,
-    timerProgressBar: true,
+    timerProgressBar: false,
     didOpen: toast => {
       toast.addEventListener('mouseenter', Swal.stopTimer);
       toast.addEventListener('mouseleave', Swal.resumeTimer);
@@ -80,7 +83,7 @@ const SignIn: FC<{}> = () => {
     });
   }
 
-  //start
+  //start list nurse
   useEffect(() => {
     const getNurses = async () => {
       const res = await api.listNurse({ limit: 1000, offset: 0 });
@@ -89,20 +92,21 @@ const SignIn: FC<{}> = () => {
     getNurses();
   }, [loading]);
 
+  //Login Function
   const Login = async () => {
-    var status = false;
-    console.log(username);
-    console.log(password);
+    var status = false; //for login check
     nurses.map((item: EntNurse) => {
       if (item.nurseUsername === username && item.nursePassword === password) {
         cookie.SetCookie('nursename', item.nurseName, 30);
         cookie.SetCookie('nurseID', item.id, 30);
-        aleartMessage("success", "เข้าสู่ระบบสำเร็จ");
         status = true;
       }
     });
     if (status) {
-      window.location.replace("http://localhost:3000/triageresult");
+      aleartMessage("success", "เข้าสู่ระบบสำเร็จ");
+      setTimeout(() => {
+        window.location.replace(gotopage);
+      }, 1500);
     }
     else {
       aleartMessage("error", "เข้าสู่ระบบไม่สำเร็จ");
@@ -150,10 +154,10 @@ const SignIn: FC<{}> = () => {
           />
 
           <Button
+            style={{ backgroundColor: '#29ab87' }}
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
             onClick={() => {
               Login();
