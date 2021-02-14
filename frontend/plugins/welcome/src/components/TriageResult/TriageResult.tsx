@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Content, Header, Page, ContentHeader, pageTheme, } from '@backstage/core';
+import { Content, Header, Page, pageTheme, } from '@backstage/core';
 import { FormControl, Select, InputLabel, MenuItem, TextField, Button, TableCell, Switch, } from '@material-ui/core';
 import { DefaultApi } from '../../api/apis';
 import moment from 'moment';
@@ -44,18 +44,21 @@ export default function Create() {
 
     const classes = useStyles();
     const api = new DefaultApi();
-    const cookie = new Cookies();
     const [loading, setLoading] = useState(true);
 
+    //init cookie
+    const cookie = new Cookies();
+
+    //get cookie value
     var nursename = cookie.GetCookie("nursename");
     var nurseID = cookie.GetCookie("nurseID");
 
-    //query
+    //variable for query data to combobox
     const [departments, setDepartments] = React.useState<EntDepartment[]>([]);
     const [patients, setPatients] = React.useState<EntPatient[]>([]);
     const [urgencyLevels, setUrgencyLevels] = React.useState<EntUrgencyLevel[]>([]);
 
-    //input
+    //var for input data to backend
     const [departmentID, setDepartmentID] = React.useState(Number);
     const [patientID, setPatientID] = React.useState(Number);
     const [urgencyLevelID, setUrgencyLevelID] = React.useState(Number);
@@ -65,19 +68,19 @@ export default function Create() {
     const [pressure, setPressure] = React.useState(String);
     const [triageDate, settriageDate] = useState('');
 
-    //error
+    //var hold error message
     const [symptomError, setSymptomError] = React.useState(String);
     const [heightError, setHeightError] = React.useState(String);
     const [weightError, setWeightError] = React.useState(String);
     const [pressureError, setPressureError] = React.useState(String);
 
-    //Aleart
+    //Aleart function
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
         timer: 3000,
-        timerProgressBar: true,
+        timerProgressBar: false,
         didOpen: toast => {
             toast.addEventListener('mouseenter', Swal.stopTimer);
             toast.addEventListener('mouseleave', Swal.resumeTimer);
@@ -91,50 +94,53 @@ export default function Create() {
         });
     }
 
-
-    //getdataToCombobox
+    //start list data To Combobox
     useEffect(() => {
-        const getDepartments = async () => {
-            const res = await api.listDepartment({ limit: 1000, offset: 0 });
-            setDepartments(res);
-        };
-
-        const getPatients = async () => {
-            const res = await api.listPatient({ limit: 1000, offset: 0 });
-            setPatients(res);
-        };
-
-        const getUrgencyLevels = async () => {
-            const res = await api.listUrgencylevel({ limit: 1000, offset: 0 });
-            setUrgencyLevels(res);
-        };
-
-        var date = moment().format();
-
-        settriageDate(date);
-        getDepartments();
-        getPatients();
-        getUrgencyLevels();
-        setLoading(false);
+        cookie.SetCookie('gotopage', "http://localhost:3000/triageresult", 30);
+        //check login status
         if (nursename == "") {
             Swal.fire({
                 title: 'เข้าสู่ระบบก่อนใช้งาน',
                 position: 'center',
                 showConfirmButton: false,
                 timer: 3000,
-                timerProgressBar: true,
-                didOpen: toast => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                },
+                timerProgressBar: false,
             });
             setTimeout(() => {
                 window.location.replace("http://localhost:3000/triageresultlogin");
             }, 3000);
         }
+
+        //list department
+        const getDepartments = async () => {
+            const res = await api.listDepartment({ limit: 1000, offset: 0 });
+            setDepartments(res);
+        };
+
+        //list patient
+        const getPatients = async () => {
+            const res = await api.listPatient({ limit: 1000, offset: 0 });
+            setPatients(res);
+        };
+
+        //list urgency
+        const getUrgencyLevels = async () => {
+            const res = await api.listUrgencylevel({ limit: 1000, offset: 0 });
+            setUrgencyLevels(res);
+        };
+
+        //get datetimeNow
+        var date = moment().format();
+
+        getDepartments();
+        getPatients();
+        getUrgencyLevels();
+        settriageDate(date);
+        setLoading(false);
+
     }, [loading]);
 
-    //handle
+    //handle value
     const departmentHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
         setDepartmentID(event.target.value as number);
     };
@@ -161,7 +167,7 @@ export default function Create() {
         CheckPattern("pressure", event.target.value as string);
     };
 
-    //checkValue
+    //checkValueFunction
     const checkSymptom = (value: string) => {
         return value.length > 0;
     }
@@ -175,20 +181,20 @@ export default function Create() {
         return value.length > 0 && Number(value) && Number(value) > 0;
     }
 
-    //CheckPattern
+    //CheckPatternFunction
     const CheckPattern = (id: string, value: string) => {
         switch (id) {
             case 'symptom':
                 checkSymptom(value) ? setSymptomError('') : setSymptomError('กรุณากรอกอาการ!');
                 return;
             case 'height':
-                checkHeight(value) ? setHeightError('') : setHeightError('ผิดพลาด กรุณากรอกใหม่!');
+                checkHeight(value) ? setHeightError('') : setHeightError('ค่าส่วนสูงผิดพลาด กรุณากรอกใหม่!');
                 return;
             case 'weight':
-                checkWeight(value) ? setWeightError('') : setWeightError('ผิดพลาด กรุณากรอกใหม่!');
+                checkWeight(value) ? setWeightError('') : setWeightError('ค่าน้ำหนักผิดพลาด กรุณากรอกใหม่!');
                 return;
             case 'pressure':
-                checkPressure(value) ? setPressureError('') : setPressureError('ผิดพลาด กรุณากรอกใหม่!');
+                checkPressure(value) ? setPressureError('') : setPressureError('ค่าความดันโลหิตผิดพลาด กรุณากรอกใหม่!');
                 return;
             default:
                 return;
@@ -207,21 +213,22 @@ export default function Create() {
         setSymptom('');
     }
 
-    //logout
+    //Function Logout
     const Logout = async () => {
-        cookie.SetCookie('nursename', "", 30)
+        cookie.SetCookie('nursename', "", 30);
         console.log("Logout success");
-        aleartMessage("success", "ออกจากระบบสำเร็จ!");
+        aleartMessage("warning", "ออกจากระบบสำเร็จ!");
+        setTimeout(() => {
+            window.location.replace("http://localhost:3000/triageresultlogin");
+          }, 1200);
     }
 
-    //create
+    //Function Create
     const Create = async () => {
-
         CheckPattern("symptom", symptom);
         CheckPattern("height", height);
         CheckPattern("weight", weight);
         CheckPattern("pressure", pressure);
-
 
         const apiUrl = 'http://localhost:8080/api/v1/triageresults';
         const triageresult = {
@@ -259,6 +266,7 @@ export default function Create() {
             });
     }
 
+    //CheckCaseError
     const checkCaseError = (field: string) => {
         switch (field) {
             case 'symptom':
@@ -271,7 +279,7 @@ export default function Create() {
                 aleartMessage("error", "ค่าน้ำหนักที่กรอกไม่ถูกต้อง");
                 return;
             case 'pressure':
-                aleartMessage("error", "ค่าความดันที่กรอกไม่ถูกต้อง");
+                aleartMessage("error", "ค่าความดันโลหิตที่กรอกไม่ถูกต้อง");
                 return;
             default:
                 aleartMessage("error", "บันทึกข้อมูลไม่สำเร็จ");
@@ -301,8 +309,6 @@ export default function Create() {
                                 Logout();
                             }
                         }
-                        component={RouterLink}
-                        to="/triageresultlogin"
                         variant="contained"
                         color="secondary"
                     >
