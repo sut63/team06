@@ -118,6 +118,23 @@ const medicalProcedure: FC<{}> = () => {
         getPeocedure();
         setCurrentDate(date);
 
+        if (nursename == "") {
+            Swal.fire({
+                title: 'โปรดเข้าสู่ระบบก่อนเข้าใช้งาน',
+                position: 'center',
+                showConfirmButton: true,
+                timer: 6000,
+                timerProgressBar: false,
+                didOpen: toast => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                },
+            });
+            setTimeout(() => {
+                window.location.replace("http://localhost:3000/loginmedicalprocedure");
+            }, 3000);
+        }
+
     }, [loading]);
 
     const doctorHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -143,13 +160,13 @@ const medicalProcedure: FC<{}> = () => {
 
     };
     const checkOrder = (value: string) => {
-        return value === "";
+        return value.length > 8 || value === '';
     }
     const checkRoom = (value: string) => {
-        return value === "";
+        return value.length > 3 || value === '' ;
     }
     const checkDescripe = (value: string) => {
-        return value === "";
+        return value.length > 1 || value === '';
     }
 
     const checkerr = (field: string) => {
@@ -196,6 +213,7 @@ const medicalProcedure: FC<{}> = () => {
             toast.addEventListener('mouseenter', Swal.stopTimer);
             toast.addEventListener('mouseleave', Swal.resumeTimer);
         },
+
     });
 
 
@@ -207,6 +225,13 @@ const medicalProcedure: FC<{}> = () => {
         setRooms('');
         setDescriptions('');
     }
+    //logout
+    const Logout = async () => {
+        cookie.SetCookie('nursename', "", 30)
+        console.log("Logout success");
+        alertMessage("success", "ออกจากระบบสำเร็จ!");
+    }
+
     function Create() {
 
         checkpattern("order", orderError);
@@ -278,6 +303,11 @@ const medicalProcedure: FC<{}> = () => {
               </Button>
               &nbsp;&nbsp;
                     <Button
+                        onClick={
+                            () => {
+                                Logout();
+                            }
+                        }
                         component={RouterLink}
                         to="/loginmedicalprocedure"
                         variant="contained"

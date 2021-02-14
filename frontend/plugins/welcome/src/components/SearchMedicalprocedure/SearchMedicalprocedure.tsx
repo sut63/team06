@@ -110,7 +110,7 @@ export default function ComponentsTable() {
                 title: 'โปรดเข้าสู่ระบบก่อนเข้าใช้งาน',
                 position: 'center',
                 showConfirmButton: true,
-                timer: 6000,
+                timer: 5000,
                 timerProgressBar: false,
                 didOpen: toast => {
                     toast.addEventListener('mouseenter', Swal.stopTimer);

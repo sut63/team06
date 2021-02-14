@@ -79,7 +79,7 @@ const WelcomePage: FC<{}> = () => {
                   <Link href="http://localhost:3000/loginpage">ระบบการตรวจรักษา</Link>
                 </ListItem>
                 <ListItem>
-                  <Link href="http://localhost:3000/loginmedicalprocedure">ระบบบันทึกการทำหัตถการ</Link>
+                  <Link href="http://localhost:3000/medicalprocedure">ระบบบันทึกการทำหัตถการ</Link>
                 </ListItem>
                 <ListItem>
                   <Link href="http://localhost:3000/loginappointment">ระบบนัดหมาย</Link>
