@@ -44,7 +44,7 @@ export function EntDepartmentEdgesFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'triageResult': !exists(json, 'TriageResult') ? undefined : ((json['TriageResult'] as Array<any>).map(EntTriageResultFromJSON)),
+        'triageResult': !exists(json, 'triageResult') ? undefined : ((json['triageResult'] as Array<any>).map(EntTriageResultFromJSON)),
     };
 }
 

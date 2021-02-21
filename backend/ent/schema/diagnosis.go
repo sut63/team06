@@ -1,6 +1,8 @@
 package schema
 
 import (
+	"errors"
+	"regexp"
 	"time"
 
 	"github.com/facebook/ent"
@@ -17,8 +19,14 @@ type Diagnosis struct {
 func (Diagnosis) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("symptom").NotEmpty(),
-		field.String("Opinionresult").NotEmpty(),
-		field.String("note").NotEmpty(),
+		field.String("Opinionresult").Validate(func(s string) error {
+			match, _ := regexp.MatchString("[ก-๘]", s)
+			if !match {
+				return errors.New("กรุณากรอกภาษาไทย [ก-๘] ")
+			}
+			return nil
+		}),
+		field.String("note").MaxLen(25),
 
 		//field.DATE
 

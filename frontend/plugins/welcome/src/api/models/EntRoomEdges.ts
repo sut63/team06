@@ -44,7 +44,7 @@ export function EntRoomEdgesFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'roomToAppointmentResults': !exists(json, 'RoomToAppointmentResults') ? undefined : ((json['RoomToAppointmentResults'] as Array<any>).map(EntAppointmentResultsFromJSON)),
+        'roomToAppointmentResults': !exists(json, 'roomToAppointmentResults') ? undefined : ((json['roomToAppointmentResults'] as Array<any>).map(EntAppointmentResultsFromJSON)),
     };
 }
 

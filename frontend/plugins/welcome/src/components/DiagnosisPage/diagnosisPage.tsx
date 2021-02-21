@@ -33,7 +33,7 @@ interface Diagnosis {
     Doctor: number;
     Symptom: string;
     Opinionresult: string;
-    diagnosisDate: string;
+    //diagnosisDate: string;
     note: string;
     // create_by: number;
 }
@@ -121,10 +121,10 @@ export default function Create() {
                 setError("กรุณากรอกอาการให้ครบ")
                 return;
             case 'Opinionresult':
-                setError("กรุณากรอกความเห็นให้ครบ")
+                setError("กรุณากรอกความเห็นเป็นภาษาไทย")
                 return;
             case 'note':
-                setError("กรอกหมายเหตุให้ครบ")
+                setError("กรอกหมายเหตุห้ามเกิน 25 ตัวอักษร")
                 return;
             default:
                 return;
@@ -160,25 +160,6 @@ export default function Create() {
 
 
 
-    /*const Createsection = async () => {
-      const res: any = await api.createSection({ section });
-      setStatus(true);
-      if (res.id != '') {
-        setAlert(true);
-      } else {
-        setAlert(false);
-      }
-    };*/
-
-    /*const handleChanges = (event: React.ChangeEvent<{ name?: string; value: any }>) => {
-        //const name = event.target.name as keyof typeof Create;
-        //const { value } = Number(cookieID)
-        //const validateValue = value.toString()
-        //checkPattern(name, validateValue)
-        setDiagnosisitem({ ...Diagnosis, [Diagnosis.Doctor]: Number(cookieID) });
-        console.log(Diagnosis);
-    };
-*/
     const handleChange = (event: React.ChangeEvent<{ name?: string; value: any }>) => {
         const name = event.target.name as keyof typeof Create;
         const { value } = event.target;
@@ -220,17 +201,17 @@ export default function Create() {
 
     //ฟังก์ชัน validate อาการ
     const ValidateNoteError = (val: string) => {
-        return val.length > 1 ? true : false;
+        return val.length < 25 ? true : false;
     }
 
     //ฟังก์ชัน validate อาการ
     const ValidateOpinionresultError = (val: string) => {
-        return val.length > 1 ? true : false;
+        return val.match("^[ก-๙]");
     }
 
     //ฟังก์ชัน validate อาการ
     const ValidateCationSymptomError = (val: string) => {
-        return val.length > 1 ? true : false;
+        return val.length > 0 ? true : false;
     }
 
     // สำหรับตรวจสอบรูปแบบข้อมูลที่กรอก ว่าเป็นไปตามที่กำหนดหรือไม่
@@ -240,10 +221,10 @@ export default function Create() {
                 ValidateCationSymptomError(value) ? setidentifiCationSymptomError('') : setidentifiCationSymptomError('กรุณาระบุอาการให้ครบ');
                 return;
             case 'note':
-                ValidateNoteError(value) ? setIdentifiNoteError('') : setIdentifiNoteError('ระบุหมายเหตุให้ครบ');
+                ValidateNoteError(value) ? setIdentifiNoteError('') : setIdentifiNoteError('ระบุหมายเหตุห้ามเกิน 25 ตัวอักษร');
                 return;
             case 'Opinionresult':
-                ValidateOpinionresultError(value) ? setOpinionresultError('') : setOpinionresultError('กรุณาระบุความเห็นจากแพทย์ให้ครบ')
+                ValidateOpinionresultError(value) ? setOpinionresultError('') : setOpinionresultError('กรุณาระบุความเห็นจากแพทย์เป็นภาษาไทย [ก-๙]')
                 return;
             default:
                 return;
@@ -283,20 +264,9 @@ export default function Create() {
         window.location.reload(false)
     }
 
-    //set time
-    const [diagnosis_Date, setdiagnosisDate] = React.useState<any>(0)
 
-    // set data for time in
-    const handleChangediagnosisDate = (
-        event: React.ChangeEvent<{ name?: string; value: any }>,
-    ) => {
-        const name = event.target.name as keyof typeof Create;
-        const { value } = event.target;
-        const time = value + ":00+07:00"
-        setDiagnosisitem({ ...Diagnosis, [name]: time });
-        setdiagnosisDate(value);
-        console.log(diagnosis_Date);
-    };
+
+    
 
     // clear input form
     function clear() {
@@ -470,19 +440,7 @@ export default function Create() {
                                 onChange={handleChange} />
                         </form>
 
-                        <FormControl variant="outlined" className={classes.formControl}>
-                            <TextField
-                                name="diagnosisDate"
-                                type="datetime-local"
-                                value={diagnosis_Date}
-                                defaultValue="2020-12-31"
-                                onChange={handleChangediagnosisDate}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        </FormControl>
-
+                        
                         <FormControl
                             fullWidth
                             className={classes.margin}
