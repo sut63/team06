@@ -47,14 +47,6 @@ func (dc *DiagnosisCreate) SetDiagnosisDate(t time.Time) *DiagnosisCreate {
 	return dc
 }
 
-// SetNillableDiagnosisDate sets the "diagnosisDate" field if the given value is not nil.
-func (dc *DiagnosisCreate) SetNillableDiagnosisDate(t *time.Time) *DiagnosisCreate {
-	if t != nil {
-		dc.SetDiagnosisDate(*t)
-	}
-	return dc
-}
-
 // SetDoctorNameID sets the "Doctor_name" edge to the Doctor entity by ID.
 func (dc *DiagnosisCreate) SetDoctorNameID(id int) *DiagnosisCreate {
 	dc.mutation.SetDoctorNameID(id)
@@ -123,7 +115,6 @@ func (dc *DiagnosisCreate) Save(ctx context.Context) (*Diagnosis, error) {
 		err  error
 		node *Diagnosis
 	)
-	dc.defaults()
 	if len(dc.hooks) == 0 {
 		if err = dc.check(); err != nil {
 			return nil, err
@@ -160,14 +151,6 @@ func (dc *DiagnosisCreate) SaveX(ctx context.Context) *Diagnosis {
 		panic(err)
 	}
 	return v
-}
-
-// defaults sets the default values of the builder before save.
-func (dc *DiagnosisCreate) defaults() {
-	if _, ok := dc.mutation.DiagnosisDate(); !ok {
-		v := diagnosis.DefaultDiagnosisDate()
-		dc.mutation.SetDiagnosisDate(v)
-	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -332,7 +315,6 @@ func (dcb *DiagnosisCreateBulk) Save(ctx context.Context) ([]*Diagnosis, error) 
 	for i := range dcb.builders {
 		func(i int, root context.Context) {
 			builder := dcb.builders[i]
-			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*DiagnosisMutation)
 				if !ok {

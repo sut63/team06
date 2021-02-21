@@ -169,7 +169,7 @@ export default function Create() {
 
     //checkValueFunction
     const checkSymptom = (value: string) => {
-        return value.length > 0;
+        return value.length > 0 && Number(value) && Number(value) > 0;
     }
     const checkHeight = (value: string) => {
         return value.length > 0 && Number(value) && Number(value) > 0;

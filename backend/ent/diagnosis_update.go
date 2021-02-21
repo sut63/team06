@@ -54,14 +54,6 @@ func (du *DiagnosisUpdate) SetDiagnosisDate(t time.Time) *DiagnosisUpdate {
 	return du
 }
 
-// SetNillableDiagnosisDate sets the "diagnosisDate" field if the given value is not nil.
-func (du *DiagnosisUpdate) SetNillableDiagnosisDate(t *time.Time) *DiagnosisUpdate {
-	if t != nil {
-		du.SetDiagnosisDate(*t)
-	}
-	return du
-}
-
 // SetDoctorNameID sets the "Doctor_name" edge to the Doctor entity by ID.
 func (du *DiagnosisUpdate) SetDoctorNameID(id int) *DiagnosisUpdate {
 	du.mutation.SetDoctorNameID(id)
@@ -409,14 +401,6 @@ func (duo *DiagnosisUpdateOne) SetNote(s string) *DiagnosisUpdateOne {
 // SetDiagnosisDate sets the "diagnosisDate" field.
 func (duo *DiagnosisUpdateOne) SetDiagnosisDate(t time.Time) *DiagnosisUpdateOne {
 	duo.mutation.SetDiagnosisDate(t)
-	return duo
-}
-
-// SetNillableDiagnosisDate sets the "diagnosisDate" field if the given value is not nil.
-func (duo *DiagnosisUpdateOne) SetNillableDiagnosisDate(t *time.Time) *DiagnosisUpdateOne {
-	if t != nil {
-		duo.SetDiagnosisDate(*t)
-	}
 	return duo
 }
 

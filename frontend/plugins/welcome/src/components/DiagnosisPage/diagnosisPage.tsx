@@ -33,7 +33,7 @@ interface Diagnosis {
     Doctor: number;
     Symptom: string;
     Opinionresult: string;
-    diagnosisDate: string;
+    //diagnosisDate: string;
     note: string;
     // create_by: number;
 }
@@ -121,10 +121,10 @@ export default function Create() {
                 setError("กรุณากรอกอาการให้ครบ")
                 return;
             case 'Opinionresult':
-                setError("กรุณากรอกความเห็นให้ครบ")
+                setError("กรุณากรอกภาษาไทย ( ก - ๘ )")
                 return;
             case 'note':
-                setError("กรอกหมายเหตุให้ครบ")
+                setError("กรุณากรอกไม่เกิน 25 ตัวอักษร")
                 return;
             default:
                 return;
@@ -154,31 +154,6 @@ export default function Create() {
         setPatient(res);
     };
 
-
-
-
-
-
-
-    /*const Createsection = async () => {
-      const res: any = await api.createSection({ section });
-      setStatus(true);
-      if (res.id != '') {
-        setAlert(true);
-      } else {
-        setAlert(false);
-      }
-    };*/
-
-    /*const handleChanges = (event: React.ChangeEvent<{ name?: string; value: any }>) => {
-        //const name = event.target.name as keyof typeof Create;
-        //const { value } = Number(cookieID)
-        //const validateValue = value.toString()
-        //checkPattern(name, validateValue)
-        setDiagnosisitem({ ...Diagnosis, [Diagnosis.Doctor]: Number(cookieID) });
-        console.log(Diagnosis);
-    };
-*/
     const handleChange = (event: React.ChangeEvent<{ name?: string; value: any }>) => {
         const name = event.target.name as keyof typeof Create;
         const { value } = event.target;
@@ -198,12 +173,12 @@ export default function Create() {
     }
 
 
-    const alertMessage = (icon: any, title: any) => {
+    /*const alertMessage = (icon: any, title: any) => {
         Toast.fire({
             icon: icon,
             title: title,
         });
-    }
+    }*/
 
     // Alert setting
     const Toast = Swal.mixin({
@@ -212,20 +187,21 @@ export default function Create() {
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
+        
         didOpen: Toast => {
             Toast.addEventListener('mouseenter', Swal.stopTimer);
             Toast.addEventListener('mouseleave', Swal.resumeTimer);
         }
     })
 
-    //ฟังก์ชัน validate อาการ
+    //ฟังก์ชัน validate หมายเหตุ
     const ValidateNoteError = (val: string) => {
-        return val.length > 1 ? true : false;
+        return val.length > 0 && val.length < 25 ? true : false;
     }
 
-    //ฟังก์ชัน validate อาการ
+    //ฟังก์ชัน validate ความเห็นจากแพทย์
     const ValidateOpinionresultError = (val: string) => {
-        return val.length > 1 ? true : false;
+        return val.match("[ก-๘]") ? true : false ;
     }
 
     //ฟังก์ชัน validate อาการ
@@ -240,10 +216,10 @@ export default function Create() {
                 ValidateCationSymptomError(value) ? setidentifiCationSymptomError('') : setidentifiCationSymptomError('กรุณาระบุอาการให้ครบ');
                 return;
             case 'note':
-                ValidateNoteError(value) ? setIdentifiNoteError('') : setIdentifiNoteError('ระบุหมายเหตุให้ครบ');
+                ValidateNoteError(value) ? setIdentifiNoteError('') : setIdentifiNoteError('กรุณากรอกไม่เกิน 25 ตัวอักษร');
                 return;
             case 'Opinionresult':
-                ValidateOpinionresultError(value) ? setOpinionresultError('') : setOpinionresultError('กรุณาระบุความเห็นจากแพทย์ให้ครบ')
+                ValidateOpinionresultError(value) ? setOpinionresultError('') : setOpinionresultError('กรุณากรอกภาษาไทย ( ก - ๘ )')
                 return;
             default:
                 return;
@@ -282,7 +258,7 @@ export default function Create() {
         ck.ClearCookie()
         window.location.reload(false)
     }
-
+/*
     //set time
     const [diagnosis_Date, setdiagnosisDate] = React.useState<any>(0)
 
@@ -297,6 +273,8 @@ export default function Create() {
         setdiagnosisDate(value);
         console.log(diagnosis_Date);
     };
+*/
+
 
     // clear input form
     function clear() {
@@ -470,18 +448,7 @@ export default function Create() {
                                 onChange={handleChange} />
                         </form>
 
-                        <FormControl variant="outlined" className={classes.formControl}>
-                            <TextField
-                                name="diagnosisDate"
-                                type="datetime-local"
-                                value={diagnosis_Date}
-                                defaultValue="2020-12-31"
-                                onChange={handleChangediagnosisDate}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        </FormControl>
+                       
 
                         <FormControl
                             fullWidth

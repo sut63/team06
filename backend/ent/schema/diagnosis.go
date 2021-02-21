@@ -1,11 +1,12 @@
 package schema
 
 import (
-	"time"
-
 	"github.com/facebook/ent"
 	"github.com/facebook/ent/schema/edge"
 	"github.com/facebook/ent/schema/field"
+
+	"errors"
+	"regexp"
 )
 
 // Diagnosis holds the schema definition for the Diagnosis entity.
@@ -17,12 +18,19 @@ type Diagnosis struct {
 func (Diagnosis) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("symptom").NotEmpty(),
-		field.String("Opinionresult").NotEmpty(),
-		field.String("note").NotEmpty(),
+		field.String("Opinionresult").
+			Validate(func(s string) error {
+				match, _ := regexp.MatchString("[ก-๘]", s)
+				if !match {
+					return errors.New("กรุณากรอกภาษาไทย")
+				}
+				return nil
+			}),
+		field.String("note").MaxLen(25),
 
 		//field.DATE
 
-		field.Time("diagnosisDate").Default(time.Now),
+		field.Time("diagnosisDate"),
 	}
 }
 

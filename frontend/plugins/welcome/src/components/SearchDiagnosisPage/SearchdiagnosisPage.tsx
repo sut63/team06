@@ -83,7 +83,7 @@ const Searchdiagnosis: FC<{}> = () => {
     var ck = new Cookies()
     var cookieName = ck.GetCookie()
 
-    // Customer
+    // Patient
     const [idPatient, setIDPatient] = React.useState<number>(0)
     const [patient, setPatient] = React.useState<EntPatient[]>([])
     const getpatient = async () => {
@@ -105,7 +105,7 @@ const Searchdiagnosis: FC<{}> = () => {
     };
 
 
-    // CheckIn  
+    // log in 
     var lenDiagnosis: number
     const [diagnosis, setDiagnosis] = React.useState<EntDiagnosis[]>([])
     const getDiagnosiss = async () => {
@@ -118,11 +118,11 @@ const Searchdiagnosis: FC<{}> = () => {
             setFail(true)
         }
     }
+   
 
 
 
-
-    // set data to object and setIdcustomer
+    // set data to object and setPatient
     const handleChange = (
         event: React.ChangeEvent<{ name?: string; value: any }>,
     ) => {

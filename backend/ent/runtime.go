@@ -82,10 +82,6 @@ func init() {
 	diagnosisDescNote := diagnosisFields[2].Descriptor()
 	// diagnosis.NoteValidator is a validator for the "note" field. It is called by the builders before save.
 	diagnosis.NoteValidator = diagnosisDescNote.Validators[0].(func(string) error)
-	// diagnosisDescDiagnosisDate is the schema descriptor for diagnosisDate field.
-	diagnosisDescDiagnosisDate := diagnosisFields[3].Descriptor()
-	// diagnosis.DefaultDiagnosisDate holds the default value on creation for the diagnosisDate field.
-	diagnosis.DefaultDiagnosisDate = diagnosisDescDiagnosisDate.Default.(func() time.Time)
 	doctorFields := schema.Doctor{}.Fields()
 	_ = doctorFields
 	// doctorDescDoctorName is the schema descriptor for doctorName field.

@@ -88,7 +88,7 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "symptom", Type: field.TypeString},
 		{Name: "opinionresult", Type: field.TypeString},
-		{Name: "note", Type: field.TypeString},
+		{Name: "note", Type: field.TypeString, Size: 25},
 		{Name: "diagnosis_date", Type: field.TypeTime},
 		{Name: "doctor_doctor_to_diagnosis", Type: field.TypeInt, Nullable: true},
 		{Name: "patient_patient_to_diagnosis", Type: field.TypeInt, Nullable: true},

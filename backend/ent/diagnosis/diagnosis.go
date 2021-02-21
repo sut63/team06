@@ -2,10 +2,6 @@
 
 package diagnosis
 
-import (
-	"time"
-)
-
 const (
 	// Label holds the string label denoting the diagnosis type in the database.
 	Label = "diagnosis"
@@ -90,6 +86,4 @@ var (
 	OpinionresultValidator func(string) error
 	// NoteValidator is a validator for the "note" field. It is called by the builders before save.
 	NoteValidator func(string) error
-	// DefaultDiagnosisDate holds the default value on creation for the "diagnosisDate" field.
-	DefaultDiagnosisDate func() time.Time
 )
