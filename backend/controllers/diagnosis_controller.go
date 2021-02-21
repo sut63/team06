@@ -86,12 +86,13 @@ func (ctl *DiagnosisController) CreateDiagnosis(c *gin.Context) {
 		})
 		return
 	}
-	diagnosisdate, err := time.Parse(time.RFC3339, obj.diagnosisDate)
+	diagnosisdate := time.Now().Format("2006-01-02T15:04:05Z07:00")
+	time, err := time.Parse(time.RFC3339, diagnosisdate)
 
 	Diagnosiss, err := ctl.client.Diagnosis.
 		Create().
 		SetSymptom(obj.Symptom).
-		SetDiagnosisDate(diagnosisdate).
+		SetDiagnosisDate(time).
 		SetOpinionresult(obj.Opinionresult).
 		SetPatient(patient).
 		SetType(ty).

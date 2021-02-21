@@ -54,8 +54,8 @@ export function EntNurseEdgesFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'nurseToAppointmentResults': !exists(json, 'NurseToAppointmentResults') ? undefined : ((json['NurseToAppointmentResults'] as Array<any>).map(EntAppointmentResultsFromJSON)),
-        'triageResult': !exists(json, 'TriageResult') ? undefined : ((json['TriageResult'] as Array<any>).map(EntTriageResultFromJSON)),
+        'nurseToAppointmentResults': !exists(json, 'nurseToAppointmentResults') ? undefined : ((json['nurseToAppointmentResults'] as Array<any>).map(EntAppointmentResultsFromJSON)),
+        'triageResult': !exists(json, 'triageResult') ? undefined : ((json['triageResult'] as Array<any>).map(EntTriageResultFromJSON)),
     };
 }
 

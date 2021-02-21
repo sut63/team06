@@ -64,9 +64,9 @@ export function EntDoctorEdgesFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'doctorToAppointmentResults': !exists(json, 'DoctorToAppointmentResults') ? undefined : ((json['DoctorToAppointmentResults'] as Array<any>).map(EntAppointmentResultsFromJSON)),
-        'doctorToDiagnosis': !exists(json, 'DoctorToDiagnosis') ? undefined : ((json['DoctorToDiagnosis'] as Array<any>).map(EntDiagnosisFromJSON)),
-        'doctorToMedicalProcedure': !exists(json, 'DoctorToMedicalProcedure') ? undefined : ((json['DoctorToMedicalProcedure'] as Array<any>).map(EntMedicalProcedureFromJSON)),
+        'doctorToAppointmentResults': !exists(json, 'doctorToAppointmentResults') ? undefined : ((json['doctorToAppointmentResults'] as Array<any>).map(EntAppointmentResultsFromJSON)),
+        'doctorToDiagnosis': !exists(json, 'doctorToDiagnosis') ? undefined : ((json['doctorToDiagnosis'] as Array<any>).map(EntDiagnosisFromJSON)),
+        'doctorToMedicalProcedure': !exists(json, 'doctorToMedicalProcedure') ? undefined : ((json['doctorToMedicalProcedure'] as Array<any>).map(EntMedicalProcedureFromJSON)),
     };
 }
 

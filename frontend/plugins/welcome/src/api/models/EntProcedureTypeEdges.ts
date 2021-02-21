@@ -44,7 +44,7 @@ export function EntProcedureTypeEdgesFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'procedureToMedicalProcedure': !exists(json, 'ProcedureToMedicalProcedure') ? undefined : ((json['ProcedureToMedicalProcedure'] as Array<any>).map(EntMedicalProcedureFromJSON)),
+        'procedureToMedicalProcedure': !exists(json, 'procedureToMedicalProcedure') ? undefined : ((json['procedureToMedicalProcedure'] as Array<any>).map(EntMedicalProcedureFromJSON)),
     };
 }
 

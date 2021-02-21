@@ -44,7 +44,7 @@ export function EntPrefixEdgesFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'patients': !exists(json, 'Patients') ? undefined : ((json['Patients'] as Array<any>).map(EntPatientFromJSON)),
+        'patients': !exists(json, 'patients') ? undefined : ((json['patients'] as Array<any>).map(EntPatientFromJSON)),
     };
 }
 
