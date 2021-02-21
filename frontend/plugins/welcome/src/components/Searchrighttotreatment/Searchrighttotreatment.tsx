@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 import Swal from 'sweetalert2'
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
+import { Cookies } from '../../Cookie';
 
 import { EntHospital } from '../../api/models/EntHospital';
 import { EntPatient } from '../../api/models/EntPatient';
@@ -69,9 +70,21 @@ const Toast = Swal.mixin({
     toast.addEventListener('mouseleave', Swal.resumeTimer);
   },
 });
-
+const aleartMessage = (icon: any, title: any) => {
+  Toast.fire({
+      icon: icon,
+      title: title,
+  });
+}
 
 export default function ComponentsTable() {
+
+  //init cookie
+  const cookie = new Cookies();
+
+  //get cookie value
+  var nursename = cookie.GetCookie("nursename");
+
   const classes = useStyles();
   const http = new DefaultApi();
   const [loading, setLoading] = useState(true);
@@ -94,6 +107,20 @@ export default function ComponentsTable() {
   }
 
   useEffect(() => {
+    cookie.SetCookie('goto', "http://localhost:3000/Searchrighttotreatment", 30);
+    //check login status
+    if (nursename == "") {
+      Swal.fire({
+        title: 'เข้าสู่ระบบก่อนใช้งาน',
+        position: 'center',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: false,
+      });
+      setTimeout(() => {
+        window.location.replace("http://localhost:3000/Loginright");
+      }, 3000);
+    }
     const getPatients = async () => {
       const res = await http.listPatient({ offset: 0 });
       setLoading(false);
@@ -143,10 +170,36 @@ export default function ComponentsTable() {
     }
   };
 
+  //Function Logout
+  const Logout = async () => {
+    cookie.SetCookie('nursename', "", 30);
+    console.log("Logout success");
+    aleartMessage("warning", "ออกจากระบบสำเร็จ!");
+    setTimeout(() => {
+      window.location.replace("http://localhost:3000/Loginright");
+    }, 1200);
+  }
+
   return (
 
     <Page theme={pageTheme.home}>
       <Header title="ระบบค้นหาสิทธิการรักษาของผู้ป่วย">
+      <TableCell align={
+                    "center"} >
+
+                    <br /><br />
+                    <Button
+                        onClick={
+                            () => {
+                                Logout();
+                            }
+                        }
+                        variant="contained"
+                        color="secondary"
+                    >
+                        Logout
+                </Button>
+                </TableCell>
       </Header>
       <Content>
         <ContentHeader title="ดูข้อมูลสิทธิการรักษา">
@@ -210,30 +263,30 @@ export default function ComponentsTable() {
                       <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                           <TableRow>
-                          <TableCell align="center">No.</TableCell>
-           <TableCell align="center">ผู้ป่วย</TableCell>
-           <TableCell align="center">เลขบัตรประจำตัวประชาชน</TableCell>
-           <TableCell align="center">อายุ</TableCell>
-           <TableCell align="center">ประเภทสิทธิการรักษา</TableCell>
-           <TableCell align="center">โรงพยาบาลที่ใช้สิทธิ</TableCell>
-           <TableCell align="center">เบอร์โทรศัพท์</TableCell>
-           <TableCell align="center">วันที่เริ่มใช้สิทธิ</TableCell>
-           <TableCell align="center">วันที่หมดสิทธิ</TableCell>
+                            <TableCell align="center">No.</TableCell>
+                            <TableCell align="center">ผู้ป่วย</TableCell>
+                            <TableCell align="center">เลขบัตรประจำตัวประชาชน</TableCell>
+                            <TableCell align="center">อายุ</TableCell>
+                            <TableCell align="center">ประเภทสิทธิการรักษา</TableCell>
+                            <TableCell align="center">โรงพยาบาลที่ใช้สิทธิ</TableCell>
+                            <TableCell align="center">เบอร์โทรศัพท์</TableCell>
+                            <TableCell align="center">วันที่เริ่มใช้สิทธิ</TableCell>
+                            <TableCell align="center">วันที่หมดสิทธิ</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
 
                           {righttotreatment.filter((filter: any) => filter.edges?.patient?.patientName.startsWith(patientname)).map((item: any) => (
                             <TableRow key={item.id}>
-                            <TableCell align="center">{item.id}</TableCell>
-                            <TableCell align="center">{item.edges?.patient?.patientName}</TableCell>
-                            <TableCell align="center">{item.idennum}</TableCell>
-                            <TableCell align="center">{item.age}</TableCell>
-                            <TableCell align="center">{item.edges?.rightToTreatmentType?.typeName}</TableCell>
-                            <TableCell align="center">{item.edges?.hospital.hospitalName}</TableCell>
-                            <TableCell align="center">{item.tel}</TableCell>
-                            <TableCell align="center">{moment(item.startTime).format('DD/MM/YYYY')}</TableCell>
-                            <TableCell align="center">{moment(item.endTime).format('DD/MM/YYYY')}</TableCell>
+                              <TableCell align="center">{item.id}</TableCell>
+                              <TableCell align="center">{item.edges?.patient?.patientName}</TableCell>
+                              <TableCell align="center">{item.idennum}</TableCell>
+                              <TableCell align="center">{item.age}</TableCell>
+                              <TableCell align="center">{item.edges?.rightToTreatmentType?.typeName}</TableCell>
+                              <TableCell align="center">{item.edges?.hospital.hospitalName}</TableCell>
+                              <TableCell align="center">{item.tel}</TableCell>
+                              <TableCell align="center">{moment(item.startTime).format('DD/MM/YYYY')}</TableCell>
+                              <TableCell align="center">{moment(item.endTime).format('DD/MM/YYYY')}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -245,16 +298,16 @@ export default function ComponentsTable() {
                         <TableContainer component={Paper}>
                           <Table className={classes.table} aria-label="simple table">
                             <TableHead>
-                             <TableRow>
-                              <TableCell align="center">No.</TableCell>
-           <TableCell align="center">ผู้ป่วย</TableCell>
-           <TableCell align="center">เลขบัตรประจำตัวประชาชน</TableCell>
-           <TableCell align="center">อายุ</TableCell>
-           <TableCell align="center">ประเภทสิทธิการรักษา</TableCell>
-           <TableCell align="center">โรงพยาบาลที่ใช้สิทธิ</TableCell>
-           <TableCell align="center">เบอร์โทรศัพท์</TableCell>
-           <TableCell align="center">วันที่เริ่มใช้สิทธิ</TableCell>
-           <TableCell align="center">วันที่หมดสิทธิ</TableCell>
+                              <TableRow>
+                                <TableCell align="center">No.</TableCell>
+                                <TableCell align="center">ผู้ป่วย</TableCell>
+                                <TableCell align="center">เลขบัตรประจำตัวประชาชน</TableCell>
+                                <TableCell align="center">อายุ</TableCell>
+                                <TableCell align="center">ประเภทสิทธิการรักษา</TableCell>
+                                <TableCell align="center">โรงพยาบาลที่ใช้สิทธิ</TableCell>
+                                <TableCell align="center">เบอร์โทรศัพท์</TableCell>
+                                <TableCell align="center">วันที่เริ่มใช้สิทธิ</TableCell>
+                                <TableCell align="center">วันที่หมดสิทธิ</TableCell>
                               </TableRow>
                             </TableHead>
                             <TableBody>

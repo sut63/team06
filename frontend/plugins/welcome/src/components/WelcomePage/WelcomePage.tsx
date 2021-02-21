@@ -70,7 +70,7 @@ const WelcomePage: FC<{}> = () => {
                   <Link href="http://localhost:3000/patientregistration">ระบบลงทะเบียนผู้ป่วย</Link>
                 </ListItem>
                 <ListItem>
-                  <Link href="http://localhost:3000/Loginright">ระบบบันทึกสิทธิการรักษา</Link>
+                  <Link href="http://localhost:3000/Create">ระบบบันทึกสิทธิการรักษา</Link>
                 </ListItem>
                 <ListItem>
                   <Link href="http://localhost:3000/triageresult">ระบบบันทึกการคัดกรอง</Link>

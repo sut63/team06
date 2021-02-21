@@ -1,16 +1,21 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { DefaultApi, EntNurse } from '../../api';
-import { Alert } from '@material-ui/lab'; // alert
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { DefaultApi } from '../../api/apis';
 import Swal from 'sweetalert2';
+import { Cookies } from '../../Cookie';
+
+import { EntNurse } from '../../api/models/EntNurse';
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -20,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: '#C7B2DE	',
+    backgroundColor: '#D7B9E4',
   },
   form: {
     width: '100%',
@@ -34,66 +39,84 @@ const useStyles = makeStyles(theme => ({
 const SignIn: FC<{}> = () => {
   const classes = useStyles();
   const api = new DefaultApi();
+  const [loading, setLoading] = useState(true);
+  const [path, setPath] = React.useState("");
 
-  const [status, SetStatus] = useState(false);
-  const [loading, SetLoading] = useState(true);
-  const [alert, SetAlert] = useState(Boolean);
+  //cookie init
+  var cookie = new Cookies();
 
-  const [nurse, setNurse] = useState<EntNurse[]>([]);
-  const [username, setUsername] = useState(String);
-  const [password, setPassword] = useState(String);
+  //get cookie value
+  var goto = cookie.GetCookie("goto");
 
-  const PasswordhandelChange = (event: any) => {
-    setPassword(event.target.value as string);
-  };
-  const UsernamehandelChange = (event: any) => {
+  //query nurse
+  const [nurses, setNurses] = React.useState<EntNurse[]>([]);
+
+  //input variable
+  const [username, setUsername] = React.useState(String);
+  const [password, setPassword] = React.useState(String);
+
+  //HandleValue
+  const usernameHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
     setUsername(event.target.value as string);
   };
-  console.log('username', username);
+  const passwordHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setPassword(event.target.value as string);
+  };
 
+  //Aleart function
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: false,
+    didOpen: toast => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
+
+  const aleartMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+  //start list nurse
   useEffect(() => {
-    const getNurse = async () => {
-      const res: any = await api.listNurse({ offset: 0 });
-      SetLoading(false);
-      setNurse(res);
+    const getNurses = async () => {
+      const res = await api.listNurse({ limit: 1000, offset: 0 });
+      setNurses(res);
     };
-    getNurse();
-    localStorage.clear();
+    getNurses();
   }, [loading]);
 
-  const SigninhandleChange = async () => {
-    nurse.map((item: EntNurse) => {
-      console.log(item.nurseUsername);
-      if (item.nurseUsername == username && item.nursePassword == password) {
-        SetAlert(true);
-        localStorage.setItem('nurse-id', JSON.stringify(item.id));
-        localStorage.setItem('nurse-nurseName', JSON.stringify(item.nurseName));
-        localStorage.setItem('nurse-nurseUsername', JSON.stringify(item.nurseUsername));
-        history.pushState('', '', '/Create');
+  //Login Function
+  const Login = async () => {
+    var status = false; //for login check
+    nurses.map((item: EntNurse) => {
+      if (item.nurseUsername === username && item.nursePassword === password) {
+        cookie.SetCookie('nursename', item.nurseName, 30);
+        cookie.SetCookie('nurseID', item.id, 30);
+        status = true;
       }
     });
-
-    SetStatus(true);
-    const timer = setTimeout(() => {
-      SetStatus(false);
-    }, 99999999);
-  };
+    if (status) {
+      aleartMessage("success", "เข้าสู่ระบบสำเร็จ");
+      setTimeout(() => {
+        window.location.replace(String(goto));
+      }, 1500);
+    }
+    else {
+      aleartMessage("error", "เข้าสู่ระบบไม่สำเร็จ");
+      setPath("/Loginright");
+    }
+  }
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      {status ? (
-        <div>
-          {alert ? (
-              <Alert severity="success">Login Succese</Alert>
-               ) 
-            : (
-              <Alert severity="error" style={{ marginTop: 50 }}>
-                email or password incorrect!!!
-              </Alert>
-          )}
-        </div>
-      ) : null}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -107,12 +130,14 @@ const SignIn: FC<{}> = () => {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
+            id="username"
+            label="Username"
+            name="username"
             autoComplete="email"
+
+            value={username}
+            onChange={usernameHandle}
             autoFocus
-            onChange={UsernamehandelChange}
           />
           <TextField
             variant="outlined"
@@ -124,22 +149,27 @@ const SignIn: FC<{}> = () => {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={PasswordhandelChange}
+            value={password}
+            onChange={passwordHandle}
           />
+
           <Button
-            style={{ backgroundColor: '#C7B2DE	' }}
+            style={{ backgroundColor: '#D7B9E4' }}
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
             onClick={() => {
-              SigninhandleChange();
+              Login();
             }}
-
+            component={RouterLink}
+            to={path}
           >
             Sign In
           </Button>
+
+          <Grid container>
+          </Grid>
         </form>
       </div>
       <Box mt={8}>
